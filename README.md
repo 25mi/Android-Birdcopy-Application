@@ -1,6 +1,12 @@
 # birdcopy
 菜鸟微云提供的一个安卓应用。旨在帮助小微社群提供文件管理云平台。
 
+## Features
+
+- Simple interface
+- Works on both Andorid（11+） & iOS（6.0+）
+- 
+
 ## License
 
 [Apache]: http://www.apache.org/licenses/LICENSE-2.0
