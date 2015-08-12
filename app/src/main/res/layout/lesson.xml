@@ -1,0 +1,167 @@
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+            android:id="@+id/lesson_top_bar"
+            layout="@layout/lesson_head" />
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView"
+            android:layout_gravity="center_horizontal"
+            >
+
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <RelativeLayout
+                        android:layout_width="160dp"
+                        android:layout_height="90dp"
+                        android:id="@+id/lessonCoverGroup"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="50.0px"
+                        android:layout_marginTop="50.0px"
+                        android:scaleType="centerCrop"
+                        >
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/lessonPageCover"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            />
+
+                    <Button android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/lessonPagePlay"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/ic_drawer_doc"
+                            />
+
+                </RelativeLayout>
+
+                <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="你的潜力，我们的动力"
+                        android:id="@+id/lessonPageTitle"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center"
+                        android:layout_toRightOf="@id/lessonCoverGroup"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="24dp"/>
+                <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/graybutton"
+                        android:text="离线欣赏"
+                        android:id="@+id/buyButton"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center_vertical|center"
+                        android:layout_toRightOf="@id/lessonCoverGroup"
+                        android:layout_below="@id/lessonPageTitle"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="24dp"/>
+
+            </RelativeLayout>
+
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/lessonpageDesc"
+                    android:layout_marginLeft="10.0px"
+                    android:layout_marginRight="10.0px"
+                    android:layout_marginTop="5.0px"
+                    />
+
+            <RelativeLayout
+                android:id="@+id/rl_column"
+                android:layout_width="match_parent"
+                android:layout_height="60.0dip"
+                android:layout_weight="1.0">
+
+                <com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView
+                    android:id="@+id/mColumnHorizontalScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none" >
+
+                    <LinearLayout
+                        android:id="@+id/mRadioGroup_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="60.0dip"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10.0dip"
+                        android:paddingRight="10.0dip" />
+                </com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView>
+
+                <ImageView
+                    android:id="@+id/shade_left"
+                    android:layout_width="10.0dip"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/channel_leftblock"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/shade_right"
+                    android:layout_width="10.0dip"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/channel_rightblock"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/scan_save"
+                    android:layout_marginLeft="50.0px"
+                    android:layout_marginRight="50.0px"
+                    android:layout_marginTop="5.0px"
+                    />
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lessonQRImag"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50.0px"
+                    android:layout_marginRight="50.0px"
+                    />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+</LinearLayout>

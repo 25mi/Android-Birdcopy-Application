@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">大连房颤会</string>
+    <string name="KServerNetAddress">www.birdcopy.com:8888</string>
+    <string name="KlessonQwner">yangyanzong</string>
+    <string name="KLocalAppID">0dfd0a2efc11c197947ff861249d00f2</string>
+    <string name="KPakagename">com.birdcopy.liubin</string>
+
+
+    <string name="KSERVICE_ACTION">com.birdcopy.yangyanzong.DownloadService</string>
+    <string name="KRECEIVER_ACTION">com.birdcopy.yangyanzong.HttpNormalDownloadreceiver</string>
+
+</resources>

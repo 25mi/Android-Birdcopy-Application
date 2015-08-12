@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">草原心血管</string>
+    <string name="KServerNetAddress">www.birdcopy.com:8888</string>
+    <string name="KlessonQwner">zhaoxingsheng</string>
+    <string name="KLocalAppID">3923d1ef5dde0911e45f5b1abf102e97</string>
+    <string name="KPakagename">com.birdcopy.zhaoxingsheng</string>
+
+    <string name="KSERVICE_ACTION">com.birdcopy.zhaoxingsheng.DownloadService</string>
+    <string name="KRECEIVER_ACTION">com.birdcopy.zhaoxingsheng.HttpNormalDownloadreceiver</string>
+
+</resources>

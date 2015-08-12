@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/capture_button_album"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="从相册选择"
+        android:textColor="@android:color/white"
+        android:background="@drawable/greenbutton"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/capture_button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="返回"
+        android:textColor="@android:color/white"
+        android:background="@drawable/graybutton"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+</LinearLayout>

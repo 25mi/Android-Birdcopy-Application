@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="abc_max_action_buttons">2</integer>
+    <integer name="config_slideAnimTime">300</integer>
+    <integer name="grid_column_count">2</integer>
+    <integer name="home_column_count">3</integer>
+    <integer name="menu_section_count">3</integer>
+    <integer name="home_menu_no_position">0</integer>    
+</resources>

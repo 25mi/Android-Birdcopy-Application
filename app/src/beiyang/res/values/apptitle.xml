@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">北阳英语</string>
+    <string name="KServerNetAddress">www.birdenglish.com:9999</string>
+    <string name="KlessonQwner">beiyang</string>
+    <string name="KLocalAppID">e28a3ea7c954c94901b87d24e921b29b</string>
+    <string name="KPakagename">com.birdcopy.beiyang</string>
+
+</resources>

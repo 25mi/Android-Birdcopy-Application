@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">身知道</string>
+    <string name="KServerNetAddress">www.birdenglish.com:8888</string>
+    <string name="KlessonQwner">shenzhidao</string>
+    <string name="KLocalAppID">a530fc8617443d48a48259d465dd4d81</string>
+    <string name="KPakagename">com.birdcopy.shenzhidao</string>
+
+    <string name="KSERVICE_ACTION">com.birdcopy.shenzhidao.DownloadService</string>
+    <string name="KRECEIVER_ACTION">com.birdcopy.shenzhidao.HttpNormalDownloadreceiver</string>
+
+
+</resources>

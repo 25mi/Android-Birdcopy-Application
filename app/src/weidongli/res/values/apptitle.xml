@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">生命伦理学</string>
+    <string name="KServerNetAddress">www.birdenglish.com:8888</string>
+    <string name="KlessonQwner">weidongli</string>
+    <string name="KLocalAppID">f83a30b74be1a0cfcad03097ae0842bf</string>
+    <string name="KPakagename">com.birdcopy.weidongli</string>
+   
+</resources>

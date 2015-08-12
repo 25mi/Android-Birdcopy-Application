@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/lesson_grid_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:descendantFocusability="blocksDescendants">
+
+    <com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView
+            android:id="@+id/mylessonCoverImage"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon"/>
+    <TextView
+            android:id="@+id/mylessonTitle"
+            android:text="@string/grid_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/lesoonList_item_title_size"/>
+
+</LinearLayout>

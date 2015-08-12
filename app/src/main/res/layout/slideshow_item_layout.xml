@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofittextview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/slide_show_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/slideshow_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/busy" />
+
+    <com.librelio.view.AutofitTextView
+        android:id="@+id/slideshow_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="32dp"
+        autofittextview:maxTextSize="32dp"
+        android:text="@string/loading"
+        android:visibility="gone"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"/>
+
+</FrameLayout>

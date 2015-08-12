@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">阿伯医学联盟</string>
+    <string name="KServerNetAddress">www.birdcopy.com:8888</string>
+    <string name="KlessonQwner">aboove</string>
+    <string name="KLocalAppID">441421e0c4a336ab786c070976bff49d</string>
+    <string name="KPakagename">com.birdcopy.aboove</string>
+
+    <string name="KSERVICE_ACTION">com.birdcopy.aboove.DownloadService</string>
+    <string name="KRECEIVER_ACTION">com.birdcopy.aboove.HttpNormalDownloadreceiver</string>
+
+</resources>

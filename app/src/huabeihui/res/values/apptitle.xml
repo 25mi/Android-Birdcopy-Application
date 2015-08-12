@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">华北长城会</string>
+    <string name="KServerNetAddress">www.birdcopy.com:8888</string>
+    <string name="KlessonQwner">huabeihui</string>
+    <string name="KLocalAppID">149488751cdca20d73153da52ea71296</string>
+    <string name="KPakagename">com.birdcopy.huabeihui</string>
+
+    <string name="KSERVICE_ACTION">com.birdcopy.huabeihui.DownloadService</string>
+    <string name="KRECEIVER_ACTION">com.birdcopy.huabeihui.HttpNormalDownloadreceiver</string>
+
+</resources>

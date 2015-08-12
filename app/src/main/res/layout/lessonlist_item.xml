@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/lesson_grid_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants">
+
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:padding="1dip">
+
+        <com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView
+            android:id="@+id/lessonCoverImage"
+            android:background="@color/white"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/lessonContentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+    </RelativeLayout>
+
+
+
+    <TextView
+            android:id="@+id/lessonTitle"
+            android:text="@string/grid_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/lesoonList_item_title_size"/>
+
+    <com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightTextView
+        android:id="@+id/lessonDescription"
+        android:text="@string/grid_item_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/lesoonList_item_desc_size"
+        android:padding="4dp"
+        android:ellipsize="end"
+        android:maxLines="5"/>
+
+</LinearLayout>
