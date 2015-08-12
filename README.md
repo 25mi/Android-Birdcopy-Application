@@ -8,7 +8,7 @@
 - -Mp3（＋字幕） 类似听歌软件的表现形式
 - -Mp4
 
--支持内容管理
+- 支持内容管理
 - -标签化分类、搜索、展示
 - -封面内容推荐、频道内容推荐
 
@@ -16,6 +16,14 @@
 - Simple interface
 - Works on both Andorid（11+） & iOS（6.0+）
 
+## 使用案例
+[birdenglish]: http://e.birdcopy.com
+[ibag]: http://v.birdcopy.com
+[inet]: http://it.birdcopy.com
+
+- 医学、健康行业使用案例[ibag]
+- 英语行业使用案例[birdenglish]
+- IT培训行业使用案例[inet]
 
 ## License
 
