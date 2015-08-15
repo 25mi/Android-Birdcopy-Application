@@ -37,7 +37,12 @@ Birdcopy是菜鸟微云提供的一个手机应用,旨在帮助小微社群提�
 
 ## 场景示例
 
-https://github.com/birdcopy/Android-Birdcopy-Application/blob/master/demo/1.pic.jpg
+![](https://github.com/birdcopy/Android-Birdcopy-Application/blob/master/demo/1.pic.jpg)
+
+![](https://github.com/birdcopy/Android-Birdcopy-Application/blob/master/demo/1.pic.jpg)
+
+![](https://github.com/birdcopy/Android-Birdcopy-Application/blob/master/demo/1.pic.jpg)
+
 
 ## License
 
