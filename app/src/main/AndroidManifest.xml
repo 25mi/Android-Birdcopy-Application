@@ -12,7 +12,6 @@
 
     <!-- 录音 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <!-- 以下是使用wifi访问网络所需的权限 -->
@@ -64,7 +63,7 @@
         android:name=".Component.Base.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
-        android:label="北阳英语"
+        android:label="艾奈特"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
@@ -91,7 +90,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="com.birdcopy.beiyang"
+                    android:host="it.birdcopy.inet"
                     android:scheme="bcapp" />
             </intent-filter>
         </activity>
@@ -148,7 +147,7 @@
 
         <service android:name=".Component.Download.HttpDownloader.service.DownloadService" >
             <intent-filter>
-                <action android:name="com.birdcopy.beiyang.DownloadService"/>
+                <action android:name="it.birdcopy.inet.DownloadService"/>
             </intent-filter>
         </service>
 
@@ -176,7 +175,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.birdcopy.beiyang"
+                    android:host="it.birdcopy.inet"
                 android:pathPrefix="/conversation/"
                 android:scheme="rong" /> <!-- 不能修改 -->
             </intent-filter>
@@ -289,7 +288,7 @@
             android:process=":ipc" />
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="e5t4ouvptjtsa" />
+            android:value="pgyu6atqykgju" />
         <!-- end -->
 
         <!-- Ping++ SDK 注册 -->
@@ -311,7 +310,7 @@
 
         <!-- 微信支付注册 -->
         <activity-alias
-            android:name="com.birdcopy.beiyang.wxapi.WXPayEntryActivity"
+            android:name="it.birdcopy.inet.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="com.pingplusplus.android.PaymentActivity" />
 

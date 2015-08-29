@@ -2,12 +2,12 @@
 <resources>
 
     <string name="app_name">301论坛</string>
-    <string name="KServerNetAddress">www.birdcopy.com:8888</string>
-    <string name="KlessonQwner">301luntan</string>
-    <string name="KLocalAppID">bb22d96a5a9bd33932c074cbf79b9b49</string>
-    <string name="KPakagename">com.birdcopy.301luntan</string>
+    <string name="KServerNetAddress">www.birdenglish.com:8888</string>
+    <string name="KlessonQwner">sanlingyi</string>
+    <string name="KLocalAppID">0dfd0a2efc11c197947ff861249d00f2</string>
+    <string name="KPakagename">com.birdcopy.sanlingyi</string>
 
-    <string name="KSERVICE_ACTION">com.birdcopy.301luntan.DownloadService</string>
-    <string name="KRECEIVER_ACTION">com.birdcopy.301luntan.HttpNormalDownloadreceiver</string>
+    <string name="KSERVICE_ACTION">com.birdcopy.sanlingyi.DownloadService</string>
+    <string name="KRECEIVER_ACTION">com.birdcopy.sanlingyi.HttpNormalDownloadreceiver</string>
 
 </resources>

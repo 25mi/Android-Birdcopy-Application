@@ -69,7 +69,9 @@ import java.util.List;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 
-public class LessonActivity extends FragmentActivity
+public class
+
+        LessonActivity extends FragmentActivity
 {
     public static final String SAVED_DATA_KEY   = "SAVED_DATA_KEY";
     public final static int HTTP_RESPONSE = 0;
