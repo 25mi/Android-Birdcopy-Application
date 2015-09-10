@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:background="@color/rc_text_color_primary_inverse"
         android:id="@id/rc_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/rc_text_color_primary_inverse" />
 
     <TextView
         android:id="@android:id/empty"

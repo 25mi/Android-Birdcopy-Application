@@ -308,4 +308,9 @@
     <string name="loading">加载中</string>
     <string name="open_failed">加载失败</string>
 
+
+    <string name="pingpp_continue_buy">返回</string>
+    <string name="pingpp_copyright">安全加密，放心使用</string>
+
+
 </resources>

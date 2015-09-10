@@ -2,4 +2,5 @@
 <resources>
     <integer name="rc_chatroom_first_pull_message_count">10</integer>
     <bool name="rc_is_show_warning_notification">true</bool>
+
 </resources>

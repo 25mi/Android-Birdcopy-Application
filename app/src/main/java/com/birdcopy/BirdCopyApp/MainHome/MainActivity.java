@@ -829,89 +829,65 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         */
     }
 
-    public static void toBuyProduct(Activity activity,Product good) {
-
-        // 产生个订单号
-        String orderNo = new SimpleDateFormat("yyyyMMddhhmmss")
-                .format(new Date());
-
-        // 计算总金额（以分为单位）
-        int amount = good.productPrice*good.count;
-        JSONArray billList = new JSONArray();
-
-        billList.put(good.productName+ " x " + good.count);
-
-        // 自定义的额外信息 选填
-        JSONObject extras = new JSONObject();
-        try {
-            extras.put("extra1", "extra1");
-            extras.put("extra2", "extra2");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // 构建账单json对象
-        JSONObject bill = new JSONObject();
-        JSONObject displayItem = new JSONObject();
-        try {
-            displayItem.put("name", "商品");
-            displayItem.put("contents", billList);
-            JSONArray display = new JSONArray();
-            display.put(displayItem);
-            bill.put("order_no", orderNo);
-            bill.put("amount", amount);
-            bill.put("display", display);
-            bill.put("extras", extras);// 该字段选填
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        String YOUR_URL ="http://218.244.151.190/demo/charge";
-
-        String URL = ShareDefine.KPingplusPayURL;
-
-        // 发起支付
-        PayActivity.SHOW_CHANNEL_ALIPAY = true;
-        PayActivity.CallPayActivity(activity, bill.toString(), YOUR_URL);
-    }
-
-    public void updateMemberInfo()
+    public static void toBuyProduct(final Activity activity,final Product good)
     {
-        Calendar ca = Calendar.getInstance();//得到一个Calendar的实例
-        ca.setTime(new Date());   //设置时间为当前时间
-        ca.add(Calendar.YEAR, +1); //年份加1
-        final String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTime());
+        final String  currentPassport=SSKeychain.getPassport();
 
-        String url = ShareDefine.getUpdateMemberShipURL();
+        final String appID = ShareDefine.getLocalAppID();
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
+                 Ion.with(activity)
+                .load(ShareDefine.getOrderNumberURL(currentPassport, appID))
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
 
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
+                        // 产生个订单号
+                        String orderNo=result.get("order_no").getAsString();
 
-                            if (resultStr.equalsIgnoreCase("1"))
-                            {
-                                //更新本地数据
-                                SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
-                                editor.putBoolean("activeMembership", true);
-                                editor.putString("membershipEndtime",endTime);
-                                editor.commit();
-                            }
+                        // 计算总金额（以分为单位）
+                        int amount = good.productPrice*good.count;
+                        JSONArray billList = new JSONArray();
+
+                        billList.put(good.productName+ " x " + good.count);
+
+                        // 构建账单json对象
+                        JSONObject bill = new JSONObject();
+                        JSONObject displayItem = new JSONObject();
+                        try {
+                            displayItem.put("name", "商品");
+                            displayItem.put("contents", billList);
+                            JSONArray display = new JSONArray();
+                            display.put(displayItem);
+
+                            // 自定义的额外信息 选填
+                            JSONObject extras = new JSONObject();
+                            extras.put("subject", "商品");
+                            extras.put("body", billList);
+                            extras.put("tuser_key",currentPassport);
+                            extras.put("app_id",appID);
+
+                            bill.put("order_no", orderNo);
+                            bill.put("amount", amount);
+                            bill.put("display", display);
+                            bill.put("extras", extras);// 该字段选填
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
                         }
+
+                        String URL = ShareDefine.getPingplusOnePayURL();
+
+                        // 发起支付
+                        PayActivity.SHOW_CHANNEL_ALIPAY = true;
+                        PayActivity.CallPayActivity(activity, bill.toString(), URL);
                     }
                 });
+    }
+
+    public void addMembershipYear()
+    {
+        FlyingSysWithCenter.addMembershipYear();
     }
 
     public void showChatListNow()
@@ -1065,14 +1041,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                     if (data.getExtras().getString("result").equalsIgnoreCase("pay_successed"))
                     {
-                        updateMemberInfo();
+                        addMembershipYear();
                     }
-
-                    Toast.makeText(
-                            this,
-                            data.getExtras().getString("result") + "  "
-                                    + data.getExtras().getInt("code"),
-                            Toast.LENGTH_LONG).show();
+                    else
+                    {
+                        Toast.makeText(
+                                this,
+                                data.getExtras().getString("result") + "  "
+                                        + data.getExtras().getInt("code"),
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
                 break;
             }

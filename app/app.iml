@@ -140,8 +140,8 @@
     <orderEntry type="library" exported="" name="universal-image-loader-1.9.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="jsoup-1.8.2" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-7.5.0" level="project" />
     <orderEntry type="library" exported="" name="material-dialogs-0.7.6.0" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />

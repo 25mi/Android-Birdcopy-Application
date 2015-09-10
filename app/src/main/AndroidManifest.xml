@@ -90,7 +90,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="it.birdcopy.inet"
+                    android:host="it.birdcopy.com"
                     android:scheme="bcapp" />
             </intent-filter>
         </activity>
@@ -147,7 +147,7 @@
 
         <service android:name=".Component.Download.HttpDownloader.service.DownloadService" >
             <intent-filter>
-                <action android:name="it.birdcopy.inet.DownloadService"/>
+                <action android:name="it.birdcopy.com.DownloadService"/>
             </intent-filter>
         </service>
 
@@ -175,7 +175,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="it.birdcopy.inet"
+                    android:host="it.birdcopy.com"
                 android:pathPrefix="/conversation/"
                 android:scheme="rong" /> <!-- 不能修改 -->
             </intent-filter>

@@ -161,8 +161,32 @@ public class ShareDefine
 
 
     //年费临时性功能相关
-    public final static String KPingplusPayURL = "YOUR_URL";
-    public final static int    KPricePerYear   = 3000;
+
+    public final static int    KPricePerYear   = 68800;
+
+    public static String getPingplusOnePayURL()
+    {
+        String result = "http://"+
+                ShareDefine.getServerNetAddress()+
+                "/pa_get_o_charge_from_tn.action";
+
+        return result;
+    }
+
+    public static String getOrderNumberURL(
+            String currentPassport,
+            String appID)
+    {
+        String result = "http://"+
+                ShareDefine.getServerNetAddress()+
+                "/pa_get_on_from_tn.action?"+
+                "tuser_key="+
+                currentPassport+
+                "&app_id="+
+                appID;
+
+        return result;
+    }
 
     public static String getLessonAccount(
             String contentType,
@@ -870,7 +894,7 @@ public class ShareDefine
         // 获取packagemanager的实例
         PackageManager packageManager = MyApplication.getInstance().getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = packageManager.getPackageInfo(MyApplication.getInstance().getPackageName(),0);
+        PackageInfo packInfo = packageManager.getPackageInfo(MyApplication.getInstance().getPackageName(), 0);
         return packInfo.versionCode;
     }
 
@@ -1095,15 +1119,25 @@ public class ShareDefine
     //membership
     public static String getUpdateMemberShipURL()
     {
-        String startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
+        String startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         Calendar ca = Calendar.getInstance();//得到一个Calendar的实例
         ca.setTime(new Date());   //设置时间为当前时间
         ca.add(Calendar.YEAR, +1); //年份加1
 
         String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTime());
 
-        return "http://"+
+        try
+        {
+            startTime=URLEncoder.encode(startTime,"UTF-8");
+            endTime = URLEncoder.encode(endTime,"UTF-8");
+        }
+        catch (Exception e)
+        {
+            //
+        }
+
+        return"http://"+
                 ShareDefine.getServerNetAddress()+
                 "/ua_sync_validth_from_hp.action?"+
                 "tuser_key="+
@@ -1111,7 +1145,7 @@ public class ShareDefine
                 "&app_id="+
                 ShareDefine.getLocalAppID()+
                 "&vthg_type=21"+
-                "&start_time1="+
+                "&start_time="+
                 startTime+
                 "&end_time="+
                 endTime;

@@ -183,59 +183,11 @@ public class ProfileFragment extends Fragment {
         //统计图
         View staticView = (View) mProfileView.findViewById(R.id.profilestatic);
         staticView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
-        initStaticView();
 
         //相关按钮
         mBuyButton = (Button) mProfileView.findViewById(R.id.buycoinbutton);
 
-        Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
-
-        if(activeMembership)
-        {
-            mBuyButton.setText("你是年费会员");
-            mBuyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //toBuyMember();
-                    Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        else
-        {
-            Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
-
-            if(!sysMembership)
-            {
-
-                memberShipBroadReciever = new SysMemberShipBroadReciever();
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(ShareDefine.getKMembershipRECEIVER_ACTION());
-                MyApplication.getInstance().registerReceiver(memberShipBroadReciever, filter);
-
-                mBuyButton.setText("同步会员信息");
-
-                FlyingSysWithCenter.sysMembershipWithCenter();
-                mBuyButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FlyingSysWithCenter.sysMembershipWithCenter();
-                    }
-                });
-
-                FlyingSysWithCenter.sysMembershipWithCenter();
-            }
-            else
-            {
-                mBuyButton.setText("现在购买会员");
-                mBuyButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        toBuyMember();
-                    }
-                });
-            }
-        }
+        initStaticViewAndMembership();
 
         mScanButton = (Button) mProfileView.findViewById(R.id.scancoinbutton);
         mScanButton.setOnClickListener(new View.OnClickListener() {
@@ -301,7 +253,8 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void initStaticView() {
+    private void initStaticViewAndMembership()
+    {
         mBuyCoin = (TextView) mProfileView.findViewById(R.id.buycoincount);
         mBuyCoin.setText("购买：" + Integer.toString(buyCount));
 
@@ -314,6 +267,54 @@ public class ProfileFragment extends Fragment {
         int totalCount = buyCount + giftCount - usedCount;
         mTotalCoin = (TextView) mProfileView.findViewById(R.id.totalcoincount);
         mTotalCoin.setText("余额：" + Integer.toString(totalCount));
+
+        Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
+
+        if(activeMembership)
+        {
+            mBuyButton.setText("你是年费会员");
+            mBuyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toBuyMember();
+                    //Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else
+        {
+            Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
+
+            if(!sysMembership)
+            {
+                memberShipBroadReciever = new SysMemberShipBroadReciever();
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(ShareDefine.getKMembershipRECEIVER_ACTION());
+                MyApplication.getInstance().registerReceiver(memberShipBroadReciever, filter);
+
+                mBuyButton.setText("同步会员信息");
+
+                FlyingSysWithCenter.sysMembershipWithCenter();
+                mBuyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FlyingSysWithCenter.sysMembershipWithCenter();
+                    }
+                });
+
+                FlyingSysWithCenter.sysMembershipWithCenter();
+            }
+            else
+            {
+                mBuyButton.setText("现在购买会员");
+                mBuyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toBuyMember();
+                    }
+                });
+            }
+        }
     }
 
     public class MyBroadcastReceiver extends BroadcastReceiver {
@@ -321,7 +322,7 @@ public class ProfileFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             //TODO: React to the Intent received.
             initData();
-            initStaticView();
+            initStaticViewAndMembership();
         }
     }
 
@@ -362,7 +363,8 @@ public class ProfileFragment extends Fragment {
                 .negativeText("取消").show();
     }
 
-    private void toBuyMember() {
+    private void toBuyMember()
+    {
 
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 

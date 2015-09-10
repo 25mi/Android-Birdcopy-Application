@@ -98,7 +98,7 @@
     <string name="rc_rejected_by_blacklist_prompt">Your message have sent out, but rejected by the receiver</string>
 
     <string name="rc_send_format">Send(%1$s)</string>
-    <string name="rc_yesterday_format">Yesterday %1$s</string>
+    <string name="rc_yesterday_format">Yesterday</string>
     <string name="rc_waiting">Connecting...</string>
     <string name="rc_file_not_exist">File does not exist</string>
     <string name="rc_network_is_busy">Network is busy</string>
@@ -112,9 +112,9 @@
     <string name="rc_called_accept">The other accepted the call request</string>
     <string name="rc_plugins_voip">Voice Call</string>
 
-<string name="rc_notification_send">Sent a</string>
-    <string name="rc_notification_msg">message</string>
-    <string name="rc_notification_contact">contacts</string>
+<string name="rc_notification_send">&#160;sent&#160; </string>
+    <string name="rc_notification_msg">&#160;messages</string>
+    <string name="rc_notification_contact"> &#160;contacts </string>
     <string name="rc_notification_ticker_text">You have a new message</string>
 
 </resources>

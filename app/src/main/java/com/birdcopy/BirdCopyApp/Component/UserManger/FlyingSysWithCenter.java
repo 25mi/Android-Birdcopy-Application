@@ -13,12 +13,19 @@ import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Tools.DateTools;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
+import com.pingplusplus.libone.PayActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -198,6 +205,38 @@ public class FlyingSysWithCenter
 
                                 ShareDefine.broadUserDataChange();
                             }
+                        }
+                    }
+                });
+    }
+
+    static public void addMembershipYear()
+    {
+        Calendar ca = Calendar.getInstance();//得到一个Calendar的实例
+        ca.setTime(new Date());   //设置时间为当前时间
+        ca.add(Calendar.YEAR, +1); //年份加1
+        final String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTime());
+
+        String url = ShareDefine.getUpdateMemberShipURL();
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+
+                        String rresultCode=result.get("rc").getAsString();
+
+                        if (rresultCode.equalsIgnoreCase("1")) {
+                            //更新本地数据
+                            SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
+                            editor.putBoolean("activeMembership", true);
+                            editor.putString("membershipEndtime", endTime);
+                            editor.commit();
+
+                            ShareDefine.broadUserDataChange();
                         }
                     }
                 });
