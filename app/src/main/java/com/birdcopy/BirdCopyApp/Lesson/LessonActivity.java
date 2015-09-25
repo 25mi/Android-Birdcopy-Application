@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.*;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -32,6 +35,7 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingTouchDAO;
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Document.CommonIntent;
+import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.Download.FlyingDownloadManager;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.db.DownloadDao;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.DownloadConstants;
@@ -82,7 +86,7 @@ public class
 
     private ImageView mBackView;
     private TextView  mTitleView;
-    private ImageView mChatView;
+    //private ImageView mChatView;
     private ShareView mShareView;
 
     private ImageView mCoverView;
@@ -121,6 +125,9 @@ public class
     private ImageView mShaderight;
     RelativeLayout rl_column;
     LinearLayout ll_more_columns;
+
+    // 用来实现聊天。
+    WebFragment webViewFragment;
 
     /** 手势监听 */
     GestureDetector mGestureDetector;
@@ -176,7 +183,8 @@ public class
         mTitleView = (TextView)findViewById(R.id.lesson_top_title);
         mTitleView.setText(R.string.lesson_top_title);
 
-        mChatView  = (ImageView)findViewById(R.id.top_chat);
+        /*
+        //mChatView  = (ImageView)findViewById(R.id.top_chat);
         mChatView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -184,6 +192,7 @@ public class
                 chatNow();
             }
         });
+        */
 
         mShareView = (ShareView) findViewById(R.id.share_view);
         mShareView.setShareIntent(getTxtIntent());
@@ -279,6 +288,15 @@ public class
                 return false;
             }
         });
+
+
+        //评论
+        webViewFragment = new WebFragment();
+        webViewFragment.webURL=ShareDefine.getChatURL(mLessonData.getBELESSONID());
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.chatwebview_layout, webViewFragment).commit();
+
     }
 
     @Override

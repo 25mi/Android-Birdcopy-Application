@@ -68,14 +68,14 @@ public class ProfileFragment extends Fragment {
     int giftCount = 0;
     int usedCount = 0;
 
-    private TextView mBuyCoin;
-    private TextView mGiftCoin;
-    private TextView mUsedCoin;
-    private TextView mTotalCoin;
+    //private TextView mBuyCoin;
+    //private TextView mGiftCoin;
+    //private TextView mUsedCoin;
+    //private TextView mTotalCoin;
 
     //相关操作
     private Button mBuyButton;
-    private Button mScanButton;
+    //private Button mScanButton;
     private Button mShareButton;
 
     // 存储路径
@@ -181,21 +181,13 @@ public class ProfileFragment extends Fragment {
         });
 
         //统计图
-        View staticView = (View) mProfileView.findViewById(R.id.profilestatic);
-        staticView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
+        //View staticView = (View) mProfileView.findViewById(R.id.profilestatic);
+        //staticView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
 
         //相关按钮
         mBuyButton = (Button) mProfileView.findViewById(R.id.buycoinbutton);
 
         initStaticViewAndMembership();
-
-        mScanButton = (Button) mProfileView.findViewById(R.id.scancoinbutton);
-        mScanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toScanCoin();
-            }
-        });
 
         mShareButton = (Button) mProfileView.findViewById(R.id.sharecoinbutton);
         mShareButton.setOnClickListener(new View.OnClickListener() {
@@ -255,19 +247,6 @@ public class ProfileFragment extends Fragment {
 
     private void initStaticViewAndMembership()
     {
-        mBuyCoin = (TextView) mProfileView.findViewById(R.id.buycoincount);
-        mBuyCoin.setText("购买：" + Integer.toString(buyCount));
-
-        mGiftCoin = (TextView) mProfileView.findViewById(R.id.giftcoincount);
-        mGiftCoin.setText("奖励：" + Integer.toString(giftCount));
-
-        mUsedCoin = (TextView) mProfileView.findViewById(R.id.usedcoincount);
-        mUsedCoin.setText("消费：" + Integer.toString(usedCount));
-
-        int totalCount = buyCount + giftCount - usedCount;
-        mTotalCoin = (TextView) mProfileView.findViewById(R.id.totalcoincount);
-        mTotalCoin.setText("余额：" + Integer.toString(totalCount));
-
         Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
 
         if(activeMembership)

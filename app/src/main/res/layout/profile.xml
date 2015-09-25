@@ -16,19 +16,21 @@
                       android:layout_width="fill_parent"
                       android:layout_height="fill_parent">
 
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+            <LinearLayout android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp">
+
 
                 <RelativeLayout
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
+                        android:layout_width="142dp"
+                        android:layout_height="142dp"
                         android:id="@+id/userprofile"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="50.0px"
+
+                        android:layout_gravity="center"
                         android:layout_marginTop="50.0px"
                         android:scaleType="centerCrop"
                         >
@@ -51,158 +53,34 @@
 
                 </RelativeLayout>
 
+
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="我的昵称"
-                        android:id="@+id/usernikename"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="30dp"
-                        android:gravity="center"
-                        android:layout_toRightOf="@id/userprofile"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的昵称"
+                    android:id="@+id/usernikename"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
 
                 <Button
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/graybutton"
-                        android:text="改昵称"
-                        android:id="@+id/changeNanmeButton"
-                        android:gravity="center"
-                        android:layout_toRightOf="@id/userprofile"
-                        android:layout_below="@id/usernikename"
-                        android:layout_alignLeft="@+id/usernikename"
-                        android:layout_alignRight="@+id/usernikename"/>
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/graybutton"
+                    android:text="改昵称"
+                    android:id="@+id/changeNanmeButton"
+                    android:gravity="center"
+                    android:layout_below="@id/usernikename"
+                    android:layout_alignLeft="@+id/usernikename"
+                    android:layout_alignRight="@+id/usernikename"/>
 
-            </RelativeLayout>
-
-            <LinearLayout android:orientation="vertical"
-                          android:layout_width="match_parent"
-                          android:layout_height="150dp"
-                          android:id="@+id/profilestatic"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        android:layout_marginRight="20dp"
-                        android:textSize="12sp"
-                        android:text="*金币统计*"
-                        android:layout_gravity="right"
-                        />
-
-                <LinearLayout android:orientation="horizontal"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:layout_marginLeft="5dp"
-                              android:layout_weight="1">
-
-                    <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/magnetred"
-                            android:scaleType="centerCrop"
-                            />
-
-                    <TextView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="购买:"
-                            android:id="@+id/buycoincount"
-                            android:layout_centerVertical="true"
-                            />
-
-                </LinearLayout>
-
-                <LinearLayout android:orientation="horizontal"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:layout_marginLeft="5dp"
-                              android:layout_weight="1">
-
-                    <ImageView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/magnetgreen"
-                            android:scaleType="centerCrop"
-                            />
-
-                    <TextView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="奖励:"
-                            android:id="@+id/giftcoincount"
-                            android:layout_centerVertical="true"
-                            />
-
-                </LinearLayout>
-
-                <LinearLayout android:orientation="horizontal"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:layout_marginLeft="5dp"
-                              android:layout_weight="1">
-
-                    <ImageView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/magnetyellow"
-                            android:scaleType="centerCrop"
-                            />
-
-                    <TextView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="消费:"
-                            android:id="@+id/usedcoincount"
-                            android:layout_centerVertical="true"
-                            />
-
-                </LinearLayout>
-
-                <View
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1px"
-                        android:background="@android:color/darker_gray"  />
-
-                <LinearLayout android:orientation="horizontal"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:layout_marginLeft="5dp"
-                              android:layout_weight="1">
-
-                    <ImageView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/coin"
-                            android:scaleType="centerCrop"
-                            />
-
-                    <TextView
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="余额:"
-                            android:id="@+id/totalcoincount"
-                            android:layout_centerVertical="true"/>
-
-                </LinearLayout>
 
             </LinearLayout>
+
+
+
 
             <LinearLayout android:orientation="vertical"
                           android:layout_width="match_parent"
@@ -227,18 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:background="@drawable/graybutton"
-                        android:text="扫描充值二维码"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/scancoinbutton"
-                        android:gravity="center"/>
-
-                <Button
-                        style="?android:attr/button"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:background="@drawable/graybutton"
-                        android:text="分享应用获取奖励"
+                        android:text="分享应用"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:id="@+id/sharecoinbutton"
                         android:gravity="center"/>

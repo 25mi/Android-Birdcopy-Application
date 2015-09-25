@@ -22,8 +22,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 37
-        versionName "3.7.0"
+        versionCode 38
+        versionName "3.8.0"
 
         // Enabling multidex support.
         //multiDexEnabled true

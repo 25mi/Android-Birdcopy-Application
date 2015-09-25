@@ -518,16 +518,13 @@ public class ShareDefine
                 loginID;
     }
 
-    /*
     public static String getChatURL(String lessonID)
     {
         return "http://"+
                 ShareDefine.getServerNetAddress()+
-                "/mw_lc.screen?ln_id=" +
+                "/mwc.screen?ln_id=" +
                 lessonID;
     }
-    */
-
 
     public static String getRongTokenURL(String openID)
     {
