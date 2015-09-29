@@ -18,7 +18,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="113dp"
         android:gravity="center"
-        android:text="@string/rc_group_list_empty_prompt"
         android:textColor="#999999"
         android:textSize="16dp"
         android:visibility="gone" />

@@ -277,6 +277,11 @@
     <string name="de_actionbar_set_public">"公众号"</string>
     <string name="de_actionbar_update_discussion">"修改讨论组昵称"</string>
 
+    <string name="de_dialog_item_message_delete">删除消息</string>
+    <string name="de_notification_information">开启后，在设定时间段内收到新消息时不会响铃或振动。</string>
+
+    <string name="de_plugins_image">图片</string>
+    <string name="de_plugins_camera">相机</string>
 
     <string name="add_help">"参与设计"</string>
     <string name="add_share">"分享内容"</string>
@@ -311,6 +316,8 @@
 
     <string name="pingpp_continue_buy">返回</string>
     <string name="pingpp_copyright">安全加密，放心使用</string>
+
+
 
 
 </resources>

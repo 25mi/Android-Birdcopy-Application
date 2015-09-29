@@ -8,6 +8,8 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
+import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DicDaoMaster;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DicDaoSession;
@@ -17,11 +19,11 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DaoSession;
 import com.birdcopy.BirdCopyApp.Component.Download.FlyingDownloadManager;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.service.ServiceManager;
 import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
 import com.birdcopy.BirdCopyApp.Component.UserManger.OpenUDID_manager;
 
-import com.birdcopy.BirdCopyApp.Component.UserManger.SSKeychain;
-import com.birdcopy.BirdCopyApp.IM.DeContactNotificationMessageProvider;
+import com.birdcopy.BirdCopyApp.IM.ContactNotificationMessageProvider;
+import com.birdcopy.BirdCopyApp.IM.DeAgreedFriendRequestMessage;
+import com.birdcopy.BirdCopyApp.IM.RealTimeLocationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.birdcopy.BirdCopyApp.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,8 +31,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.io.IOException;
 
 import io.rong.imkit.RongIM;
+import io.rong.imlib.ipc.RongExceptionHandler;
 
-public class MyApplication extends Application
+public class MyApplication extends MultiDexApplication
 {
 
     private static MyApplication mInstance;
@@ -80,27 +83,42 @@ public class MyApplication extends Application
     public void initRongCloud()
     {
         /**
+         * 注意：
+         *
          * IMKit SDK调用第一步 初始化
+         *
          * context上下文
+         *
+         * 只有两个进程需要初始化，主进程和 push 进程
          */
-        RongIM.init(this);
 
-        /**d
-         * 融云SDK事件监听处理
-         */
-        RongCloudEvent.init(this);
+        if (getString(R.string.KPakagename).equals(getCurProcessName(getApplicationContext())) ||
+                "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
-        FlyingContext.init(this);
 
-        //注册消息类型的时候判断当前的进程是否在主进程
-        if ("io.rong.app".equals(getCurProcessName(getApplicationContext()))) {
-            try {
-                //注册自定义消息,注册完消息后可以收到自定义消息
-                //RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
-                //注册消息模板，注册完消息模板可以在会话列表上展示
-                RongIM.registerMessageTemplate(new DeContactNotificationMessageProvider());
-            } catch (Exception e) {
-                e.printStackTrace();
+            Log.e("tag", "-------app--" + getApplicationInfo().packageName.toString());
+            RongIM.init(this);
+
+            /**
+             * 融云SDK事件监听处理
+             *
+             * 注册相关代码，只需要在主进程里做。
+             */
+            if (getString(R.string.KPakagename).equals(getCurProcessName(getApplicationContext()))) {
+
+                RongCloudEvent.init(this);
+                FlyingContext.init(this);
+
+                Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
+
+                try {
+                    RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
+
+                    RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
+                    RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

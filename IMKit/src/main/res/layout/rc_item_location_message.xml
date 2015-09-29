@@ -16,7 +16,7 @@
         android:scaleType="fitXY"
         android:layout_width="206dp"
         android:layout_height="120dp"
-        app:defDrawable="@drawable/rc_ic_location_item_default"
+        app:RCDefDrawable="@drawable/rc_ic_location_item_default"
         />
 
     <TextView

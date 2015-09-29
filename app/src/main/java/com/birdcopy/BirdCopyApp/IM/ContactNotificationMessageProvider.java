@@ -20,15 +20,19 @@ import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.ArraysDialogFragment;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.PublicServiceInfo;
+import io.rong.imlib.model.PublicServiceProfile;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
 
+import com.birdcopy.BirdCopyApp.R;
+
 /**
- * Created by Bob on 2015/4/17.
+ * Created by songbaoqiang on 9/27/15.
  */
-@ProviderTag(messageContent = ContactNotificationMessage.class, showPortrait = false, centerInHorizontal = true,showProgress = false)
-public class DeContactNotificationMessageProvider extends IContainerItemProvider.MessageProvider<ContactNotificationMessage> {
+
+
+@ProviderTag(messageContent = ContactNotificationMessage.class, showPortrait = false, centerInHorizontal = true, showProgress = false)
+public class ContactNotificationMessageProvider extends IContainerItemProvider.MessageProvider<ContactNotificationMessage> {
     @Override
     public void bindView(View v, int position, ContactNotificationMessage content, UIMessage message) {
         ViewHolder viewHolder = (ViewHolder) v.getTag();
@@ -58,7 +62,7 @@ public class DeContactNotificationMessageProvider extends IContainerItemProvider
         if (message.getConversationType().getName().equals(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName()) ||
                 message.getConversationType().getName().equals(Conversation.ConversationType.PUBLIC_SERVICE.getName())) {
             ConversationKey key = ConversationKey.obtain(message.getTargetId(), message.getConversationType());
-            PublicServiceInfo info = RongContext.getInstance().getPublicServiceInfoCache().get(key.getKey());
+            PublicServiceProfile info = RongContext.getInstance().getPublicServiceInfoCache().get(key.getKey());
             if (info != null)
                 name = info.getName();
         } else {
@@ -68,7 +72,7 @@ public class DeContactNotificationMessageProvider extends IContainerItemProvider
         }
         String[] items;
 
-        items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
+        items = new String[]{view.getContext().getResources().getString(R.string.de_dialog_item_message_delete)};
 
         ArraysDialogFragment.newInstance(name, items).setArraysDialogItemListener(new ArraysDialogFragment.OnArraysDialogItemListener() {
             @Override
@@ -82,9 +86,9 @@ public class DeContactNotificationMessageProvider extends IContainerItemProvider
 
     @Override
     public View newView(Context context, ViewGroup group) {
-        View view = LayoutInflater.from(context).inflate(io.rong.imkit.R.layout.rc_item_information_notification_message, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.de_item_information_notification_message, null);
         ViewHolder viewHolder = new ViewHolder();
-        viewHolder.contentTextView = (TextView) view.findViewById(io.rong.imkit.R.id.rc_msg);
+        viewHolder.contentTextView = (TextView) view.findViewById(R.id.rc_msg);
         viewHolder.contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
         view.setTag(viewHolder);
 

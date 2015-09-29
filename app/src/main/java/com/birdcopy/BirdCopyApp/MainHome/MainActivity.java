@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //private ResideMenuItem search_btn;
 
     private ResideMenuItem scan_btn;
-    //private ResideMenuItem chat_btn;
+    private ResideMenuItem chat_btn;
 
     protected ResideMenu resideMenu;
     static final public int noMenuPostion = -1;
@@ -262,7 +262,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         //search_btn       = new ResideMenuItem(this, R.drawable.ic_drawer_search, getString(R.string.left_drawer_item_search));
         scan_btn         = new ResideMenuItem(this, R.drawable.ic_drawer_scan, getString(R.string.left_drawer_item_scan));
-        //chat_btn         = new ResideMenuItem(this, R.drawable.ic_drawer_chat, getString(R.string.left_drawer_item_chat));
+        chat_btn         = new ResideMenuItem(this, R.drawable.ic_drawer_chat, getString(R.string.left_drawer_item_chat));
 
         home_btn.setOnClickListener(this);
         //doc_btn.setOnClickListener(this);
@@ -273,7 +273,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         profile_btn.setOnClickListener(this);
         scan_btn.setOnClickListener(this);
         //search_btn.setOnClickListener(this);
-        //chat_btn.setOnClickListener(this);
+        chat_btn.setOnClickListener(this);
 
         resideMenu.addMenuItem(home_btn, ResideMenu.DIRECTION_LEFT);
         //resideMenu.addMenuItem(doc_btn, ResideMenu.DIRECTION_LEFT);
@@ -286,7 +286,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //resideMenu.addMenuItem(search_btn, ResideMenu.DIRECTION_LEFT);
 
         resideMenu.addMenuItem(scan_btn, ResideMenu.DIRECTION_LEFT);
-        //resideMenu.addMenuItem(chat_btn, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(chat_btn, ResideMenu.DIRECTION_LEFT);
 
         initActiveMenu();
     }
@@ -494,7 +494,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             scanNow();
         }
 
-        /*
 
         else if (view == chat_btn)
         {
@@ -502,6 +501,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             showChatListNow();
         }
+
+                /*
 
                 else if (view == search_btn)
         {

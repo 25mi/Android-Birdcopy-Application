@@ -21,22 +21,23 @@
     <string name="rc_discussion_nt_msg_for_is_open_invite_open">"%1$s open its members invited"</string>
     <string name="rc_discussion_nt_msg_for_is_open_invite_close">"%1$s shut down the invitation to the member"</string>
 
-    <string name="rc_group_list_my_private_conversation">My private conversation</string>
-    <string name="rc_group_list_my_group">My group</string>
-    <string name="rc_group_list_my_discussion">My discussion</string>
-    <string name="rc_group_list_my_chatroom">My chat room</string>
-    <string name="rc_group_list_my_customer_service">Customer service list</string>
-    <string name="rc_group_list_system_conversation">System message</string>
-    <string name="rc_group_list_app_public_service">Application Publice Servic</string>
-    <string name="rc_group_list_public_service">Publice Servic</string>
-    <string name="rc_group_list_dialog_set_top">Sticky on top</string>
-    <string name="rc_group_list_dialog_cancel_top">Remove from top</string>
-    <string name="rc_group_list_dialog_remove">Delete conversation</string>
-    <string name="rc_group_list_popup_set_top">Stuck on top</string>
-    <string name="rc_group_list_popup_cancel_top">Removed from top</string>
-    <string name="rc_group_List_operation_failure">Operation failure</string>
-    <string name="rc_group_list_default_discussion_name">"Discussion"</string>
-    <string name="rc_group_list_empty_prompt">"No chat information"</string>
+    <string name="rc_conversation_list_my_private_conversation">My private conversation</string>
+    <string name="rc_conversation_list_my_group">My group</string>
+    <string name="rc_conversation_list_my_discussion">My discussion</string>
+    <string name="rc_conversation_list_my_chatroom">My chat room</string>
+    <string name="rc_conversation_list_my_customer_service">Customer service list</string>
+    <string name="rc_conversation_list_system_conversation">System message</string>
+    <string name="rc_conversation_list_app_public_service">Application Publice Servic</string>
+    <string name="rc_conversation_list_public_service">Publice Servic</string>
+    <string name="rc_conversation_list_dialog_set_top">Sticky on top</string>
+    <string name="rc_conversation_list_dialog_cancel_top">Remove from top</string>
+    <string name="rc_conversation_list_dialog_remove">Delete conversation</string>
+    <string name="rc_conversation_list_popup_set_top">Stuck on top</string>
+    <string name="rc_conversation_list_popup_cancel_top">Removed from top</string>
+    <string name="rc_conversation_List_operation_failure">Operation failure</string>
+    <string name="rc_conversation_list_default_discussion_name">"Discussion"</string>
+    <string name="rc_conversation_list_empty_prompt">"No chat information"</string>
+    <string name="rc_conversation_list_not_connected">"Not connected yet!"</string>
 
     <string name="rc_message_content_image">[Image]</string>
     <string name="rc_message_content_voice">[Voice]</string>
@@ -111,8 +112,11 @@
     <string name="rc_called_not_accept">Call has no answer</string>
     <string name="rc_called_accept">The other accepted the call request</string>
     <string name="rc_plugins_voip">Voice Call</string>
+    <string name="rc_read_all">Read All</string>
 
-<string name="rc_notification_send">&#160;sent&#160; </string>
+    <string name="rc_voip_cpu_error">Sorry  Function temporarily does not support your models</string>
+
+       <string name="rc_notification_send">&#160;sent&#160; </string>
     <string name="rc_notification_msg">&#160;messages</string>
     <string name="rc_notification_contact"> &#160;contacts </string>
     <string name="rc_notification_ticker_text">You have a new message</string>

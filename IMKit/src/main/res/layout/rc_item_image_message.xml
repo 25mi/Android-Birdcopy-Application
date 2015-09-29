@@ -8,6 +8,7 @@
         android:id="@id/rc_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:RCMinShortSideSize="80dp"
         android:scaleType="centerCrop"/>
 
     <TextView

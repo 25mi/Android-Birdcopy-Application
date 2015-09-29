@@ -73,9 +73,7 @@ import java.util.List;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 
-public class
-
-        LessonActivity extends FragmentActivity
+public class LessonActivity extends FragmentActivity
 {
     public static final String SAVED_DATA_KEY   = "SAVED_DATA_KEY";
     public final static int HTTP_RESPONSE = 0;
@@ -86,7 +84,7 @@ public class
 
     private ImageView mBackView;
     private TextView  mTitleView;
-    //private ImageView mChatView;
+    private ImageView mChatView;
     private ShareView mShareView;
 
     private ImageView mCoverView;
@@ -183,8 +181,7 @@ public class
         mTitleView = (TextView)findViewById(R.id.lesson_top_title);
         mTitleView.setText(R.string.lesson_top_title);
 
-        /*
-        //mChatView  = (ImageView)findViewById(R.id.top_chat);
+        mChatView  = (ImageView)findViewById(R.id.top_chat);
         mChatView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -192,7 +189,6 @@ public class
                 chatNow();
             }
         });
-        */
 
         mShareView = (ShareView) findViewById(R.id.share_view);
         mShareView.setShareIntent(getTxtIntent());

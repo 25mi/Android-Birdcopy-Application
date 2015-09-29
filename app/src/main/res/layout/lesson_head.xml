@@ -15,14 +15,12 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:src="@drawable/ic_back"/>
-        <!--
         <ImageView
             android:id="@+id/top_chat"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginRight="10.0dip"
             android:src="@drawable/ic_drawer_chat" />
-            -->
     </LinearLayout>
 
 

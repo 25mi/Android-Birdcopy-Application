@@ -17,22 +17,23 @@
     <string name="rc_discussion_nt_msg_for_is_open_invite_open">"%1$s 开放了成员邀请"</string>
     <string name="rc_discussion_nt_msg_for_is_open_invite_close">"%1$s 关闭了成员邀请"</string>
 
-    <string name="rc_group_list_my_private_conversation">我的私人会话</string>
-    <string name="rc_group_list_my_group">我的群组</string>
-    <string name="rc_group_list_my_discussion">我的讨论组</string>
-    <string name="rc_group_list_my_chatroom">我的聊天室</string>
-    <string name="rc_group_list_my_customer_service">客服列表</string>
-    <string name="rc_group_list_system_conversation">系统消息</string>
-    <string name="rc_group_list_app_public_service">应用公众服务</string>
-    <string name="rc_group_list_public_service">公众服务</string>
-    <string name="rc_group_list_dialog_set_top">置顶该会话</string>
-    <string name="rc_group_list_dialog_cancel_top">取消置顶</string>
-    <string name="rc_group_list_dialog_remove">从会话列表中移除</string>
-    <string name="rc_group_list_popup_set_top">已置顶</string>
-    <string name="rc_group_list_popup_cancel_top">取消置顶</string>
-    <string name="rc_group_List_operation_failure">操作失败</string>
-    <string name="rc_group_list_default_discussion_name">"讨论组"</string>
-    <string name="rc_group_list_empty_prompt">"暂无聊天信息"</string>
+    <string name="rc_conversation_list_my_private_conversation">我的私人会话</string>
+    <string name="rc_conversation_list_my_group">我的群组</string>
+    <string name="rc_conversation_list_my_discussion">我的讨论组</string>
+    <string name="rc_conversation_list_my_chatroom">我的聊天室</string>
+    <string name="rc_conversation_list_my_customer_service">客服列表</string>
+    <string name="rc_conversation_list_system_conversation">系统消息</string>
+    <string name="rc_conversation_list_app_public_service">应用公众服务</string>
+    <string name="rc_conversation_list_public_service">公众服务</string>
+    <string name="rc_conversation_list_dialog_set_top">置顶该会话</string>
+    <string name="rc_conversation_list_dialog_cancel_top">取消置顶</string>
+    <string name="rc_conversation_list_dialog_remove">从会话列表中移除</string>
+    <string name="rc_conversation_list_popup_set_top">已置顶</string>
+    <string name="rc_conversation_list_popup_cancel_top">取消置顶</string>
+    <string name="rc_conversation_List_operation_failure">操作失败</string>
+    <string name="rc_conversation_list_default_discussion_name">"讨论组"</string>
+    <string name="rc_conversation_list_empty_prompt">"暂无聊天信息"</string>
+    <string name="rc_conversation_list_not_connected">"尚未连接!"</string>
 
     <string name="rc_message_content_image">[图片]</string>
     <string name="rc_message_content_voice">[语音]</string>
@@ -111,10 +112,12 @@
     <string name="rc_called_not_accept">对方未接听</string>
     <string name="rc_called_accept">对方接受了通话请求</string>
     <string name="rc_plugins_voip">语音通话</string>
+    <string name="rc_read_all">阅读全文</string>
 
-     <string name="rc_notification_send">发来了</string>
+    <string name="rc_voip_cpu_error">很抱歉，该功能暂时不支持您的机型</string>
+
+    <string name="rc_notification_send">发来了</string>
     <string name="rc_notification_msg">条消息</string>
     <string name="rc_notification_contact">个联系人</string>
     <string name="rc_notification_ticker_text">您有了一条新消息</string>
-
 </resources>
