@@ -157,7 +157,7 @@ public class AlbumDataModle
                 xr.setContentHandler(myXMLHandler);
                 xr.parse(new InputSource(new ByteArrayInputStream(params[0].getBytes())));
 
-                delegate.setMaxAlbums(myXMLHandler.entries.size());
+                delegate.setMaxAlbums(myXMLHandler.allRecordCount);
                 return myXMLHandler.entries;
             } catch (Exception e) {
                 System.out.println("XML Pasing Excpetion = " + e);
