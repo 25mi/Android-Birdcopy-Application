@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment implements LessonDataModle.DealResult
         {
             currentLodingIndex++;
             mAlbumDataModle.setDelegate(this);
-            mAlbumDataModle.loadHomlAlbumListData(null);
+            mAlbumDataModle.loadHomlAlbumListData(null,currentLodingIndex);
         }
     }
 

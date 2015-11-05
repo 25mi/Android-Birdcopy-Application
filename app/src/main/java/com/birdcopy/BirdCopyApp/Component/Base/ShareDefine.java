@@ -163,6 +163,7 @@ public class ShareDefine
     //年费临时性功能相关
 
     public final static int    KPricePerYear   = 68800;
+    //public final static int    KPricePerYear   = 1;
 
     public static String getPingplusOnePayURL()
     {

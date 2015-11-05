@@ -838,7 +838,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         final String appID = ShareDefine.getLocalAppID();
 
-                 Ion.with(activity)
+        Ion.with(activity)
                 .load(ShareDefine.getOrderNumberURL(currentPassport, appID))
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
@@ -886,11 +886,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         PayActivity.CallPayActivity(activity, bill.toString(), URL);
                     }
                 });
-    }
 
-    public void addMembershipYear()
-    {
-        FlyingSysWithCenter.addMembershipYear();
     }
 
     public void showChatListNow()
@@ -1034,26 +1030,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                     String result = bundle.getString("result");
                     showSearchContent(result);
-                }
-                break;
-            }
-
-            case PayActivity.PAYACTIVITY_REQUEST_CODE:
-            {
-                if (resultCode == PayActivity.PAYACTIVITY_RESULT_CODE) {
-
-                    if (data.getExtras().getString("result").equalsIgnoreCase("pay_successed"))
-                    {
-                        addMembershipYear();
-                    }
-                    else
-                    {
-                        Toast.makeText(
-                                this,
-                                data.getExtras().getString("result") + "  "
-                                        + data.getExtras().getInt("code"),
-                                Toast.LENGTH_LONG).show();
-                    }
                 }
                 break;
             }

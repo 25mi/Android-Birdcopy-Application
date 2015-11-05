@@ -96,9 +96,9 @@ public class AlbumDataModle
         }
     }
 
-    public void loadHomlAlbumListData(String contentType)
+    public void loadHomlAlbumListData(String contentType,int pageNumber)
     {
-        String url = ShareDefine.getAlbumListByTagURL(contentType, 1, true,true);
+        String url = ShareDefine.getAlbumListByTagURL(contentType,pageNumber, true,true);
 
         if (ShareDefine.checkNetWorkStatus()==true)
         {

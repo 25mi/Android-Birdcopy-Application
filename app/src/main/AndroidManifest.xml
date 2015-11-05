@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.birdcopy.BirdCopyApp"
     android:installLocation="preferExternal">
-
+    
     <!-- 以下是使用相机扫描所需的权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -91,7 +91,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="it.birdcopy.com"
+                    android:host="it.birdcopy.inet"
                     android:scheme="bcapp" />
             </intent-filter>
         </activity>
@@ -176,7 +176,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="it.birdcopy.com"
+                    android:host="it.birdcopy.inet"
                 android:pathPrefix="/conversation/"
                 android:scheme="rong" /> <!-- 不能修改 -->
             </intent-filter>
@@ -289,7 +289,7 @@
             android:process=":ipc" />
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="pgyu6atqykgju" />
+            android:value="cpj2xarljqp9n" />
         <!-- end -->
 
         <!-- Ping++ SDK 注册 -->

@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.*;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -58,6 +56,7 @@ import com.koushikdutta.async.http.AsyncHttpResponse;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.pingplusplus.libone.PayActivity;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -340,6 +339,13 @@ public class LessonActivity extends FragmentActivity
 
     private void initBuyButton()
     {
+        Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
+
+        if(activeMembership)
+        {
+            mHasRight=true;
+        }
+
         //校验是否有内容权限
         if(!mHasRight)
         {
@@ -1042,7 +1048,7 @@ public class LessonActivity extends FragmentActivity
         if(mLessonData!=null)
         {
             subject = mLessonData.getBETITLE();
-            body = mLessonData.getBEDESC();
+            body = mLessonData.getBEDESC()+mLessonData.getBEWEBURL();
         }
 
         Intent shareIntent=new Intent();
@@ -1142,6 +1148,26 @@ public class LessonActivity extends FragmentActivity
                             intent.setData(Uri.parse(scanStr));
                             startActivity(intent);
                         }
+                    }
+                }
+                break;
+            }
+
+            case PayActivity.PAYACTIVITY_REQUEST_CODE:
+            {
+                if (resultCode == PayActivity.PAYACTIVITY_RESULT_CODE) {
+
+                    if (data.getExtras().getString("result").equalsIgnoreCase("pay_successed"))
+                    {
+                        addMembershipYear();
+                    }
+                    else
+                    {
+                        Toast.makeText(
+                                this,
+                                data.getExtras().getString("result") + "  "
+                                        + data.getExtras().getInt("code"),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
@@ -1300,4 +1326,10 @@ public class LessonActivity extends FragmentActivity
             }
         }
     }
+
+    public void addMembershipYear()
+    {
+        FlyingSysWithCenter.addMembershipYear();
+    }
+
 }
