@@ -6,36 +6,154 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b02647a3-8606-4f19-a8de-a978e3578f32" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/Rong_IMKit_v2_3_4.jar" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Rong_IMKit_v2_3_4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Rong_IMKit_v2_3_5.xml" />
+    <list default="true" id="774ebe8c-d047-4ccf-bd6a-4040b14c727f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_http_legacy_android_23.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/AMap_Services_V2_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Android_2DMapApi_V2_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Android_Location_V1_3_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Rong_IMKit_v2_3_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/TencentLocationSDK_v4_0_r139747.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/TencentMapSDK_Raster_v1_0_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/androidasync_2_1_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_22_2_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/calligraphy_2_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/commons_io_2_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/greendao_1_3_7.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/ion_2_1_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/jsoup_1_8_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/libone_.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/libpingpp_.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/library_2_4_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/material_dialogs_0_7_6_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/multidex_1_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/picasso_2_5_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/play_services_ads_7_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/play_services_analytics_7_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/play_services_base_7_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/play_services_gcm_7_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_22_2_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/share_everywhere_1_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_21_0_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_22_2_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_21_0_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_22_2_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/universal_image_loader_1_9_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/assets/voip_ring_call.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/assets/voip_ring_called.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/Rong_IMKit_v2_3_5.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi-v7a/libRongIMVoip.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi-v7a/libumcs.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi/libRongIMVoip.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi/libumcs.so" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/1.jpg" afterPath="$PROJECT_DIR$/demo/1.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/2.jpg" afterPath="$PROJECT_DIR$/demo/2.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/4.jpg" afterPath="$PROJECT_DIR$/demo/4.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/5.jpg" afterPath="$PROJECT_DIR$/demo/5.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/6.jpg" afterPath="$PROJECT_DIR$/demo/6.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/7.jpg" afterPath="$PROJECT_DIR$/demo/7.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/8.jpg" afterPath="$PROJECT_DIR$/demo/8.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/9.jpg" afterPath="$PROJECT_DIR$/demo/9.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/birdcopy.jks" afterPath="$PROJECT_DIR$/Key/birdcopy.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/boxueyuan.jks" afterPath="$PROJECT_DIR$/Key/boxueyuan.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/caoqian.jks" afterPath="$PROJECT_DIR$/Key/caoqian.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/chenqiang.jks" afterPath="$PROJECT_DIR$/Key/chenqiang.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/darkdenim3.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/darkdenim3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/dayischool.jks" afterPath="$PROJECT_DIR$/Key/dayischool.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/de_actionbar_back.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/de_actionbar_back.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/de_ic_new.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/de_ic_new.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/de_ic_setting.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/de_ic_setting.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/huangcongxin.jks" afterPath="$PROJECT_DIR$/Key/huangcongxin.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_list_white_24dp.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_list_white_24dp.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_magnifying_glass.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_magnifying_glass.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/drawable-hdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/drawable-hdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/drawable-ldpi/icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/drawable-ldpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/drawable-mdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/drawable-mdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/drawable-xhdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/drawable-xhdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/drawable-xxhdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/drawable-xxhdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/drawable-xxxhdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/drawable-xxxhdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/drawable-hdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/drawable-hdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/drawable-ldpi/icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/drawable-ldpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/drawable-mdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/drawable-mdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/drawable-xhdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/drawable-xhdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/drawable-xxhdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/drawable-xxhdpi/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/drawable-xxxhdpi/icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/drawable-xxxhdpi/icon.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/arm64-v8a/libRongIMLib.so" afterPath="$PROJECT_DIR$/IMKit/src/main/libs/arm64-v8a/libRongIMLib.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi/libRongIMLib.so" afterPath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi/libRongIMLib.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi-v7a/libRongIMLib.so" afterPath="$PROJECT_DIR$/IMKit/src/main/libs/armeabi-v7a/libRongIMLib.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/libs/x86/libRongIMLib.so" afterPath="$PROJECT_DIR$/IMKit/src/main/libs/x86/libRongIMLib.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ChannelManage/AlbumDataModle.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ChannelManage/AlbumDataModle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/license.png" afterPath="$PROJECT_DIR$/license.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/liubin.jks" afterPath="$PROJECT_DIR$/Key/liubin.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/lvsewuliu.jks" afterPath="$PROJECT_DIR$/Key/lvsewuliu.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/beiyang/res/playstore-icon.png" afterPath="$PROJECT_DIR$/app/src/beiyang/res/playstore-icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/sophia/res/playstore-icon.png" afterPath="$PROJECT_DIR$/app/src/sophia/res/playstore-icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/rc_rt_loc_myself.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/rc_rt_loc_myself.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/rc_rt_loc_other.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/rc_rt_loc_other.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/real_time_location_hide.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/real_time_location_hide.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/renshengdingwei.jks" afterPath="$PROJECT_DIR$/Key/renshengdingwei.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/suozhiguo.jks" afterPath="$PROJECT_DIR$/Key/suozhiguo.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/wangchuanlu.jks" afterPath="$PROJECT_DIR$/Key/wangchuanlu.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/wangdongmei.jks" afterPath="$PROJECT_DIR$/Key/wangdongmei.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/wanghaichang.jks" afterPath="$PROJECT_DIR$/Key/wanghaichang.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/wangjian.jks" afterPath="$PROJECT_DIR$/Key/wangjian.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/wangmingfeng.jks" afterPath="$PROJECT_DIR$/Key/wangmingfeng.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/wangwenlai.jks" afterPath="$PROJECT_DIR$/Key/wangwenlai.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/weidongli.jks" afterPath="$PROJECT_DIR$/Key/weidongli.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/xiaoxiangru.jks" afterPath="$PROJECT_DIR$/Key/xiaoxiangru.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/yangyanzong.jks" afterPath="$PROJECT_DIR$/Key/yangyanzong.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Key/zhaoxingsheng.jks" afterPath="$PROJECT_DIR$/Key/zhaoxingsheng.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Birdcopy-Application.iml" afterPath="$PROJECT_DIR$/Android-Birdcopy-Application.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/HomeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/HomeFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_RongUser.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_RongUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_RongUserDao.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_RongUserDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BirdCopy.iml" afterPath="$PROJECT_DIR$/BirdCopy.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/ClassLoaderSavedState.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/ClassLoaderSavedState.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ContactNotificationMessageProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ContactNotificationMessageProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ConversationActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ConversationActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/util/DynamicHeightImageView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/util/DynamicHeightImageView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/util/DynamicHeightTextView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/util/DynamicHeightTextView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/ExtendableListView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/ExtendableListView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UserManger/FlyingContext.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UserManger/FlyingContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingRongUserDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingRongUserDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/HeaderViewListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/HeaderViewListAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/IMKit.iml" afterPath="$PROJECT_DIR$/IMKit/IMKit.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/MyApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/MyApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/ShareDefine.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/ShareDefine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/artifex/mupdfdemo/ImageLayout.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/artifex/mupdfdemo/ImageLayout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LICENSE" afterPath="$PROJECT_DIR$/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/java/io/rong/imkit/MainActivity.java" afterPath="$PROJECT_DIR$/IMKit/src/main/java/io/rong/imkit/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Buy/Product.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Buy/Product.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShareContentProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShareContentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShareWithFriendsActitvity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShareWithFriendsActitvity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShowPhotoActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShowPhotoActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/StaggeredGridView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/StaggeredGridView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/SurveyProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/SurveyProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/imageshow/TouchImageView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/imageshow/TouchImageView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_share_location.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_share_location.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/build.gradle" afterPath="$PROJECT_DIR$/IMKit/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/res/layout/rc_item_location_message.xml" afterPath="$PROJECT_DIR$/IMKit/src/main/res/layout/rc_item_location_message.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/conversation.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/conversation.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/conversation_head.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/conversation_head.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/conversation_list_share.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/conversation_list_share.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/conversationlist_head_share.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/conversationlist_head_share.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/res/layout/rc_item_conversation.xml" afterPath="$PROJECT_DIR$/IMKit/src/main/res/layout/rc_item_conversation.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/res/values/rc_string.xml" afterPath="$PROJECT_DIR$/IMKit/src/main/res/values/rc_string.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IMKit/src/main/res/values-en/rc_strings.xml" afterPath="$PROJECT_DIR$/IMKit/src/main/res/values-en/rc_strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/share.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/share.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Android-Birdcopy-Application.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/.gradle/" />
+    <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,9 +170,6 @@
     <system id="GRADLE">
       <state>
         <task path="$PROJECT_DIR$/app">
-          <activation />
-        </task>
-        <task path="$PROJECT_DIR$">
           <activation />
         </task>
         <projects_view>
@@ -79,7 +194,7 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="Android-Birdcopy-Application" />
+                <option name="myItemId" value=":app" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
               </PATH_ELEMENT>
             </PATH>
@@ -93,7 +208,7 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="Android-Birdcopy-Application" />
+                <option name="myItemId" value=":app" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
@@ -111,7 +226,7 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="Android-Birdcopy-Application" />
+                <option name="myItemId" value=":app" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
@@ -133,237 +248,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LessonActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="598" column="0" selection-start-line="598" selection-start-column="0" selection-end-line="598" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RongEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongEvent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/MyApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="298" column="5" selection-start-line="298" selection-start-column="5" selection-end-line="298" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2536#2537#0" expanded="false" />
-                <element signature="e#2598#2599#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+            <state vertical-scroll-proportion="5.482063">
+              <caret line="163" column="158" selection-start-line="163" selection-start-column="158" selection-end-line="163" selection-end-column="158" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RongCloudEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="85" column="19" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CoverFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/CoverFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.640884">
-              <caret line="112" column="62" selection-start-line="112" selection-start-column="62" selection-end-line="112" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShareDefine.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/ShareDefine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="164" column="4" selection-start-line="164" selection-start-column="4" selection-end-line="164" selection-end-column="4" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Fragment.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/22.2.0/support-v4-22.2.0-sources.jar!/android/support/v4/app/Fragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1788" column="0" selection-start-line="1788" selection-start-column="0" selection-end-line="1788" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#78335#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#4158#4159#0" expanded="false" />
-                <element signature="e#4182#4183#0" expanded="false" />
-                <element signature="e#4824#4825#0" expanded="false" />
-                <element signature="e#4876#4877#0" expanded="false" />
-                <element signature="e#4937#4938#0" expanded="false" />
-                <element signature="e#4991#4992#0" expanded="false" />
-                <element signature="e#11356#11357#0" expanded="false" />
-                <element signature="e#11394#11395#0" expanded="false" />
-                <element signature="e#11667#11668#0" expanded="false" />
-                <element signature="e#11699#11700#0" expanded="false" />
-                <element signature="e#11778#11779#0" expanded="false" />
-                <element signature="e#11826#11827#0" expanded="false" />
-                <element signature="e#12011#12012#0" expanded="false" />
-                <element signature="e#12074#12075#0" expanded="false" />
-                <element signature="e#12128#12129#0" expanded="false" />
-                <element signature="e#12187#12188#0" expanded="false" />
-                <element signature="e#12482#12483#0" expanded="false" />
-                <element signature="e#12523#12524#0" expanded="false" />
-                <element signature="e#17706#17707#0" expanded="false" />
-                <element signature="e#17750#17751#0" expanded="false" />
-                <element signature="e#17866#17867#0" expanded="false" />
-                <element signature="e#17904#17905#0" expanded="false" />
-                <element signature="e#18012#18013#0" expanded="false" />
-                <element signature="e#18051#18052#0" expanded="false" />
-                <element signature="e#18825#18826#0" expanded="false" />
-                <element signature="e#18859#18860#0" expanded="false" />
-                <element signature="e#18970#18971#0" expanded="false" />
-                <element signature="e#18997#18998#0" expanded="false" />
-                <element signature="e#19675#19676#0" expanded="false" />
-                <element signature="e#19708#19709#0" expanded="false" />
-                <element signature="e#21180#21181#0" expanded="false" />
-                <element signature="e#21210#21211#0" expanded="false" />
-                <element signature="e#21346#21347#0" expanded="false" />
-                <element signature="e#21387#21388#0" expanded="false" />
-                <element signature="e#21525#21526#0" expanded="false" />
-                <element signature="e#21557#21558#0" expanded="false" />
-                <element signature="e#22397#22398#0" expanded="false" />
-                <element signature="e#22451#22452#0" expanded="false" />
-                <element signature="e#23562#23563#0" expanded="false" />
-                <element signature="e#23601#23602#0" expanded="false" />
-                <element signature="e#24558#24559#0" expanded="false" />
-                <element signature="e#24596#24597#0" expanded="false" />
-                <element signature="e#24721#24722#0" expanded="false" />
-                <element signature="e#24771#24772#0" expanded="false" />
-                <element signature="e#25031#25032#0" expanded="false" />
-                <element signature="e#25063#25064#0" expanded="false" />
-                <element signature="e#25350#25351#0" expanded="false" />
-                <element signature="e#25382#25383#0" expanded="false" />
-                <element signature="e#25814#25815#0" expanded="false" />
-                <element signature="e#25846#25847#0" expanded="false" />
-                <element signature="e#26055#26056#0" expanded="false" />
-                <element signature="e#26086#26087#0" expanded="false" />
-                <element signature="e#26879#26880#0" expanded="false" />
-                <element signature="e#26909#26910#0" expanded="false" />
-                <element signature="e#26971#26972#0" expanded="false" />
-                <element signature="e#27002#27003#0" expanded="false" />
-                <element signature="e#27063#27064#0" expanded="false" />
-                <element signature="e#27098#27099#0" expanded="false" />
-                <element signature="e#28538#28539#0" expanded="false" />
-                <element signature="e#28576#28577#0" expanded="false" />
-                <element signature="e#30996#30997#0" expanded="false" />
-                <element signature="e#31035#31036#0" expanded="false" />
-                <element signature="e#36234#36235#0" expanded="false" />
-                <element signature="e#36264#36265#0" expanded="false" />
-                <element signature="e#36418#36419#0" expanded="false" />
-                <element signature="e#36445#36446#0" expanded="false" />
-                <element signature="e#37208#37209#0" expanded="false" />
-                <element signature="e#37238#37239#0" expanded="false" />
-                <element signature="e#39401#39402#0" expanded="false" />
-                <element signature="e#39429#39430#0" expanded="false" />
-                <element signature="e#40225#40226#0" expanded="false" />
-                <element signature="e#40255#40256#0" expanded="false" />
-                <element signature="e#40866#40867#0" expanded="false" />
-                <element signature="e#40896#40897#0" expanded="false" />
-                <element signature="e#41796#41797#0" expanded="false" />
-                <element signature="e#41826#41827#0" expanded="false" />
-                <element signature="e#43036#43037#0" expanded="false" />
-                <element signature="e#43066#43067#0" expanded="false" />
-                <element signature="e#43294#43295#0" expanded="false" />
-                <element signature="e#43324#43325#0" expanded="false" />
-                <element signature="e#43549#43550#0" expanded="false" />
-                <element signature="e#43579#43580#0" expanded="false" />
-                <element signature="e#43616#43617#0" expanded="false" />
-                <element signature="e#43646#43647#0" expanded="false" />
-                <element signature="e#44208#44209#0" expanded="false" />
-                <element signature="e#44238#44239#0" expanded="false" />
-                <element signature="e#45956#45957#0" expanded="false" />
-                <element signature="e#45986#45987#0" expanded="false" />
-                <element signature="e#48491#48492#0" expanded="false" />
-                <element signature="e#48519#48520#0" expanded="false" />
-                <element signature="e#50403#50404#0" expanded="false" />
-                <element signature="e#50460#50461#0" expanded="false" />
-                <element signature="e#50801#50802#0" expanded="false" />
-                <element signature="e#50858#50859#0" expanded="false" />
-                <element signature="e#51767#51768#0" expanded="false" />
-                <element signature="e#51795#51796#0" expanded="false" />
-                <element signature="e#53425#53426#0" expanded="false" />
-                <element signature="e#53470#53471#0" expanded="false" />
-                <element signature="e#54023#54024#0" expanded="false" />
-                <element signature="e#54062#54063#0" expanded="false" />
-                <element signature="e#55085#55086#0" expanded="false" />
-                <element signature="e#55131#55132#0" expanded="false" />
-                <element signature="e#56938#56939#0" expanded="false" />
-                <element signature="e#56982#56983#0" expanded="false" />
-                <element signature="e#57756#57757#0" expanded="false" />
-                <element signature="e#57794#57795#0" expanded="false" />
-                <element signature="e#58741#58742#0" expanded="false" />
-                <element signature="e#58788#58789#0" expanded="false" />
-                <element signature="e#60905#60906#0" expanded="false" />
-                <element signature="e#60957#60958#0" expanded="false" />
-                <element signature="e#70164#70165#0" expanded="false" />
-                <element signature="e#70218#70219#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -658,16 +563,6 @@
                 <option name="name" value="dexDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Extracts Android annotations for the debug variant into the archive file" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="extractDebugAnnotations" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Extracts Android annotations for the release variant into the archive file" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="extractReleaseAnnotations" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="generateDebugAndroidTestAssets" />
               </ExternalTaskPojo>
@@ -765,19 +660,11 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="mergeDebugResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="mergeReleaseAssets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="mergeReleaseProguardFiles" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="mergeReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Creates a version of android.jar that's suitable for unit tests." />
@@ -855,11 +742,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="preReleaseUnitTestBuild" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:support-v4:21.0.3" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportSupportV42103Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -6574,14 +6456,9 @@
                 <option name="name" value="prepareCcitReleaseUnitTestDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.afollestad:material-dialogs:0.7.6.0" />
+                <option name="description" value="Prepare com.android.support:appcompat-v7:23.1.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAfollestadMaterialDialogs0760Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:appcompat-v7:22.2.0" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportAppcompatV72220Library" />
+                <option name="name" value="prepareComAndroidSupportAppcompatV72310Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.android.support:multidex:1.0.1" />
@@ -6589,19 +6466,24 @@
                 <option name="name" value="prepareComAndroidSupportMultidex101Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:recyclerview-v7:22.2.0" />
+                <option name="description" value="Prepare com.android.support:recyclerview-v7:23.1.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportRecyclerviewV72220Library" />
+                <option name="name" value="prepareComAndroidSupportRecyclerviewV72310Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:support-v4:22.2.0" />
+                <option name="description" value="Prepare com.android.support:support-v4:23.1.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportSupportV42220Library" />
+                <option name="name" value="prepareComAndroidSupportSupportV42310Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.dgmltn:share-everywhere:1.0.1" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="prepareComDgmltnShareEverywhere101Library" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare com.github.afollestad.material-dialogs:core:0.8.5.0" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareComGithubAfollestadMaterialDialogsCore0850Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.google.android.gms:play-services-ads:7.5.0" />
@@ -6732,6 +6614,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="prepareLiubinReleaseUnitTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare me.zhanghai.android.materialprogressbar:library:1.1.4" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareMeZhanghaiAndroidMaterialprogressbarLibrary114Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -8695,16 +8582,6 @@
                 <option name="name" value="dexDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Extracts Android annotations for the debug variant into the archive file" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
-                <option name="name" value="extractDebugAnnotations" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Extracts Android annotations for the release variant into the archive file" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
-                <option name="name" value="extractReleaseAnnotations" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
                 <option name="name" value="generateDebugAndroidTestAssets" />
               </ExternalTaskPojo>
@@ -8807,19 +8684,11 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
-                <option name="name" value="mergeDebugResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
                 <option name="name" value="mergeReleaseAssets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
                 <option name="name" value="mergeReleaseProguardFiles" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
-                <option name="name" value="mergeReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Creates a version of android.jar that's suitable for unit tests." />
@@ -8902,11 +8771,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
                 <option name="name" value="preReleaseUnitTestBuild" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:support-v4:21.0.3" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
-                <option name="name" value="prepareComAndroidSupportSupportV42103Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/IMKit" />
@@ -14755,14 +14619,9 @@
                 <option name="name" value="prepareCcitReleaseUnitTestDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.afollestad:material-dialogs:0.7.6.0" />
+                <option name="description" value="Prepare com.android.support:appcompat-v7:23.1.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareComAfollestadMaterialDialogs0760Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:appcompat-v7:22.2.0" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareComAndroidSupportAppcompatV72220Library" />
+                <option name="name" value="prepareComAndroidSupportAppcompatV72310Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.android.support:multidex:1.0.1" />
@@ -14770,19 +14629,24 @@
                 <option name="name" value="prepareComAndroidSupportMultidex101Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:recyclerview-v7:22.2.0" />
+                <option name="description" value="Prepare com.android.support:recyclerview-v7:23.1.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareComAndroidSupportRecyclerviewV72220Library" />
+                <option name="name" value="prepareComAndroidSupportRecyclerviewV72310Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:support-v4:22.2.0" />
+                <option name="description" value="Prepare com.android.support:support-v4:23.1.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareComAndroidSupportSupportV42220Library" />
+                <option name="name" value="prepareComAndroidSupportSupportV42310Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.dgmltn:share-everywhere:1.0.1" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="prepareComDgmltnShareEverywhere101Library" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare com.github.afollestad.material-dialogs:core:0.8.5.0" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="prepareComGithubAfollestadMaterialDialogsCore0850Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.google.android.gms:play-services-ads:7.5.0" />
@@ -14913,6 +14777,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="prepareLiubinReleaseUnitTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare me.zhanghai.android.materialprogressbar:library:1.1.4" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="prepareMeZhanghaiAndroidMaterialprogressbarLibrary114Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
@@ -16699,7 +16568,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="5782404310000" />
+        <entry key="$PROJECT_DIR$" value="5783781364000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -16877,9 +16746,7 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3.jar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/21.0.3/support-v4-21.0.3.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar" />
-                            <option value="$MODULE_DIR$/src/main/libs/Rong_IMKit_v2_3_5.jar" />
+                            <option value="$MODULE_DIR$/src/main/libs/Rong_IMKit_v2_3_6.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/IMKit" />
@@ -16977,8 +16844,7 @@
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.8.2/64238922c4006c3d0a9951c4c03983ecc6a1e1a0/jsoup-1.8.2.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/83d41901478fa8795254244acbafd03f14224dab/library-2.4.0-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.afollestad/material-dialogs/0.7.6.0/376dcf6346f19cbff3e3a0a2d3e88530de51cc59/material-dialogs-0.7.6.0-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.afollestad/material-dialogs/0.7.6.0/4229232b6d24dc49527a7a1ae439a86783a82dde/material-dialogs-0.7.6.0.aar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.afollestad.material-dialogs/core/0.8.5.0/29c7ac4842290981ee93ef323d08facf5d95345a/core-0.8.5.0.aar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/f2d8698c46d1167ff24b06a840a87d91a02db891/commons-io-2.4-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/3f998a26355e4138e3e7a880a5dac57fc4370339/picasso-2.5.2-sources.jar" />
@@ -16997,10 +16863,12 @@
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.koushikdutta.async/androidasync/2.1.6/a1acdfc68dbc97a1657696eb0e3a6babf924b3d0/androidasync-2.1.6-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.koushikdutta.async/androidasync/2.1.6/e3d5f6ab2003e31f2cf5ea61b4731a21e9517935/androidasync-2.1.6.jar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/22.2.0/recyclerview-v7-22.2.0.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/22.2.0/support-v4-22.2.0.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/22.2.0/appcompat-v7-22.2.0.aar" />
+                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.zhanghai.android.materialprogressbar/library/1.1.4/554c2b3e76458e547f4b26127a9675a83b293c3/library-1.1.4-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.zhanghai.android.materialprogressbar/library/1.1.4/b57a5a1b64cad2464b850258d9cb0401b41b4e01/library-1.1.4.aar" />
+                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/23.1.0/recyclerview-v7-23.1.0.aar" />
+                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.1.0/support-v4-23.1.0.aar" />
+                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.1.0/appcompat-v7-23.1.0.aar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.raizlabs/Griddle/1.0.3/e11c276d635e2e4bbda9949d3b052ed2d1b275d4/Griddle-1.0.3-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.raizlabs/Griddle/1.0.3/370c7e3357089d99627b1a4d7fc18ffd73a8f4d5/Griddle-1.0.3.jar" />
                           </list>
@@ -17141,47 +17009,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/fd/res/values/apptitle.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ContactNotificationMessageProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationMessageProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/DeAgreedFriendRequestMessage.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationInputProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/BasicMapActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/LocationMapActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationHorizontalScrollView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongHorizontalScrollView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/lesson_head.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_STATISTICDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_LOCAl_LESSONDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DaoMaster.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingTouchDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DaoSession.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_DIC_PUBDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_PUB_LESSONDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_RongUserDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_TASK_WORDDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_TOUCH_RECORDDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DicDaoMaster.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DicDaoSession.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingLessonDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingLocalLessonDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingRongUserDAO.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingStatisticDAO.java" />
-        <option value="$PROJECT_DIR$/IMKit/build.gradle" />
-        <option value="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ChannelManage/AlbumDataModle.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/HomeFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/ShareDefine.java" />
-        <option value="$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/MyApplication.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-v23/values-v23.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/IMKit/build.gradle" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/imageshow/TouchImageView.java" />
       </list>
     </option>
   </component>
@@ -17199,14 +17032,14 @@
     <option name="width" value="1280" />
     <option name="height" value="800" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -17222,7 +17055,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -17231,8 +17063,21 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Birdcopy-Application" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Birdcopy-Application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -17261,11 +17106,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gradle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wrapper" />
+              <option name="myItemId" value="IMKit" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -17279,39 +17120,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="IMKit" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -17325,43 +17134,21 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="FullScreen" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="FullScreen" value="true" />
-    <property name="restartRequiresConfirmation" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="SearchEverywhereHistoryKey" value=" Configure Build Path&#9;null&#9;null" />
   </component>
-  <component name="RunManager" selected="Gradle.Android-Birdcopy-Application [assembleInet]">
-    <configuration default="false" name="Android-Birdcopy-Application [assembleInet]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.Android-Birdcopy-Application:app [assembleFd]">
+    <configuration default="false" name="Android-Birdcopy-Application:app [assembleFd]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="assembleInet" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="false" name="Android-Birdcopy-Application [assembleFd]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/app" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
@@ -17492,7 +17279,6 @@
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="JAR_PATH" value="$PROJECT_DIR$/app/libs/Android_Location_V1.3.3.jar" />
       <envs />
       <method />
     </configuration>
@@ -17539,7 +17325,7 @@
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
@@ -17552,26 +17338,24 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="Please select a project..." />
-      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="Please select a project..." />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
+      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="" />
       <option name="IS_VALID_CLOUD_MATRIX_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="Cloud configuration not specified" />
+      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="" />
       <option name="IS_VALID_CLOUD_DEVICE_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="Cloud configuration not specified" />
+      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="" />
       <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Android Application.app" />
-      <item index="1" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application [assembleInet]" />
-      <item index="2" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application [assembleFd]" />
+      <item index="1" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application:app [assembleFd]" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application [assembleFd]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application [assembleInet]" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application:app [assembleFd]" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
@@ -17593,53 +17377,42 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b02647a3-8606-4f19-a8de-a978e3578f32" name="Default" comment="" />
-      <created>1443225159277</created>
+      <changelist id="774ebe8c-d047-4ccf-bd6a-4040b14c727f" name="Default" comment="" />
+      <created>1447223095317</created>
       <option name="number" value="Default" />
-      <updated>1443225159277</updated>
+      <updated>1447223095317</updated>
     </task>
     <servers />
   </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6572238" sideWeight="0.49676898" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6983003" sideWeight="0.37802908" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6983003" sideWeight="0.6219709" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27544427" sideWeight="0.5368272" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27620396" sideWeight="0.41760904" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3385269" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27544427" sideWeight="0.4631728" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40934843" sideWeight="0.49676898" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32552505" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286119" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45053273" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -17656,649 +17429,46 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java</url>
-          <line>1319</line>
-          <properties />
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java</url>
-          <line>989</line>
-          <properties />
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java</url>
-          <line>1129</line>
-          <properties />
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyProfile/ProfileFragment.java</url>
-          <line>249</line>
-          <properties />
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-      </breakpoints>
-      <breakpoints-dialog>
-        <breakpoints-dialog />
-      </breakpoints-dialog>
-      <default-breakpoints>
-        <breakpoint enabled="true" suspend="ALL" type="CidrExceptionBreakpoint">
-          <properties />
-        </breakpoint>
-      </default-breakpoints>
-      <option name="time" value="33" />
-    </breakpoint-manager>
+    <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/22.2.0/support-v4-22.2.0-sources.jar!/android/support/v4/app/Fragment.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1788" column="0" selection-start-line="1788" selection-start-column="0" selection-end-line="1788" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#78335#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="false" />
-            <element signature="e#4182#4183#0" expanded="false" />
-            <element signature="e#4824#4825#0" expanded="false" />
-            <element signature="e#4876#4877#0" expanded="false" />
-            <element signature="e#4937#4938#0" expanded="false" />
-            <element signature="e#4991#4992#0" expanded="false" />
-            <element signature="e#11356#11357#0" expanded="false" />
-            <element signature="e#11394#11395#0" expanded="false" />
-            <element signature="e#11667#11668#0" expanded="false" />
-            <element signature="e#11699#11700#0" expanded="false" />
-            <element signature="e#11778#11779#0" expanded="false" />
-            <element signature="e#11826#11827#0" expanded="false" />
-            <element signature="e#12011#12012#0" expanded="false" />
-            <element signature="e#12074#12075#0" expanded="false" />
-            <element signature="e#12128#12129#0" expanded="false" />
-            <element signature="e#12187#12188#0" expanded="false" />
-            <element signature="e#12482#12483#0" expanded="false" />
-            <element signature="e#12523#12524#0" expanded="false" />
-            <element signature="e#17706#17707#0" expanded="false" />
-            <element signature="e#17750#17751#0" expanded="false" />
-            <element signature="e#17866#17867#0" expanded="false" />
-            <element signature="e#17904#17905#0" expanded="false" />
-            <element signature="e#18012#18013#0" expanded="false" />
-            <element signature="e#18051#18052#0" expanded="false" />
-            <element signature="e#18825#18826#0" expanded="false" />
-            <element signature="e#18859#18860#0" expanded="false" />
-            <element signature="e#18970#18971#0" expanded="false" />
-            <element signature="e#18997#18998#0" expanded="false" />
-            <element signature="e#19675#19676#0" expanded="false" />
-            <element signature="e#19708#19709#0" expanded="false" />
-            <element signature="e#21180#21181#0" expanded="false" />
-            <element signature="e#21210#21211#0" expanded="false" />
-            <element signature="e#21346#21347#0" expanded="false" />
-            <element signature="e#21387#21388#0" expanded="false" />
-            <element signature="e#21525#21526#0" expanded="false" />
-            <element signature="e#21557#21558#0" expanded="false" />
-            <element signature="e#22397#22398#0" expanded="false" />
-            <element signature="e#22451#22452#0" expanded="false" />
-            <element signature="e#23562#23563#0" expanded="false" />
-            <element signature="e#23601#23602#0" expanded="false" />
-            <element signature="e#24558#24559#0" expanded="false" />
-            <element signature="e#24596#24597#0" expanded="false" />
-            <element signature="e#24721#24722#0" expanded="false" />
-            <element signature="e#24771#24772#0" expanded="false" />
-            <element signature="e#25031#25032#0" expanded="false" />
-            <element signature="e#25063#25064#0" expanded="false" />
-            <element signature="e#25350#25351#0" expanded="false" />
-            <element signature="e#25382#25383#0" expanded="false" />
-            <element signature="e#25814#25815#0" expanded="false" />
-            <element signature="e#25846#25847#0" expanded="false" />
-            <element signature="e#26055#26056#0" expanded="false" />
-            <element signature="e#26086#26087#0" expanded="false" />
-            <element signature="e#26879#26880#0" expanded="false" />
-            <element signature="e#26909#26910#0" expanded="false" />
-            <element signature="e#26971#26972#0" expanded="false" />
-            <element signature="e#27002#27003#0" expanded="false" />
-            <element signature="e#27063#27064#0" expanded="false" />
-            <element signature="e#27098#27099#0" expanded="false" />
-            <element signature="e#28538#28539#0" expanded="false" />
-            <element signature="e#28576#28577#0" expanded="false" />
-            <element signature="e#30996#30997#0" expanded="false" />
-            <element signature="e#31035#31036#0" expanded="false" />
-            <element signature="e#36234#36235#0" expanded="false" />
-            <element signature="e#36264#36265#0" expanded="false" />
-            <element signature="e#36418#36419#0" expanded="false" />
-            <element signature="e#36445#36446#0" expanded="false" />
-            <element signature="e#37208#37209#0" expanded="false" />
-            <element signature="e#37238#37239#0" expanded="false" />
-            <element signature="e#39401#39402#0" expanded="false" />
-            <element signature="e#39429#39430#0" expanded="false" />
-            <element signature="e#40225#40226#0" expanded="false" />
-            <element signature="e#40255#40256#0" expanded="false" />
-            <element signature="e#40866#40867#0" expanded="false" />
-            <element signature="e#40896#40897#0" expanded="false" />
-            <element signature="e#41796#41797#0" expanded="false" />
-            <element signature="e#41826#41827#0" expanded="false" />
-            <element signature="e#43036#43037#0" expanded="false" />
-            <element signature="e#43066#43067#0" expanded="false" />
-            <element signature="e#43294#43295#0" expanded="false" />
-            <element signature="e#43324#43325#0" expanded="false" />
-            <element signature="e#43549#43550#0" expanded="false" />
-            <element signature="e#43579#43580#0" expanded="false" />
-            <element signature="e#43616#43617#0" expanded="false" />
-            <element signature="e#43646#43647#0" expanded="false" />
-            <element signature="e#44208#44209#0" expanded="false" />
-            <element signature="e#44238#44239#0" expanded="false" />
-            <element signature="e#45956#45957#0" expanded="false" />
-            <element signature="e#45986#45987#0" expanded="false" />
-            <element signature="e#48491#48492#0" expanded="false" />
-            <element signature="e#48519#48520#0" expanded="false" />
-            <element signature="e#50403#50404#0" expanded="false" />
-            <element signature="e#50460#50461#0" expanded="false" />
-            <element signature="e#50801#50802#0" expanded="false" />
-            <element signature="e#50858#50859#0" expanded="false" />
-            <element signature="e#51767#51768#0" expanded="false" />
-            <element signature="e#51795#51796#0" expanded="false" />
-            <element signature="e#53425#53426#0" expanded="false" />
-            <element signature="e#53470#53471#0" expanded="false" />
-            <element signature="e#54023#54024#0" expanded="false" />
-            <element signature="e#54062#54063#0" expanded="false" />
-            <element signature="e#55085#55086#0" expanded="false" />
-            <element signature="e#55131#55132#0" expanded="false" />
-            <element signature="e#56938#56939#0" expanded="false" />
-            <element signature="e#56982#56983#0" expanded="false" />
-            <element signature="e#57756#57757#0" expanded="false" />
-            <element signature="e#57794#57795#0" expanded="false" />
-            <element signature="e#58741#58742#0" expanded="false" />
-            <element signature="e#58788#58789#0" expanded="false" />
-            <element signature="e#60905#60906#0" expanded="false" />
-            <element signature="e#60957#60958#0" expanded="false" />
-            <element signature="e#70164#70165#0" expanded="false" />
-            <element signature="e#70218#70219#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_TOUCH_RECORDDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.142857">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DaoMaster.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="45" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DaoSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DicDaoMaster.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DicDaoSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4107144">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingLessonDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingLocalLessonDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingRongUserDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/DAO/FlyingStatisticDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/fd/res/values/apptitle.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="29" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-22/android.jar!/android/content/ContextWrapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.537037">
-          <caret line="348" column="0" selection-start-line="348" selection-start-column="0" selection-end-line="348" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-22/android.jar!/android/content/res/AssetManager.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-22/android.jar!/android/content/res/Resources.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.332">
-          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-22/android.jar!/android/content/Context.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.332">
-          <caret line="148" column="24" selection-start-line="148" selection-start-column="24" selection-end-line="148" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-22/android.jar!/android/content/SharedPreferences.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3621795">
-          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UserManger/FlyingSysWithCenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="451" column="23" selection-start-line="451" selection-start-column="23" selection-end-line="451" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/proguard-rules.pro">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Download/HttpDownloader/http/AndroidHttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Download/HttpDownloader/service/DownloadTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13824885">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/StaggeredGridView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33189654">
-          <caret line="364" column="0" selection-start-line="364" selection-start-column="0" selection-end-line="364" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/grid/ExtendableListView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33189654">
-          <caret line="649" column="0" selection-start-line="649" selection-start-column="0" selection-end-line="649" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UserManger/FlyingContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.6548672">
-          <caret line="152" column="0" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+          <caret line="177" column="52" selection-start-line="177" selection-start-column="52" selection-end-line="177" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/ActiveDAO/BE_PUB_LESSON.java">
+    <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-v23/values-v23.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13274336">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.dgmltn/share-everywhere/1.0.1/8bb88bb7f060de9735586c71675a2384c2dba2f9/share-everywhere-1.0.1-sources.jar!/com/dgmltn/shareeverywhere/ShareView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22123894">
-          <caret line="68" column="22" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.koushikdutta.async/androidasync/2.1.6/a1acdfc68dbc97a1657696eb0e3a6babf924b3d0/androidasync-2.1.6-sources.jar!/com/koushikdutta/async/future/SimpleFuture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="141" column="0" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyProfile/ProfileFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
+          <caret line="291" column="40" selection-start-line="291" selection-start-column="40" selection-end-line="291" selection-end-column="40" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.666666">
-          <caret line="1034" column="13" selection-start-line="1034" selection-start-column="13" selection-end-line="1034" selection-end-column="13" />
-          <folding>
-            <element signature="e#6251#6292#0" expanded="false" />
-            <element signature="e#8275#8316#0" expanded="false" />
-            <element signature="e#8902#8951#0" expanded="false" />
-            <element signature="e#9036#9080#0" expanded="false" />
-            <element signature="e#9292#9333#0" expanded="false" />
-            <element signature="e#9415#9456#0" expanded="false" />
-            <element signature="e#15784#15825#0" expanded="false" />
-            <element signature="e#16822#16871#0" expanded="false" />
-            <element signature="e#17029#17073#0" expanded="false" />
-            <element signature="e#18734#18762#0" expanded="false" />
-            <element signature="e#32246#32274#0" expanded="false" />
-            <element signature="e#32677#32694#0" expanded="false" />
-            <element signature="e#38661#38697#0" expanded="false" />
-            <element signature="e#38754#38766#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/FreshFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/LessonList/LessonListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="202" column="38" selection-start-line="202" selection-start-column="38" selection-end-line="202" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/LessonList/LessonDataModle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="49" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ChannelManage/AlbumDataModle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.592592">
-          <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/HomeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="261" column="0" selection-start-line="261" selection-start-column="0" selection-end-line="261" selection-end-column="0" />
-          <folding>
-            <element signature="e#8853#8854#0" expanded="false" />
-            <element signature="e#8893#8894#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/AlbumListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="29" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/22.2.0/support-v4-22.2.0-sources.jar!/android/support/v4/app/FragmentManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="954" column="0" selection-start-line="954" selection-start-column="0" selection-end-line="954" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#1038#1039#0" expanded="false" />
-            <element signature="e#1093#1094#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06637168">
+        <state vertical-scroll-proportion="0.0">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/22.2.0/support-v4-22.2.0-sources.jar!/android/support/v4/app/Fragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1788" column="0" selection-start-line="1788" selection-start-column="0" selection-end-line="1788" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#78335#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#4158#4159#0" expanded="false" />
-            <element signature="e#4182#4183#0" expanded="false" />
-            <element signature="e#4824#4825#0" expanded="false" />
-            <element signature="e#4876#4877#0" expanded="false" />
-            <element signature="e#4937#4938#0" expanded="false" />
-            <element signature="e#4991#4992#0" expanded="false" />
-            <element signature="e#11356#11357#0" expanded="false" />
-            <element signature="e#11394#11395#0" expanded="false" />
-            <element signature="e#11667#11668#0" expanded="false" />
-            <element signature="e#11699#11700#0" expanded="false" />
-            <element signature="e#11778#11779#0" expanded="false" />
-            <element signature="e#11826#11827#0" expanded="false" />
-            <element signature="e#12011#12012#0" expanded="false" />
-            <element signature="e#12074#12075#0" expanded="false" />
-            <element signature="e#12128#12129#0" expanded="false" />
-            <element signature="e#12187#12188#0" expanded="false" />
-            <element signature="e#12482#12483#0" expanded="false" />
-            <element signature="e#12523#12524#0" expanded="false" />
-            <element signature="e#17706#17707#0" expanded="false" />
-            <element signature="e#17750#17751#0" expanded="false" />
-            <element signature="e#17866#17867#0" expanded="false" />
-            <element signature="e#17904#17905#0" expanded="false" />
-            <element signature="e#18012#18013#0" expanded="false" />
-            <element signature="e#18051#18052#0" expanded="false" />
-            <element signature="e#18825#18826#0" expanded="false" />
-            <element signature="e#18859#18860#0" expanded="false" />
-            <element signature="e#18970#18971#0" expanded="false" />
-            <element signature="e#18997#18998#0" expanded="false" />
-            <element signature="e#19675#19676#0" expanded="false" />
-            <element signature="e#19708#19709#0" expanded="false" />
-            <element signature="e#21180#21181#0" expanded="false" />
-            <element signature="e#21210#21211#0" expanded="false" />
-            <element signature="e#21346#21347#0" expanded="false" />
-            <element signature="e#21387#21388#0" expanded="false" />
-            <element signature="e#21525#21526#0" expanded="false" />
-            <element signature="e#21557#21558#0" expanded="false" />
-            <element signature="e#22397#22398#0" expanded="false" />
-            <element signature="e#22451#22452#0" expanded="false" />
-            <element signature="e#23562#23563#0" expanded="false" />
-            <element signature="e#23601#23602#0" expanded="false" />
-            <element signature="e#24558#24559#0" expanded="false" />
-            <element signature="e#24596#24597#0" expanded="false" />
-            <element signature="e#24721#24722#0" expanded="false" />
-            <element signature="e#24771#24772#0" expanded="false" />
-            <element signature="e#25031#25032#0" expanded="false" />
-            <element signature="e#25063#25064#0" expanded="false" />
-            <element signature="e#25350#25351#0" expanded="false" />
-            <element signature="e#25382#25383#0" expanded="false" />
-            <element signature="e#25814#25815#0" expanded="false" />
-            <element signature="e#25846#25847#0" expanded="false" />
-            <element signature="e#26055#26056#0" expanded="false" />
-            <element signature="e#26086#26087#0" expanded="false" />
-            <element signature="e#26879#26880#0" expanded="false" />
-            <element signature="e#26909#26910#0" expanded="false" />
-            <element signature="e#26971#26972#0" expanded="false" />
-            <element signature="e#27002#27003#0" expanded="false" />
-            <element signature="e#27063#27064#0" expanded="false" />
-            <element signature="e#27098#27099#0" expanded="false" />
-            <element signature="e#28538#28539#0" expanded="false" />
-            <element signature="e#28576#28577#0" expanded="false" />
-            <element signature="e#30996#30997#0" expanded="false" />
-            <element signature="e#31035#31036#0" expanded="false" />
-            <element signature="e#36234#36235#0" expanded="false" />
-            <element signature="e#36264#36265#0" expanded="false" />
-            <element signature="e#36418#36419#0" expanded="false" />
-            <element signature="e#36445#36446#0" expanded="false" />
-            <element signature="e#37208#37209#0" expanded="false" />
-            <element signature="e#37238#37239#0" expanded="false" />
-            <element signature="e#39401#39402#0" expanded="false" />
-            <element signature="e#39429#39430#0" expanded="false" />
-            <element signature="e#40225#40226#0" expanded="false" />
-            <element signature="e#40255#40256#0" expanded="false" />
-            <element signature="e#40866#40867#0" expanded="false" />
-            <element signature="e#40896#40897#0" expanded="false" />
-            <element signature="e#41796#41797#0" expanded="false" />
-            <element signature="e#41826#41827#0" expanded="false" />
-            <element signature="e#43036#43037#0" expanded="false" />
-            <element signature="e#43066#43067#0" expanded="false" />
-            <element signature="e#43294#43295#0" expanded="false" />
-            <element signature="e#43324#43325#0" expanded="false" />
-            <element signature="e#43549#43550#0" expanded="false" />
-            <element signature="e#43579#43580#0" expanded="false" />
-            <element signature="e#43616#43617#0" expanded="false" />
-            <element signature="e#43646#43647#0" expanded="false" />
-            <element signature="e#44208#44209#0" expanded="false" />
-            <element signature="e#44238#44239#0" expanded="false" />
-            <element signature="e#45956#45957#0" expanded="false" />
-            <element signature="e#45986#45987#0" expanded="false" />
-            <element signature="e#48491#48492#0" expanded="false" />
-            <element signature="e#48519#48520#0" expanded="false" />
-            <element signature="e#50403#50404#0" expanded="false" />
-            <element signature="e#50460#50461#0" expanded="false" />
-            <element signature="e#50801#50802#0" expanded="false" />
-            <element signature="e#50858#50859#0" expanded="false" />
-            <element signature="e#51767#51768#0" expanded="false" />
-            <element signature="e#51795#51796#0" expanded="false" />
-            <element signature="e#53425#53426#0" expanded="false" />
-            <element signature="e#53470#53471#0" expanded="false" />
-            <element signature="e#54023#54024#0" expanded="false" />
-            <element signature="e#54062#54063#0" expanded="false" />
-            <element signature="e#55085#55086#0" expanded="false" />
-            <element signature="e#55131#55132#0" expanded="false" />
-            <element signature="e#56938#56939#0" expanded="false" />
-            <element signature="e#56982#56983#0" expanded="false" />
-            <element signature="e#57756#57757#0" expanded="false" />
-            <element signature="e#57794#57795#0" expanded="false" />
-            <element signature="e#58741#58742#0" expanded="false" />
-            <element signature="e#58788#58789#0" expanded="false" />
-            <element signature="e#60905#60906#0" expanded="false" />
-            <element signature="e#60957#60958#0" expanded="false" />
-            <element signature="e#70164#70165#0" expanded="false" />
-            <element signature="e#70218#70219#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/ShareDefine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="164" column="4" selection-start-line="164" selection-start-column="4" selection-end-line="164" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Base/MyApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="298" column="5" selection-start-line="298" selection-start-column="5" selection-end-line="298" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2536#2537#0" expanded="false" />
-            <element signature="e#2598#2599#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="19" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -18306,31 +17476,144 @@
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+          <caret line="177" column="52" selection-start-line="177" selection-start-column="52" selection-end-line="177" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/CoverFragment.java">
+    <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Lesson/LessonActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="598" column="0" selection-start-line="598" selection-start-column="0" selection-end-line="598" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="178" column="0" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="21" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-v23/values-v23.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="android-dummy:///Users/vincentsung/Documents/Android-Birdcopy-Application//Theme Editor">
+      <provider selected="true" editor-type-id="themeEditor">
+        <state theme-name="@style/RcDialog" module-name="IMKit" proportion="0.5" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-v23/values-v23.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.023041476">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.640884">
-          <caret line="112" column="62" selection-start-line="112" selection-start-column="62" selection-end-line="112" selection-end-column="62" />
+        <state vertical-scroll-proportion="0.18141593">
+          <caret line="291" column="40" selection-start-line="291" selection-start-column="40" selection-end-line="291" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33257404">
+          <caret line="826" column="32" selection-start-line="826" selection-start-column="32" selection-end-line="826" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/imageshow/TouchImageView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2735426">
+          <caret line="419" column="16" selection-start-line="419" selection-start-column="16" selection-end-line="419" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/Download/HttpDownloader/http/AndroidHttpClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32735425">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+          <folding>
+            <element signature="e#3533#3863#0" expanded="true" />
+            <element signature="e#3862#3863#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IMKit/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.14349777">
+          <caret line="4" column="29" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="5.482063">
+          <caret line="163" column="158" selection-start-line="163" selection-start-column="158" selection-end-line="163" selection-end-column="158" />
           <folding />
         </state>
       </provider>
