@@ -44,10 +44,10 @@ import com.birdcopy.BirdCopyApp.Component.UserManger.SSKeychain;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.LessonList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
+import com.birdcopy.BirdCopyApp.Media.PlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.TextToBitmap;
 import com.artifex.mupdfdemo.AsyncTask;
-import com.birdcopy.BirdCopyApp.Media.VideoPlayActivity;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
@@ -575,18 +575,20 @@ public class LessonActivity extends FragmentActivity
                         if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
                         {
 
-                            Uri uri = Uri.parse(playURL);
+                            //Uri uri = Uri.parse(playURL);
 
-                            Intent intent = new Intent(this, VideoPlayActivity.class);
-                            intent.setAction(Intent.ACTION_VIEW);
-                            intent.setData(uri);
-
-                            if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))
+                            int downloadType = PlayerActivity.TYPE_OTHER;
+                            if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
                             {
-                                intent.putExtra(ShareDefine.KIntenCorParameter,true);
+                                downloadType=PlayerActivity.TYPE_HLS;
                             }
 
-                            startActivity(intent);
+                            Intent mpdIntent = new Intent(this, PlayerActivity.class)
+                                    .setData(Uri.parse(playURL))
+                                    .putExtra(PlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
+                                    .putExtra(PlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
+
+                            startActivity(mpdIntent);
                         }
                     }
                 }
@@ -773,18 +775,18 @@ public class LessonActivity extends FragmentActivity
             String playURL=mLessonData.getLocalURLOfContent();
             if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
             {
-                Intent intent = new Intent(this, com.birdcopy.BirdCopyApp.Media.VideoPlayActivity.class);
-                intent.setAction(Intent.ACTION_VIEW);
-
-                Uri  uri = Uri.parse(playURL);
-                intent.setData(uri);
-
-                if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))
+                int downloadType = PlayerActivity.TYPE_OTHER;
+                if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
                 {
-                    intent.putExtra(ShareDefine.KIntenCorParameter,true);
+                    downloadType=PlayerActivity.TYPE_HLS;
                 }
 
-                startActivity(intent);
+                Intent mpdIntent = new Intent(this, PlayerActivity.class)
+                        .setData(Uri.parse(playURL))
+                        .putExtra(PlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
+                        .putExtra(PlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
+
+                startActivity(mpdIntent);
             }
         }
         else if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))

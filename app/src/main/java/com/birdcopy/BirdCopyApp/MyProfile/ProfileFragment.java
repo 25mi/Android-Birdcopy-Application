@@ -39,8 +39,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import io.rong.imlib.model.UserInfo;
-import io.vov.vitamio.utils.Log;
-
 
 /**
  * Created by BirdCopyApp on 29/7/14.
@@ -570,7 +568,7 @@ public class ProfileFragment extends Fragment {
         }
         catch (Exception e)
         {
-            Log.e("Error writing bitmap", e);
+            //Log.i("Error writing bitmap", e);
         }
     }
 

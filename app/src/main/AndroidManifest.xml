@@ -64,7 +64,7 @@
         android:name=".Component.Base.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
-        android:label="社科金融"
+        android:label="艾奈特"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
@@ -91,7 +91,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="fd.birdcopy.fd"
+                    android:host="it.birdcopy.inet"
                     android:scheme="bcapp" />
             </intent-filter>
         </activity>
@@ -121,34 +121,25 @@
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
 
         <!--视频播放 -->
-
-        <activity
-            android:name=".Media.VideoPlayActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        <activity android:name=".Media.PlayerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleInstance"
+            android:theme="@style/PlayerTheme">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="mpg4 video/mp4" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:scheme="content"/>
+                <data android:scheme="asset"/>
+                <data android:scheme="file"/>
             </intent-filter>
         </activity>
 
-
-        <activity
-            android:name="io.vov.vitamio.activity.InitActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
-
         <!--背景下载服务 -->
-
         <service android:name=".Component.Download.HttpDownloader.service.DownloadService" >
             <intent-filter>
-                <action android:name="fd.birdcopy.fd.DownloadService"/>
+                <action android:name="it.birdcopy.inet.DownloadService"/>
             </intent-filter>
         </service>
 
@@ -165,6 +156,8 @@
         <meta-data
             android:name="TencentMapSDK"
             android:value="CQGBZ-DQRWU-CNYVP-4F2OT-4XMDH-U4BT5" />
+
+        <activity android:name=".IM.RealTimeLocationActivity"/>
         <activity android:name=".IM.SOSOLocationActivity"/>
 
         <activity android:name=".IM.ShowPhotoActivity" />
@@ -176,7 +169,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="fd.birdcopy.fd"
+                    android:host="it.birdcopy.inet"
                 android:pathPrefix="/conversation/"
                 android:scheme="rong" /> <!-- 不能修改 -->
             </intent-filter>
@@ -289,7 +282,7 @@
             android:process=":ipc" />
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="x4vkb1qpvcx9k" />
+            android:value="pgyu6atqykgju" />
         <!-- end -->
 
         <!-- Ping++ SDK 注册 -->
@@ -311,7 +304,7 @@
 
         <!-- 微信支付注册 -->
         <activity-alias
-            android:name="fd.birdcopy.fd.wxapi.WXPayEntryActivity"
+            android:name="it.birdcopy.inet.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="com.pingplusplus.android.PaymentActivity" />
 

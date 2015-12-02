@@ -5,33 +5,25 @@ package com.birdcopy.BirdCopyApp.IM;
  */
 
 import android.annotation.TargetApi;
-import android.app.Notification;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sea_monster.exception.BaseException;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
 import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
 import com.birdcopy.BirdCopyApp.IM.photo.PhotoCollectionsProvider;
 import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
-import com.sea_monster.network.AbstractHttpRequest;
-import com.sea_monster.network.ApiCallback;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
 
@@ -42,7 +34,6 @@ import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
-import io.rong.imkit.widget.provider.LocationInputProvider;
 import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
@@ -63,9 +54,7 @@ import io.rong.notification.PushNotificationMessage;
 
 import com.birdcopy.BirdCopyApp.R;
 import com.koushikdutta.ion.Ion;
-import com.sea_monster.exception.BaseException;
-import com.sea_monster.network.AbstractHttpRequest;
-import com.sea_monster.network.ApiCallback;
+
 
 /**
  * 融云SDK事件监听处理。

@@ -2,7 +2,6 @@ package com.birdcopy.BirdCopyApp.IM;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,15 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.LatLng;
-import com.sea_monster.exception.BaseException;
 
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.UserInfo;
 
 import com.birdcopy.BirdCopyApp.R;
 
