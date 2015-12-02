@@ -318,6 +318,20 @@
     <string name="pingpp_copyright">安全加密，放心使用</string>
 
 
+    <string name="drm_error_not_supported">Protected content not supported on API levels below 18</string>
+    <string name="drm_error_unsupported_scheme">This device does not support the required DRM scheme</string>
+    <string name="drm_error_unknown">An unknown DRM error occurred</string>
+    <string name="enable_background_audio">背景模式</string>
+    <string name="logging_normal">Normal</string>
+    <string name="logging_verbose">Verbose</string>
+    <string name="logging">Logging</string>
+
+
+    <string name="video">视频</string>
+    <string name="audio">音频</string>
+    <string name="text">字幕</string>
+    <string name="retry">重试</string>
+    <string name="off">[关闭]</string>
 
 
 </resources>

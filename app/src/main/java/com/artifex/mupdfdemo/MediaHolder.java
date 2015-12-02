@@ -36,7 +36,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import com.birdcopy.BirdCopyApp.Media.VideoPlayActivity;
+import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.Media.PlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
 
 /**
@@ -298,10 +299,19 @@ public class MediaHolder extends FrameLayout implements Callback, OnBufferingUpd
 	}
 
 	protected void onPlayVideoOutside(String path){
-		Intent intent = new Intent(context, VideoPlayActivity.class);
-		intent.putExtra(VIDEO_PATH_KEY, path);
-		intent.putExtra(PLAYBACK_POSITION_KEY, currentPosition);
-		context.startActivity(intent);
+
+		int downloadType = PlayerActivity.TYPE_OTHER;
+		if(ShareDefine.checkM3U8(path))
+		{
+			downloadType=PlayerActivity.TYPE_SS;
+		}
+
+		Intent mpdIntent = new Intent(context, PlayerActivity.class)
+				.setData(Uri.parse(path))
+				.putExtra(PLAYBACK_POSITION_KEY, currentPosition)
+				.putExtra(PlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
+
+		context.startActivity(mpdIntent);
 	}
 	
 	protected void onPlaySlideOutside(String basePath) {

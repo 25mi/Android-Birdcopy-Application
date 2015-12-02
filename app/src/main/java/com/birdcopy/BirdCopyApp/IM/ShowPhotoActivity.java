@@ -4,24 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
 import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-
-import io.vov.vitamio.utils.Log;
 
 
 /**

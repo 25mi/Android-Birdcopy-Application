@@ -1,31 +1,19 @@
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.raizlabs.griddle'
-
-buildscript {
-    repositories {
-        jcenter()
-        maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'com.raizlabs:Griddle:1.0.3'
-    }
-}
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 19
+        minSdkVersion 16
+        targetSdkVersion 23
         versionCode 41
         versionName "4.1.0"
 
         // Enabling multidex support.
         multiDexEnabled true
+
     }
 
     signingConfigs {
@@ -136,13 +124,16 @@ android {
         inet
         {
             applicationId "it.birdcopy.inet"
+
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
         }
 
         fd
                 {
                     applicationId "fd.birdcopy.fd"
                 }
-
 
     }
 
@@ -179,14 +170,19 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:core:0.8.5.0@aar') {
         transitive = true
     }
-    compile 'com.android.support:appcompat-v7:21.1.2'
+    compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'commons-io:commons-io:2.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    nsMod 'com.google.android.gms:{play-services-base,play-services-analytics,play-services-gcm,play-services-ads}:7.5.0'
+    //nsMod 'com.google.android.gms:{play-services-base,play-services-analytics,play-services-gcm,play-services-ads}:7.5.0'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile(name: 'libone', ext: 'aar')
     compile(name: 'libpingpp', ext: 'aar')
+
+    compile project(':library')
+
+    compile 'com.android.support:multidex:1.0.0'
+
 }
 
 
