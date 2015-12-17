@@ -1,1 +1,1 @@
-include ':app', ':IMKit', ':library'
+include ':app', ':IMKitWithVoIP'

@@ -2,7 +2,6 @@ package com.birdcopy.BirdCopyApp.IM;
 
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,15 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.R;
 
 import java.util.Locale;
 
 import io.rong.imkit.fragment.ConversationFragment;
-import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 

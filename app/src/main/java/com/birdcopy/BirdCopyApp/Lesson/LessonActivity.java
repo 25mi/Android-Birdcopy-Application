@@ -39,9 +39,9 @@ import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.db.DownloadDao
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.DownloadConstants;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.MyIntents;
 import com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
-import com.birdcopy.BirdCopyApp.Component.UserManger.SSKeychain;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.LessonList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Media.PlayerActivity;
@@ -67,10 +67,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 
 public class LessonActivity extends FragmentActivity
 {
@@ -83,7 +81,6 @@ public class LessonActivity extends FragmentActivity
 
     private ImageView mBackView;
     private TextView  mTitleView;
-    private ImageView mChatView;
     private ShareView mShareView;
 
     private ImageView mCoverView;
@@ -93,13 +90,13 @@ public class LessonActivity extends FragmentActivity
     private TextView  mDescView;
     private ImageView mLessonQRImageview;
 
-    private SysMemberShipBroadReciever memberShipBroadReciever;
+    //用户数据相关
+    boolean mIsMembership=false;
+    private UserDataChangeReceiver mUserDataReceiver;
 
     //下载用
     private boolean mHasRight=false;
     private boolean mPlayonline=false;
-    private boolean mHasHistoryRecord=false;
-    private boolean mHasCheckedHistoryRecord=false;
 
     private FlyingLessonDAO mDao;
 
@@ -108,7 +105,7 @@ public class LessonActivity extends FragmentActivity
 
     private DownloadDao mDownloadDao;
 
-    private HttpDownloadReceiver mReceiver;
+    private HttpDownloadReceiver mDownloadReceiver;
 
     /** 自定义HorizontalScrollView */
     private ColumnHorizontalScrollView mColumnHorizontalScrollView;
@@ -163,6 +160,58 @@ public class LessonActivity extends FragmentActivity
 
         initData();
         initView();
+
+        mUserDataReceiver = new UserDataChangeReceiver();
+        IntentFilter UserDataChangefilter = new IntentFilter();
+        UserDataChangefilter.addAction(ShareDefine.getKUSERDATA_CHNAGE_RECEIVER_ACTION());
+        registerReceiver(mUserDataReceiver, UserDataChangefilter);
+
+        mDownloadReceiver = new HttpDownloadReceiver();
+        IntentFilter downloadfilter = new IntentFilter();
+        downloadfilter.addAction(ShareDefine.getKRECEIVER_ACTION());
+        registerReceiver(mDownloadReceiver, downloadfilter);
+    }
+
+    private void initData()
+    {
+        //权限问题
+        mHasRight=false;
+        if(mLessonData.getBECoinPrice()==0) mHasRight=true;
+
+        if(mHasRight==false)
+        {
+            inquiryRightWithUserID();
+        }
+
+        //解析Tag云
+        mTagList =new ArrayList<String>(Arrays.asList(mLessonData.getBETAG().split(" ")));
+
+        //下载以及是否自动播放问题
+        mPlayonline=false;
+        mLessonData.setBEDLSTATE(false);
+    }
+
+    private void inquiryRightWithUserID()
+    {
+        //获取年费会员数据
+        new FlyingHttpTool().getMembership(FlyingDataManager.getPassport(),
+                ShareDefine.getLocalAppID(),
+                new FlyingHttpTool.GetMembershipListener() {
+                    @Override
+                    public void completion(Date startDate, Date endDate) {
+
+                        if (endDate.after(new Date())) {
+                            mIsMembership = true;
+                            mHasRight = true;
+                        } else {
+                            mIsMembership = false;
+
+                            Toast.makeText(LessonActivity.this, "抱歉，你没有相关权限。请在个人帐户购买会员或者直接点击课程标题的购买图标！", Toast.LENGTH_LONG).show();
+                        }
+
+                        initBuyButton();
+                    }
+                });
     }
 
     private void initView()
@@ -179,15 +228,6 @@ public class LessonActivity extends FragmentActivity
 
         mTitleView = (TextView)findViewById(R.id.lesson_top_title);
         mTitleView.setText(R.string.lesson_top_title);
-
-        mChatView  = (ImageView)findViewById(R.id.top_chat);
-        mChatView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                chatNow();
-            }
-        });
 
         mShareView = (ShareView) findViewById(R.id.share_view);
         mShareView.setShareIntent(getTxtIntent());
@@ -209,7 +249,7 @@ public class LessonActivity extends FragmentActivity
 
         initPlayButton();
 
-        //标题和购买下载按钮
+        //内容标题和购买下载按钮
         mLessonTitleView =  (TextView)findViewById(R.id.lessonPageTitle);
         mLessonTitleView.setText(mLessonData.getBETITLE());
 
@@ -217,17 +257,9 @@ public class LessonActivity extends FragmentActivity
         mBuyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadOrBuyLesson();
+                downloadORBuyLesson();
             }
         });
-
-        if (mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeNormal))
-        {
-            mReceiver = new HttpDownloadReceiver();
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(ShareDefine.getKRECEIVER_ACTION());
-            registerReceiver(mReceiver, filter);
-        }
 
         initBuyButton();
 
@@ -294,75 +326,10 @@ public class LessonActivity extends FragmentActivity
 
     }
 
-    @Override
-    public void onBackPressed() {
-        // TODO Auto-generated method stub
-        super.onBackPressed();
-//		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
-
-    private void initData()
-    {
-        mHasRight=false;
-
-        if(mLessonData.getBECoinPrice()==0) mHasRight=true;
-
-        if(!mHasRight){
-
-            BE_TOUCH_RECORD touchData =new FlyingTouchDAO().selectWithUserID(SSKeychain.getPassport(),mLessonData.getBELESSONID());
-
-            if ( (touchData!=null) && (touchData.getBETOUCHTIMES()!=0) )
-            {
-                mHasRight=true;
-            }
-        }
-
-        mPlayonline=false;
-
-        //解析Tag云
-        mTagList =new ArrayList<String>(Arrays.asList(mLessonData.getBETAG().split(" ")));
-
-        //获取年费会员数据
-        Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
-
-        if(!sysMembership)
-        {
-            memberShipBroadReciever = new SysMemberShipBroadReciever();
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(ShareDefine.getKMembershipRECEIVER_ACTION());
-            MyApplication.getInstance().registerReceiver(memberShipBroadReciever, filter);
-
-            FlyingSysWithCenter.sysMembershipWithCenter();
-        }
-    }
-
     private void initBuyButton()
     {
-        Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
-
-        if(activeMembership)
+        if(mHasRight)
         {
-            mHasRight=true;
-        }
-
-        //校验是否有内容权限
-        if(!mHasRight)
-        {
-
-            String text =mLessonData.getBECoinPrice()+"个金币";
-
-            if(ShareDefine.getpakagename().equalsIgnoreCase("it.birdcopy.inet"))
-            {
-                text ="会员专享";
-            }
-
-            mBuyButton.setText(text);
-
-            inquiryRightWithUserID();
-        }
-        else{
-
             if (mLessonData.getLocalURLOfContent()!=null||
                     mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
             {
@@ -388,8 +355,10 @@ public class LessonActivity extends FragmentActivity
                 }
             }
         }
+        else{
 
-        mLessonData.setBEDLSTATE(false);
+            mBuyButton.setText("会员专享");
+        }
     }
 
     private void initPlayButton()
@@ -456,41 +425,86 @@ public class LessonActivity extends FragmentActivity
         }
     }
 
-    @Override
-    public void onResume()
+    //监听下载状态变化
+    public class HttpDownloadReceiver extends BroadcastReceiver
     {
-        super.onResume();
-
-        BE_PUB_LESSON tempData = mDao.selectWithLessonID(mLessonData.getBELESSONID());
-
-        if (tempData!=null)
+        @Override
+        public void onReceive(Context context, Intent intent)
         {
-            mLessonData=tempData;
+            if (intent != null
+                    && intent.getAction().equals(
+                    ShareDefine.getKRECEIVER_ACTION())
+                    && intent.getStringExtra(MyIntents.URL).equals(mLessonData.getBECONTENTURL())
+                    )
+            {
+                int type = intent.getIntExtra(MyIntents.TYPE, -1);
+                switch (type)
+                {
+                    case MyIntents.Types.WAIT:
+                    {// 下载之前的等待
+                        mBuyButton.setText("等待...");
+                        mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
+
+                        mBuyButton.setClickable(true);
+                    }
+                    break;
+                    case MyIntents.Types.PROCESS:
+                    {
+                        String progress = intent.getStringExtra(MyIntents.PROCESS_PROGRESS);
+                        mBuyButton.setText(progress + "%");
+
+                        mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
+                        mDownlaodProress =Double.parseDouble(progress)/100.00;
+
+                        updateLessonAndDB();
+
+                        mBuyButton.setClickable(true);
+                    }
+                    break;
+                    case MyIntents.Types.COMPLETE:
+                    {
+                        mBuyButton.setBackgroundResource(R.drawable.greenbutton);
+                        mBuyButton.setText("马上欣赏");
+
+                        mDownloadStatus=DownloadConstants.STATUS_INSTALL;
+                        mDownlaodProress =1.00;
+
+                        updateLessonAndDB();
+                        mBuyButton.setClickable(true);
+
+                        //自动直接打开
+                        playLesson();
+                        mBuyButton.setText("...");
+                        mLessonData.setBEDLSTATE(false);
+                    }
+                    break;
+                    case MyIntents.Types.ERROR:
+                    {
+                        Toast.makeText(LessonActivity.this, "下载失败，重新试试吧：）",
+                                Toast.LENGTH_SHORT).show();
+
+                        mBuyButton.setBackgroundResource(R.drawable.graybutton);
+                        mBuyButton.setText("重新下载");
+
+                        mDownloadStatus=DownloadConstants.STATUS_DEFAULT;
+
+                        updateLessonAndDB();
+                        mBuyButton.setClickable(true);
+                    }
+                    break;
+                }
+            }
         }
-
-        initPlayButton();
-        initBuyButton();
     }
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        unregisterReceiver(mReceiver);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putSerializable(SAVED_DATA_KEY, mLessonData);
+    //监听用户数据状态变化
+    public class UserDataChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //TODO: React to the Intent received.
+            initData();
+            initBuyButton();
+        }
     }
 
     private void updateLessonAndDB()
@@ -524,7 +538,7 @@ public class LessonActivity extends FragmentActivity
 
                     mDao.savelLesson(mLessonData);
 
-                    BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(SSKeychain.getPassport(),mLessonData.getBELESSONID());
+                    BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getPassport(),mLessonData.getBELESSONID());
                     touchData.setBETOUCHTIMES(touchData.getBETOUCHTIMES()+1);
                     new FlyingTouchDAO().savelTouch(touchData);
                 }
@@ -567,7 +581,7 @@ public class LessonActivity extends FragmentActivity
 
                     if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
                     {
-                        downloadOrBuyLesson();
+                        downloadORBuyLesson();
                     }
                     else
                     {
@@ -596,7 +610,7 @@ public class LessonActivity extends FragmentActivity
         }
     }
 
-    private void downloadOrBuyLesson()
+    private void downloadORBuyLesson()
     {
         if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
         {
@@ -614,7 +628,7 @@ public class LessonActivity extends FragmentActivity
 
             Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
 
-            if(mHasRight || mHasHistoryRecord || activeMembership)
+            if(mHasRight)
             {
                 if (mDownloadStatus == DownloadConstants.STATUS_INSTALL)
                 {
@@ -676,31 +690,7 @@ public class LessonActivity extends FragmentActivity
             }
             else
             {
-                Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
-
-                if(!sysMembership)
-                {
-                    FlyingSysWithCenter.sysMembershipWithCenter();
-                    mBuyButton.setText("同步会员信息");
-                }
-                else
-                {
-                    if (mHasCheckedHistoryRecord &&  !activeMembership)
-                    {
-                        if(ShareDefine.getpakagename().equalsIgnoreCase("it.birdcopy.inet"))
-                        {
-                            alertBuyMember();
-                        }
-                        else
-                        {
-                            alertBuyAction();
-                        }
-                    }
-                    else
-                    {
-                        inquiryRightWithUserID();
-                    }
-                }
+                inquiryRightWithUserID();
             }
         }
     }
@@ -801,73 +791,14 @@ public class LessonActivity extends FragmentActivity
         }
     }
 
-    private Boolean inquiryRightWithUserID()
-    {
-
-        Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
-
-        if(!sysMembership)
-        {
-            FlyingSysWithCenter.sysMembershipWithCenter();
-        }
-
-        BE_TOUCH_RECORD touchData =new FlyingTouchDAO().selectWithUserID(SSKeychain.getPassport(),mLessonData.getBELESSONID());
-
-        if ( (touchData!=null) && (touchData.getBETOUCHTIMES()!=0) )
-        {
-            mHasRight=true;
-            initBuyButton();
-            return true;
-        }
-
-        //向服务器获取相关数据
-        String url = ShareDefine.getTouchDataForUserID(SSKeychain.getPassport(),mLessonData.getBELESSONID());
-        Ion.with(LessonActivity.this)
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
-
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
-
-                            mHasCheckedHistoryRecord=true;
-                            BE_TOUCH_RECORD touchData = new BE_TOUCH_RECORD();
-                            touchData.setBETOUCHTIMES(Integer.parseInt(resultStr));
-                            touchData.setBEUSERID(SSKeychain.getPassport());
-                            touchData.setBELESSONID(mLessonData.getBELESSONID());
-                            new FlyingTouchDAO().savelTouch(touchData);
-
-                            if (touchData.getBETOUCHTIMES()>0)
-                            {
-                                mHasHistoryRecord=true;
-                                mHasRight=true;
-                                initBuyButton();
-                            }
-                            else
-                            {
-                                mHasHistoryRecord=false;
-                            }
-                        }
-                    }
-                });
-
-        return false;
-    }
-
     private void alertBuyMember()
     {
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 
-        MainActivity.toBuyProduct(this,good);
+        FlyingHttpTool.toBuyProduct(LessonActivity.this,
+                FlyingDataManager.getPassport(),
+                ShareDefine.getLocalAppID(),
+                good);
     }
 
     private void alertBuyAction()
@@ -897,7 +828,7 @@ public class LessonActivity extends FragmentActivity
 
     private void  buyLessonWithCoin()
     {
-        BE_STATISTIC statistic = new  FlyingStatisticDAO().selectWithUserID(SSKeychain.getPassport());
+        BE_STATISTIC statistic = new  FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
 
         int balance =statistic.getBEQRCOUNT()+statistic.getBEMONEYCOUNT()+statistic.getBEGIFTCOUNT()-statistic.getBETOUCHCOUNT();
 
@@ -907,13 +838,13 @@ public class LessonActivity extends FragmentActivity
             statistic.setBETOUCHCOUNT(statistic.getBETOUCHCOUNT()+mLessonData.getBECoinPrice());
             new FlyingStatisticDAO().saveStatic(statistic);
 
-            BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(SSKeychain.getPassport(),mLessonData.getBELESSONID());
+            BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getPassport(),mLessonData.getBELESSONID());
 
             if(touchData==null)
             {
                 touchData = new BE_TOUCH_RECORD();
                 touchData.setBETOUCHTIMES(new Integer(1));
-                touchData.setBEUSERID(SSKeychain.getPassport());
+                touchData.setBEUSERID(FlyingDataManager.getPassport());
                 touchData.setBELESSONID(mLessonData.getBELESSONID());
             }
             else
@@ -924,11 +855,12 @@ public class LessonActivity extends FragmentActivity
             new FlyingTouchDAO().savelTouch(touchData);
 
             //向服务器备份消费数据
-            FlyingSysWithCenter.uploadContentStatData();
+            FlyingHttpTool.uploadContentStatistic(FlyingDataManager.getPassport(),
+                    ShareDefine.getLocalAppID(),null);
 
             mHasRight=true;
             initBuyButton();
-            downloadOrBuyLesson();
+            downloadORBuyLesson();
             MyApplication.getInstance().playCoinSound();
 
             //广播通知用户数据状态变化,比如账户界面可以及时更新
@@ -938,77 +870,6 @@ public class LessonActivity extends FragmentActivity
         {
             Toast.makeText(LessonActivity.this, "没有金币了，需要充值了：）",
                     Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public class HttpDownloadReceiver extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            if (intent != null
-                    && intent.getAction().equals(
-                    ShareDefine.getKRECEIVER_ACTION())
-                    && intent.getStringExtra(MyIntents.URL).equals(mLessonData.getBECONTENTURL())
-                    )
-            {
-                int type = intent.getIntExtra(MyIntents.TYPE, -1);
-                switch (type)
-                {
-                    case MyIntents.Types.WAIT:
-                    {// 下载之前的等待
-                        mBuyButton.setText("等待...");
-                        mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
-
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                    case MyIntents.Types.PROCESS:
-                    {
-                        String progress = intent.getStringExtra(MyIntents.PROCESS_PROGRESS);
-                        mBuyButton.setText(progress + "%");
-
-                        mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
-                        mDownlaodProress =Double.parseDouble(progress)/100.00;
-
-                        updateLessonAndDB();
-
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                    case MyIntents.Types.COMPLETE:
-                    {
-                        mBuyButton.setBackgroundResource(R.drawable.greenbutton);
-                        mBuyButton.setText("马上欣赏");
-
-                        mDownloadStatus=DownloadConstants.STATUS_INSTALL;
-                        mDownlaodProress =1.00;
-
-                        updateLessonAndDB();
-                        mBuyButton.setClickable(true);
-
-                        //自动直接打开
-                        playLesson();
-                        mBuyButton.setText("...");
-                        mLessonData.setBEDLSTATE(false);
-                    }
-                    break;
-                    case MyIntents.Types.ERROR:
-                    {
-                        Toast.makeText(LessonActivity.this, "下载失败，重新试试吧：）",
-                                Toast.LENGTH_SHORT).show();
-
-                        mBuyButton.setBackgroundResource(R.drawable.graybutton);
-                        mBuyButton.setText("重新下载");
-
-                        mDownloadStatus=DownloadConstants.STATUS_DEFAULT;
-
-                        updateLessonAndDB();
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                }
-            }
         }
     }
 
@@ -1035,7 +896,7 @@ public class LessonActivity extends FragmentActivity
 
         shareIntent.putExtra(Intent.EXTRA_TITLE, R.string.app_name);
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, title +"\n"+desc+"\n"+urlStr);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, title + "\n" + desc + "\n" + urlStr);
 
         startActivity(Intent.createChooser(shareIntent, "分享精彩"));
 
@@ -1100,32 +961,6 @@ public class LessonActivity extends FragmentActivity
     }
     */
 
-    private void chatNow()
-    {
-        inquiryRightWithUserID();
-
-        //校验是否有内容权限
-        if(!mHasRight)
-        {
-            Toast.makeText(LessonActivity.this, "收费内容，需要先购买！", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            if (RongIM.getInstance() != null)
-            {
-                RongIM.getInstance().startConversation(this, Conversation.ConversationType.CHATROOM, mLessonData.getBELESSONID(), mLessonData.getBETITLE());
-
-                /*
-                Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
-                        .appendPath("conversation").appendPath(io.rong.imlib.model.Conversation.ConversationType.CHATROOM.getName().toLowerCase())
-                        .appendQueryParameter("targetId", mLessonData.getBELESSONID()).appendQueryParameter("title", mLessonData.getBETITLE()).build();
-
-                startActivity(new Intent(Intent.ACTION_VIEW, uri));
-                */
-            }
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
@@ -1161,7 +996,7 @@ public class LessonActivity extends FragmentActivity
 
                     if (data.getExtras().getString("result").equalsIgnoreCase("pay_successed"))
                     {
-                        addMembershipYear();
+                        FlyingDataManager.addMembership();
                     }
                     else
                     {
@@ -1313,25 +1148,49 @@ public class LessonActivity extends FragmentActivity
         return false;
     }
 
-    public class SysMemberShipBroadReciever extends BroadcastReceiver {
 
-        //如果接收的事件发生
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
-
-            if(activeMembership)
-            {
-                mHasRight=true;
-                initBuyButton();
-            }
-        }
-    }
-
-    public void addMembershipYear()
+    @Override
+    public void onResume()
     {
-        FlyingSysWithCenter.addMembershipYear();
+        super.onResume();
+
+        BE_PUB_LESSON tempData = mDao.selectWithLessonID(mLessonData.getBELESSONID());
+
+        if (tempData!=null)
+        {
+            mLessonData=tempData;
+        }
+
+        initBuyButton();
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(mDownloadReceiver);
+        unregisterReceiver(mUserDataReceiver);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putSerializable(SAVED_DATA_KEY, mLessonData);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        super.onBackPressed();
+//		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }

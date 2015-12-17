@@ -20,14 +20,14 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.IM.photo.PhotoCollectionsProvider;
 import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
 
-import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
@@ -50,6 +50,7 @@ import io.rong.message.LocationMessage;
 import io.rong.message.RichContentMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
+import io.rong.notification.PushNotificationManager;
 import io.rong.notification.PushNotificationMessage;
 
 import com.birdcopy.BirdCopyApp.R;
@@ -830,7 +831,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         return false;
     }
 
-    public  void dealWithScanString(Context context,String scanStr)
+    public  void dealWithScanString(final Context context,String scanStr)
     {
         String type = ShareDefine.judgeScanType(scanStr);
 
@@ -854,8 +855,16 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         {
             if (scanStr != null)
             {
-                FlyingSysWithCenter.chargingCrad(scanStr);
+                FlyingHttpTool.chargingCrad(FlyingDataManager.getPassport(),
+                        ShareDefine.getLocalAppID(),
+                        scanStr,
+                        new FlyingHttpTool.ChargingCradListener() {
+                            @Override
+                            public void completion(String resultStr) {
 
+                                Toast.makeText(context, resultStr, Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         }
 
@@ -868,7 +877,23 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
                 if (loginID!=null) {
 
-                    FlyingSysWithCenter.loginWithQR(loginID);
+                    FlyingHttpTool.loginWithQR(loginID,
+                            FlyingDataManager.getPassport(),
+                            ShareDefine.getLocalAppID(),
+                            new FlyingHttpTool.LoginWithQRListener() {
+                        @Override
+                        public void completion(boolean isOK) {
+
+                            if (isOK)
+                            {
+                                Toast.makeText(context, "登录成功", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(context, "登录失败", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             }
         }

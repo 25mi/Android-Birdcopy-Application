@@ -61,12 +61,12 @@ public class EventLogger implements FlyingPlayer.Listener, FlyingPlayer.InfoList
     Log.d(TAG, "end [" + getSessionTimeString() + "]");
   }
 
-  // DemoPlayer.Listener
+  // FlyingPlayer.Listener
 
   @Override
   public void onStateChanged(boolean playWhenReady, int state) {
     Log.d(TAG, "state [" + getSessionTimeString() + ", " + playWhenReady + ", "
-        + getStateString(state) + "]");
+            + getStateString(state) + "]");
   }
 
   @Override
@@ -76,17 +76,17 @@ public class EventLogger implements FlyingPlayer.Listener, FlyingPlayer.InfoList
 
   @Override
   public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-      float pixelWidthHeightRatio) {
+                                 float pixelWidthHeightRatio) {
     Log.d(TAG, "videoSizeChanged [" + width + ", " + height + ", " + unappliedRotationDegrees
-        + ", " + pixelWidthHeightRatio + "]");
+            + ", " + pixelWidthHeightRatio + "]");
   }
 
-  // DemoPlayer.InfoListener
+  // FlyingPlayer.InfoListener
 
   @Override
   public void onBandwidthSample(int elapsedMs, long bytes, long bitrateEstimate) {
     Log.d(TAG, "bandwidth [" + getSessionTimeString() + ", " + bytes + ", "
-        + getTimeString(elapsedMs) + ", " + bitrateEstimate + "]");
+            + getTimeString(elapsedMs) + ", " + bitrateEstimate + "]");
   }
 
   @Override
@@ -96,37 +96,37 @@ public class EventLogger implements FlyingPlayer.Listener, FlyingPlayer.InfoList
 
   @Override
   public void onLoadStarted(int sourceId, long length, int type, int trigger, Format format,
-      long mediaStartTimeMs, long mediaEndTimeMs) {
+                            long mediaStartTimeMs, long mediaEndTimeMs) {
     loadStartTimeMs[sourceId] = SystemClock.elapsedRealtime();
     if (VerboseLogUtil.isTagEnabled(TAG)) {
       Log.v(TAG, "loadStart [" + getSessionTimeString() + ", " + sourceId + ", " + type
-          + ", " + mediaStartTimeMs + ", " + mediaEndTimeMs + "]");
+              + ", " + mediaStartTimeMs + ", " + mediaEndTimeMs + "]");
     }
   }
 
   @Override
   public void onLoadCompleted(int sourceId, long bytesLoaded, int type, int trigger, Format format,
-       long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs) {
+                              long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs) {
     if (VerboseLogUtil.isTagEnabled(TAG)) {
       long downloadTime = SystemClock.elapsedRealtime() - loadStartTimeMs[sourceId];
       Log.v(TAG, "loadEnd [" + getSessionTimeString() + ", " + sourceId + ", " + downloadTime
-          + "]");
+              + "]");
     }
   }
 
   @Override
   public void onVideoFormatEnabled(Format format, int trigger, long mediaTimeMs) {
     Log.d(TAG, "videoFormat [" + getSessionTimeString() + ", " + format.id + ", "
-        + Integer.toString(trigger) + "]");
+            + Integer.toString(trigger) + "]");
   }
 
   @Override
   public void onAudioFormatEnabled(Format format, int trigger, long mediaTimeMs) {
     Log.d(TAG, "audioFormat [" + getSessionTimeString() + ", " + format.id + ", "
-        + Integer.toString(trigger) + "]");
+            + Integer.toString(trigger) + "]");
   }
 
-  // DemoPlayer.InternalErrorListener
+  // FlyingPlayer.InternalErrorListener
 
   @Override
   public void onLoadError(int sourceId, IOException e) {
@@ -159,13 +159,19 @@ public class EventLogger implements FlyingPlayer.Listener, FlyingPlayer.InfoList
   }
 
   @Override
+  public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+    printInternalError("audioTrackUnderrun [" + bufferSize + ", " + bufferSizeMs + ", "
+            + elapsedSinceLastFeedMs + "]", null);
+  }
+
+  @Override
   public void onCryptoError(CryptoException e) {
     printInternalError("cryptoError", e);
   }
 
   @Override
   public void onDecoderInitialized(String decoderName, long elapsedRealtimeMs,
-      long initializationDurationMs) {
+                                   long initializationDurationMs) {
     Log.d(TAG, "decoderInitialized [" + getSessionTimeString() + ", " + decoderName + "]");
   }
 
@@ -173,7 +179,7 @@ public class EventLogger implements FlyingPlayer.Listener, FlyingPlayer.InfoList
   public void onAvailableRangeChanged(TimeRange availableRange) {
     availableRangeValuesUs = availableRange.getCurrentBoundsUs(availableRangeValuesUs);
     Log.d(TAG, "availableRange [" + availableRange.isStatic() + ", " + availableRangeValuesUs[0]
-        + ", " + availableRangeValuesUs[1] + "]");
+            + ", " + availableRangeValuesUs[1] + "]");
   }
 
   private void printInternalError(String type, Exception e) {

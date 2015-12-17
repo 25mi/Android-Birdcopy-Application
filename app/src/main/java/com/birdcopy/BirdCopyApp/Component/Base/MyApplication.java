@@ -1,14 +1,12 @@
 package com.birdcopy.BirdCopyApp.Component.Base;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -19,8 +17,8 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DaoSession;
 
 import com.birdcopy.BirdCopyApp.Component.Download.FlyingDownloadManager;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.service.ServiceManager;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
-import com.birdcopy.BirdCopyApp.Component.UserManger.OpenUDID_manager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.OpenUDID_manager;
 
 import com.birdcopy.BirdCopyApp.IM.ContactNotificationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.DeAgreedFriendRequestMessage;

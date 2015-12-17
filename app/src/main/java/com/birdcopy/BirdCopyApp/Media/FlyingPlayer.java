@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package com.birdcopy.BirdCopyApp.Media;
-
 import com.google.android.exoplayer.CodecCounters;
 import com.google.android.exoplayer.DummyTrackRenderer;
 import com.google.android.exoplayer.ExoPlaybackException;
@@ -57,10 +56,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * SmoothStreaming and so on).
  */
 public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventListener,
-    HlsSampleSource.EventListener, DefaultBandwidthMeter.EventListener,
-    MediaCodecVideoTrackRenderer.EventListener, MediaCodecAudioTrackRenderer.EventListener,
-    StreamingDrmSessionManager.EventListener, DashChunkSource.EventListener, TextRenderer,
-    MetadataRenderer<Map<String, Object>>, DebugTextViewHelper.Provider {
+        HlsSampleSource.EventListener, DefaultBandwidthMeter.EventListener,
+        MediaCodecVideoTrackRenderer.EventListener, MediaCodecAudioTrackRenderer.EventListener,
+        StreamingDrmSessionManager.EventListener, DashChunkSource.EventListener, TextRenderer,
+        MetadataRenderer<Map<String, Object>>, DebugTextViewHelper.Provider {
 
   /**
    * Builds renderers for the player.
@@ -90,7 +89,7 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
     void onStateChanged(boolean playWhenReady, int playbackState);
     void onError(Exception e);
     void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-        float pixelWidthHeightRatio);
+                            float pixelWidthHeightRatio);
   }
 
   /**
@@ -105,6 +104,7 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
     void onRendererInitializationError(Exception e);
     void onAudioTrackInitializationError(AudioTrack.InitializationException e);
     void onAudioTrackWriteError(AudioTrack.WriteException e);
+    void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs);
     void onDecoderInitializationError(DecoderInitializationException e);
     void onCryptoError(CryptoException e);
     void onLoadError(int sourceId, IOException e);
@@ -120,11 +120,11 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
     void onDroppedFrames(int count, long elapsed);
     void onBandwidthSample(int elapsedMs, long bytes, long bitrateEstimate);
     void onLoadStarted(int sourceId, long length, int type, int trigger, Format format,
-        long mediaStartTimeMs, long mediaEndTimeMs);
+                       long mediaStartTimeMs, long mediaEndTimeMs);
     void onLoadCompleted(int sourceId, long bytesLoaded, int type, int trigger, Format format,
-        long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs);
+                         long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs);
     void onDecoderInitialized(String decoderName, long elapsedRealtimeMs,
-        long initializationDurationMs);
+                              long initializationDurationMs);
     void onAvailableRangeChanged(TimeRange availableRange);
   }
 
@@ -306,9 +306,9 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
     // Complete preparation.
     this.videoRenderer = renderers[TYPE_VIDEO];
     this.codecCounters = videoRenderer instanceof MediaCodecTrackRenderer
-        ? ((MediaCodecTrackRenderer) videoRenderer).codecCounters
-        : renderers[TYPE_AUDIO] instanceof MediaCodecTrackRenderer
-        ? ((MediaCodecTrackRenderer) renderers[TYPE_AUDIO]).codecCounters : null;
+            ? ((MediaCodecTrackRenderer) videoRenderer).codecCounters
+            : renderers[TYPE_AUDIO] instanceof MediaCodecTrackRenderer
+            ? ((MediaCodecTrackRenderer) renderers[TYPE_AUDIO]).codecCounters : null;
     this.bandwidthMeter = bandwidthMeter;
     pushSurface(false);
     player.prepare(renderers);
@@ -414,7 +414,7 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
 
   @Override
   public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-      float pixelWidthHeightRatio) {
+                                 float pixelWidthHeightRatio) {
     for (Listener listener : listeners) {
       listener.onVideoSizeChanged(width, height, unappliedRotationDegrees, pixelWidthHeightRatio);
     }
@@ -436,7 +436,7 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
 
   @Override
   public void onDownstreamFormatChanged(int sourceId, Format format, int trigger,
-      long mediaTimeMs) {
+                                        long mediaTimeMs) {
     if (infoListener == null) {
       return;
     }
@@ -482,6 +482,13 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
   }
 
   @Override
+  public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+    if (internalErrorListener != null) {
+      internalErrorListener.onAudioTrackUnderrun(bufferSize, bufferSizeMs, elapsedSinceLastFeedMs);
+    }
+  }
+
+  @Override
   public void onCryptoError(CryptoException e) {
     if (internalErrorListener != null) {
       internalErrorListener.onCryptoError(e);
@@ -490,7 +497,7 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
 
   @Override
   public void onDecoderInitialized(String decoderName, long elapsedRealtimeMs,
-      long initializationDurationMs) {
+                                   long initializationDurationMs) {
     if (infoListener != null) {
       infoListener.onDecoderInitialized(decoderName, elapsedRealtimeMs, initializationDurationMs);
     }
@@ -536,19 +543,19 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
 
   @Override
   public void onLoadStarted(int sourceId, long length, int type, int trigger, Format format,
-      long mediaStartTimeMs, long mediaEndTimeMs) {
+                            long mediaStartTimeMs, long mediaEndTimeMs) {
     if (infoListener != null) {
       infoListener.onLoadStarted(sourceId, length, type, trigger, format, mediaStartTimeMs,
-          mediaEndTimeMs);
+              mediaEndTimeMs);
     }
   }
 
   @Override
   public void onLoadCompleted(int sourceId, long bytesLoaded, int type, int trigger, Format format,
-      long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs) {
+                              long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs) {
     if (infoListener != null) {
       infoListener.onLoadCompleted(sourceId, bytesLoaded, type, trigger, format, mediaStartTimeMs,
-          mediaEndTimeMs, elapsedRealtimeMs, loadDurationMs);
+              mediaEndTimeMs, elapsedRealtimeMs, loadDurationMs);
     }
   }
 
@@ -581,10 +588,10 @@ public class FlyingPlayer implements ExoPlayer.Listener, ChunkSampleSource.Event
 
     if (blockForSurfacePush) {
       player.blockingSendMessage(
-          videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
+              videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
     } else {
       player.sendMessage(
-          videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
+              videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
     }
   }
 

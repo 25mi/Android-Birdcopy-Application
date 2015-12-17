@@ -168,7 +168,6 @@ public class AlbumDataModle
         @Override
         protected void onPostExecute(ArrayList<AlbumData> result)
         {
-
             super.onPostExecute(result);
 
             delegate.parseALbumDataOK(result);

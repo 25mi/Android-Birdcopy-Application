@@ -23,12 +23,9 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.birdcopy.BirdCopyApp.Component.UserManger.SSKeychain;
 
 /**
  * Created by songbaoqiang on 6/9/14.
@@ -170,21 +167,6 @@ public class ShareDefine
         String result = "http://"+
                 ShareDefine.getServerNetAddress()+
                 "/pa_get_o_charge_from_tn.action";
-
-        return result;
-    }
-
-    public static String getOrderNumberURL(
-            String currentPassport,
-            String appID)
-    {
-        String result = "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/pa_get_on_from_tn.action?"+
-                "tuser_key="+
-                currentPassport+
-                "&app_id="+
-                appID;
 
         return result;
     }
@@ -417,106 +399,6 @@ public class ShareDefine
                 "/aa_get_app_info_from_hp.action?app_id="+
                 ShareDefine.getLocalAppID()+
                 "&type=page";
-    }
-
-    public static String getAccountDataForUserID(String currentPassport)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_get_user_info_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&type=accobk";
-    }
-
-    public static String getTouchDataForUserID(String currentPassport,String lessonID)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_get_user_info_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&type=lnclick"+
-                "&ln_id="+
-                lessonID;
-    }
-
-    public static String getRegUserIDURL(String passport)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_reg_user_from_hp.action?user_key="+
-                passport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&type=reg";
-    }
-
-    public static String getChargingCardSysURL(String cardID,String currentPassport)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/la_topup_pwd_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&topup_pwd="+
-                cardID;
-    }
-
-    public static String getQRCountForUserIDURL(String currentPassport)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/la_get_user_info_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&type=topup_pwd_total";
-    }
-
-    public static String getSysLessonTouchWithAccount(String currentPassport,String orgnizedStr)
-
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_sync_lnclick_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&lncks="+
-                orgnizedStr;
-    }
-
-    public static String getSysOtherMoneyWithAccount(String currentPassport,
-                                                    int moneycount,
-                                                    int giftCount,
-                                                    int userdCount)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_sync_accobk_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&appletpp_sum="+
-                moneycount+
-                "&reward_sum="+
-                giftCount+
-                "&consume_sum="+
-                userdCount;
-    }
-
-    public static String getLoginURL(String loginID,String currentPassport)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_send_prelogin_info_from_hp.action?user_key="+
-                currentPassport+
-                "&oth1="+
-                loginID;
     }
 
     public static String getChatURL(String lessonID)
@@ -994,7 +876,7 @@ public class ShareDefine
 
     public static void broadUserDataChange()
     {
-        Intent intent = new Intent(KMessagerUserdata);
+        Intent intent = new Intent(ShareDefine.getKUSERDATA_CHNAGE_RECEIVER_ACTION());
 
         MyApplication.getInstance().sendBroadcast(intent);
     }
@@ -1072,9 +954,9 @@ public class ShareDefine
         return MyApplication.getInstance().getResources().getString(R.string.KRECEIVER_ACTION);
     }
 
-    public  static  String getKMembershipRECEIVER_ACTION()
+    public  static  String getKUSERDATA_CHNAGE_RECEIVER_ACTION()
     {
-        return MyApplication.getInstance().getPackageName()+"activeMembership";
+        return MyApplication.getInstance().getPackageName()+ShareDefine.KMessagerUserdata;
     }
 
     public static boolean thereIsConnection(Context context) {
@@ -1112,52 +994,6 @@ public class ShareDefine
         {
             return false;
         }
-    }
-
-    //membership
-    public static String getUpdateMemberShipURL()
-    {
-
-        String startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        Calendar ca = Calendar.getInstance();//得到一个Calendar的实例
-        ca.setTime(new Date());   //设置时间为当前时间
-        ca.add(Calendar.YEAR, +1); //年份加1
-
-        String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTime());
-
-        try
-        {
-            startTime=URLEncoder.encode(startTime,"UTF-8");
-            endTime = URLEncoder.encode(endTime,"UTF-8");
-        }
-        catch (Exception e)
-        {
-            //
-        }
-
-        return"http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_sync_validth_from_hp.action?"+
-                "tuser_key="+
-                SSKeychain.getPassport()+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&vthg_type=21"+
-                "&start_time="+
-                startTime+
-                "&end_time="+
-                endTime;
-    }
-
-    public static String getMembershipForUserIDURL(String currentPassport)
-    {
-        return "http://"+
-                ShareDefine.getServerNetAddress()+
-                "/ua_get_user_info_from_hp.action?user_key="+
-                currentPassport+
-                "&app_id="+
-                ShareDefine.getLocalAppID()+
-                "&type=validth";
     }
 
     public static String getpingplusURL(String currentPassport)

@@ -144,7 +144,7 @@
         </service>
 
         <!--openid服务 -->
-        <service android:name=".Component.UserManger.OpenUDID_service" >
+        <service android:name=".DataManager.OpenUDID_service" >
             <intent-filter>
                 <action android:name="org.openudid.GETUDID" />
             </intent-filter>

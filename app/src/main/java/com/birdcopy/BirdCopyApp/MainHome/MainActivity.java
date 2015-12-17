@@ -1,10 +1,7 @@
 package com.birdcopy.BirdCopyApp.MainHome;
 
 import java.io.ByteArrayInputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,8 +23,8 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenuItem;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
-import com.birdcopy.BirdCopyApp.Component.UserManger.SSKeychain;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
 import com.birdcopy.BirdCopyApp.LessonList.LessonListFragment;
@@ -151,8 +148,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         initSlidingMenu();
         initView();
-
-        connectWithRongCloud();
     }
 
     /**
@@ -832,63 +827,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         */
     }
 
-    public static void toBuyProduct(final Activity activity,final Product good)
-    {
-        final String  currentPassport=SSKeychain.getPassport();
-
-        final String appID = ShareDefine.getLocalAppID();
-
-        Ion.with(activity)
-                .load(ShareDefine.getOrderNumberURL(currentPassport, appID))
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
-
-                        // 产生个订单号
-                        String orderNo=result.get("order_no").getAsString();
-
-                        // 计算总金额（以分为单位）
-                        int amount = good.productPrice*good.count;
-                        JSONArray billList = new JSONArray();
-
-                        billList.put(good.productName+ " x " + good.count);
-
-                        // 构建账单json对象
-                        JSONObject bill = new JSONObject();
-                        JSONObject displayItem = new JSONObject();
-                        try {
-                            displayItem.put("name", "商品");
-                            displayItem.put("contents", billList);
-                            JSONArray display = new JSONArray();
-                            display.put(displayItem);
-
-                            // 自定义的额外信息 选填
-                            JSONObject extras = new JSONObject();
-                            extras.put("subject", "商品");
-                            extras.put("body", billList);
-                            extras.put("tuser_key",currentPassport);
-                            extras.put("app_id",appID);
-
-                            bill.put("order_no", orderNo);
-                            bill.put("amount", amount);
-                            bill.put("display", display);
-                            bill.put("extras", extras);// 该字段选填
-                        } catch (JSONException ex) {
-                            ex.printStackTrace();
-                        }
-
-                        String URL = ShareDefine.getPingplusOnePayURL();
-
-                        // 发起支付
-                        PayActivity.SHOW_CHANNEL_ALIPAY = true;
-                        PayActivity.CallPayActivity(activity, bill.toString(), URL);
-                    }
-                });
-
-    }
-
     public void showChatListNow()
     {
         ConversationListFragment contentFragment = ConversationListFragment.getInstance();
@@ -958,8 +896,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         editor.putInt("awardCoin", awardCoin+1);
         editor.commit();
 
-        String passport = SSKeychain.getPassport();
-        BE_STATISTIC statistic = new FlyingStatisticDAO().selectWithUserID(passport);
+        BE_STATISTIC statistic = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
 
         int payaccount =statistic.getBEMONEYCOUNT()+statistic.getBEQRCOUNT();
         int giftcount =statistic.getBEGIFTCOUNT();
@@ -978,7 +915,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             MyApplication.getInstance().playCoinSound();
 
             ShareDefine.broadUserDataChange();
-            FlyingSysWithCenter.uploadUserStatData();
+            FlyingHttpTool.uploadMoneyData(FlyingDataManager.getPassport(),
+                    ShareDefine.getLocalAppID(),
+                    null);
         }
     }
 
@@ -1033,6 +972,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
                 break;
             }
+            case PayActivity.PAYACTIVITY_REQUEST_CODE:
+            {
+                if (resultCode == PayActivity.PAYACTIVITY_RESULT_CODE) {
+
+                    if (data.getExtras().getString("result").equalsIgnoreCase("pay_successed"))
+                    {
+                        FlyingDataManager.addMembership();
+                    }
+                    else
+                    {
+                        Toast.makeText(
+                                this,
+                                data.getExtras().getString("result") + "  "
+                                        + data.getExtras().getInt("code"),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+            }
 
             default:
                 break;
@@ -1062,7 +1020,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         {
             if (scanStr != null)
             {
-                FlyingSysWithCenter.chargingCrad(scanStr);
+
+                FlyingHttpTool.chargingCrad(FlyingDataManager.getPassport(),
+                        ShareDefine.getLocalAppID(),
+                        scanStr,
+                        new FlyingHttpTool.ChargingCradListener() {
+                            @Override
+                            public void completion(String resultStr) {
+
+                                Toast.makeText(MainActivity.this, resultStr, Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         }
 
@@ -1075,7 +1043,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 if (loginID!=null) {
 
-                    FlyingSysWithCenter.loginWithQR(loginID);
+                    FlyingHttpTool.loginWithQR(loginID,
+                            FlyingDataManager.getPassport(),
+                            ShareDefine.getLocalAppID(),
+                            new FlyingHttpTool.LoginWithQRListener() {
+                                @Override
+                                public void completion(boolean isOK) {
+
+                                    if (isOK)
+                                    {
+                                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                    );
                 }
             }
         }
@@ -1179,95 +1164,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }
         return false;
-    }
-
-    private void connectWithRongCloud()
-    {
-        final String  currentPassport=SSKeychain.getPassport();
-
-        String url = ShareDefine.getRongTokenURL(currentPassport);
-
-        Ion.with(MainActivity.this)
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
-
-                        if (e != null) {
-                            Toast.makeText(MainActivity.this, "Error get RongToken", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String code = result.get("rc").getAsString();
-
-                        if (code.equals("1")) {
-
-                            String  rongDeviceKoken =  result.get("token").getAsString();
-
-                            //保存Rong Token
-                            SharedPreferences.Editor edit=MyApplication.getSharedPreference().edit();
-                            edit.putString("rongToken",rongDeviceKoken);
-                            edit.apply();
-
-                            httpGetTokenSuccess(rongDeviceKoken);
-
-                        }
-                        else
-                        {
-                            String errorInfo = result.get("rm").getAsString();
-                            Toast.makeText(MainActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-    }
-
-
-    private void httpGetTokenSuccess(String token) {
-        Log.e("LoginActivity", "---------httpGetTokenSuccess----------:" + token);
-        try {
-            /**
-             * IMKit SDK调用第二步
-             *
-             * 建立与服务器的连接
-             *
-             * 详见API
-             * http://docs.rongcloud.cn/api/android/imkit/index.html
-             */
-
-//            token = "dNcIdu8Eqtu7iNca1gMhzs2yq+hfEluLjZ78E1qo4hGRHcB01HLt4SCyc1P/x3rYpMLVNO7rD0vC99se33P+Aw==";
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                        @Override
-                        public void onTokenIncorrect() {
-                            Log.e("LoginActivity", "---------onTokenIncorrec----------:");
-                            SharedPreferences.Editor edit=MyApplication.getSharedPreference().edit();
-                            edit.putString("rongToken", "");
-                            edit.apply();
-                        }
-
-                        @Override
-                        public void onSuccess(String userId) {
-                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-                            SharedPreferences.Editor edit=MyApplication.getSharedPreference().edit();
-                            edit.putString("rongUserId",userId);
-                            edit.apply();
-
-                            RongCloudEvent.getInstance().setOtherListener();
-                        }
-
-                        @Override
-                        public void onError(RongIMClient.ErrorCode e)
-                        {
-
-                            Log.e("LoginActivity", "---------onError ----------:" + e);
-                        }
-                    }
-            );
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void startPDFActivity(Context context, String filePath, String title, String lessonID,boolean showThumbnails){

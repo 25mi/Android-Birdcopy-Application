@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;

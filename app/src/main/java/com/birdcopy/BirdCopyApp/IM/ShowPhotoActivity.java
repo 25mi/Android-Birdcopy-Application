@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
@@ -140,8 +141,17 @@ public class ShowPhotoActivity extends Activity {
         {
             if (scanStr != null)
             {
-                FlyingSysWithCenter.chargingCrad(scanStr);
+                FlyingHttpTool.chargingCrad(scanStr,
+                        FlyingDataManager.getPassport(),
+                        ShareDefine.getLocalAppID(),
+                        new FlyingHttpTool.ChargingCradListener() {
+                            @Override
+                            public void completion(String resultStr) {
 
+                                Toast.makeText(ShowPhotoActivity.this, resultStr, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
             }
         }
 
@@ -154,7 +164,23 @@ public class ShowPhotoActivity extends Activity {
 
                 if (loginID!=null) {
 
-                    FlyingSysWithCenter.loginWithQR(loginID);
+                    FlyingHttpTool.loginWithQR(loginID,
+                            FlyingDataManager.getPassport(),
+                            ShareDefine.getLocalAppID(),
+                            new FlyingHttpTool.LoginWithQRListener() {
+                        @Override
+                        public void completion(boolean isOK) {
+
+                            if (isOK)
+                            {
+                                Toast.makeText(ShowPhotoActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(ShowPhotoActivity.this, "登录失败", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             }
         }

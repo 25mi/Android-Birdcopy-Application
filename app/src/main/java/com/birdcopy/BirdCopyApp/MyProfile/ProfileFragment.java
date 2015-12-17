@@ -22,9 +22,9 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingContext;
-import com.birdcopy.BirdCopyApp.Component.UserManger.FlyingSysWithCenter;
-import com.birdcopy.BirdCopyApp.Component.UserManger.SSKeychain;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.google.gson.JsonObject;
@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 
 import io.rong.imlib.model.UserInfo;
 
@@ -56,10 +57,8 @@ public class ProfileFragment extends Fragment {
     private TextView mNikeName;
     private Button mChangenameButton;
 
-    //
-    private SysMemberShipBroadReciever memberShipBroadReciever;
-
-    //用户数据统计相关
+    //用户数据相关
+    boolean mIsMembership=false;
     private MyBroadcastReceiver mReceiver;
 
     int buyCount = 0;
@@ -100,23 +99,36 @@ public class ProfileFragment extends Fragment {
 
         mReceiver = new MyBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ShareDefine.KMessagerUserdata);
+        filter.addAction(ShareDefine.getKUSERDATA_CHNAGE_RECEIVER_ACTION());
         getActivity().registerReceiver(mReceiver, filter);
     }
 
     public void initData() {
-        BE_STATISTIC data = new FlyingStatisticDAO().selectWithUserID(SSKeychain.getPassport());
+
+        BE_STATISTIC data = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
 
         buyCount = data.getBEMONEYCOUNT() + data.getBEQRCOUNT();
         giftCount = data.getBEGIFTCOUNT();
         usedCount = data.getBETOUCHCOUNT();
 
-        Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
+        //获取年费会员数据
 
-        if(!sysMembership)
-        {
-            FlyingSysWithCenter.sysMembershipWithCenter();
-        }
+        FlyingHttpTool.getMembership(FlyingDataManager.getPassport(),
+                ShareDefine.getLocalAppID(),
+                new FlyingHttpTool.GetMembershipListener() {
+                    @Override
+                    public void completion(Date startDate, Date endDate) {
+
+                        if (endDate.after(new Date())) {
+                            mIsMembership = true;
+
+                        } else {
+                            mIsMembership = false;
+                        }
+
+                        initStaticViewAndMembership();
+                    }
+                });
     }
 
     @Override
@@ -130,7 +142,6 @@ public class ProfileFragment extends Fragment {
         mUserCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 new MaterialDialog.Builder(getActivity())
                         .title("选择照片来源")
@@ -184,7 +195,6 @@ public class ProfileFragment extends Fragment {
 
         //相关按钮
         mBuyButton = (Button) mProfileView.findViewById(R.id.buycoinbutton);
-
         initStaticViewAndMembership();
 
         mShareButton = (Button) mProfileView.findViewById(R.id.sharecoinbutton);
@@ -210,7 +220,7 @@ public class ProfileFragment extends Fragment {
 
         if (portraitUri == null)
         {
-            String  currentPassport=SSKeychain.getPassport();
+            String  currentPassport=FlyingDataManager.getPassport();
             String rongID =ShareDefine.getMD5(currentPassport);
 
             if (currentPassport!=null)
@@ -245,41 +255,18 @@ public class ProfileFragment extends Fragment {
 
     private void initStaticViewAndMembership()
     {
-        Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
-
-        if(activeMembership)
+        if(mBuyButton!=null)
         {
-            mBuyButton.setText("你是年费会员");
-            mBuyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    toBuyMember();
-                    //Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        else
-        {
-            Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
-
-            if(!sysMembership)
+            if(mIsMembership)
             {
-                memberShipBroadReciever = new SysMemberShipBroadReciever();
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(ShareDefine.getKMembershipRECEIVER_ACTION());
-                MyApplication.getInstance().registerReceiver(memberShipBroadReciever, filter);
-
-                mBuyButton.setText("同步会员信息");
-
-                FlyingSysWithCenter.sysMembershipWithCenter();
+                mBuyButton.setText("你是年费会员");
                 mBuyButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FlyingSysWithCenter.sysMembershipWithCenter();
+                        toBuyMember();
+                        //Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                FlyingSysWithCenter.sysMembershipWithCenter();
             }
             else
             {
@@ -329,7 +316,7 @@ public class ProfileFragment extends Fragment {
 
                         mNikeName.setText(nikename);
 
-                        String passport = SSKeychain.getPassport();
+                        String passport = FlyingDataManager.getPassport();
                         String url="http://www.birdcopy.com/img/logo.png";
                         url=FlyingContext.getInstance().getSharedPreferences().getString(ShareDefine.KIMPORTRAITURI,url);
 
@@ -346,7 +333,10 @@ public class ProfileFragment extends Fragment {
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.toBuyProduct(mainActivity,good);
+        FlyingHttpTool.toBuyProduct(mainActivity,
+                FlyingDataManager.getPassport(),
+                ShareDefine.getLocalAppID(),
+                good);
     }
 
     private void toScanCoin() {
@@ -569,56 +559,6 @@ public class ProfileFragment extends Fragment {
         catch (Exception e)
         {
             //Log.i("Error writing bitmap", e);
-        }
-    }
-
-    public class SysMemberShipBroadReciever extends BroadcastReceiver {
-
-        //如果接收的事件发生
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
-
-            if(activeMembership)
-            {
-                mBuyButton.setText("你是年费会员");
-                mBuyButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //toBuyMember();
-                        Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            else
-            {
-                Boolean sysMembership = MyApplication.getSharedPreference().getBoolean("sysMembership", false);
-
-                if(!sysMembership)
-                {
-                    mBuyButton.setText("同步会员信息");
-
-                    FlyingSysWithCenter.sysMembershipWithCenter();
-                    mBuyButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            FlyingSysWithCenter.sysMembershipWithCenter();
-                        }
-                    });
-                }
-                else
-                {
-                    mBuyButton.setText("现在购买会员");
-                    mBuyButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            toBuyMember();
-                        }
-                    });
-                }
-            }
-
         }
     }
 }
