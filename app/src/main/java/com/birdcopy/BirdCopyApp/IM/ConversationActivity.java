@@ -87,7 +87,7 @@ public class ConversationActivity extends FragmentActivity {
 
         if (mTitle == null)
         {
-            if (mConversationType== Conversation.ConversationType.CHATROOM)
+            if (mConversationType == Conversation.ConversationType.CHATROOM)
             {
                 mTitle = "聊天室";
             }

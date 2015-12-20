@@ -3,9 +3,11 @@ package com.birdcopy.BirdCopyApp.DataManager;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.birdcopy.BirdCopyApp.Buy.Product;
+import com.birdcopy.BirdCopyApp.Comment.CommentDataResult;
+import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_TOUCH_RECORD;
@@ -15,8 +17,10 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingTouchDAO;
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Tools.DateTools;
-import com.birdcopy.BirdCopyApp.Scan.decoding.Intents;
+import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
@@ -26,11 +30,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
 
 /**
@@ -38,7 +45,93 @@ import io.rong.imlib.model.UserInfo;
  */
 public class FlyingHttpTool {
 
-    //#pragma 个人账户昵称头像
+    static public void connectWithRongCloud()
+    {
+        final String  currentPassport=FlyingDataManager.getPassport();
+
+        String url = ShareDefine.getRongTokenURL(currentPassport);
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+
+                        if (e != null) {
+                            //Toast.makeText(Welcome.this, "Error get RongToken", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String code = result.get("rc").getAsString();
+
+                        if (code.equals("1")) {
+
+                            String rongDeviceKoken = result.get("token").getAsString();
+
+                            //保存Rong Token
+                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
+                            edit.putString("rongToken", rongDeviceKoken);
+                            edit.apply();
+
+                            httpGetTokenSuccess(rongDeviceKoken);
+
+                        } else {
+                            String errorInfo = result.get("rm").getAsString();
+                            //Toast.makeText(Welcome.this, errorInfo, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+
+    static private void httpGetTokenSuccess(String token) {
+
+        Log.e("LoginActivity", "---------httpGetTokenSuccess----------:" + token);
+        try {
+            /**
+             * IMKit SDK调用第二步
+             *
+             * 建立与服务器的连接
+             *
+             * 详见API
+             * http://docs.rongcloud.cn/api/android/imkit/index.html
+             */
+
+//            token = "dNcIdu8Eqtu7iNca1gMhzs2yq+hfEluLjZ78E1qo4hGRHcB01HLt4SCyc1P/x3rYpMLVNO7rD0vC99se33P+Aw==";
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                        @Override
+                        public void onTokenIncorrect() {
+                            Log.e("LoginActivity", "---------onTokenIncorrec----------:");
+                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
+                            edit.putString("rongToken", "");
+                            edit.apply();
+                        }
+
+                        @Override
+                        public void onSuccess(String userId) {
+                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
+                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
+                            edit.putString("rongUserId", userId);
+                            edit.apply();
+
+                            RongCloudEvent.getInstance().setOtherListener();
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode e) {
+
+                            Log.e("LoginActivity", "---------onError ----------:" + e);
+                        }
+                    }
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //#pragma 个人信息
     public interface GetUserInfoByopenIDListener {
 
         void completion(UserInfo userInfo);
@@ -61,21 +154,20 @@ public class FlyingHttpTool {
                     public void onCompleted(Exception e, JsonObject result) {
                         // do stuff with the result or error
 
-                        UserInfo userInfo=null;
+                        UserInfo userInfo = null;
 
                         String code = result.get("rc").getAsString();
 
                         if (code.equals("1")) {
 
                             String name = result.get("name").getAsString();
-                            Uri uri= Uri.parse(result.get("portraitUri").getAsString());
-                            userInfo = new UserInfo(ShareDefine.getMD5(account),name,uri);
+                            Uri uri = Uri.parse(result.get("portraitUri").getAsString());
+                            userInfo = new UserInfo(ShareDefine.getMD5(account), name, uri);
 
                             FlyingContext.getInstance().addOrReplaceRongUserInfo(userInfo);
                         }
 
-                        if(delegate!=null)
-                        {
+                        if (delegate != null) {
                             delegate.completion(userInfo);
                         }
                     }
@@ -83,6 +175,150 @@ public class FlyingHttpTool {
 
     }
 
+    public interface RequestUploadPotraitListener {
+
+        void completion(boolean isOK);
+    }
+
+    static public void requestUploadPotrait(final String acount,
+                                            final String appID,
+                                            File portraitFile,
+                                            final RequestUploadPotraitListener delegate)
+    {
+        String url="http://"+ ShareDefine.getServerNetAddress()+"/tu_rc_sync_urp_from_hp.action";
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .setMultipartParameter("tuser_key", acount)
+                .setMultipartFile("portrait", portraitFile)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+
+                        if (e != null) {
+                            //Toast.makeText(getActivity(), "upload portarit", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        //上传图片到服务器，成功后通知融云服务器更新用户信息
+                        String code = result.get("rc").getAsString();
+                        if (code.equals("1")) {
+
+                            String  portraitUri =  result.get("portraitUri").getAsString();
+
+                            if(portraitUri==null)
+                            {
+                                portraitUri="http://www.birdcopy.com/img/logo.png";
+                            }
+
+                            //更新本地信息
+                            FlyingDataManager.setPortraitUri(portraitUri);
+
+                            refreshUesrInfo(acount,
+                                    appID,
+                                    null,
+                                    portraitUri,
+                                    null,
+                                    new RefreshUesrInfoListener() {
+                                        @Override
+                                        public void completion(boolean isOK) {
+                                            delegate.completion(isOK);
+                                        }
+                                    }
+                            );
+                        }
+                        else
+                        {
+                            delegate.completion(false);
+                        }
+                    }
+                });
+    }
+
+    public interface RefreshUesrInfoListener {
+
+        void completion(boolean isOK);
+    }
+
+    static public void refreshUesrInfo(final String acount,
+                                       String appID,
+                                       final String nickName,
+                                       final String portraitUri,
+                                       String br_intro,
+                                       final RefreshUesrInfoListener delegate)
+    {
+        String url = "http://" +
+                ShareDefine.getServerNetAddress() +
+                "/tu_rc_sync_urb_from_hp.action?tuser_key=" +
+                acount+
+                "&app_id="+
+                appID;
+
+        if (nickName != null) {
+            url += "&name=";
+            url += nickName;
+        }
+
+        if (portraitUri != null) {
+            url += "&portrait_uri=";
+            url += portraitUri;
+        }
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+
+                        boolean resultCode=false;
+                        if (e != null) {
+                            //Toast.makeText(getActivity(), "Error get RongToken", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String code = result.get("rc").getAsString();
+
+                        if (code.equals("1")) {
+
+                            resultCode=true;
+
+                            //更新本地信息
+                            if(nickName!=null)
+                            {
+                                FlyingDataManager.setNickName(nickName);
+                            }
+
+                            if(portraitUri!=null)
+                            {
+                                FlyingDataManager.setPortraitUri(portraitUri);
+                            }
+
+                            //更新融云信息
+                            String tempNickName = nickName;
+                            if (tempNickName == null) {
+                                tempNickName=FlyingDataManager.getNickName();
+                            }
+
+                            String tempPortraitURL = portraitUri;
+                            if(tempPortraitURL==null)
+                            {
+                                tempPortraitURL=FlyingDataManager.getPortraitUri();
+                            }
+
+                            String rongID = ShareDefine.getMD5(acount);
+
+                            FlyingContext.getInstance().addOrReplaceRongUserInfo(new UserInfo(rongID, tempNickName, Uri.parse(tempPortraitURL)));
+                        }
+
+                        if (delegate != null) {
+                            delegate.completion(resultCode);
+                        }
+                    }
+                });
+    }
 
     //pragma  用户激活相关
     public interface RegOpenUDIDListener {
@@ -138,7 +374,7 @@ public class FlyingHttpTool {
         void completion(boolean isOK);
     }
 
-    static public void verifyOpenUDID(String acount,
+    static public void verifyOpenUDID(String account,
                                    String appID,
                                    final VerifyOpenUDIDListener delegate )
     {
@@ -146,7 +382,7 @@ public class FlyingHttpTool {
         String url =  "http://"+
                 ShareDefine.getServerNetAddress()+
                 "/tu_ua_get_status_from_tn.action?tuser_key="+
-                acount+
+                account+
                 "&app_id="+
                 appID;
 
@@ -162,7 +398,7 @@ public class FlyingHttpTool {
                         {
                             String resultCode=result.get("rs").getAsString();
 
-                            if (resultCode.equalsIgnoreCase("-1")) {
+                            if (!resultCode.equalsIgnoreCase("-1")) {
 
                                 isOK=true;
                             }
@@ -243,8 +479,6 @@ public class FlyingHttpTool {
                                     final String appID,
                                     final Product good)
     {
-
-
         String url = "http://"+
                 ShareDefine.getServerNetAddress()+
                 "/pa_get_on_from_tn.action?"+
@@ -902,4 +1136,125 @@ public class FlyingHttpTool {
                     });
         }
     }
+
+    public interface GetCommentListListener {
+
+        void completion(ArrayList<FlyingCommentData> commentList,String allRecordCount);
+    }
+
+    static public void getCommentList(String contentID,
+                                      String contentType,
+                                      int pageNumber,
+                                      final GetCommentListListener delegate )
+    {
+        String sortBy="ins_time desc";
+
+        try
+        {
+            sortBy=URLEncoder.encode(sortBy,"utf-8");
+        }
+        catch (Exception e)
+        {
+            //
+        }
+
+        String url = "http://"+
+                ShareDefine.getServerNetAddress()+
+                "/tu_cm_get_ct_list_from_tn.action?perPageCount="+
+                ShareDefine.kperpageLessonCount+
+                "&page="+
+                pageNumber+
+                "&ct_id="+
+                contentID+
+                "&ct_type="+
+                contentType+
+                "&page="+
+                pageNumber+
+                "&sortindex="+
+                sortBy;
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result)
+                    {
+                        if (result!=null) {
+                            String resultStr = result.getResult();
+
+                            Gson gson = new Gson();
+                            java.lang.reflect.Type type = new TypeToken<CommentDataResult>() {
+                            }.getType();
+                            CommentDataResult commentDataResult = gson.fromJson(resultStr, type);
+
+                            if (delegate != null) {
+                                delegate.completion(commentDataResult.rs, commentDataResult.allRecordCount);
+                            }
+                        }
+                    }
+                });
+    }
+
+    public interface UpdateCommentListener {
+
+        void completion(boolean isOK);
+    }
+
+    static public void updateComment(FlyingCommentData commentData,
+                                      String appID,
+                                      final UpdateCommentListener delegate )
+    {
+        String url = "http://"+
+                ShareDefine.getServerNetAddress()+
+                "/tu_add_ct_from_tn.action?tuser_key="+
+                commentData.userID+
+                "&ct_id="+
+                commentData.contentID+
+                "&ct_type="+
+                commentData.contentType+
+                "&name="+
+                commentData.nickName+
+                "&portrait_url="+
+                commentData.portraitURL+
+                "&content="+
+                commentData.commentContent+
+                "&app_id="+
+                ShareDefine.getLocalAppID();
+
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+
+                        boolean isOK=false;
+
+                        String code = result.get("rc").getAsString();
+
+                        if (code.equals("1")) {
+
+                            isOK=true;
+                        }
+
+                        if(delegate!=null)
+                        {
+                            delegate.completion(isOK);
+                        }
+                    }
+                });
+    }
+
+
+
+
+
+
+
+
 }

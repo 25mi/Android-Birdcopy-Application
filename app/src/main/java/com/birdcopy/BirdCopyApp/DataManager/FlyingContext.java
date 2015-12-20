@@ -188,7 +188,6 @@ public class FlyingContext {
         }
         else
         {
-
             return new UserInfo(rongUser.getUserid(),rongUser.getName(),Uri.parse(rongUser.getPortraitUri()));
         }
     }
@@ -200,7 +199,6 @@ public class FlyingContext {
      * @return
      */
     public String getUserNameByUserId(String userId) {
-
 
         UserInfo userInfo =getUserInfoByRongId(userId);
 

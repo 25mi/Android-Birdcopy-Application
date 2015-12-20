@@ -108,6 +108,9 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
+        <activity android:name=".Comment.FlyingCommentActivity" />
+
+
         <!--PDF阅读器 -->
         <activity
             android:name="com.artifex.mupdfdemo.MuPDFActivity"

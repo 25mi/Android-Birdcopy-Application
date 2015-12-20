@@ -77,7 +77,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.ConversationBehaviorListener,
         RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener
 {
-
     private static final String TAG = RongCloudEvent.class.getSimpleName();
 
     private static RongCloudEvent mRongCloudInstance;
@@ -802,7 +801,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             if (RongIM.getInstance() != null && userInfo!=null)
             {
-
                 Intent intent = new Intent(context, com.birdcopy.BirdCopyApp.IM.ConversationActivity.class);
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.putExtra("ConversationType", "PRIVATE");

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.birdcopy.BirdCopyApp.Buy.Product;
+import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
@@ -27,6 +27,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
+import com.birdcopy.BirdCopyApp.Scan.decoding.Intents;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -105,14 +106,25 @@ public class ProfileFragment extends Fragment {
 
     public void initData() {
 
-        BE_STATISTIC data = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
+        //获取会员金币数据
+        FlyingHttpTool.getMoneyData(FlyingDataManager.getPassport(),
+                ShareDefine.getLocalAppID(),
+                new FlyingHttpTool.GetMoneyDataListener() {
+                    @Override
+                    public void completion(boolean isOK) {
 
-        buyCount = data.getBEMONEYCOUNT() + data.getBEQRCOUNT();
-        giftCount = data.getBEGIFTCOUNT();
-        usedCount = data.getBETOUCHCOUNT();
+                        BE_STATISTIC data = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
+
+                        if(data!=null)
+                        {
+                            buyCount = data.getBEMONEYCOUNT() + data.getBEQRCOUNT();
+                            giftCount = data.getBEGIFTCOUNT();
+                            usedCount = data.getBETOUCHCOUNT();
+                        }
+                    }
+                });
 
         //获取年费会员数据
-
         FlyingHttpTool.getMembership(FlyingDataManager.getPassport(),
                 ShareDefine.getLocalAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
@@ -174,11 +186,7 @@ public class ProfileFragment extends Fragment {
 
         //昵称显示
         mNikeName = (TextView) mProfileView.findViewById(R.id.usernikename);
-        String nikename = MyApplication.getSharedPreference().getString(ShareDefine.KIMNIKENAME, null);
-        if (nikename == null) {
-            nikename = "我的昵称";
-        }
-        mNikeName.setText(nikename);
+        mNikeName.setText(FlyingDataManager.getNickName());
 
         //昵称修改
         mChangenameButton = (Button) mProfileView.findViewById(R.id.changeNanmeButton);
@@ -309,18 +317,21 @@ public class ProfileFragment extends Fragment {
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         // Do something
 
-                        String nikename = input.toString();
-                        SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
-                        editor.putString(ShareDefine.KIMNIKENAME, nikename);
-                        editor.commit();
+                        String nickName = input.toString();
+                        FlyingDataManager.setNickName(nickName);
+                        mNikeName.setText(nickName);
 
-                        mNikeName.setText(nikename);
-
-                        String passport = FlyingDataManager.getPassport();
-                        String url="http://www.birdcopy.com/img/logo.png";
-                        url=FlyingContext.getInstance().getSharedPreferences().getString(ShareDefine.KIMPORTRAITURI,url);
-
-                        refeshUseInfoOnline(passport, nikename,url);
+                        FlyingHttpTool.refreshUesrInfo(FlyingDataManager.getPassport(),
+                                ShareDefine.getLocalAppID(),
+                                nickName,
+                                null,
+                                null,
+                                new FlyingHttpTool.RefreshUesrInfoListener() {
+                                    @Override
+                                    public void completion(boolean isOK) {
+                                        //
+                                    }
+                                });
                     }
                 })
                 .positiveText("确定")
@@ -441,84 +452,16 @@ public class ProfileFragment extends Fragment {
 
     public void uploadPortImage(File portraitFile)
     {
-        final String passport =MyApplication.getSharedPreference().getString("passport",null);
-
-        if(passport!=null)
-        {
-
-            String url="http://"+ ShareDefine.getServerNetAddress()+"/tu_rc_sync_urp_from_hp.action";
-
-            Ion.with(getActivity())
-                    .load(url)
-                    .setMultipartParameter("tuser_key",passport)
-                    .setMultipartFile("portrait", portraitFile)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            // do stuff with the result or error
-
-                            if (e != null) {
-                                Toast.makeText(getActivity(), "upload portarit", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            String code = result.get("rc").getAsString();
-
-                            if (code.equals("1")) {
-
-                                String  portraitUri =  result.get("portraitUri").getAsString();
-
-                                if(portraitUri==null)
-                                {
-                                    portraitUri="http://www.birdcopy.com/img/logo.png";
-                                }
-
-                                //refeshUseInfoOnline(passport,mNikeName.getText().toString(),portraitUri);
-                                FlyingContext.getInstance().addOrReplaceRongUserInfo(new UserInfo(ShareDefine.getMD5(passport), mNikeName.getText().toString(), Uri.parse(portraitUri)));
-
-                                //保存头像地址
-                                SharedPreferences.Editor edit=MyApplication.getSharedPreference().edit();
-                                edit.putString(ShareDefine.KIMPORTRAITURI,portraitUri);
-                                edit.commit();
-
-                                initUserCover();;
-                            }
-                            else
-                            {
-                                String errorInfo = result.get("rm").getAsString();
-                                Toast.makeText(getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
-    }
-
-    public void refeshUseInfoOnline(final String passport, final String name,final String portraitURL)
-    {
-        String url = ShareDefine.getRefreshUseInfoURL(passport,name, portraitURL);
-
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+        FlyingHttpTool.requestUploadPotrait(FlyingDataManager.getPassport(),
+                ShareDefine.getLocalAppID(),
+                portraitFile,
+                new FlyingHttpTool.RequestUploadPotraitListener() {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+                    public void completion(boolean isOK) {
 
-                        if (e != null) {
-                            Toast.makeText(getActivity(), "Error get RongToken", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String code = result.get("rc").getAsString();
-
-                        if (code.equals("1")) {
-
-                            FlyingContext.getInstance().addOrReplaceRongUserInfo(new UserInfo(ShareDefine.getMD5(passport), name, Uri.parse(portraitURL)));
-                        }
-                        else
+                        if(isOK)
                         {
-                            String errorInfo = result.get("rm").getAsString();
-                            Toast.makeText(getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
+                            initUserCover();
                         }
                     }
                 });

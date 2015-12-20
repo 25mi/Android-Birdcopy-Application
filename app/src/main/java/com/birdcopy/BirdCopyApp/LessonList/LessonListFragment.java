@@ -10,7 +10,6 @@ import android.widget.*;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
-import com.birdcopy.BirdCopyApp.MainHome.TabContentFragment;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.StaggeredGridView;
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ import android.os.Handler;
  */
 public class LessonListFragment extends Fragment implements LessonDataModle.DealResult
 {
-
-    public TabContentFragment tabContentFragment;
 
     public static final String SAVED_DATA_KEY   = "SAVED_DATA_KEY";
     public final static int SET_LESSONLIST = 0;
@@ -139,19 +136,6 @@ public class LessonListFragment extends Fragment implements LessonDataModle.Deal
                                                    // 当不滚动时
                                                    case SCROLL_STATE_IDLE:
                                                    {
-                                                       if(tabContentFragment!=null)
-                                                       {
-                                                           // 判断滚动到顶部
-                                                           if(mGridView.getFirstVisiblePosition() == 0)
-                                                           {
-                                                               //tabContentFragment.setEnabledSwipeRefresh(true);
-                                                           }
-                                                           else
-                                                           {
-                                                               //tabContentFragment.setEnabledSwipeRefresh(false);
-                                                           }
-                                                       }
-
                                                        break;
                                                    }
                                                }

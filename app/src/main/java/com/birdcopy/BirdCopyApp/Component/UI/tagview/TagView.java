@@ -19,6 +19,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.birdcopy.BirdCopyApp.R;
+
+
 /**
  * Android TagView Widget
  * github https://github.com/kaedea/Android-Cloud-TagView-Plus.git

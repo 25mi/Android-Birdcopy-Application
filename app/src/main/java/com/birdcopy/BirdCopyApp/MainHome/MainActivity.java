@@ -3,7 +3,6 @@ package com.birdcopy.BirdCopyApp.MainHome;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -16,16 +15,15 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.birdcopy.BirdCopyApp.Buy.Product;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingLessonDAO;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenuItem;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
 import com.birdcopy.BirdCopyApp.LessonList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
@@ -49,15 +47,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpGet;
 import com.koushikdutta.async.http.AsyncHttpResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -83,6 +77,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.message.ContactNotificationMessage;
 
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener
@@ -134,7 +129,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Fragment fg;
 
     //RongCloud
-
+    private  int mMessageCount=0;
     public static final String ACTION_RONGCLOUD_RECEIVE_MESSAGE = "action_rongcloud_receive_message";
 
 
@@ -148,6 +143,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         initSlidingMenu();
         initView();
+
+        initRongCloud();
     }
 
     /**
@@ -155,7 +152,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initView()
     {
-
         mDrawMenu = (ImageView) findViewById(R.id.top_menu);
         mTopTitle = (TextView) findViewById(R.id.top_title);
         mTopScan = (ImageView) findViewById(R.id.top_scan);
@@ -829,25 +825,32 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void showChatListNow()
     {
-        ConversationListFragment contentFragment = ConversationListFragment.getInstance();
-        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
-                .appendPath("conversationlist")
-                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
-                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")
-                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
-                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
-                .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "true")
-                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "true")
-                .build();
-        contentFragment.setUri(uri);
+        if(mMessageCount==0)
+        {
+            RongIM.getInstance().startConversation(MainActivity.this, Conversation.ConversationType.CHATROOM, ShareDefine.getLessonOwner(), "广场");
+        }
+        else
+        {
+            ConversationListFragment contentFragment = ConversationListFragment.getInstance();
+            Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+                    .appendPath("conversationlist")
+                    .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "true") //设置私聊会话是否聚合显示
+                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
+                    .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "true")
+                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
+                    .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "true")
+                    .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "true")
+                    .build();
+            contentFragment.setUri(uri);
 
-        fg=contentFragment;
+            fg=contentFragment;
 
-        android.support.v4.app.FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, contentFragment)
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction.addToBackStack(null);
-        transaction.commit();
+            android.support.v4.app.FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, contentFragment)
+                    .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     public void showMySettings()
@@ -897,6 +900,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         editor.commit();
 
         BE_STATISTIC statistic = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
+
+        if(statistic==null)
+        {
+            return;
+        }
 
         int payaccount =statistic.getBEMONEYCOUNT()+statistic.getBEQRCOUNT();
         int giftcount =statistic.getBEGIFTCOUNT();
@@ -1181,4 +1189,117 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             //.e("Problem with starting PDF-activity, path: "+filePath,e);
         }
     }
+
+    public void  initRongCloud()
+    {
+        //准备融云环境
+        FlyingHttpTool.connectWithRongCloud();
+        getConversationPush();
+        getPushMessage();
+
+        RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new RongIM.OnReceiveUnreadCountChangedListener() {
+            @Override
+            public void onMessageIncreased(int i) {
+
+                chat_btn.setSubCount(Integer.toString(i));
+
+                mMessageCount=i;
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    private void getConversationPush() {
+
+        if (getIntent() != null && getIntent().hasExtra("PUSH_CONVERSATIONTYPE") &&getIntent().hasExtra("PUSH_TARGETID") ) {
+
+            final String conversationType  = getIntent().getStringExtra("PUSH_CONVERSATIONTYPE");
+            final String targetId = getIntent().getStringExtra("PUSH_TARGETID");
+
+            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+
+                RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.valueOf(conversationType), targetId, new RongIMClient.ResultCallback<Conversation>() {
+                    @Override
+                    public void onSuccess(Conversation conversation) {
+
+                        if (conversation != null) {
+
+                            if (conversation.getLatestMessage() instanceof ContactNotificationMessage) {
+                                //startActivity(new Intent(MainActivity.this, NewFriendListActivity.class));
+                            } else {
+                                Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation")
+                                        .appendPath(conversationType).appendQueryParameter("targetId", targetId).build();
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(uri);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode e) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * 得到不落地 push 消息
+     */
+    private void getPushMessage() {
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
+
+            String content = intent.getData().getQueryParameter("pushContent");
+            String data = intent.getData().getQueryParameter("pushData");
+            String id = intent.getData().getQueryParameter("pushId");
+            RongIMClient.recordNotificationEvent(id);
+            Log.e("RongPushActivity", "--content--" + content + "--data--" + data + "--id--" + id);
+
+            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+
+                RongIM.getInstance().getRongIMClient().clearNotifications();
+            }
+            if (FlyingContext.getInstance() != null) {
+
+                String token = FlyingContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
+
+                if (token.equals("default")) {
+                    //startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+                    showChatListNow();
+                }
+                else {
+
+                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
+                    {
+                        RongIMClient.ConnectionStatusListener.ConnectionStatus status = RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus();
+
+                        if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED.equals(status)) {
+
+                            return;
+                        }
+                        else if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING.equals(status)) {
+
+                            return;
+                        }
+                        else {
+
+                            showChatListNow();
+                        }
+                    }
+                    else {
+
+                        showChatListNow();
+                    }
+                }
+            }
+        }
+    }
+
 }

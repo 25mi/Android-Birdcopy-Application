@@ -1,9 +1,7 @@
 package com.birdcopy.BirdCopyApp.Lesson;
 
-import android.app.AlertDialog;
 import android.content.*;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -11,19 +9,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.GestureDetector;
-import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.birdcopy.BirdCopyApp.Buy.Product;
+import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
+import com.birdcopy.BirdCopyApp.Comment.FlyingCommentListAdapter;
+import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_TOUCH_RECORD;
@@ -33,12 +32,13 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingTouchDAO;
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Document.CommonIntent;
-import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.Download.FlyingDownloadManager;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.db.DownloadDao;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.DownloadConstants;
 import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.MyIntents;
-import com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView;
+import com.birdcopy.BirdCopyApp.Component.UI.tagview.OnTagClickListener;
+import com.birdcopy.BirdCopyApp.Component.UI.tagview.Tag;
+import com.birdcopy.BirdCopyApp.Component.UI.tagview.TagView;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
@@ -46,7 +46,6 @@ import com.birdcopy.BirdCopyApp.LessonList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Media.PlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
-import com.birdcopy.BirdCopyApp.Scan.TextToBitmap;
 import com.artifex.mupdfdemo.AsyncTask;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.koushikdutta.async.future.FutureCallback;
@@ -65,10 +64,15 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 
 public class LessonActivity extends FragmentActivity
 {
@@ -87,12 +91,33 @@ public class LessonActivity extends FragmentActivity
     private TextView  mLessonTitleView;
     private Button    mBuyButton;
     private Button    mPlayButton;
+    private TagView   mTagView;
     private TextView  mDescView;
-    private ImageView mLessonQRImageview;
+
+    //评论
+    private ListView  mCommentListView;
+    private View      mFooterView;
+
+    private View mInputCommnetBox;
+    private EditText  mCommnetEditText;
+    private ImageView mInputImagView;
+
+    //private ImageView mLessonQRImageview;
 
     //用户数据相关
     boolean mIsMembership=false;
     private UserDataChangeReceiver mUserDataReceiver;
+    private ArrayList<String> mTagList=null;
+
+    //评论数据
+    public final static int SET_COMMENTLIST = 0;
+
+    private FlyingCommentListAdapter mAdapter;
+
+    private ArrayList<FlyingCommentData> mData= new ArrayList<FlyingCommentData>();
+    int     mMaxNumOfComments= ShareDefine.MAX_INT;
+    int     currentLodingIndex=0;
+    Boolean mIsLastRow=false;
 
     //下载用
     private boolean mHasRight=false;
@@ -106,22 +131,6 @@ public class LessonActivity extends FragmentActivity
     private DownloadDao mDownloadDao;
 
     private HttpDownloadReceiver mDownloadReceiver;
-
-    /** 自定义HorizontalScrollView */
-    private ColumnHorizontalScrollView mColumnHorizontalScrollView;
-    LinearLayout mRadioGroup_content;
-    private ArrayList<String> mTagList=null;
-    /** 屏幕宽度 */
-    private int mScreenWidth = 0;
-    /** 左阴影部分*/
-    private ImageView mShadeleft;
-    /** 右阴影部分 */
-    private ImageView mShaderight;
-    RelativeLayout rl_column;
-    LinearLayout ll_more_columns;
-
-    // 用来实现聊天。
-    WebFragment webViewFragment;
 
     /** 手势监听 */
     GestureDetector mGestureDetector;
@@ -220,8 +229,8 @@ public class LessonActivity extends FragmentActivity
         mBackView  = (ImageView)findViewById(R.id.top_back);
         mBackView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
+
                 onBackPressed();
             }
         });
@@ -235,14 +244,13 @@ public class LessonActivity extends FragmentActivity
         //封面和播放按钮
         mCoverView = (ImageView)findViewById(R.id.lessonPageCover);
         ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(mLessonData.getBEIMAGEURL(),mCoverView);
+        imageLoader.displayImage(mLessonData.getBEIMAGEURL(), mCoverView);
 
         mPlayButton = (Button)findViewById(R.id.lessonPagePlay);
-        mPlayButton.setOnClickListener(new View.OnClickListener()
-        {
+        mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
+
                 playLesson();
             }
         });
@@ -263,33 +271,137 @@ public class LessonActivity extends FragmentActivity
 
         initBuyButton();
 
-        //关键词标签云
-        mColumnHorizontalScrollView =  (ColumnHorizontalScrollView)findViewById(R.id.mColumnHorizontalScrollView);
-        mRadioGroup_content = (LinearLayout) findViewById(R.id.mRadioGroup_content);
-        mShadeleft = (ImageView) findViewById(R.id.shade_left);
-        mShaderight = (ImageView)findViewById(R.id.shade_right);
-        ll_more_columns = (LinearLayout) findViewById(R.id.ll_more_columns);
-        rl_column = (RelativeLayout) findViewById(R.id.rl_column);
-
-        initTagColumn();
-        mIgnoredViews.add(mColumnHorizontalScrollView);
-
         //课程详情
         mDescView  = (TextView)findViewById(R.id.lessonpageDesc);
-        mDescView.setText(mLessonData.getBEDESC());
+
+        String desc = mLessonData.getBEDESC();
+
+        if(desc!=null && desc.length()>0)
+        {
+            mDescView.setText(mLessonData.getBEDESC());
+        }
+
+        //关键词标签云
+        mTagView =  (TagView)findViewById(R.id.tagview);
+        mTagView.addTags(mTagList.toArray(new String[mTagList.size()]));
+        mTagView.setOnTagClickListener(new OnTagClickListener() {
+            @Override
+            public void onTagClick(Tag tag, int position) {
+
+                Intent resultIntent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("result",mTagList.get(position));
+                resultIntent.putExtras(bundle);
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+
+        mIgnoredViews.add(mTagView);
+
+        //评论
+        mCommentListView = (ListView)findViewById(R.id.commentList);
+
+        if (mAdapter == null) {
+            mAdapter = new FlyingCommentListAdapter(LessonActivity.this, R.id.comment_item_content);
+        }
+        mCommentListView.setAdapter(mAdapter);
+        mCommentListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                                                 @Override
+                                                 public void onScrollStateChanged(AbsListView view, int scrollState) {
+                                                     if (scrollState == SCROLL_STATE_IDLE && mIsLastRow == true) {
+                                                         onLoadMoreItems();
+                                                         mIsLastRow = false;
+                                                     }
+
+                                                     switch (scrollState) {
+                                                         // 当不滚动时
+                                                         case SCROLL_STATE_IDLE: {
+                                                             break;
+                                                         }
+                                                     }
+                                                 }
+
+                                                 @Override
+                                                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                                                     //判断是否滚到最后一行
+                                                     if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                                                         mIsLastRow = true;
+                                                     }
+                                                 }
+                                             }
+        );
+
+        mCommentListView.setOnItemClickListener(new AbsListView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                final FlyingCommentData commentData = mData.get(position);
+
+                final  String targetUserID = commentData.userID;
+
+                if(!targetUserID.equalsIgnoreCase(FlyingDataManager.getPassport()))
+                {
+                    FlyingHttpTool.getUserInfoByopenID(targetUserID,
+                            ShareDefine.getLocalAppID(),
+                            new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                                @Override
+                                public void completion(UserInfo userInfo) {
+
+                                    RongIM.getInstance().startConversation(LessonActivity.this, Conversation.ConversationType.PRIVATE, commentData.userID, commentData.nickName);
+                                }
+                            });
+                }
+            }
+        });
+
+        onLoadMoreItems();
+
+
+        //添加评论输入框
+        mInputCommnetBox = findViewById(R.id.inputcomment_box);
+        mInputCommnetBox.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
+
+        mCommnetEditText = (EditText)findViewById(R.id.comment_edit_text);
+
+        mCommnetEditText.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == EditorInfo.IME_ACTION_DONE ||
+                                event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                            onCommentClick(v.getText().toString());
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+        mInputImagView = (ImageView)findViewById(R.id.comment_btn);
+        mInputImagView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onCommentClick(mCommnetEditText.getText().toString());
+            }
+        });
 
         //二维码
+        /*
         mLessonQRImageview = (ImageView)findViewById(R.id.lessonQRImag);
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();//屏幕宽度
 
         final TextToBitmap qrBitImage =new TextToBitmap(mLessonData.getBEWEBURL(),width,width);
         mLessonQRImageview.setImageBitmap(qrBitImage.getBitmap());
-        mLessonQRImageview.setOnLongClickListener(new View.OnLongClickListener()
-        {
+        mLessonQRImageview.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v)
-            {
+            public boolean onLongClick(View v) {
 
                 new AlertDialogWrapper.Builder(LessonActivity.this)
                         .setTitle("友情提醒")
@@ -302,10 +414,10 @@ public class LessonActivity extends FragmentActivity
 
                                     mLessonQRImageview.buildDrawingCache();
                                     mCoverView.buildDrawingCache();
-                                    Bitmap logo=mCoverView.getDrawingCache();
-                                    Bitmap output =TextToBitmap.createQRCodeBitmapWithPortrait(qrBitImage.getBitmap(),logo);
+                                    Bitmap logo = mCoverView.getDrawingCache();
+                                    Bitmap output = TextToBitmap.createQRCodeBitmapWithPortrait(qrBitImage.getBitmap(), logo);
 
-                                    ShareDefine.savePhoto(output,mLessonData.getBETITLE());
+                                    ShareDefine.savePhoto(output, mLessonData.getBETITLE());
                                     Toast.makeText(LessonActivity.this, "已经成功保存图片", Toast.LENGTH_SHORT).show();
                                 }
                                 dialog.dismiss();
@@ -315,15 +427,63 @@ public class LessonActivity extends FragmentActivity
                 return false;
             }
         });
+        */
+    }
 
+    Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            // TODO Auto-generated method stub
+            switch (msg.what)
+            {
+                case SET_COMMENTLIST:
+                {
+                    // notify the adapter that we can update now
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+                default:
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
-        //评论
-        webViewFragment = new WebFragment();
-        webViewFragment.webURL=ShareDefine.getChatURL(mLessonData.getBELESSONID());
+    private void onLoadMoreItems()
+    {
+        if (mData.size() <mMaxNumOfComments)
+        {
+            currentLodingIndex++;
+            FlyingHttpTool.getCommentList(mLessonData.getBELESSONID(),
+                    mLessonData.getBECONTENTTYPE(),
+                    currentLodingIndex,
+                    new FlyingHttpTool.GetCommentListListener() {
+                        @Override
+                        public void completion(ArrayList<FlyingCommentData> commentList, String allRecordCount) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.chatwebview_layout, webViewFragment).commit();
+                            if(commentList!=null && commentList.size()!=0)
+                            {
+                                for (FlyingCommentData data : commentList) {
+                                    mAdapter.add(data);
+                                }
+                                // stash all the data in our backing store
+                                mData.addAll(commentList);
 
+                                handler.obtainMessage(SET_COMMENTLIST).sendToTarget();
+
+                                mMaxNumOfComments = Integer.parseInt(allRecordCount);
+
+                                if(mMaxNumOfComments>0)
+                                {
+                                    mFooterView = LayoutInflater.from(LessonActivity.this).inflate(R.layout.comment_foot, null);
+                                    mCommentListView.addFooterView(mFooterView);
+                                }
+                            }
+                        }
+                    });
+        }
     }
 
     private void initBuyButton()
@@ -378,50 +538,6 @@ public class LessonActivity extends FragmentActivity
         else if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
         {
             mPlayButton.setBackgroundResource(R.drawable.ic_drawer_web);
-        }
-    }
-
-
-    /**
-     *  初始化标签栏目项
-     * */
-    private void initTagColumn()
-    {
-        mRadioGroup_content.removeAllViews();
-
-        if(mTagList!=null)
-        {
-            int count =  mTagList.size();
-            mColumnHorizontalScrollView.setParam(this, mScreenWidth, mRadioGroup_content, mShadeleft, mShaderight, ll_more_columns, rl_column);
-            for(int i = 0; i< count; i++)
-            {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftMargin = 5;
-                params.rightMargin = 5;
-//			TextView localTextView = (TextView) mInflater.inflate(R.layout.column_radio_item, null);
-                final TextView columnTextView = new TextView(this);
-                columnTextView.setTextAppearance(this, R.style.tag_text_style);
-                columnTextView.setBackgroundColor(getResources().getColor(R.color.red));
-                columnTextView.setGravity(Gravity.CENTER);
-                columnTextView.setBackgroundResource(R.drawable.tag_textview);
-                columnTextView.setId(i);
-                columnTextView.setText(mTagList.get(i));
-                columnTextView.setTextColor(getResources().getColorStateList(R.color.white));
-                columnTextView.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        Intent resultIntent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("result",columnTextView.getText().toString());
-                        resultIntent.putExtras(bundle);
-                        setResult(RESULT_OK, resultIntent);
-                        finish();
-                    }
-                });
-                mRadioGroup_content.addView(columnTextView, i ,params);
-            }
         }
     }
 
@@ -736,7 +852,6 @@ public class LessonActivity extends FragmentActivity
 
     private void openLesson()
     {
-
         if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
         {
             if(mLessonData.getLocalURLOfContent().contains("pdf"))
@@ -788,6 +903,54 @@ public class LessonActivity extends FragmentActivity
             intent.putExtra("lessonID",mLessonData.getBELESSONID());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        }
+    }
+
+    public void onCommentClick(String commentContent)
+    {
+        if(commentContent!=null && commentContent.length()>0)
+        {
+            //隐藏键盘
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+            FlyingCommentData commentData = new FlyingCommentData();
+            commentData.contentID   = mLessonData.getBELESSONID();
+            commentData.contentType = mLessonData.getBECONTENTTYPE();
+            commentData.userID      = FlyingDataManager.getPassport();
+            commentData.nickName    = FlyingDataManager.getNickName();
+            commentData.portraitURL = FlyingDataManager.getPortraitUri();
+            commentData.commentContent = commentContent;
+            commentData.commentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+            final FlyingCommentData  finalCommentData = commentData;
+            FlyingHttpTool.updateComment(finalCommentData,
+                    ShareDefine.getLocalAppID(),
+                    new FlyingHttpTool.UpdateCommentListener() {
+                        @Override
+                        public void completion(boolean isOK) {
+
+                            if(isOK)
+                            {
+                                //清空输入框
+                                mCommnetEditText.setText("");
+
+                                mAdapter.insert(finalCommentData,0);
+                                mData.add(0,finalCommentData);
+
+                                handler.obtainMessage(SET_COMMENTLIST).sendToTarget();
+
+                                mMaxNumOfComments = mMaxNumOfComments+1;
+
+                                if(mFooterView == null)
+                                {
+                                    mFooterView = LayoutInflater.from(LessonActivity.this).inflate(R.layout.comment_foot, null);
+                                    mCommentListView.addFooterView(mFooterView);
+                                }
+
+                            }
+                        }
+                    });
         }
     }
 

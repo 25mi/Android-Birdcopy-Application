@@ -1,13 +1,18 @@
 package com.birdcopy.BirdCopyApp.DataManager;
 
 import android.content.SharedPreferences;
+import android.view.View;
 
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by vincentsung on 12/16/15.
@@ -28,6 +33,54 @@ public class FlyingDataManager {
         }
 
         return currentPassport;
+    }
+
+    static public String getNickName()
+    {
+        String nikename = MyApplication.getSharedPreference().getString(ShareDefine.KIMNIKENAME, null);
+        if (nikename == null) {
+            nikename = "我的昵称";
+        }
+
+        return nikename;
+    }
+
+    static public void setNickName(String nickName)
+    {
+        SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
+        editor.putString(ShareDefine.KIMNIKENAME, nickName);
+        editor.commit();
+    }
+
+    static  public String getPortraitUri()
+    {
+        String portraitUri = MyApplication.getSharedPreference().getString(ShareDefine.KIMPORTRAITURI, null);
+
+        if (portraitUri == null)
+        {
+            String  currentPassport=FlyingDataManager.getPassport();
+            String rongID =ShareDefine.getMD5(currentPassport);
+
+            if (currentPassport!=null)
+            {
+                UserInfo userInfo= FlyingContext.getInstance().getUserInfoByRongId(rongID);
+
+                if(userInfo!=null && userInfo.getPortraitUri()!=null)
+                {
+                    portraitUri=userInfo.getPortraitUri().toString();
+                    setPortraitUri(portraitUri);
+                }
+            }
+        }
+
+        return portraitUri;
+    }
+
+    static  public void setPortraitUri(String portraitUri)
+    {
+        SharedPreferences.Editor edit=MyApplication.getSharedPreference().edit();
+        edit.putString(ShareDefine.KIMPORTRAITURI,portraitUri);
+        edit.commit();
     }
 
     static  public  void  addMembership()

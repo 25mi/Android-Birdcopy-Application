@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.Buy;
+package com.birdcopy.BirdCopyApp.DataManager;
 
 /**
  * Created by birdcopy on 15/7/26.

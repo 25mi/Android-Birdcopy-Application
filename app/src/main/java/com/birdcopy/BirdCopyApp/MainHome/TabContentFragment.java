@@ -360,7 +360,7 @@ public class TabContentFragment extends Fragment implements AlbumDataModle.DealR
                 data.putInt("id", mUserChannelList.get(i).getId());
                 lessonListFragment.setArguments(data);
                 lessonListFragment.setTagString(tagName);
-                lessonListFragment.tabContentFragment=this;
+                //lessonListFragment.tabContentFragment=this;
 
                 fragments.add(lessonListFragment);
             }

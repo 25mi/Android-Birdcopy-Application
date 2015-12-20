@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -15,16 +14,11 @@ import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.birdcopy.BirdCopyApp.R;
-import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
 
 public class Welcome extends Activity
 {
@@ -98,7 +92,8 @@ public class Welcome extends Activity
 
                             letsGo();
                         }
-                        else {
+                        else
+                        {
                             tryActive();
                         }
                     }
@@ -115,9 +110,6 @@ public class Welcome extends Activity
 
     public void letsGo()
     {
-        //准备融云环境
-        connectWithRongCloud();
-
         if (MyApplication.getSharedPreference().getBoolean("firstLaunch",true))
         {
             String msg = "恭喜你，账户已经激活！";
@@ -156,12 +148,9 @@ public class Welcome extends Activity
                     @Override
                     public void completion(boolean isOK) {
 
-                        if (isOK)
-                        {
+                        if (isOK) {
                             letsGo();
-                        }
-                        else
-                        {
+                        } else {
                             AlertDialog.Builder alert = new AlertDialog.Builder(Welcome.this);
 
                             alert.setTitle("友情提醒");
@@ -185,92 +174,5 @@ public class Welcome extends Activity
                         }
                     }
                 });
-    }
-
-    private void connectWithRongCloud()
-    {
-        final String  currentPassport=FlyingDataManager.getPassport();
-
-        String url = ShareDefine.getRongTokenURL(currentPassport);
-
-        Ion.with(Welcome.this)
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
-
-                        if (e != null) {
-                            Toast.makeText(Welcome.this, "Error get RongToken", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String code = result.get("rc").getAsString();
-
-                        if (code.equals("1")) {
-
-                            String rongDeviceKoken = result.get("token").getAsString();
-
-                            //保存Rong Token
-                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString("rongToken", rongDeviceKoken);
-                            edit.apply();
-
-                            httpGetTokenSuccess(rongDeviceKoken);
-
-                        } else {
-                            String errorInfo = result.get("rm").getAsString();
-                            Toast.makeText(Welcome.this, errorInfo, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-    }
-
-
-    private void httpGetTokenSuccess(String token) {
-
-        Log.e("LoginActivity", "---------httpGetTokenSuccess----------:" + token);
-        try {
-            /**
-             * IMKit SDK调用第二步
-             *
-             * 建立与服务器的连接
-             *
-             * 详见API
-             * http://docs.rongcloud.cn/api/android/imkit/index.html
-             */
-
-//            token = "dNcIdu8Eqtu7iNca1gMhzs2yq+hfEluLjZ78E1qo4hGRHcB01HLt4SCyc1P/x3rYpMLVNO7rD0vC99se33P+Aw==";
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                        @Override
-                        public void onTokenIncorrect() {
-                            Log.e("LoginActivity", "---------onTokenIncorrec----------:");
-                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString("rongToken", "");
-                            edit.apply();
-                        }
-
-                        @Override
-                        public void onSuccess(String userId) {
-                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString("rongUserId", userId);
-                            edit.apply();
-
-                            RongCloudEvent.getInstance().setOtherListener();
-                        }
-
-                        @Override
-                        public void onError(RongIMClient.ErrorCode e) {
-
-                            Log.e("LoginActivity", "---------onError ----------:" + e);
-                        }
-                    }
-            );
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
