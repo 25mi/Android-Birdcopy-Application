@@ -234,6 +234,19 @@ public class FlyingContext {
     }
 
     /**
+     * 根据userids获得好友列表
+     *
+     * @return
+     */
+    public ArrayList<UserInfo> getUserInfoList(List list) {
+
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+
+
+        return (ArrayList) userInfoList;
+    }
+
+    /**
      * 通过groupid 获得groupname
      *
      * @param groupid

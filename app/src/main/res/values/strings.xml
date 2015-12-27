@@ -169,6 +169,9 @@
 
 
     <!--Rongcloud -->
+    <!--会话-->
+    <string name="conversation_top_title">会话</string>
+
 
     <!--主页-->
     <string name="main_conversation">会话</string>
@@ -245,6 +248,7 @@
     <string name="friend_list_multi_choice_comfirt_btn">"确定(%1$s)"</string>
     <string name="de_item_delete_friend">"删除"</string>
     <string name="de_new_friends">"新的朋友"</string>
+    <string name="friend_id">"Id:"</string>
 
     <!--group-->
     <string name="group_intro">"群简介"</string>
@@ -253,13 +257,20 @@
     <string name="group_join">"加入"</string>
     <string name="group_quit">"删除并退出"</string>
     <string name="group_chat">"聊天"</string>
+    <string name="group_join_success">"加入群组成功"</string>
+    <string name="group_quit_success">"退出群组成功"</string>
+    <string name="group_is_full">"群组人数已满"</string>
+    <string name="group_user_info">"群名片"</string>
+    <string name="group_user_intro">修改你的群名片</string>
 
     <!--personal-->
     <string name="personal_title">"详细资料"</string>
     <string name="personal_area">"地区"</string>
     <string name="personal_signature">"个性签名"</string>
     <string name="personal_send_message">"发消息"</string>
+    <string name="add_friend">"添加到通讯录"</string>
     <string name="personal_send_voip">"语音聊天"</string>
+
 
     <!--public account -->
     <string name="public_account_search">"搜索"</string>
@@ -277,12 +288,24 @@
     <string name="de_actionbar_set_conversation">"聊天设置"</string>
     <string name="de_actionbar_set_public">"公众号"</string>
     <string name="de_actionbar_update_discussion">"修改讨论组昵称"</string>
+    <string name="de_actionbar_discussion">"聊天室"</string>
+    <string name="de_actionbar_system">"系统消息"</string>
+    <string name="phone_camera">Camera</string>
 
     <string name="de_dialog_item_message_delete">删除消息</string>
     <string name="de_notification_information">开启后，在设定时间段内收到新消息时不会响铃或振动。</string>
 
     <string name="de_plugins_image">图片</string>
     <string name="de_plugins_camera">相机</string>
+    <string name="de_group_list_default_discussion_name">讨论组</string>
+    <string name="de_message_content_draft">[草稿]</string>
+    <string name="de_message_at_me">[有人@我]</string>
+
+    <!-- Aming 10月重构版 -->
+    <string name="folder_all">所有图片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量</string>
 
     <string name="add_help">"参与设计"</string>
     <string name="add_share">"分享内容"</string>

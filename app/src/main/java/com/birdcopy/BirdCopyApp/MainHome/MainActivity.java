@@ -21,11 +21,12 @@ import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenuItem;
+import com.birdcopy.BirdCopyApp.Content.ContentActivity;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
-import com.birdcopy.BirdCopyApp.LessonList.LessonListFragment;
+import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
+import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.birdcopy.BirdCopyApp.MyProfile.ProfileFragment;
 import com.birdcopy.BirdCopyApp.Search.SearchActivity;
@@ -62,8 +63,7 @@ import com.birdcopy.BirdCopyApp.ChannelActivity;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.Lesson.LessonActivity;
-import com.birdcopy.BirdCopyApp.LessonList.LessonParser;
+import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
 import com.birdcopy.BirdCopyApp.MyLessons.MyLeesonsFragment;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.ScanActivity;
@@ -680,7 +680,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     {
         if (lessonData != null)
         {
-            Intent intent = new Intent(this, LessonActivity.class);
+            Intent intent = new Intent(this, ContentActivity.class);
             intent.putExtra(ShareDefine.SAVED_OBJECT_KEY, lessonData);
             startActivityForResult(intent, ShareDefine.SHOWLESSON_REQUEST_CODE);
 
@@ -825,32 +825,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void showChatListNow()
     {
-        if(mMessageCount==0)
-        {
-            RongIM.getInstance().startConversation(MainActivity.this, Conversation.ConversationType.CHATROOM, ShareDefine.getLessonOwner(), "广场");
-        }
-        else
-        {
-            ConversationListFragment contentFragment = ConversationListFragment.getInstance();
-            Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
-                    .appendPath("conversationlist")
-                    .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "true") //设置私聊会话是否聚合显示
-                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
-                    .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "true")
-                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
-                    .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "true")
-                    .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "true")
-                    .build();
-            contentFragment.setUri(uri);
+        ConversationListFragment contentFragment = ConversationListFragment.getInstance();
+        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+                .appendPath("conversationlist")
+                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
+                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
+                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "true")
+                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
+                .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "true")
+                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "true")
+                .build();
+        contentFragment.setUri(uri);
 
-            fg=contentFragment;
+        fg=contentFragment;
 
-            android.support.v4.app.FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, contentFragment)
-                    .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+        android.support.v4.app.FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, contentFragment)
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void showMySettings()

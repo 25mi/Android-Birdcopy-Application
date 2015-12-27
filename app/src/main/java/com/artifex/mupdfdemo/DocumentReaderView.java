@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
 
 
 public abstract class DocumentReaderView extends ReaderView {

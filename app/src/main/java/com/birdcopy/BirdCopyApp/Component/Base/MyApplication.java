@@ -22,6 +22,7 @@ import com.birdcopy.BirdCopyApp.DataManager.OpenUDID_manager;
 
 import com.birdcopy.BirdCopyApp.IM.ContactNotificationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.DeAgreedFriendRequestMessage;
+import com.birdcopy.BirdCopyApp.IM.NewDiscussionConversationProvider;
 import com.birdcopy.BirdCopyApp.IM.RealTimeLocationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.birdcopy.BirdCopyApp.R;
@@ -29,6 +30,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.io.IOException;
 
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
 
@@ -94,8 +96,6 @@ public class MyApplication extends MultiDexApplication
         if (getString(R.string.KPakagename).equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
-
-            Log.e("tag", "-------app--" + getApplicationInfo().packageName.toString());
             RongIM.init(this);
 
             /**
@@ -115,6 +115,9 @@ public class MyApplication extends MultiDexApplication
 
                     RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
                     RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
+
+                    //@ 消息模板展示
+                    RongContext.getInstance().registerConversationTemplate(new NewDiscussionConversationProvider());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -17,10 +17,12 @@ import com.birdcopy.BirdCopyApp.Component.Adapter.HomeFragmentPagerAdapter;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.UI.DynamicHeightViewPager;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.StaggeredGridView;
-import com.birdcopy.BirdCopyApp.LessonList.LessonDataModle;
-import com.birdcopy.BirdCopyApp.R;
+import com.birdcopy.BirdCopyApp.ContentList.LessonDataModle;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.birdcopy.BirdCopyApp.R;
+
 
 /**
  * Created by birdcopy on 23/9/14.

@@ -60,7 +60,7 @@ public class FlyingHttpTool {
                         // do stuff with the result or error
 
                         if (e != null) {
-                            //Toast.makeText(Welcome.this, "Error get RongToken", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(FlyingWelcomeActivity.this, "Error get RongToken", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         String code = result.get("rc").getAsString();
@@ -71,14 +71,14 @@ public class FlyingHttpTool {
 
                             //保存Rong Token
                             SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString("rongToken", rongDeviceKoken);
+                            edit.putString(ShareDefine.RONG_TOKEN, rongDeviceKoken);
                             edit.apply();
 
                             httpGetTokenSuccess(rongDeviceKoken);
 
                         } else {
                             String errorInfo = result.get("rm").getAsString();
-                            //Toast.makeText(Welcome.this, errorInfo, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(FlyingWelcomeActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -104,7 +104,7 @@ public class FlyingHttpTool {
                         public void onTokenIncorrect() {
                             Log.e("LoginActivity", "---------onTokenIncorrec----------:");
                             SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString("rongToken", "");
+                            edit.putString(ShareDefine.RONG_TOKEN, "");
                             edit.apply();
                         }
 

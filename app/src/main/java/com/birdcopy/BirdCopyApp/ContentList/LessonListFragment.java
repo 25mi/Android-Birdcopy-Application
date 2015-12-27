@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.LessonList;
+package com.birdcopy.BirdCopyApp.ContentList;
 
 import android.os.Bundle;
 import android.os.Message;

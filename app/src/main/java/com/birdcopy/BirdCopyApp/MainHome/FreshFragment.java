@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.LessonList.LessonListAdapter;
-import com.birdcopy.BirdCopyApp.LessonList.LessonDataModle;
+import com.birdcopy.BirdCopyApp.ContentList.LessonListAdapter;
+import com.birdcopy.BirdCopyApp.ContentList.LessonDataModle;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.StaggeredGridView;
 

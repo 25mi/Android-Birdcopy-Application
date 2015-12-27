@@ -32,7 +32,7 @@
 
 
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppOldBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -69,7 +69,7 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppOldTheme" parent="AppOldBaseTheme">
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowNoTitle">true</item>
@@ -516,6 +516,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">40dp</item>
+    </style>
+
+    <style name="WinDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

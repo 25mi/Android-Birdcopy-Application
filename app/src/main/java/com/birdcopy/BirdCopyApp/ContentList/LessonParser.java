@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.LessonList;
+package com.birdcopy.BirdCopyApp.ContentList;
 
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import org.xml.sax.Attributes;

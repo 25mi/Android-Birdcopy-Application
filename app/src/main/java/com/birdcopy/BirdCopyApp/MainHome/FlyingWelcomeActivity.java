@@ -20,7 +20,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class Welcome extends Activity
+public class FlyingWelcomeActivity extends Activity
 {
     private  String mResponseStr=null;
     View view;
@@ -113,7 +113,7 @@ public class Welcome extends Activity
         if (MyApplication.getSharedPreference().getBoolean("firstLaunch",true))
         {
             String msg = "恭喜你，账户已经激活！";
-            Toast.makeText(Welcome.this, msg,
+            Toast.makeText(FlyingWelcomeActivity.this, msg,
                     Toast.LENGTH_SHORT).show();
 
             SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
@@ -151,7 +151,7 @@ public class Welcome extends Activity
                         if (isOK) {
                             letsGo();
                         } else {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(Welcome.this);
+                            AlertDialog.Builder alert = new AlertDialog.Builder(FlyingWelcomeActivity.this);
 
                             alert.setTitle("友情提醒");
                             alert.setMessage("请联网再试，会自动创建和激活你的账户！");

@@ -726,4 +726,19 @@
 
     <color name="thumbnail_selected_background">#bba8a8a8</color>
 
+    <!--融云相关-->
+
+    <color name="group_list_black_textview">#353535</color>
+    <color name="group_list_gray">#999999</color>
+    <color name="group_list_liner">#e4e4e4</color>
+    <!--actionbar-->
+    <color name="de_actionbar_bg">#0195ff</color>
+    <!---->
+    <color name="de_item_select">#f3f3f3</color>
+    <color name="de_action_color">#3498DB</color>
+    <color name="de_action_white">@android:color/white</color>
+    <color name="de_transparent">#00000000</color>
+
+    <color name="de_draft_color">#cb120f</color>
+
 </resources>

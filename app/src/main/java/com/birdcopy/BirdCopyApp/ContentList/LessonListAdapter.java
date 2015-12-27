@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.LessonList;
+package com.birdcopy.BirdCopyApp.ContentList;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +15,6 @@ import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Tools.Options;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightTextView;
-import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;

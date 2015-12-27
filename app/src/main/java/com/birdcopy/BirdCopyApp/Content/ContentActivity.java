@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.Lesson;
+package com.birdcopy.BirdCopyApp.Content;
 
 import android.content.*;
 import android.content.pm.ResolveInfo;
@@ -22,6 +22,7 @@ import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentListAdapter;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
@@ -42,7 +43,7 @@ import com.birdcopy.BirdCopyApp.Component.UI.tagview.TagView;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.LessonList.LessonParser;
+import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Media.PlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
@@ -71,10 +72,11 @@ import java.util.Date;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.UriFragment;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
-public class LessonActivity extends FragmentActivity
+public class ContentActivity extends FragmentActivity
 {
     public static final String SAVED_DATA_KEY   = "SAVED_DATA_KEY";
     public final static int HTTP_RESPONSE = 0;
@@ -138,7 +140,7 @@ public class LessonActivity extends FragmentActivity
     private boolean mNeedBackGesture = false;
     private List<View> mIgnoredViews= new ArrayList<View>();
 
-    public LessonActivity()
+    public ContentActivity()
     {
         // Empty constructor required for Fragment subclasses
         super();
@@ -215,7 +217,7 @@ public class LessonActivity extends FragmentActivity
                         } else {
                             mIsMembership = false;
 
-                            Toast.makeText(LessonActivity.this, "抱歉，你没有相关权限。请在个人帐户购买会员或者直接点击课程标题的购买图标！", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ContentActivity.this, "抱歉，你没有相关权限。请在个人帐户购买会员或者直接点击课程标题的购买图标！", Toast.LENGTH_LONG).show();
                         }
 
                         initBuyButton();
@@ -303,7 +305,7 @@ public class LessonActivity extends FragmentActivity
         mCommentListView = (ListView)findViewById(R.id.commentList);
 
         if (mAdapter == null) {
-            mAdapter = new FlyingCommentListAdapter(LessonActivity.this, R.id.comment_item_content);
+            mAdapter = new FlyingCommentListAdapter(ContentActivity.this, R.id.comment_item_content);
         }
         mCommentListView.setAdapter(mAdapter);
         mCommentListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -340,19 +342,14 @@ public class LessonActivity extends FragmentActivity
 
                 final FlyingCommentData commentData = mData.get(position);
 
-                final  String targetUserID = commentData.userID;
+                final  String targetUserID = ShareDefine.getMD5(commentData.userID);
 
                 if(!targetUserID.equalsIgnoreCase(FlyingDataManager.getPassport()))
                 {
-                    FlyingHttpTool.getUserInfoByopenID(targetUserID,
-                            ShareDefine.getLocalAppID(),
-                            new FlyingHttpTool.GetUserInfoByopenIDListener() {
-                                @Override
-                                public void completion(UserInfo userInfo) {
+                    FlyingContext.getInstance().getUserInfoByRongId(targetUserID);
 
-                                    RongIM.getInstance().startConversation(LessonActivity.this, Conversation.ConversationType.PRIVATE, commentData.userID, commentData.nickName);
-                                }
-                            });
+                    if (RongIM.getInstance() != null)
+                        RongIM.getInstance().startPrivateChat(ContentActivity.this, targetUserID, commentData.nickName);
                 }
             }
         });
@@ -403,7 +400,7 @@ public class LessonActivity extends FragmentActivity
             @Override
             public boolean onLongClick(View v) {
 
-                new AlertDialogWrapper.Builder(LessonActivity.this)
+                new AlertDialogWrapper.Builder(ContentActivity.this)
                         .setTitle("友情提醒")
                         .setMessage(getString(R.string.save_QRCode_ACK))
                         .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -418,7 +415,7 @@ public class LessonActivity extends FragmentActivity
                                     Bitmap output = TextToBitmap.createQRCodeBitmapWithPortrait(qrBitImage.getBitmap(), logo);
 
                                     ShareDefine.savePhoto(output, mLessonData.getBETITLE());
-                                    Toast.makeText(LessonActivity.this, "已经成功保存图片", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ContentActivity.this, "已经成功保存图片", Toast.LENGTH_SHORT).show();
                                 }
                                 dialog.dismiss();
                             }
@@ -477,7 +474,7 @@ public class LessonActivity extends FragmentActivity
 
                                 if(mMaxNumOfComments>0)
                                 {
-                                    mFooterView = LayoutInflater.from(LessonActivity.this).inflate(R.layout.comment_foot, null);
+                                    mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
                                     mCommentListView.addFooterView(mFooterView);
                                 }
                             }
@@ -596,7 +593,7 @@ public class LessonActivity extends FragmentActivity
                     break;
                     case MyIntents.Types.ERROR:
                     {
-                        Toast.makeText(LessonActivity.this, "下载失败，重新试试吧：）",
+                        Toast.makeText(ContentActivity.this, "下载失败，重新试试吧：）",
                                 Toast.LENGTH_SHORT).show();
 
                         mBuyButton.setBackgroundResource(R.drawable.graybutton);
@@ -670,7 +667,7 @@ public class LessonActivity extends FragmentActivity
 
         if(!mHasRight)
         {
-            Toast.makeText(LessonActivity.this, getString(R.string.lesson_right_alert),
+            Toast.makeText(ContentActivity.this, getString(R.string.lesson_right_alert),
                     Toast.LENGTH_LONG).show();
         }
         else
@@ -687,7 +684,7 @@ public class LessonActivity extends FragmentActivity
             {
                 if (mLessonData.getBEDLSTATE() == true) {
 
-                    Toast.makeText(LessonActivity.this, getString(R.string.lesson_playonline_alert),
+                    Toast.makeText(ContentActivity.this, getString(R.string.lesson_playonline_alert),
                             Toast.LENGTH_LONG).show();
                 }
                 else
@@ -760,7 +757,7 @@ public class LessonActivity extends FragmentActivity
                     }
                     else
                     {
-                        Toast.makeText(LessonActivity.this, "下载失败，重新试试吧：）",
+                        Toast.makeText(ContentActivity.this, "下载失败，重新试试吧：）",
                                 Toast.LENGTH_SHORT).show();
 
                         mBuyButton.setClickable(true);
@@ -815,7 +812,7 @@ public class LessonActivity extends FragmentActivity
     {
         String url = ShareDefine.getLessonResource(mLessonData.getBELESSONID(),ShareDefine.kResource_Background);
 
-        Ion.with(LessonActivity.this)
+        Ion.with(ContentActivity.this)
                 .load(url)
                 .asString()
                 .withResponse()
@@ -832,7 +829,7 @@ public class LessonActivity extends FragmentActivity
 
                             if(urlString !=null)
                             {
-                                Ion.with(LessonActivity.this)
+                                Ion.with(ContentActivity.this)
                                         .load(urlString)
                                         .write(new File(ShareDefine.getLessonContentPathWithFileName(mLessonData.getBELESSONID(),ShareDefine.kResource_Background_filenmae)
                                         ))
@@ -944,7 +941,7 @@ public class LessonActivity extends FragmentActivity
 
                                 if(mFooterView == null)
                                 {
-                                    mFooterView = LayoutInflater.from(LessonActivity.this).inflate(R.layout.comment_foot, null);
+                                    mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
                                     mCommentListView.addFooterView(mFooterView);
                                 }
 
@@ -958,7 +955,7 @@ public class LessonActivity extends FragmentActivity
     {
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 
-        FlyingHttpTool.toBuyProduct(LessonActivity.this,
+        FlyingHttpTool.toBuyProduct(ContentActivity.this,
                 FlyingDataManager.getPassport(),
                 ShareDefine.getLocalAppID(),
                 good);
@@ -1031,7 +1028,7 @@ public class LessonActivity extends FragmentActivity
         }
         else
         {
-            Toast.makeText(LessonActivity.this, "没有金币了，需要充值了：）",
+            Toast.makeText(ContentActivity.this, "没有金币了，需要充值了：）",
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -1270,7 +1267,7 @@ public class LessonActivity extends FragmentActivity
 
     private void initGestureDetector() {
         if (mGestureDetector == null) {
-            mGestureDetector = new GestureDetector(LessonActivity.this,
+            mGestureDetector = new GestureDetector(ContentActivity.this,
                     new BackGestureListener(this));
         }
     }

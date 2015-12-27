@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.Lesson;
+package com.birdcopy.BirdCopyApp.Content;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +17,6 @@ import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by birdcopy on 18/10/14.

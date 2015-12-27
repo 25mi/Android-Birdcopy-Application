@@ -68,7 +68,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainHome.Welcome"
+            android:name=".MainHome.FlyingWelcomeActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -95,8 +95,8 @@
                     android:scheme="bcapp" />
             </intent-filter>
         </activity>
-        <activity android:name=".Lesson.LessonActivity" />
-        <activity android:name=".Lesson.WebViewActivity" />
+        <activity android:name=".Content.ContentActivity" />
+        <activity android:name=".Content.WebViewActivity" />
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".ChannelActivity" />
         <activity android:name=".ImageShowActivity" />
@@ -109,7 +109,6 @@
         </activity>
 
         <activity android:name=".Comment.FlyingCommentActivity" />
-
 
         <!--PDF阅读器 -->
         <activity
@@ -155,6 +154,41 @@
 
         <!-- RongCloud Actitvy -->
 
+        <!--会话页面-->
+        <activity
+            android:name=".IM.FlyingConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="it.birdcopy.inet"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" /><!-- 不能修改 -->
+            </intent-filter>
+
+        </activity>
+
+        <!--聚合会话列表-->
+        <activity
+            android:name=".IM.SubConversationListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="it.birdcopy.inet"
+                    android:path="/subconversationlist"
+                    android:scheme="rong" /><!-- 不能修改 -->
+            </intent-filter>
+        </activity>
+
         <!-- soso   地图 -->
         <meta-data
             android:name="TencentMapSDK"
@@ -165,19 +199,6 @@
 
         <activity android:name=".IM.ShowPhotoActivity" />
 
-        <activity android:name=".IM.ConversationActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="it.birdcopy.inet"
-                android:pathPrefix="/conversation/"
-                android:scheme="rong" /> <!-- 不能修改 -->
-            </intent-filter>
-
-        </activity>
 
         <!-- begin imlib request -->
         <activity

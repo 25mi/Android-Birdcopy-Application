@@ -1,9 +1,7 @@
 package com.birdcopy.BirdCopyApp.IM;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 

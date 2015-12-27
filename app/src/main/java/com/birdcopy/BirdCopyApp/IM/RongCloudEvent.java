@@ -24,7 +24,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.IM.photo.PhotoCollectionsProvider;
-import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
 
@@ -801,7 +801,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             if (RongIM.getInstance() != null && userInfo!=null)
             {
-                Intent intent = new Intent(context, com.birdcopy.BirdCopyApp.IM.ConversationActivity.class);
+                Intent intent = new Intent(context, com.birdcopy.BirdCopyApp.IM.FlyingConversationActivity.class);
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.putExtra("ConversationType", "PRIVATE");
                 intent.putExtra("title", userInfo.getName());

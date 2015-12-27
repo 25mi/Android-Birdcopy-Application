@@ -16,7 +16,7 @@ import com.birdcopy.BirdCopyApp.ChannelManage.ChannelItem;
 import com.birdcopy.BirdCopyApp.Component.Adapter.HomeFragmentPagerAdapter;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView;
-import com.birdcopy.BirdCopyApp.LessonList.LessonListFragment;
+import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.Tools.BaseTools;
 

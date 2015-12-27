@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.birdcopy.BirdCopyApp.Lesson.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
 import com.birdcopy.BirdCopyApp.R;
 
 import io.rong.imkit.RongContext;
