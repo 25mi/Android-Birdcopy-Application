@@ -19,9 +19,9 @@ import io.rong.imlib.model.UserInfo;
  */
 public class FlyingDataManager {
 
-    static public String getPassport()
+    static public String getCurrentPassport()
     {
-        String  currentPassport=MyApplication.getSharedPreference().getString("passport",null);
+        String  currentPassport=MyApplication.getSharedPreference().getString("passport", null);
 
         if(currentPassport==null)
         {
@@ -33,6 +33,20 @@ public class FlyingDataManager {
         }
 
         return currentPassport;
+    }
+
+    static public String getCurrentRongID()
+    {
+        String  currentPassport = FlyingDataManager.getCurrentPassport();
+
+        if(currentPassport!=null && currentPassport.length()>1)
+        {
+            return ShareDefine.getMD5(currentPassport);
+        }
+        else
+        {
+            return null;
+        }
     }
 
     static public String getNickName()
@@ -58,10 +72,9 @@ public class FlyingDataManager {
 
         if (portraitUri == null)
         {
-            String  currentPassport=FlyingDataManager.getPassport();
-            String rongID =ShareDefine.getMD5(currentPassport);
+            String rongID = FlyingDataManager.getCurrentRongID();
 
-            if (currentPassport!=null)
+            if (rongID!=null)
             {
                 UserInfo userInfo= FlyingContext.getInstance().getUserInfoByRongId(rongID);
 
@@ -106,7 +119,7 @@ public class FlyingDataManager {
 
         Date newEnddate = ca.getTime();
 
-        FlyingHttpTool.updateMembership(FlyingDataManager.getPassport(),
+        FlyingHttpTool.updateMembership(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 newStartDate,
                 newEnddate, null);
@@ -116,25 +129,27 @@ public class FlyingDataManager {
     static  public void creatLocalUSerProfileWithServer()
     {
         //从服务器获取会员资格
-        FlyingHttpTool.getMembership(FlyingDataManager.getPassport(),
+        FlyingHttpTool.getMembership(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 null);
 
         //苹果渠道购买、金币消费、点击单词统计
-        FlyingHttpTool.getMoneyData(FlyingDataManager.getPassport(),
+        FlyingHttpTool.getMoneyData(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 null);
         //充值卡记录
-        FlyingHttpTool.getQRData(FlyingDataManager.getPassport(),
+        FlyingHttpTool.getQRData(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 null);
 
         //内容相关数据
-        FlyingHttpTool.getContentStatistic(FlyingDataManager.getPassport(),
+        FlyingHttpTool.getContentStatistic(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 null);
 
         //获取头像、昵称
-
+        FlyingHttpTool.getUserInfoByopenID(FlyingDataManager.getCurrentPassport(),
+                ShareDefine.getLocalAppID(),
+                null);
     }
 }

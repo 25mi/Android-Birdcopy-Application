@@ -123,7 +123,7 @@ public class NewDiscussionConversationProvider implements IContainerItemProvider
 
         if (FlyingContext.getInstance() != null) {
 
-            userId = ShareDefine.getMD5(FlyingDataManager.getPassport());
+            userId = FlyingDataManager.getCurrentRongID();
             username = FlyingDataManager.getNickName();
          }
 
@@ -154,7 +154,6 @@ public class NewDiscussionConversationProvider implements IContainerItemProvider
             }
         }
     }
-
 
     @Override
     public View newView(Context context, ViewGroup viewgroup) {

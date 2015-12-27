@@ -73,7 +73,7 @@ public class FlyingWelcomeActivity extends Activity
 
 	private void getUserData()
     {
-        FlyingHttpTool.verifyOpenUDID(FlyingDataManager.getPassport(),
+        FlyingHttpTool.verifyOpenUDID(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 new FlyingHttpTool.VerifyOpenUDIDListener() {
                     @Override
@@ -84,7 +84,7 @@ public class FlyingWelcomeActivity extends Activity
                             //第一次运行切有注册记录
                             if(MyApplication.getSharedPreference().getBoolean("firstLaunch",true))
                             {
-                                getUserDataFormServer();
+                                FlyingDataManager.creatLocalUSerProfileWithServer();
 
                                 SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
                                 editor.putBoolean("firstLaunch", false);
@@ -99,14 +99,6 @@ public class FlyingWelcomeActivity extends Activity
                     }
                 });
 	}
-
-    public  void  getUserDataFormServer()
-    {
-        FlyingDataManager.creatLocalUSerProfileWithServer();
-
-        //获取当前用户头像\资料
-        FlyingContext.getInstance().getUserInfoByRongId(ShareDefine.getMD5(FlyingDataManager.getPassport()));
-    }
 
     public void letsGo()
     {
@@ -142,7 +134,7 @@ public class FlyingWelcomeActivity extends Activity
         Toast.makeText(this, msg,
                 Toast.LENGTH_LONG).show();
 
-        FlyingHttpTool.regOpenUDID(FlyingDataManager.getPassport(),
+        FlyingHttpTool.regOpenUDID(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 new FlyingHttpTool.RegOpenUDIDListener() {
                     @Override

@@ -67,7 +67,7 @@ public class NewTextMessageActivity extends AppCompatActivity implements Adapter
                           mNumberlist = discussion.getMemberIdList();
 
                         if (FlyingContext.getInstance().getSharedPreferences() != null) {
-                            String   userId = ShareDefine.getMD5(FlyingDataManager.getPassport());
+                            String   userId = FlyingDataManager.getCurrentRongID();
                             mNumberlist.remove(userId);
                         }
 
@@ -88,7 +88,6 @@ public class NewTextMessageActivity extends AppCompatActivity implements Adapter
         }
 
         mReplyListView.setOnItemClickListener(this);
-
     }
 
 

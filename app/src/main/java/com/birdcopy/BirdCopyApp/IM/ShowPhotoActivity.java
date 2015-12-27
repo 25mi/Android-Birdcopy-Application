@@ -142,7 +142,7 @@ public class ShowPhotoActivity extends Activity {
             if (scanStr != null)
             {
                 FlyingHttpTool.chargingCrad(scanStr,
-                        FlyingDataManager.getPassport(),
+                        FlyingDataManager.getCurrentPassport(),
                         ShareDefine.getLocalAppID(),
                         new FlyingHttpTool.ChargingCradListener() {
                             @Override
@@ -165,7 +165,7 @@ public class ShowPhotoActivity extends Activity {
                 if (loginID!=null) {
 
                     FlyingHttpTool.loginWithQR(loginID,
-                            FlyingDataManager.getPassport(),
+                            FlyingDataManager.getCurrentPassport(),
                             ShareDefine.getLocalAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                         @Override

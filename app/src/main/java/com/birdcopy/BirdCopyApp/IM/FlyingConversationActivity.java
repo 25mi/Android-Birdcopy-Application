@@ -95,6 +95,8 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         if (intent == null || intent.getData() == null)
             return;
 
+        Uri data = intent.getData();
+
         mTargetId = intent.getData().getQueryParameter("targetId");
 
         //intent.getData().getLastPathSegment();//获得当前会话类型

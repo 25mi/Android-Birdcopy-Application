@@ -853,7 +853,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         {
             if (scanStr != null)
             {
-                FlyingHttpTool.chargingCrad(FlyingDataManager.getPassport(),
+                FlyingHttpTool.chargingCrad(FlyingDataManager.getCurrentPassport(),
                         ShareDefine.getLocalAppID(),
                         scanStr,
                         new FlyingHttpTool.ChargingCradListener() {
@@ -876,7 +876,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 if (loginID!=null) {
 
                     FlyingHttpTool.loginWithQR(loginID,
-                            FlyingDataManager.getPassport(),
+                            FlyingDataManager.getCurrentPassport(),
                             ShareDefine.getLocalAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                         @Override

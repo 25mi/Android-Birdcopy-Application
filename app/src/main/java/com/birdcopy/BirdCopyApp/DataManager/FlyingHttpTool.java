@@ -47,7 +47,7 @@ public class FlyingHttpTool {
 
     static public void connectWithRongCloud()
     {
-        final String  currentPassport=FlyingDataManager.getPassport();
+        final String  currentPassport=FlyingDataManager.getCurrentPassport();
 
         String url = ShareDefine.getRongTokenURL(currentPassport);
 
@@ -246,7 +246,7 @@ public class FlyingHttpTool {
                                        String appID,
                                        final String nickName,
                                        final String portraitUri,
-                                       String br_intro,
+                                       final String br_intro,
                                        final RefreshUesrInfoListener delegate)
     {
         String url = "http://" +
@@ -1249,12 +1249,4 @@ public class FlyingHttpTool {
                     }
                 });
     }
-
-
-
-
-
-
-
-
 }

@@ -485,7 +485,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             scanNow();
         }
 
-
         else if (view == chat_btn)
         {
             mDrawMenuPosition = chatMenuPostion;
@@ -892,7 +891,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         editor.putInt("awardCoin", awardCoin+1);
         editor.commit();
 
-        BE_STATISTIC statistic = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
+        BE_STATISTIC statistic = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getCurrentPassport());
 
         if(statistic==null)
         {
@@ -916,7 +915,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             MyApplication.getInstance().playCoinSound();
 
             ShareDefine.broadUserDataChange();
-            FlyingHttpTool.uploadMoneyData(FlyingDataManager.getPassport(),
+            FlyingHttpTool.uploadMoneyData(FlyingDataManager.getCurrentPassport(),
                     ShareDefine.getLocalAppID(),
                     null);
         }
@@ -1022,7 +1021,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             if (scanStr != null)
             {
 
-                FlyingHttpTool.chargingCrad(FlyingDataManager.getPassport(),
+                FlyingHttpTool.chargingCrad(FlyingDataManager.getCurrentPassport(),
                         ShareDefine.getLocalAppID(),
                         scanStr,
                         new FlyingHttpTool.ChargingCradListener() {
@@ -1045,7 +1044,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if (loginID!=null) {
 
                     FlyingHttpTool.loginWithQR(loginID,
-                            FlyingDataManager.getPassport(),
+                            FlyingDataManager.getCurrentPassport(),
                             ShareDefine.getLocalAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                                 @Override
@@ -1294,5 +1293,4 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }
     }
-
 }

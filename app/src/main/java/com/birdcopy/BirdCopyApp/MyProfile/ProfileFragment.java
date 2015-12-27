@@ -20,17 +20,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
-import com.birdcopy.BirdCopyApp.Scan.decoding.Intents;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
@@ -39,8 +33,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
-
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by BirdCopyApp on 29/7/14.
@@ -107,13 +99,13 @@ public class ProfileFragment extends Fragment {
     public void initData() {
 
         //获取会员金币数据
-        FlyingHttpTool.getMoneyData(FlyingDataManager.getPassport(),
+        FlyingHttpTool.getMoneyData(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 new FlyingHttpTool.GetMoneyDataListener() {
                     @Override
                     public void completion(boolean isOK) {
 
-                        BE_STATISTIC data = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
+                        BE_STATISTIC data = new FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getCurrentPassport());
 
                         if(data!=null)
                         {
@@ -125,7 +117,7 @@ public class ProfileFragment extends Fragment {
                 });
 
         //获取年费会员数据
-        FlyingHttpTool.getMembership(FlyingDataManager.getPassport(),
+        FlyingHttpTool.getMembership(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
                     @Override
@@ -181,8 +173,9 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        mCoverTitle = (TextView) mProfileView.findViewById(R.id.userheadalert);
         initUserCover();
+
+        mCoverTitle = (TextView) mProfileView.findViewById(R.id.userheadalert);
 
         //昵称显示
         mNikeName = (TextView) mProfileView.findViewById(R.id.usernikename);
@@ -224,40 +217,19 @@ public class ProfileFragment extends Fragment {
 
     private void initUserCover()
     {
-        String portraitUri = MyApplication.getSharedPreference().getString(ShareDefine.KIMPORTRAITURI, null);
+        String portraitUri = FlyingDataManager.getPortraitUri();
 
-        if (portraitUri == null)
-        {
-            String  currentPassport=FlyingDataManager.getPassport();
-            String rongID =ShareDefine.getMD5(currentPassport);
-
-            if (currentPassport!=null)
-            {
-                UserInfo userInfo= FlyingContext.getInstance().getUserInfoByRongId(rongID);
-
-                if(userInfo!=null && userInfo.getPortraitUri()!=null)
-                {
-                    portraitUri=userInfo.getPortraitUri().toString();
-
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(portraitUri, mUserCover);
-
-                    MyApplication.getSharedPreference().edit().putString(ShareDefine.KIMPORTRAITURI, portraitUri );
-                }
-                else
-                {
-                    mUserCover.setImageResource(R.drawable.default_head);
-                    mCoverTitle.setVisibility(View.VISIBLE);
-                }
-            }
-
-            mCoverTitle.setVisibility(View.INVISIBLE);
-        } else
+        if (portraitUri != null && portraitUri.contains("http"))
         {
             ImageLoader imageLoader = ImageLoader.getInstance();
             imageLoader.displayImage(portraitUri, mUserCover);
+        }
+        else
+        {
+            mUserCover.setImageResource(R.drawable.default_head);
 
-            mCoverTitle.setVisibility(View.INVISIBLE);
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            imageLoader.displayImage(portraitUri, mUserCover);
         }
     }
 
@@ -272,7 +244,8 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         toBuyMember();
-                        //Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -308,11 +281,19 @@ public class ProfileFragment extends Fragment {
 
     private void changeName()
     {
+
+        String nickName = FlyingDataManager.getNickName();
+
+        if(nickName==null || (nickName!=null && nickName.length()==1))
+        {
+            nickName="请输入昵称";
+        }
+
         new MaterialDialog.Builder(getActivity())
                 .title("请输入新的昵称")
                 .content("昵称")
                 .inputType(InputType.TYPE_CLASS_TEXT )
-                .input("我是", "我是一个小菜鸟", new MaterialDialog.InputCallback() {
+                .input("", nickName, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         // Do something
@@ -321,7 +302,7 @@ public class ProfileFragment extends Fragment {
                         FlyingDataManager.setNickName(nickName);
                         mNikeName.setText(nickName);
 
-                        FlyingHttpTool.refreshUesrInfo(FlyingDataManager.getPassport(),
+                        FlyingHttpTool.refreshUesrInfo(FlyingDataManager.getCurrentPassport(),
                                 ShareDefine.getLocalAppID(),
                                 nickName,
                                 null,
@@ -330,6 +311,7 @@ public class ProfileFragment extends Fragment {
                                     @Override
                                     public void completion(boolean isOK) {
                                         //
+                                        mNikeName.setText(FlyingDataManager.getNickName());
                                     }
                                 });
                     }
@@ -345,7 +327,7 @@ public class ProfileFragment extends Fragment {
 
         MainActivity mainActivity = (MainActivity) getActivity();
         FlyingHttpTool.toBuyProduct(mainActivity,
-                FlyingDataManager.getPassport(),
+                FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 good);
     }
@@ -452,7 +434,7 @@ public class ProfileFragment extends Fragment {
 
     public void uploadPortImage(File portraitFile)
     {
-        FlyingHttpTool.requestUploadPotrait(FlyingDataManager.getPassport(),
+        FlyingHttpTool.requestUploadPotrait(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 portraitFile,
                 new FlyingHttpTool.RequestUploadPotraitListener() {

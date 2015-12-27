@@ -72,9 +72,8 @@ import java.util.Date;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.UriFragment;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
+
 
 public class ContentActivity extends FragmentActivity
 {
@@ -205,7 +204,7 @@ public class ContentActivity extends FragmentActivity
     private void inquiryRightWithUserID()
     {
         //获取年费会员数据
-        new FlyingHttpTool().getMembership(FlyingDataManager.getPassport(),
+        new FlyingHttpTool().getMembership(FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
                     @Override
@@ -342,14 +341,19 @@ public class ContentActivity extends FragmentActivity
 
                 final FlyingCommentData commentData = mData.get(position);
 
-                final  String targetUserID = ShareDefine.getMD5(commentData.userID);
-
-                if(!targetUserID.equalsIgnoreCase(FlyingDataManager.getPassport()))
+                if(!commentData.userID.equalsIgnoreCase(FlyingDataManager.getCurrentPassport()))
                 {
-                    FlyingContext.getInstance().getUserInfoByRongId(targetUserID);
 
-                    if (RongIM.getInstance() != null)
-                        RongIM.getInstance().startPrivateChat(ContentActivity.this, targetUserID, commentData.nickName);
+                    FlyingHttpTool.getUserInfoByopenID(commentData.userID, ShareDefine.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                        @Override
+                        public void completion(UserInfo userInfo) {
+
+                            if (RongIM.getInstance() != null)
+                            {
+                                RongIM.getInstance().startPrivateChat(ContentActivity.this, ShareDefine.getMD5(commentData.userID), commentData.nickName);
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -651,7 +655,7 @@ public class ContentActivity extends FragmentActivity
 
                     mDao.savelLesson(mLessonData);
 
-                    BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getPassport(),mLessonData.getBELESSONID());
+                    BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getCurrentPassport(),mLessonData.getBELESSONID());
                     touchData.setBETOUCHTIMES(touchData.getBETOUCHTIMES()+1);
                     new FlyingTouchDAO().savelTouch(touchData);
                 }
@@ -914,7 +918,7 @@ public class ContentActivity extends FragmentActivity
             FlyingCommentData commentData = new FlyingCommentData();
             commentData.contentID   = mLessonData.getBELESSONID();
             commentData.contentType = mLessonData.getBECONTENTTYPE();
-            commentData.userID      = FlyingDataManager.getPassport();
+            commentData.userID      = FlyingDataManager.getCurrentPassport();
             commentData.nickName    = FlyingDataManager.getNickName();
             commentData.portraitURL = FlyingDataManager.getPortraitUri();
             commentData.commentContent = commentContent;
@@ -956,7 +960,7 @@ public class ContentActivity extends FragmentActivity
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 
         FlyingHttpTool.toBuyProduct(ContentActivity.this,
-                FlyingDataManager.getPassport(),
+                FlyingDataManager.getCurrentPassport(),
                 ShareDefine.getLocalAppID(),
                 good);
     }
@@ -988,7 +992,7 @@ public class ContentActivity extends FragmentActivity
 
     private void  buyLessonWithCoin()
     {
-        BE_STATISTIC statistic = new  FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getPassport());
+        BE_STATISTIC statistic = new  FlyingStatisticDAO().selectWithUserID(FlyingDataManager.getCurrentPassport());
 
         int balance =statistic.getBEQRCOUNT()+statistic.getBEMONEYCOUNT()+statistic.getBEGIFTCOUNT()-statistic.getBETOUCHCOUNT();
 
@@ -998,13 +1002,13 @@ public class ContentActivity extends FragmentActivity
             statistic.setBETOUCHCOUNT(statistic.getBETOUCHCOUNT()+mLessonData.getBECoinPrice());
             new FlyingStatisticDAO().saveStatic(statistic);
 
-            BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getPassport(),mLessonData.getBELESSONID());
+            BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getCurrentPassport(),mLessonData.getBELESSONID());
 
             if(touchData==null)
             {
                 touchData = new BE_TOUCH_RECORD();
                 touchData.setBETOUCHTIMES(new Integer(1));
-                touchData.setBEUSERID(FlyingDataManager.getPassport());
+                touchData.setBEUSERID(FlyingDataManager.getCurrentPassport());
                 touchData.setBELESSONID(mLessonData.getBELESSONID());
             }
             else
@@ -1015,7 +1019,7 @@ public class ContentActivity extends FragmentActivity
             new FlyingTouchDAO().savelTouch(touchData);
 
             //向服务器备份消费数据
-            FlyingHttpTool.uploadContentStatistic(FlyingDataManager.getPassport(),
+            FlyingHttpTool.uploadContentStatistic(FlyingDataManager.getCurrentPassport(),
                     ShareDefine.getLocalAppID(),null);
 
             mHasRight=true;
