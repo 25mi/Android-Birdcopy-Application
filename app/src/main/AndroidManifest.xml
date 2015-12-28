@@ -123,7 +123,7 @@
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
 
         <!--视频播放 -->
-        <activity android:name=".Media.PlayerActivity"
+        <activity android:name=".Media.FlyingPlayerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance"
             android:theme="@style/PlayerTheme">

@@ -43,12 +43,6 @@ android {
                     applicationId "com.birdcopy.beiyang"
                 }
 
-        sophia
-                {
-                    applicationId "com.birdcopy.sophia"
-
-                }
-
         microport
                 {
                     applicationId "com.birdcopy.microport"
@@ -174,7 +168,6 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    //nsMod 'com.google.android.gms:{play-services-base,play-services-analytics,play-services-gcm,play-services-ads}:7.5.0'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile(name: 'libone', ext: 'aar')
     compile(name: 'libpingpp', ext: 'aar')

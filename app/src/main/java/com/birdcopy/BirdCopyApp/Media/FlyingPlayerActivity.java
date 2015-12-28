@@ -73,7 +73,7 @@ import com.birdcopy.BirdCopyApp.R;
 /**
  * An activity that plays media using {@link FlyingPlayer}.
  */
-public class PlayerActivity extends Activity implements SurfaceHolder.Callback, OnClickListener,
+public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Callback, OnClickListener,
     FlyingPlayer.Listener, FlyingPlayer.CaptionListener, FlyingPlayer.Id3MetadataListener,
     AudioCapabilitiesReceiver.Listener {
 
@@ -92,7 +92,7 @@ public class PlayerActivity extends Activity implements SurfaceHolder.Callback, 
   private static final String EXT_SS = ".ism";
   private static final String EXT_HLS = ".m3u8";
 
-  private static final String TAG = "PlayerActivity";
+  private static final String TAG = "FlyingPlayerActivity";
   private static final int MENU_GROUP_TRACKS = 1;
   private static final int ID_OFFSET = 2;
 

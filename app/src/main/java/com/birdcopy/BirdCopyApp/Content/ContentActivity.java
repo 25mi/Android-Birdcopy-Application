@@ -22,7 +22,6 @@ import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentListAdapter;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
@@ -45,7 +44,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
-import com.birdcopy.BirdCopyApp.Media.PlayerActivity;
+import com.birdcopy.BirdCopyApp.Media.FlyingPlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.artifex.mupdfdemo.AsyncTask;
 import com.dgmltn.shareeverywhere.ShareView;
@@ -708,16 +707,16 @@ public class ContentActivity extends FragmentActivity
 
                             //Uri uri = Uri.parse(playURL);
 
-                            int downloadType = PlayerActivity.TYPE_OTHER;
+                            int downloadType = FlyingPlayerActivity.TYPE_OTHER;
                             if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
                             {
-                                downloadType=PlayerActivity.TYPE_HLS;
+                                downloadType= FlyingPlayerActivity.TYPE_HLS;
                             }
 
-                            Intent mpdIntent = new Intent(this, PlayerActivity.class)
+                            Intent mpdIntent = new Intent(this, FlyingPlayerActivity.class)
                                     .setData(Uri.parse(playURL))
-                                    .putExtra(PlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
-                                    .putExtra(PlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
+                                    .putExtra(FlyingPlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
+                                    .putExtra(FlyingPlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
 
                             startActivity(mpdIntent);
                         }
@@ -881,16 +880,16 @@ public class ContentActivity extends FragmentActivity
             String playURL=mLessonData.getLocalURLOfContent();
             if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
             {
-                int downloadType = PlayerActivity.TYPE_OTHER;
+                int downloadType = FlyingPlayerActivity.TYPE_OTHER;
                 if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
                 {
-                    downloadType=PlayerActivity.TYPE_HLS;
+                    downloadType= FlyingPlayerActivity.TYPE_HLS;
                 }
 
-                Intent mpdIntent = new Intent(this, PlayerActivity.class)
+                Intent mpdIntent = new Intent(this, FlyingPlayerActivity.class)
                         .setData(Uri.parse(playURL))
-                        .putExtra(PlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
-                        .putExtra(PlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
+                        .putExtra(FlyingPlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
+                        .putExtra(FlyingPlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
 
                 startActivity(mpdIntent);
             }
