@@ -43,24 +43,18 @@ android {
                     applicationId "com.birdcopy.beiyang"
                 }
 
-        microport
+        fd
                 {
-                    applicationId "com.birdcopy.microport"
+                    applicationId "fd.birdcopy.fd"
                 }
 
-        sanlingyi
+        inet
                 {
-                    applicationId "com.birdcopy.sanlingyi"
-                }
+                    applicationId "it.birdcopy.inet"
 
-        IDSC
-                {
-                    applicationId "com.birdcopy.IDSC"
-
-                }
-        liubin
-                {
-                    applicationId "com.birdcopy.liubin"
+                    ndk {
+                        abiFilter "armeabi-v7a"
+                    }
                 }
 
         shenzhidao
@@ -68,67 +62,15 @@ android {
                     applicationId "com.birdcopy.shenzhidao"
                 }
 
-        ccit
-                {
-                    applicationId "com.birdcopy.ccit"
-                }
-
-        huabeihui
-                {
-                    applicationId "com.birdcopy.huabeihui"
-                }
-
-        aboove
-                {
-                    applicationId "com.birdcopy.aboove"
-                }
-
-        northres
-                {
-                    applicationId "com.birdcopy.northres"
-                }
-
-
-        weidongli
-                {
-                    applicationId "com.birdcopy.weidongli"
-                }
-
-        zhaoxingsheng
-                {
-                    applicationId "com.birdcopy.zhaoxingsheng"
-                }
-
-        wanghaichang
-                {
-                    applicationId "com.birdcopy.wanghaichang"
-                }
-
         wangdongmei
                 {
                     applicationId "com.birdcopy.wangdongmei"
                 }
 
-        yangyanzong
+        weidongli
                 {
-                    applicationId "com.birdcopy.yangyanzong"
+                    applicationId "com.birdcopy.weidongli"
                 }
-
-
-        inet
-        {
-            applicationId "it.birdcopy.inet"
-
-            ndk {
-                abiFilter "armeabi-v7a"
-            }
-        }
-
-        fd
-                {
-                    applicationId "fd.birdcopy.fd"
-                }
-
     }
 
     sourceSets {

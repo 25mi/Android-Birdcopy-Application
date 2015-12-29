@@ -256,12 +256,12 @@ public class FlyingHttpTool {
                 "&app_id="+
                 appID;
 
-        if (nickName != null) {
+        if (nickName != null && !nickName.equalsIgnoreCase("")) {
             url += "&name=";
             url += nickName;
         }
 
-        if (portraitUri != null) {
+        if (portraitUri != null && !portraitUri.equalsIgnoreCase("")) {
             url += "&portrait_uri=";
             url += portraitUri;
         }

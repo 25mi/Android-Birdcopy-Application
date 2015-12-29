@@ -36,9 +36,15 @@
         android:layout_height="match_parent"
         android:background="@android:color/black"/>
 
-    <com.google.android.exoplayer.text.SubtitleLayout android:id="@+id/subtitles"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <com.birdcopy.BirdCopyApp.Media.FlyingSubtitle android:id="@+id/subtitles"
+        android:background="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:focusable="false"
+        android:editable="false"
+        android:textColor = "#FFFFFF"
+        android:padding="10dp"/>
 
   </com.google.android.exoplayer.AspectRatioFrameLayout>
 

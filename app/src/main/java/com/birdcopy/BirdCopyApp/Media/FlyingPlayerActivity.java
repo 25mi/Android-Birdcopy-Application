@@ -29,7 +29,6 @@ import com.google.android.exoplayer.metadata.PrivMetadata;
 import com.google.android.exoplayer.metadata.TxxxMetadata;
 import com.google.android.exoplayer.text.CaptionStyleCompat;
 import com.google.android.exoplayer.text.Cue;
-import com.google.android.exoplayer.text.SubtitleLayout;
 import com.google.android.exoplayer.util.MimeTypes;
 import com.google.android.exoplayer.util.Util;
 import com.google.android.exoplayer.util.VerboseLogUtil;
@@ -110,7 +109,9 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   private SurfaceView surfaceView;
   //private TextView debugTextView;
   //private TextView playerStateTextView;
-  private SubtitleLayout subtitleLayout;
+  //private SubtitleLayout subtitleLayout;
+
+  private FlyingSubtitle subtitleView;
   private Button videoButton;
   private Button audioButton;
   private Button textButton;
@@ -169,7 +170,13 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     //debugTextView = (TextView) findViewById(R.id.debug_text_view);
 
     //playerStateTextView = (TextView) findViewById(R.id.player_state_view);
-    subtitleLayout = (SubtitleLayout) findViewById(R.id.subtitles);
+    //subtitleLayout = (SubtitleLayout) findViewById(R.id.subtitles);
+
+    subtitleView = (FlyingSubtitle) findViewById(R.id.subtitles);
+
+    subtitleView.activity=this;
+    subtitleView.setText("Hold fast to dreams \\n紧紧抓住梦想");
+    subtitleView.setParentView(videoFrame);
 
     mediaController = new KeyCompatibleMediaController(this);
     mediaController.setAnchorView(root);
@@ -201,10 +208,10 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     Intent intent = getIntent();
     contentUri = intent.getData();
     contentType = intent.getIntExtra(CONTENT_TYPE_EXTRA,
-        inferContentType(contentUri, intent.getStringExtra(CONTENT_EXT_EXTRA)));
+            inferContentType(contentUri, intent.getStringExtra(CONTENT_EXT_EXTRA)));
     contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
     provider = intent.getStringExtra(PROVIDER_EXTRA);
-    configureSubtitleView();
+    //configureSubtitleView();
     if (player == null) {
       if (!maybeRequestPermission()) {
         preparePlayer(true);
@@ -600,7 +607,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
   @Override
   public void onCues(List<Cue> cues) {
-    subtitleLayout.setCues(cues);
+    //subtitleLayout.setCues(cues);
   }
 
   // FlyingPlayer.MetadataListener implementation
@@ -649,6 +656,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   }
 
   private void configureSubtitleView() {
+    /*
     CaptionStyleCompat style;
     float fontScale;
     if (Util.SDK_INT >= 19) {
@@ -660,6 +668,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     }
     subtitleLayout.setStyle(style);
     subtitleLayout.setFractionalTextSize(SubtitleLayout.DEFAULT_TEXT_SIZE_FRACTION * fontScale);
+    */
   }
 
   @TargetApi(19)

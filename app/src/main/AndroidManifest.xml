@@ -165,7 +165,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="it.birdcopy.inet"
+                    android:host="com.birdcopy.BirdCopyApp"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" /><!-- 不能修改 -->
             </intent-filter>
