@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 
@@ -109,7 +110,7 @@ public class WebViewActivity extends FragmentActivity
     {
         String title = "来自"+getString(R.string.app_name)+"的精彩分享";
         String desc  = "我也有自己的App了：）";
-        String urlStr = "wwww.birdcopy.com/vip/"+ ShareDefine.getLessonOwner();
+        String urlStr = "wwww.birdcopy.com/vip/"+ FlyingDataManager.getLessonOwner();
 
         if(web_url!=null)
         {

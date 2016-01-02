@@ -15,6 +15,7 @@ import android.os.StatFs;
 import android.util.Log;
 
 import com.artifex.mupdfdemo.SystemHelper;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -141,11 +142,11 @@ public class ShareDefine
     public final static String KMessagerPortrait = "KMessagerPortrait";
 
     //聊天相关
-    public final static String KCustomerServiceId = "KEFU1408935920969";
     public final static String KIMAPPKEY = "KEFU1408935920969";
-    public final static String KIMAPPSECRETc = "lSqEkeediUF";
 
     public final static String KIMNIKENAME = "imNikeName";
+    public final static String KNIKENAMEDEFAULT = "我的昵称";
+
     public final static String KIMPORTRAITURI = "imPortraitUri";
     public final static String KIMTOKEN = "imToken";
 
@@ -171,7 +172,7 @@ public class ShareDefine
     public static final int UPDATE_DISCUTION_NUMBER = 1009;
     //@消息
     public static final int RONG_MESSAGE_REPLY = 1010;
-    public static final String RONG_DEFAULT = "default";
+    public static final String RONG_DEFAULT_TOKEN = "default";
     public static final String RONG_TOKEN = "RONG_TOKEN";
     //public static final String APP_USER_ID = "DEMO_USERID";
     //public static final String APP_USER_NAME = "DEMO_USER_NAME";
@@ -195,7 +196,7 @@ public class ShareDefine
 
     public static String getPingplusOnePayURL() {
         String result = "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/pa_get_o_charge_from_tn.action";
 
         return result;
@@ -209,14 +210,14 @@ public class ShareDefine
         if (downloadType == null) downloadType = "";
 
         String result = "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_list_for_hp.action?vc=3" +
                 "&url_2_type=" +
                 downloadType +
                 "&res_type=" +
                 contentType +
                 "&ln_owner=" +
-                ShareDefine.getLessonOwner() +
+                FlyingDataManager.getLessonOwner() +
                 "&type=rc";
 
         return result;
@@ -248,7 +249,7 @@ public class ShareDefine
         }
 
         String result = "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
                 ShareDefine.kperpageLessonCount +
                 "&page=" +
@@ -260,7 +261,7 @@ public class ShareDefine
                 "&res_type=" +
                 contentType +
                 "&ln_owner=" +
-                ShareDefine.getLessonOwner() +
+                FlyingDataManager.getLessonOwner() +
                 "&sortindex=" +
                 sortBy;
 
@@ -271,13 +272,13 @@ public class ShareDefine
                                             int pageNumber) {
 
         String result = "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
                 ShareDefine.kperpageCoverCount +
                 "&page=" +
                 pageNumber +
                 "&ln_owner=" +
-                ShareDefine.getLessonOwner();
+                FlyingDataManager.getLessonOwner();
 
         result += "&owner_recom=1";
 
@@ -293,14 +294,14 @@ public class ShareDefine
     public static String getLessonDataByID(String lessonID) {
 
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_detail_for_hp.action?ln_id=" +
                 lessonID;
     }
 
     public static String getresourceOfLessonID(String lessonID, String resourceType, String resourceFormat) {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_rel_url_for_hp.action?type=" +
                 resourceType +
                 "&getType=" +
@@ -309,7 +310,7 @@ public class ShareDefine
 
     public static String getLessonResource(String lessonID, String resourceType) {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_rel_url_for_hp.action?md5_value=" +
                 lessonID +
                 "&type=" +
@@ -338,7 +339,7 @@ public class ShareDefine
         if (lessonType == null) lessonType = "";
 
         String result = "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_tag_list_for_hp.action?perPageCount=" +
                 ShareDefine.kperpageLessonCount +
                 "&page=" +
@@ -346,7 +347,7 @@ public class ShareDefine
                 "&res_type=" +
                 lessonType +
                 "&tag_owner=" +
-                ShareDefine.getLessonOwner();
+                FlyingDataManager.getLessonOwner();
 
         if (homeRec) {
             result += "&owner_recom=1";
@@ -368,7 +369,7 @@ public class ShareDefine
         }
 
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/la_get_tag_string_for_hp.action?vc=3&perPageCount=" +
                 count +
                 "&page=" +
@@ -376,51 +377,44 @@ public class ShareDefine
                 "&ln_tag=" +
                 tag +
                 "&ln_owner=" +
-                ShareDefine.getLessonOwner();
+                FlyingDataManager.getLessonOwner();
     }
 
     public static String getAppVersionAndURL() {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/aa_get_app_info_from_hp.action?app_id=" +
-                ShareDefine.getLocalAppID() +
+                FlyingDataManager.getLocalAppID() +
                 "&type=max";
     }
 
     public static String getAppBroadURL() {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/aa_get_app_info_from_hp.action?app_id=" +
-                ShareDefine.getLocalAppID() +
+                FlyingDataManager.getLocalAppID() +
                 "&type=img1";
     }
 
     public static String getAppWebURL() {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/aa_get_app_info_from_hp.action?app_id=" +
-                ShareDefine.getLocalAppID() +
+                FlyingDataManager.getLocalAppID() +
                 "&type=page";
     }
 
     public static String getChatURL(String lessonID) {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/mwc.screen?ln_id=" +
                 lessonID;
-    }
-
-    public static String getRongTokenURL(String openID) {
-        return "http://" +
-                ShareDefine.getServerNetAddress() +
-                "/tu_rc_get_urt_from_hp.action?tuser_key=" +
-                openID;
     }
 
     public static String getRefreshUseInfoURL(String passport, String name, String portraitURL) {
         if (passport != null) {
             String result = "http://" +
-                    ShareDefine.getServerNetAddress() +
+                    FlyingDataManager.getServerNetAddress() +
                     "/tu_rc_sync_urb_from_hp.action?tuser_key=" +
                     passport;
 
@@ -442,7 +436,7 @@ public class ShareDefine
 
     public static String getUsrInfoByRongID(String rongID) {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/tu_rc_get_usr_from_hp.action?user_id=" +
                 rongID;
     }
@@ -862,18 +856,6 @@ public class ShareDefine
         return options;
     }
 
-    public static String getServerNetAddress() {
-        return MyApplication.getInstance().getResources().getString(R.string.KServerNetAddress);
-    }
-
-    public static String getLessonOwner() {
-        return MyApplication.getInstance().getResources().getString(R.string.KlessonQwner);
-    }
-
-    public static String getLocalAppID() {
-        return MyApplication.getInstance().getResources().getString(R.string.KLocalAppID);
-    }
-
     public static String getpakagename() {
         return MyApplication.getInstance().getResources().getString(R.string.KPakagename);
     }
@@ -926,11 +908,11 @@ public class ShareDefine
 
     public static String getpingplusURL(String currentPassport) {
         return "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/ua_get_user_info_from_hp.action?tuser_key=" +
                 currentPassport +
                 "&app_id=" +
-                ShareDefine.getLocalAppID() +
+                FlyingDataManager.getLocalAppID() +
                 "&type=validth";
     }
 

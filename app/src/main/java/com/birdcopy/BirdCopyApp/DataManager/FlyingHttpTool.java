@@ -49,7 +49,10 @@ public class FlyingHttpTool {
     {
         final String  currentPassport=FlyingDataManager.getCurrentPassport();
 
-        String url = ShareDefine.getRongTokenURL(currentPassport);
+        String url =  "http://" +
+                FlyingDataManager.getServerNetAddress() +
+                "/tu_rc_get_urt_from_hp.action?tuser_key=" +
+                currentPassport;
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
                 .load(url)
@@ -68,24 +71,18 @@ public class FlyingHttpTool {
                         if (code.equals("1")) {
 
                             String rongDeviceKoken = result.get("token").getAsString();
-
-                            //保存Rong Token
-                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString(ShareDefine.RONG_TOKEN, rongDeviceKoken);
-                            edit.apply();
-
                             httpGetTokenSuccess(rongDeviceKoken);
 
                         } else {
                             String errorInfo = result.get("rm").getAsString();
-                            //Toast.makeText(FlyingWelcomeActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getInstance().getApplicationContext(), errorInfo, Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
     }
 
-    static private void httpGetTokenSuccess(String token) {
+    static private void httpGetTokenSuccess(final String token) {
 
         Log.e("LoginActivity", "---------httpGetTokenSuccess----------:" + token);
         try {
@@ -98,24 +95,24 @@ public class FlyingHttpTool {
              * http://docs.rongcloud.cn/api/android/imkit/index.html
              */
 
-//            token = "dNcIdu8Eqtu7iNca1gMhzs2yq+hfEluLjZ78E1qo4hGRHcB01HLt4SCyc1P/x3rYpMLVNO7rD0vC99se33P+Aw==";
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
                         @Override
                         public void onTokenIncorrect() {
-                            Log.e("LoginActivity", "---------onTokenIncorrec----------:");
-                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString(ShareDefine.RONG_TOKEN, "");
-                            edit.apply();
+
+                            Log.e("LoginActivity", "---------onTokenIncorrect ----------:");
+
+                            //清除Rong Token
+                            FlyingDataManager.setRongToken(ShareDefine.RONG_DEFAULT_TOKEN);
                         }
 
                         @Override
                         public void onSuccess(String userId) {
-                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-                            SharedPreferences.Editor edit = MyApplication.getSharedPreference().edit();
-                            edit.putString("rongUserId", userId);
-                            edit.apply();
 
+                            //在RongIM-connect-onSuccess后调用。
                             RongCloudEvent.getInstance().setOtherListener();
+
+                            //保存Rong Token
+                            FlyingDataManager.setRongToken(token);
                         }
 
                         @Override
@@ -142,7 +139,7 @@ public class FlyingHttpTool {
                                    final GetUserInfoByopenIDListener delegate ) {
 
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/tu_rc_get_usr_from_hp.action?tuser_key=" +
                 account;
 
@@ -185,7 +182,7 @@ public class FlyingHttpTool {
                                             File portraitFile,
                                             final RequestUploadPotraitListener delegate)
     {
-        String url="http://"+ ShareDefine.getServerNetAddress()+"/tu_rc_sync_urp_from_hp.action";
+        String url="http://"+ FlyingDataManager.getServerNetAddress()+"/tu_rc_sync_urp_from_hp.action";
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
                 .load(url)
@@ -250,7 +247,7 @@ public class FlyingHttpTool {
                                        final RefreshUesrInfoListener delegate)
     {
         String url = "http://" +
-                ShareDefine.getServerNetAddress() +
+                FlyingDataManager.getServerNetAddress() +
                 "/tu_rc_sync_urb_from_hp.action?tuser_key=" +
                 acount+
                 "&app_id="+
@@ -285,32 +282,24 @@ public class FlyingHttpTool {
 
                             resultCode=true;
 
+                            String rongID = ShareDefine.getMD5(acount);
+                            UserInfo userInfo =FlyingContext.getInstance().getUserInfoByRongId(rongID);
+
                             //更新本地信息
                             if(nickName!=null)
                             {
                                 FlyingDataManager.setNickName(nickName);
+                                userInfo.setName(nickName);
                             }
 
                             if(portraitUri!=null)
                             {
                                 FlyingDataManager.setPortraitUri(portraitUri);
+                                userInfo.setPortraitUri(Uri.parse(portraitUri));
                             }
 
                             //更新融云信息
-                            String tempNickName = nickName;
-                            if (tempNickName == null) {
-                                tempNickName=FlyingDataManager.getNickName();
-                            }
-
-                            String tempPortraitURL = portraitUri;
-                            if(tempPortraitURL==null)
-                            {
-                                tempPortraitURL=FlyingDataManager.getPortraitUri();
-                            }
-
-                            String rongID = ShareDefine.getMD5(acount);
-
-                            FlyingContext.getInstance().addOrReplaceRongUserInfo(new UserInfo(rongID, tempNickName, Uri.parse(tempPortraitURL)));
+                            FlyingContext.getInstance().addOrReplaceRongUserInfo(userInfo);
                         }
 
                         if (delegate != null) {
@@ -331,7 +320,7 @@ public class FlyingHttpTool {
                                    final RegOpenUDIDListener delegate )
     {
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/ua_reg_user_from_hp.action?user_key="+
                 acount+
                 "&app_id="+
@@ -380,7 +369,7 @@ public class FlyingHttpTool {
     {
 
         String url =  "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/tu_ua_get_status_from_tn.action?tuser_key="+
                 account+
                 "&app_id="+
@@ -425,7 +414,7 @@ public class FlyingHttpTool {
     {
 
         String url =  "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/ua_send_prelogin_info_from_hp.action?user_key="+
                 account+
                 "&oth1="+
@@ -480,7 +469,7 @@ public class FlyingHttpTool {
                                     final Product good)
     {
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/pa_get_on_from_tn.action?"+
                 "tuser_key="+
                 account+
@@ -552,7 +541,7 @@ public class FlyingHttpTool {
                               final GetMembershipListener delegate)
     {
         String url ="http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/ua_get_user_info_from_hp.action?user_key="+
                 account+
                 "&app_id="+
@@ -631,7 +620,7 @@ public class FlyingHttpTool {
             String endDateUTFStr = URLEncoder.encode(endDateStr,"UTF-8");
 
             String url ="http://"+
-                    ShareDefine.getServerNetAddress()+
+                    FlyingDataManager.getServerNetAddress()+
                     "/ua_sync_validth_from_hp.action?"+
                     "tuser_key="+
                     account+
@@ -699,7 +688,7 @@ public class FlyingHttpTool {
                           final GetMoneyDataListener delegate) {
 
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/ua_get_user_info_from_hp.action?user_key="+
                 account+
                 "&app_id="+
@@ -765,7 +754,7 @@ public class FlyingHttpTool {
         BE_STATISTIC userData = new FlyingStatisticDAO().selectWithUserID(account);
 
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/ua_sync_accobk_from_hp.action?user_key="+
                 account+
                 "&app_id="+
@@ -829,7 +818,7 @@ public class FlyingHttpTool {
                              final GetQRDataListener delegate) {
 
         String url= "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/la_get_user_info_from_hp.action?user_key="+
                 account+
                 "&app_id="+
@@ -888,7 +877,7 @@ public class FlyingHttpTool {
                              final ChargingCradListener delegate) {
 
         String url= "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/la_topup_pwd_from_hp.action?user_key="+
                 account+
                 "&app_id="+
@@ -1007,7 +996,7 @@ public class FlyingHttpTool {
             //向服务器获取最新用户课程活跃统计数据
 
             String tempurl =  "http://"+
-                    ShareDefine.getServerNetAddress()+
+                    FlyingDataManager.getServerNetAddress()+
                     "/ua_get_user_info_from_hp.action?user_key="+
                     account+
                     "&app_id="+
@@ -1090,7 +1079,7 @@ public class FlyingHttpTool {
         if(!updateStr.equals(""))
         {
             String url =  "http://"+
-                    ShareDefine.getServerNetAddress()+
+                    FlyingDataManager.getServerNetAddress()+
                     "/ua_sync_lnclick_from_hp.action?user_key="+
                     account+
                     "&app_id="+
@@ -1159,7 +1148,7 @@ public class FlyingHttpTool {
         }
 
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/tu_cm_get_ct_list_from_tn.action?perPageCount="+
                 ShareDefine.kperpageLessonCount+
                 "&page="+
@@ -1208,7 +1197,7 @@ public class FlyingHttpTool {
                                       final UpdateCommentListener delegate )
     {
         String url = "http://"+
-                ShareDefine.getServerNetAddress()+
+                FlyingDataManager.getServerNetAddress()+
                 "/tu_add_ct_from_tn.action?tuser_key="+
                 commentData.userID+
                 "&ct_id="+
@@ -1222,7 +1211,7 @@ public class FlyingHttpTool {
                 "&content="+
                 commentData.commentContent+
                 "&app_id="+
-                ShareDefine.getLocalAppID();
+                FlyingDataManager.getLocalAppID();
 
 
         Ion.with(MyApplication.getInstance().getApplicationContext())

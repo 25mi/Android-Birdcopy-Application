@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.FrameLayout;
 
@@ -28,16 +30,13 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
-import com.birdcopy.BirdCopyApp.MyProfile.ProfileFragment;
+import com.birdcopy.BirdCopyApp.Account.ProfileFragment;
 import com.birdcopy.BirdCopyApp.Search.SearchActivity;
 import com.birdcopy.BirdCopyApp.SettingsFragment;
 import com.birdcopy.BirdCopyApp.UpdateVersion.UpdateAppDownload;
 import com.artifex.mupdfdemo.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import android.net.Uri;
 import android.view.KeyEvent;
@@ -541,8 +540,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             {
                 if(fg instanceof WebFragment)
                 {
-                    WebFragment webFragment=(WebFragment)fg;
-                    webFragment.onKeyDown(keyCode, event);
+                    //WebFragment webFragment=(WebFragment)fg;
+                    //webFragment.onKeyDown(keyCode, event);
 
                     return super.onKeyDown(keyCode, event);
                 }
@@ -916,7 +915,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             ShareDefine.broadUserDataChange();
             FlyingHttpTool.uploadMoneyData(FlyingDataManager.getCurrentPassport(),
-                    ShareDefine.getLocalAppID(),
+                    FlyingDataManager.getLocalAppID(),
                     null);
         }
     }
@@ -1022,7 +1021,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             {
 
                 FlyingHttpTool.chargingCrad(FlyingDataManager.getCurrentPassport(),
-                        ShareDefine.getLocalAppID(),
+                        FlyingDataManager.getLocalAppID(),
                         scanStr,
                         new FlyingHttpTool.ChargingCradListener() {
                             @Override
@@ -1045,7 +1044,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                     FlyingHttpTool.loginWithQR(loginID,
                             FlyingDataManager.getCurrentPassport(),
-                            ShareDefine.getLocalAppID(),
+                            FlyingDataManager.getLocalAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                                 @Override
                                 public void completion(boolean isOK) {
@@ -1259,9 +1258,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
             if (FlyingContext.getInstance() != null) {
 
-                String token = FlyingContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
+                String token = FlyingDataManager.getRongToken();
 
-                if (token.equals("default")) {
+                if (token.equals(ShareDefine.RONG_DEFAULT_TOKEN)) {
                     //startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
                     showChatListNow();

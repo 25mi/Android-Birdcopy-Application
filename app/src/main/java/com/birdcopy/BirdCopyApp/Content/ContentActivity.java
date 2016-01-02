@@ -204,7 +204,7 @@ public class ContentActivity extends FragmentActivity
     {
         //获取年费会员数据
         new FlyingHttpTool().getMembership(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
                     @Override
                     public void completion(Date startDate, Date endDate) {
@@ -343,7 +343,7 @@ public class ContentActivity extends FragmentActivity
                 if(!commentData.userID.equalsIgnoreCase(FlyingDataManager.getCurrentPassport()))
                 {
 
-                    FlyingHttpTool.getUserInfoByopenID(commentData.userID, ShareDefine.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                    FlyingHttpTool.getUserInfoByopenID(commentData.userID, FlyingDataManager.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
                         @Override
                         public void completion(UserInfo userInfo) {
 
@@ -925,7 +925,7 @@ public class ContentActivity extends FragmentActivity
 
             final FlyingCommentData  finalCommentData = commentData;
             FlyingHttpTool.updateComment(finalCommentData,
-                    ShareDefine.getLocalAppID(),
+                    FlyingDataManager.getLocalAppID(),
                     new FlyingHttpTool.UpdateCommentListener() {
                         @Override
                         public void completion(boolean isOK) {
@@ -960,7 +960,7 @@ public class ContentActivity extends FragmentActivity
 
         FlyingHttpTool.toBuyProduct(ContentActivity.this,
                 FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 good);
     }
 
@@ -1019,7 +1019,7 @@ public class ContentActivity extends FragmentActivity
 
             //向服务器备份消费数据
             FlyingHttpTool.uploadContentStatistic(FlyingDataManager.getCurrentPassport(),
-                    ShareDefine.getLocalAppID(),null);
+                    FlyingDataManager.getLocalAppID(),null);
 
             mHasRight=true;
             initBuyButton();
@@ -1045,7 +1045,7 @@ public class ContentActivity extends FragmentActivity
     {
         String title = "来自"+getString(R.string.app_name)+"的精彩分享";
         String desc  = "我也有自己的App了：）";
-        String urlStr = "wwww.birdcopy.com/vip/"+ ShareDefine.getLessonOwner();
+        String urlStr = "wwww.birdcopy.com/vip/"+ FlyingDataManager.getLessonOwner();
 
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);

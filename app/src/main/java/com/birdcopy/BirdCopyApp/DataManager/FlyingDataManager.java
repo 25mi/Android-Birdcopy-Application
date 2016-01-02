@@ -1,12 +1,10 @@
 package com.birdcopy.BirdCopyApp.DataManager;
 
 import android.content.SharedPreferences;
-import android.view.View;
 
 import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +16,18 @@ import io.rong.imlib.model.UserInfo;
  * Created by vincentsung on 12/16/15.
  */
 public class FlyingDataManager {
+
+    public static String getServerNetAddress() {
+        return MyApplication.getInstance().getResources().getString(R.string.KServerNetAddress);
+    }
+
+    public static String getLessonOwner() {
+        return MyApplication.getInstance().getResources().getString(R.string.KlessonQwner);
+    }
+
+    public static String getLocalAppID() {
+        return MyApplication.getInstance().getResources().getString(R.string.KLocalAppID);
+    }
 
     static public String getCurrentPassport()
     {
@@ -49,14 +59,21 @@ public class FlyingDataManager {
         }
     }
 
+    static  public void setRongToken(String rongToken)
+    {
+        SharedPreferences.Editor edit=MyApplication.getSharedPreference().edit();
+        edit.putString(ShareDefine.RONG_TOKEN,rongToken);
+        edit.commit();
+    }
+
+    static  public String getRongToken()
+    {
+        return MyApplication.getSharedPreference().getString(ShareDefine.KIMPORTRAITURI, ShareDefine.RONG_DEFAULT_TOKEN);
+    }
+
     static public String getNickName()
     {
-        String nikename = MyApplication.getSharedPreference().getString(ShareDefine.KIMNIKENAME, null);
-        if (nikename == null) {
-            nikename = "我的昵称";
-        }
-
-        return nikename;
+        return MyApplication.getSharedPreference().getString(ShareDefine.KIMNIKENAME, ShareDefine.KNIKENAMEDEFAULT);
     }
 
     static public void setNickName(String nickName)
@@ -120,7 +137,7 @@ public class FlyingDataManager {
         Date newEnddate = ca.getTime();
 
         FlyingHttpTool.updateMembership(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 newStartDate,
                 newEnddate, null);
     }
@@ -128,28 +145,35 @@ public class FlyingDataManager {
     //向服务器获获取备份数据和最新充值数据，在本地激活用户ID
     static  public void creatLocalUSerProfileWithServer()
     {
+        //获取头像、昵称
+        FlyingHttpTool.getUserInfoByopenID(FlyingDataManager.getCurrentPassport(),
+                FlyingDataManager.getLocalAppID(),
+                new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                    @Override
+                    public void completion(UserInfo userInfo) {
+
+                        FlyingDataManager.setNickName(userInfo.getName());
+                        FlyingDataManager.setPortraitUri(userInfo.getPortraitUri().toString());
+                    }
+                });
+
         //从服务器获取会员资格
         FlyingHttpTool.getMembership(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 null);
 
         //苹果渠道购买、金币消费、点击单词统计
         FlyingHttpTool.getMoneyData(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 null);
         //充值卡记录
         FlyingHttpTool.getQRData(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 null);
 
         //内容相关数据
         FlyingHttpTool.getContentStatistic(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
-                null);
-
-        //获取头像、昵称
-        FlyingHttpTool.getUserInfoByopenID(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 null);
     }
 }

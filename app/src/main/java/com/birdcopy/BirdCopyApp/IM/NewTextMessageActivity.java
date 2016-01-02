@@ -64,12 +64,9 @@ public class NewTextMessageActivity extends AppCompatActivity implements Adapter
                     @Override
                     public void onSuccess(Discussion discussion) {
 
-                          mNumberlist = discussion.getMemberIdList();
-
-                        if (FlyingContext.getInstance().getSharedPreferences() != null) {
-                            String   userId = FlyingDataManager.getCurrentRongID();
-                            mNumberlist.remove(userId);
-                        }
+                        mNumberlist = discussion.getMemberIdList();
+                        String   userId = FlyingDataManager.getCurrentRongID();
+                        mNumberlist.remove(userId);
 
                         mUserInfoList = FlyingContext.getInstance().getUserInfoList(mNumberlist);
 

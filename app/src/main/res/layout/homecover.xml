@@ -1,8 +1,8 @@
-<LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_gravity="center"
+android:padding="1dip">
 
     <ImageView
         android:id="@+id/homecoverimage"
@@ -13,4 +13,11 @@
         android:scaleType="centerInside"
         />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/contentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+</RelativeLayout>

@@ -103,7 +103,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
   private EventLogger eventLogger;
   private MediaController mediaController;
-  private View debugRootView;
+  //private View debugRootView;
   private View shutterView;
   private AspectRatioFrameLayout videoFrame;
   private SurfaceView surfaceView;
@@ -112,10 +112,10 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   //private SubtitleLayout subtitleLayout;
 
   private FlyingSubtitle subtitleView;
-  private Button videoButton;
-  private Button audioButton;
-  private Button textButton;
-  private Button retryButton;
+  //private Button videoButton;
+  //private Button audioButton;
+  //private Button textButton;
+  //private Button retryButton;
 
   private FlyingPlayer player;
   //private DebugTextViewHelper debugViewHelper;
@@ -138,6 +138,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.player_activity);
+
     View root = findViewById(R.id.root);
     root.setOnTouchListener(new OnTouchListener() {
       @Override
@@ -162,7 +163,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     });
 
     shutterView = findViewById(R.id.shutter);
-    debugRootView = findViewById(R.id.controls_root);
+    //debugRootView = findViewById(R.id.controls_root);
 
     videoFrame = (AspectRatioFrameLayout) findViewById(R.id.video_frame);
     surfaceView = (SurfaceView) findViewById(R.id.surface_view);
@@ -180,11 +181,11 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
     mediaController = new KeyCompatibleMediaController(this);
     mediaController.setAnchorView(root);
-    retryButton = (Button) findViewById(R.id.retry_button);
-    retryButton.setOnClickListener(this);
-    videoButton = (Button) findViewById(R.id.video_controls);
-    audioButton = (Button) findViewById(R.id.audio_controls);
-    textButton = (Button) findViewById(R.id.text_controls);
+    //retryButton = (Button) findViewById(R.id.retry_button);
+    //retryButton.setOnClickListener(this);
+    //videoButton = (Button) findViewById(R.id.video_controls);
+    //audioButton = (Button) findViewById(R.id.audio_controls);
+    //textButton = (Button) findViewById(R.id.text_controls);
 
     CookieHandler currentHandler = CookieHandler.getDefault();
     if (currentHandler != defaultCookieManager) {
@@ -243,9 +244,9 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
   @Override
   public void onClick(View view) {
-    if (view == retryButton) {
-      preparePlayer(true);
-    }
+    //if (view == retryButton) {
+      //preparePlayer(true);
+    //}
   }
 
   // AudioCapabilitiesReceiver.Listener methods
@@ -441,10 +442,10 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   // User controls
 
   private void updateButtonVisibilities() {
-    retryButton.setVisibility(playerNeedsPrepare ? View.VISIBLE : View.GONE);
-    videoButton.setVisibility(haveTracks(FlyingPlayer.TYPE_VIDEO) ? View.VISIBLE : View.GONE);
-    audioButton.setVisibility(haveTracks(FlyingPlayer.TYPE_AUDIO) ? View.VISIBLE : View.GONE);
-    textButton.setVisibility(haveTracks(FlyingPlayer.TYPE_TEXT) ? View.VISIBLE : View.GONE);
+    //retryButton.setVisibility(playerNeedsPrepare ? View.VISIBLE : View.GONE);
+    //videoButton.setVisibility(haveTracks(FlyingPlayer.TYPE_VIDEO) ? View.VISIBLE : View.GONE);
+    //audioButton.setVisibility(haveTracks(FlyingPlayer.TYPE_AUDIO) ? View.VISIBLE : View.GONE);
+    //textButton.setVisibility(haveTracks(FlyingPlayer.TYPE_TEXT) ? View.VISIBLE : View.GONE);
   }
 
   private boolean haveTracks(int type) {
@@ -592,7 +593,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   private void toggleControlsVisibility()  {
     if (mediaController.isShowing()) {
       mediaController.hide();
-      debugRootView.setVisibility(View.GONE);
+      //debugRootView.setVisibility(View.GONE);
     } else {
       showControls();
     }
@@ -600,7 +601,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
   private void showControls() {
     mediaController.show(0);
-    debugRootView.setVisibility(View.VISIBLE);
+    //debugRootView.setVisibility(View.VISIBLE);
   }
 
   // FlyingPlayer.CaptionListener implementation

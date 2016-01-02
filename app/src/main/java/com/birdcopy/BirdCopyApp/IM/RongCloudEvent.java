@@ -416,7 +416,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     {
         Log.d(TAG, "onUserPortraitClick");
 
-        String currentRongID= FlyingContext.getInstance().getSharedPreferences().getString("rongUserId","");
+        String currentRongID = FlyingDataManager.getCurrentRongID();
 
         if(conversationType==Conversation.ConversationType.CHATROOM||
                 conversationType== Conversation.ConversationType.GROUP||
@@ -518,7 +518,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
              * demo 代码  开发者需替换成自己的代码。
              */
             if (message.getContent() instanceof LocationMessage) {
-                Intent intent = new Intent(context, SOSOLocationActivity.class);
+                Intent intent = new Intent(context, FlyingLocationActivity.class);
                 intent.putExtra("location", message.getContent());
                 context.startActivity(intent);
             }
@@ -562,6 +562,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     private void startRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
+
         RongIMClient.getInstance().startRealTimeLocation(conversationType, targetId);
 
         Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
@@ -571,6 +572,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     private void joinRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
+
         RongIMClient.getInstance().joinRealTimeLocation(conversationType, targetId);
 
         Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
@@ -594,7 +596,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         if (message.getContent() instanceof LocationMessage)
         {
-            Intent intent = new Intent(context, SOSOLocationActivity.class);
+            Intent intent = new Intent(context, FlyingLocationActivity.class);
             intent.putExtra("location", message.getContent());
             context.startActivity(intent);
 
@@ -611,7 +613,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             if (lessonID.length()!=0)
             {
-            Intent intent = new Intent(context, SOSOLocationActivity.class);
+            Intent intent = new Intent(context, FlyingLocationActivity.class);
             intent.putExtra("location", message.getContent());
             context.startActivity(intent);
 
@@ -774,7 +776,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
          * demo 代码  开发者需替换成自己的代码。
          */
         FlyingContext.getInstance().setLastLocationCallback(callback);
-        context.startActivity(new Intent(context, SOSOLocationActivity.class));//SOSO地图
+        context.startActivity(new Intent(context, FlyingLocationActivity.class));//SOSO地图
     }
 
     /**
@@ -797,21 +799,25 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             MessageContent messageContent=conversation.getMessageContent();
 
-            UserInfo userInfo =messageContent.getUserInfo();
+            String name =FlyingContext.getInstance().getUserInfoByRongId(conversation.getConversationTargetId()).getName();
 
-            if (RongIM.getInstance() != null && userInfo!=null)
-            {
-                Intent intent = new Intent(context, com.birdcopy.BirdCopyApp.IM.FlyingConversationActivity.class);
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.putExtra("ConversationType", "PRIVATE");
-                intent.putExtra("title", userInfo.getName());
-                intent.putExtra("targetId",userInfo.getUserId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            RongIM.getInstance().startPrivateChat(context,conversation.getConversationTargetId(), name);
 
-                context.startActivity(intent);
 
-                //RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, user.getUserId(), user.getName());
-            }
+//            if (RongIM.getInstance() != null && userInfo!=null)
+//            {
+////                Intent intent = new Intent(context, com.birdcopy.BirdCopyApp.IM.FlyingConversationActivity.class);
+////                intent.setAction(Intent.ACTION_VIEW);
+////                intent.putExtra("ConversationType", "PRIVATE");
+////                intent.putExtra("title", userInfo.getName());
+////                intent.putExtra("targetId",userInfo.getUserId());
+////                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+////
+////                context.startActivity(intent);
+//
+//
+//                //RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, conversation.getConversationTargetId(), "title");
+//            }
         }
         return true;
     }
@@ -854,7 +860,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             if (scanStr != null)
             {
                 FlyingHttpTool.chargingCrad(FlyingDataManager.getCurrentPassport(),
-                        ShareDefine.getLocalAppID(),
+                        FlyingDataManager.getLocalAppID(),
                         scanStr,
                         new FlyingHttpTool.ChargingCradListener() {
                             @Override
@@ -877,7 +883,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
                     FlyingHttpTool.loginWithQR(loginID,
                             FlyingDataManager.getCurrentPassport(),
-                            ShareDefine.getLocalAppID(),
+                            FlyingDataManager.getLocalAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                         @Override
                         public void completion(boolean isOK) {

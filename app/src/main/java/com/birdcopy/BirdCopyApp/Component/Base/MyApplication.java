@@ -8,7 +8,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
 
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DicDaoMaster;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DicDaoSession;

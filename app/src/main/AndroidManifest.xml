@@ -25,8 +25,7 @@
     <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <!-- 震动权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -95,10 +94,14 @@
                     android:scheme="bcapp" />
             </intent-filter>
         </activity>
-        <activity android:name=".Content.ContentActivity" />
-        <activity android:name=".Content.WebViewActivity" />
-        <activity android:name=".Search.SearchActivity" />
-        <activity android:name=".ChannelActivity" />
+        <activity android:name=".Content.ContentActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Content.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ChannelActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ImageShowActivity" />
         <activity
             android:name=".Scan.ScanActivity"
@@ -108,7 +111,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".Comment.FlyingCommentActivity" />
+        <activity android:name=".Comment.FlyingCommentActivity"
+            android:screenOrientation="portrait" />
 
         <!--PDF阅读器 -->
         <activity
@@ -165,7 +169,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.birdcopy.BirdCopyApp"
+                    android:host="it.birdcopy.inet"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" /><!-- 不能修改 -->
             </intent-filter>
@@ -195,10 +199,9 @@
             android:value="CQGBZ-DQRWU-CNYVP-4F2OT-4XMDH-U4BT5" />
 
         <activity android:name=".IM.RealTimeLocationActivity"/>
-        <activity android:name=".IM.SOSOLocationActivity"/>
 
+        <activity android:name=".IM.FlyingLocationActivity"/>
         <activity android:name=".IM.ShowPhotoActivity" />
-
 
         <!-- begin imlib request -->
         <activity

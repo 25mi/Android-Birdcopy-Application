@@ -3,7 +3,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
  */
 
 
-public class WebFragment extends Fragment
+public class WebFragment extends android.support.v4.app.Fragment
 {
     public BE_PUB_LESSON lessonData;
     public String webURL;
@@ -190,7 +189,6 @@ public class WebFragment extends Fragment
             ArrayList<String> imgsUrl = new ArrayList<String>();
             for (String s : imgs) {
                 imgsUrl.add(s);
-                Log.i("图片的URL>>>>>>>>>>>>>>>>>>>>>>>", s);
             }
             Intent intent = new Intent();
             intent.putStringArrayListExtra("infos", imgsUrl);

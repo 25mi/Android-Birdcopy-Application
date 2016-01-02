@@ -2,7 +2,6 @@ package com.birdcopy.BirdCopyApp.DataManager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -11,7 +10,7 @@ import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_RongUser;
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingRongUserDAO;
-import com.birdcopy.BirdCopyApp.IM.SOSOLocationActivity;
+import com.birdcopy.BirdCopyApp.IM.FlyingLocationActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -34,7 +33,6 @@ public class FlyingContext {
     private HashMap<String, Group> groupMap;
     private FlyingRongUserDAO mRongUserDAO = new FlyingRongUserDAO();
     private ArrayList<UserInfo> mFriendInfos;
-    private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
 
 
@@ -55,21 +53,11 @@ public class FlyingContext {
         mContext = context;
         mDemoContext = this;
 
-        mPreferences = MyApplication.getSharedPreference();
-
         RongIM.setLocationProvider(new LocationProvider());
     }
 
     public static void init(Context context) {
         mDemoContext = new FlyingContext(context);
-    }
-
-    public SharedPreferences getSharedPreferences() {
-        return mPreferences;
-    }
-
-    public void setSharedPreferences(SharedPreferences sharedPreferences) {
-        this.mPreferences = sharedPreferences;
     }
 
     public void setGroupMap(HashMap<String, Group> groupMap) {
@@ -188,7 +176,7 @@ public class FlyingContext {
         }
         else
         {
-            return new UserInfo(rongUser.getUserid(),rongUser.getName(),Uri.parse(rongUser.getPortraitUri()));
+            return new UserInfo(rongUser.getUserid(), rongUser.getName(), Uri.parse(rongUser.getPortraitUri()));
         }
     }
 
@@ -288,7 +276,7 @@ public class FlyingContext {
              * demo 代码  开发者需替换成自己的代码。
              */
             FlyingContext.getInstance().setLastLocationCallback(callback);
-            Intent intent = new Intent(context, SOSOLocationActivity.class);
+            Intent intent = new Intent(context, FlyingLocationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);//SOSO地图
         }

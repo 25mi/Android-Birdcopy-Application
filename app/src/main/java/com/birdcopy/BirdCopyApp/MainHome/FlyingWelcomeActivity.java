@@ -74,7 +74,7 @@ public class FlyingWelcomeActivity extends Activity
 	private void getUserData()
     {
         FlyingHttpTool.verifyOpenUDID(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 new FlyingHttpTool.VerifyOpenUDIDListener() {
                     @Override
                     public void completion(boolean isOK) {
@@ -135,7 +135,7 @@ public class FlyingWelcomeActivity extends Activity
                 Toast.LENGTH_LONG).show();
 
         FlyingHttpTool.regOpenUDID(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 new FlyingHttpTool.RegOpenUDIDListener() {
                     @Override
                     public void completion(boolean isOK) {

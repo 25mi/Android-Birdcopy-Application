@@ -35,12 +35,13 @@ import io.rong.message.LocationMessage;
 
 import com.birdcopy.BirdCopyApp.R;
 
+
 /**
  * Created by DragonJ on 14/11/21.
  */
 
 @SuppressLint("ClickableViewAccessibility")
-public class SOSOLocationActivity extends MapActivity implements
+public class FlyingLocationActivity extends MapActivity implements
         TencentLocationListener, OnClickListener, Handler.Callback, View.OnTouchListener {
 
     MapView mMapView;
@@ -115,6 +116,7 @@ public class SOSOLocationActivity extends MapActivity implements
         mTitle = (TextView) findViewById(android.R.id.title);
         mButton = (Button) this.findViewById(android.R.id.button1);
         mMapController = mMapView.getController();
+
     }
 
     @Override
@@ -190,7 +192,7 @@ public class SOSOLocationActivity extends MapActivity implements
 
             Uri uri = Uri
                     .parse("http://apis.map.qq.com/ws/staticmap/v2").buildUpon().appendQueryParameter("size", "240*240")
-                    .appendQueryParameter("key", "CQGBZ-DQRWU-CNYVP-4F2OT-4XMDH-U4BT5").appendQueryParameter("zoom", "16")
+                    .appendQueryParameter("key", "7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU").appendQueryParameter("zoom", "16")
                     .appendQueryParameter("center", mMapView.getMapCenter().getLatitudeE6() / 1E6 + "," + mMapView.getMapCenter()
                             .getLongitudeE6() / 1E6).build();
 
@@ -211,6 +213,7 @@ public class SOSOLocationActivity extends MapActivity implements
                     .appendQueryParameter("center", mMapView.getMapCenter().getLatitudeE6() / 1E6 + "," + mMapView.getMapCenter()
                             .getLongitudeE6() / 1E6).build();
 
+            Log.e("tag","-----uri---"+uri);
             mMsg = LocationMessage.obtain(poiItem.point.getLatitudeE6() / 1E6,
                     poiItem.point.getLongitudeE6() / 1E6, poiItem.name, uri);
 
@@ -250,7 +253,7 @@ public class SOSOLocationActivity extends MapActivity implements
 
         public void run() {
             try {
-                GeocoderSearch geocodersearcher = new GeocoderSearch(SOSOLocationActivity.this);
+                GeocoderSearch geocodersearcher = new GeocoderSearch(FlyingLocationActivity.this);
                 GeoPoint geoRegeocoder = new GeoPoint(mMapView.getMapCenter().getLatitudeE6(), mMapView.getMapCenter().getLongitudeE6());
                 ReGeocoderResult regeocoderResult = geocodersearcher.searchFromLocation(geoRegeocoder);
 

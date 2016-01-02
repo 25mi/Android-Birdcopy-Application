@@ -91,9 +91,12 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
 
         Intent intent = getIntent();
+        Log.e("Rong", "conversation onCreate intent 1");
 
         if (intent == null || intent.getData() == null)
             return;
+
+        Log.e("Rong", "conversation onCreate intent uri = " + intent.getDataString());
 
         Uri data = intent.getData();
 
@@ -254,10 +257,9 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         if (FlyingContext.getInstance() == null)
             return;
 
-        String token = FlyingContext.getInstance().getSharedPreferences()
-                .getString(ShareDefine.RONG_TOKEN, ShareDefine.RONG_DEFAULT);
+        String token = FlyingDataManager.getRongToken();
 
-        if (token.equals( ShareDefine.RONG_DEFAULT)) {
+        if (token.equals( ShareDefine.RONG_DEFAULT_TOKEN)) {
 
             startActivity(new Intent(FlyingConversationActivity.this, FlyingWelcomeActivity.class));
             finish();
@@ -514,11 +516,15 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
      */
     private void enterSettingActivity() {
 
+        Toast.makeText(FlyingConversationActivity.this,"预留入口",Toast.LENGTH_SHORT);
+        /*
         if (mConversationType == Conversation.ConversationType.PUBLIC_SERVICE
                 || mConversationType == Conversation.ConversationType.APP_PUBLIC_SERVICE) {
 
             RongIM.getInstance().startPublicServiceProfile(this, mConversationType, mTargetId);
-        } else {
+        }
+        else
+        {
             //当你刚刚创建完讨论组以后获得的是 targetIds
             if (!TextUtils.isEmpty(mTargetIds)) {
                 UriFragment fragment = (UriFragment) getSupportFragmentManager().getFragments().get(0);
@@ -539,6 +545,7 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
             intent.setData(uri);
             startActivity(intent);
         }
+        */
     }
 
 
@@ -707,7 +714,7 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
 
             if (userIds != null && userIds.get(0) != null && userIds.size() == 1) {
 
-                FlyingHttpTool.getUserInfoByopenID(userIds.get(0), ShareDefine.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                FlyingHttpTool.getUserInfoByopenID(userIds.get(0), FlyingDataManager.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
                     @Override
                     public void completion(final UserInfo userInfo) {
 

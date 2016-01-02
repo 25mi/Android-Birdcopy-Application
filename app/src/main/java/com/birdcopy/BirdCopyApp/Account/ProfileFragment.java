@@ -1,4 +1,4 @@
-package com.birdcopy.BirdCopyApp.MyProfile;
+package com.birdcopy.BirdCopyApp.Account;
 
 import android.content.*;
 import android.graphics.Bitmap;
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
 
         //获取会员金币数据
         FlyingHttpTool.getMoneyData(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 new FlyingHttpTool.GetMoneyDataListener() {
                     @Override
                     public void completion(boolean isOK) {
@@ -118,7 +118,7 @@ public class ProfileFragment extends Fragment {
 
         //获取年费会员数据
         FlyingHttpTool.getMembership(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
                     @Override
                     public void completion(Date startDate, Date endDate) {
@@ -303,7 +303,7 @@ public class ProfileFragment extends Fragment {
                         mNikeName.setText(nickName);
 
                         FlyingHttpTool.refreshUesrInfo(FlyingDataManager.getCurrentPassport(),
-                                ShareDefine.getLocalAppID(),
+                                FlyingDataManager.getLocalAppID(),
                                 nickName,
                                 null,
                                 null,
@@ -328,7 +328,7 @@ public class ProfileFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         FlyingHttpTool.toBuyProduct(mainActivity,
                 FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 good);
     }
 
@@ -435,7 +435,7 @@ public class ProfileFragment extends Fragment {
     public void uploadPortImage(File portraitFile)
     {
         FlyingHttpTool.requestUploadPotrait(FlyingDataManager.getCurrentPassport(),
-                ShareDefine.getLocalAppID(),
+                FlyingDataManager.getLocalAppID(),
                 portraitFile,
                 new FlyingHttpTool.RequestUploadPotraitListener() {
                     @Override

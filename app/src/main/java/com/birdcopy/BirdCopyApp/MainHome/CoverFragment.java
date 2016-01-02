@@ -2,12 +2,15 @@ package com.birdcopy.BirdCopyApp.MainHome;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
+import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -17,6 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class CoverFragment  extends Fragment
 {
     private View coverView;
+    private ImageView contentType;
 
     private BE_PUB_LESSON mLessonData;
 
@@ -39,6 +43,8 @@ public class CoverFragment  extends Fragment
 
         coverView = (View) inflater.inflate(R.layout.homecover, container, false);
 
+        contentType = (ImageView)coverView.findViewById(R.id.contentType);
+
         ImageView imageView =(ImageView)coverView.findViewById(R.id.homecoverimage);
 
         imageView.setOnClickListener(new View.OnClickListener()
@@ -57,6 +63,24 @@ public class CoverFragment  extends Fragment
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(mLessonData.getBEIMAGEURL(), imageView);
+
+
+        if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))
+        {
+            contentType.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(), R.drawable.ic_drawer_audio));
+        }
+        else if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeVideo))
+        {
+            contentType.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(), R.drawable.ic_drawer_video));
+        }
+        else if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
+        {
+            contentType.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(), R.drawable.ic_drawer_doc));
+        }
+        else if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
+        {
+            contentType.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(), R.drawable.ic_drawer_web));
+        }
 
         return coverView;
     }

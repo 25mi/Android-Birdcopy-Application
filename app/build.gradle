@@ -52,9 +52,9 @@ android {
                 {
                     applicationId "it.birdcopy.inet"
 
-                    ndk {
-                        abiFilter "armeabi-v7a"
-                    }
+                    //ndk {
+                      //  abiFilter "armeabi-v7a"
+                    //}
                 }
 
         shenzhidao
