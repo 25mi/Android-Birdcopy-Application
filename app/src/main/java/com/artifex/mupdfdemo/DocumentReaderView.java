@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 
 
 public abstract class DocumentReaderView extends ReaderView {
@@ -166,7 +166,7 @@ public abstract class DocumentReaderView extends ReaderView {
 		} else if(linkString.startsWith("buy://localhost")) {
 			onBuy(uri.getPath().substring(1));
 		} else {
-			WebViewActivity.startWithUrl(getContext(), uri.toString());
+			FlyingWebViewActivity.startWithUrl(getContext(), uri.toString());
 		}
 		
 	}

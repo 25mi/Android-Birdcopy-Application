@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.R;
 
 import io.rong.imkit.RongContext;
@@ -37,7 +37,7 @@ public class SurveyProvider extends InputProvider.ExtendProvider {
     @Override
     public void onPluginClick(View view) {
 
-        Intent intent = new Intent(getContext(),WebViewActivity.class);
+        Intent intent = new Intent(getContext(),FlyingWebViewActivity.class);
 
         intent.putExtra("url", "http://www.mikecrm.com/f.php?t=UkWGrx");
         intent.putExtra("title", "我要参与设计");

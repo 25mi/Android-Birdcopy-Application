@@ -22,7 +22,7 @@ import com.birdcopy.BirdCopyApp.R;
 /**
  * Created by birdcopy on 18/10/14.
  */
-public class WebViewActivity extends FragmentActivity
+public class FlyingWebViewActivity extends FragmentActivity
 {
     private WebFragment   mMainWebFragment;
 
@@ -52,7 +52,7 @@ public class WebViewActivity extends FragmentActivity
         }
         else
         {
-            Intent webAdvertisingActivityIntent = new Intent(context, WebViewActivity.class);
+            Intent webAdvertisingActivityIntent = new Intent(context, FlyingWebViewActivity.class);
             webAdvertisingActivityIntent.putExtra("url", url);
             context.startActivity(webAdvertisingActivityIntent);
         }
@@ -131,7 +131,7 @@ public class WebViewActivity extends FragmentActivity
 
     private void initGestureDetector() {
         if (mGestureDetector == null) {
-            mGestureDetector = new GestureDetector(WebViewActivity.this,
+            mGestureDetector = new GestureDetector(FlyingWebViewActivity.this,
                     new BackGestureListener(this));
         }
     }

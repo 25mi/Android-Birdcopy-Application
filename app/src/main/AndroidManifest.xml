@@ -96,7 +96,7 @@
         </activity>
         <activity android:name=".Content.ContentActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Content.WebViewActivity"
+        <activity android:name=".Content.FlyingWebViewActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Search.SearchActivity"
             android:screenOrientation="portrait" />

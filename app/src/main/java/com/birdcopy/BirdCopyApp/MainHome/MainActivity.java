@@ -24,10 +24,10 @@ import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenuItem;
 import com.birdcopy.BirdCopyApp.Content.ContentActivity;
+import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.birdcopy.BirdCopyApp.Account.ProfileFragment;
@@ -201,7 +201,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
             else
             {
-                Intent webAdvertisingActivityIntent = new Intent(this, WebViewActivity.class);
+                Intent webAdvertisingActivityIntent = new Intent(this, FlyingWebViewActivity.class);
                 webAdvertisingActivityIntent.putExtra("url", webURL);
                 startActivity(webAdvertisingActivityIntent);
             }
@@ -700,7 +700,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         transaction.commit();
         */
 
-        Intent intent = new Intent(this,WebViewActivity.class);
+        Intent intent = new Intent(this,FlyingWebViewActivity.class);
 
         intent.putExtra("url", lessonData.getBECONTENTURL());
         intent.putExtra("title", lessonData.getBETITLE());
@@ -1010,7 +1010,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
             else
             {
-                Intent webAdvertisingActivityIntent = new Intent(this, WebViewActivity.class);
+                Intent webAdvertisingActivityIntent = new Intent(this, FlyingWebViewActivity.class);
                 webAdvertisingActivityIntent.putExtra("url", scanStr);
                 startActivity(webAdvertisingActivityIntent);
             }

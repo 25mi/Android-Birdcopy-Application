@@ -460,9 +460,9 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
 
             UserInfo userInfo = FlyingContext.getInstance().getUserInfoByRongId(targetId);
 
-            if (userInfo == null) {
+            if (userInfo.getName() == null || userInfo.getName().equalsIgnoreCase("")) {
 
-                getSupportActionBar().setTitle("");
+                getSupportActionBar().setTitle("聊天");
             } else {
 
                 getSupportActionBar().setTitle(userInfo.getName());

@@ -730,7 +730,7 @@ public class ContentActivity extends FragmentActivity
     {
         if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
         {
-            Intent intent = new Intent(this,WebViewActivity.class);
+            Intent intent = new Intent(this,FlyingWebViewActivity.class);
 
             intent.putExtra("url", mLessonData.getBECONTENTURL());
             intent.putExtra("title", mLessonData.getBETITLE());
@@ -896,7 +896,7 @@ public class ContentActivity extends FragmentActivity
         }
         else if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
         {
-            Intent intent = new Intent(this,WebViewActivity.class);
+            Intent intent = new Intent(this,FlyingWebViewActivity.class);
 
             intent.putExtra("url", mLessonData.getBECONTENTURL());
             intent.putExtra("title", mLessonData.getBETITLE());

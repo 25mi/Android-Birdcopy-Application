@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
@@ -132,7 +132,7 @@ public class ShowPhotoActivity extends Activity {
             }
             else
             {
-                Intent webAdvertisingActivityIntent = new Intent(this, WebViewActivity.class);
+                Intent webAdvertisingActivityIntent = new Intent(this, FlyingWebViewActivity.class);
                 webAdvertisingActivityIntent.putExtra("url", scanStr);
                 startActivity(webAdvertisingActivityIntent);
             }

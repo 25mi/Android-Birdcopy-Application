@@ -24,7 +24,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.IM.photo.PhotoCollectionsProvider;
-import com.birdcopy.BirdCopyApp.Content.WebViewActivity;
+import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
 
@@ -34,7 +34,6 @@ import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
-import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.location.message.RealTimeLocationStartMessage;
@@ -119,7 +118,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
         RongIM.setGroupInfoProvider(this, true);//设置群组信息提供者。
         RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
-        RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
+        //RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);
         //消息体内是否有 userinfo 这个属性
 //        RongIM.getInstance().setMessageAttachedUserInfo(true);
@@ -140,8 +139,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         InputProvider.ExtendProvider[] provider = {
                 new PhotoCollectionsProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
-                new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
-                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                //new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
+                //new VoIPInputProvider(RongContext.getInstance()),// 语音通话
                 new ContactsProvider(RongContext.getInstance()),//通讯录
                 new SurveyProvider(RongContext.getInstance())
         };
@@ -469,6 +468,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             //real-time location message begin
             if (message.getContent() instanceof RealTimeLocationStartMessage) {
+
                 RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(message.getConversationType(), message.getTargetId());
 
 //            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
@@ -538,14 +538,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             }
             else
             {
-                Intent intent = new Intent(context,WebViewActivity.class);
+                Intent intent = new Intent(context,FlyingWebViewActivity.class);
                 intent.putExtra("url", urlString);
                 context.startActivity(intent);
             }
 
             Log.d("Begavior", "extra:" + mRichContentMessage.getExtra());
 
-        } else if (message.getContent() instanceof ImageMessage)
+        }
+            else if (message.getContent() instanceof ImageMessage)
         {
 
             ImageMessage imageMessage = (ImageMessage) message.getContent();
@@ -555,6 +556,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             context.startActivity(intent);
         }
+        else {
+
+                return false;
+            }
 
         Log.d("Begavior", message.getObjectName() + ":" + message.getMessageId());
 
@@ -588,7 +593,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
        /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        return false;
+
+        Intent intent = new Intent(var1,FlyingWebViewActivity.class);
+
+        intent.putExtra("url", var2);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        var1.startActivity(intent);
+
+        return true;
     }
 
     @Override
@@ -620,7 +633,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             }
             else
             {
-                Intent intent = new Intent(context,WebViewActivity.class);
+                Intent intent = new Intent(context,FlyingWebViewActivity.class);
                 intent.putExtra("url", urlString);
                 context.startActivity(intent);
             }
@@ -797,9 +810,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 conversation.getConversationType()== Conversation.ConversationType.PUBLIC_SERVICE)
         {
 
-            MessageContent messageContent=conversation.getMessageContent();
-
-            String name =FlyingContext.getInstance().getUserInfoByRongId(conversation.getConversationTargetId()).getName();
+            String name =FlyingContext.getInstance().getUserNameByUserId(conversation.getConversationTargetId());
 
             RongIM.getInstance().startPrivateChat(context,conversation.getConversationTargetId(), name);
 
@@ -850,7 +861,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             }
             else
             {
-                Intent webAdvertisingActivityIntent = new Intent(context, WebViewActivity.class);
+                Intent webAdvertisingActivityIntent = new Intent(context, FlyingWebViewActivity.class);
                 webAdvertisingActivityIntent.putExtra("url", scanStr);
                 context.startActivity(webAdvertisingActivityIntent);
             }
