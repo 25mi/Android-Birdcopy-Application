@@ -2,7 +2,7 @@ package com.birdcopy.BirdCopyApp.Search;
 
 import android.os.Handler;
 import android.os.Message;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.artifex.mupdfdemo.AsyncTask;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpGet;

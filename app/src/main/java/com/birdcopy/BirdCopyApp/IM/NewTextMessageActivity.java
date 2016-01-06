@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class NewTextMessageActivity extends AppCompatActivity implements Adapter
                         String   userId = FlyingDataManager.getCurrentRongID();
                         mNumberlist.remove(userId);
 
-                        mUserInfoList = FlyingContext.getInstance().getUserInfoList(mNumberlist);
+                        mUserInfoList = FlyingIMContext.getInstance().getUserInfoList(mNumberlist);
 
                         mNewTextReplyAdapter = new NewTextReplyAdapter(NewTextMessageActivity.this, mUserInfoList);
                         mReplyListView.setAdapter(mNewTextReplyAdapter);

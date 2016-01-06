@@ -32,8 +32,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.R;
 
 import java.io.File;
@@ -780,10 +781,9 @@ public class MuPDFActivity extends FragmentActivity {
 	public void playBackgroundIfPossible()
 	{
 		//获取本地数据或者把网络数据存到本地
-		String  fileName =ShareDefine.kResource_Background_filenmae;
 		String lessonID =getIntent().getStringExtra(ShareDefine.KLessonID);
 
-		String audioFilePath=ShareDefine.getLessonContentPathWithFileName(lessonID, fileName);
+		String audioFilePath= FlyingFileManager.getLessonBackgroundTargetPath(lessonID);
 
 		boolean flag = false;
 		File file = new File(audioFilePath);

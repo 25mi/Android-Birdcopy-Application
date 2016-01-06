@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -149,10 +149,10 @@ public class FlyingLocationActivity extends MapActivity implements
     @Override
     protected void onDestroy() {
 
-        if (FlyingContext.getInstance().getLastLocationCallback() != null)
-            FlyingContext.getInstance().getLastLocationCallback().onFailure("失败");
+        if (FlyingIMContext.getInstance().getLastLocationCallback() != null)
+            FlyingIMContext.getInstance().getLastLocationCallback().onFailure("失败");
 
-        FlyingContext.getInstance().setLastLocationCallback(null);
+        FlyingIMContext.getInstance().setLastLocationCallback(null);
         TencentLocationManager.getInstance(this).removeUpdates(this);
 
         super.onDestroy();
@@ -162,11 +162,11 @@ public class FlyingLocationActivity extends MapActivity implements
     public void onClick(View v) {
 
         if (mMsg != null) {
-            FlyingContext.getInstance().getLastLocationCallback().onSuccess(mMsg);
-            FlyingContext.getInstance().setLastLocationCallback(null);
+            FlyingIMContext.getInstance().getLastLocationCallback().onSuccess(mMsg);
+            FlyingIMContext.getInstance().setLastLocationCallback(null);
             finish();
         } else {
-            FlyingContext.getInstance().getLastLocationCallback()
+            FlyingIMContext.getInstance().getLastLocationCallback()
                     .onFailure("定位失败");
         }
 

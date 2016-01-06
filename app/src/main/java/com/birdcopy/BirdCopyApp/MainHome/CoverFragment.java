@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

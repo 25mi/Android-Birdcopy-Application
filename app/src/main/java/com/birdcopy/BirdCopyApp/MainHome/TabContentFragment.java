@@ -14,9 +14,9 @@ import com.birdcopy.BirdCopyApp.ChannelManage.AlbumData;
 import com.birdcopy.BirdCopyApp.ChannelManage.AlbumDataModle;
 import com.birdcopy.BirdCopyApp.ChannelManage.ChannelItem;
 import com.birdcopy.BirdCopyApp.Component.Adapter.HomeFragmentPagerAdapter;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.Tools.BaseTools;
 
@@ -135,7 +135,7 @@ public class TabContentFragment extends Fragment implements AlbumDataModle.DealR
             }
             else
             {
-                if (ShareDefine.checkNetWorkStatus()==true)
+                if (FlyingHttpTool.checkNetWorkStatus()==true)
                 {
                     loadChannelData(mDrawMenuPosition);
                 }
@@ -160,7 +160,7 @@ public class TabContentFragment extends Fragment implements AlbumDataModle.DealR
                 mUserChannelList.clear();
             }
 
-            if (ShareDefine.checkNetWorkStatus()==true)
+            if (FlyingHttpTool.checkNetWorkStatus()==true)
             {
                 loadChannelData(drawMenuPosition);
             }

@@ -17,17 +17,17 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingLessonDAO;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenuItem;
 import com.birdcopy.BirdCopyApp.Content.ContentActivity;
 import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.birdcopy.BirdCopyApp.Account.ProfileFragment;
@@ -59,11 +59,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.birdcopy.BirdCopyApp.ChannelActivity;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
-import com.birdcopy.BirdCopyApp.MyLessons.MyLeesonsFragment;
+import com.birdcopy.BirdCopyApp.LocalContent.MyLeesonsFragment;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.ScanActivity;
 import com.koushikdutta.ion.Ion;
@@ -293,7 +293,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     void initActiveMenu()
     {
-        if(ShareDefine.checkNetWorkStatus())
+        if(FlyingHttpTool.checkNetWorkStatus())
         {
             String texturl = ShareDefine.getLessonAccount(ShareDefine.KContentTypeText,null);
 
@@ -398,7 +398,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         @Override
         protected String doInBackground(String... params)
         {
-            int a =new FlyingLessonDAO().loadAllData().size();
+            int a =new FlyingContentDAO().loadAllData().size();
 
             return String.valueOf(a);
         }
@@ -1256,7 +1256,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 RongIM.getInstance().getRongIMClient().clearNotifications();
             }
-            if (FlyingContext.getInstance() != null) {
+            if (FlyingIMContext.getInstance() != null) {
 
                 String token = FlyingDataManager.getRongToken();
 

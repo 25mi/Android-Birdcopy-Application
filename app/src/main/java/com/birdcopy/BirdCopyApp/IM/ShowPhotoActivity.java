@@ -10,9 +10,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
@@ -83,7 +84,7 @@ public class ShowPhotoActivity extends Activity {
                                     {
                                         Bitmap bitmap = mShowPhoto.getDrawingCache();
 
-                                        ShareDefine.savePhoto(bitmap, null);
+                                        FlyingFileManager.savePhoto(bitmap, null);
                                         Toast.makeText(ShowPhotoActivity.this, "已经成功保存图片", Toast.LENGTH_SHORT).show();
 
                                         break;

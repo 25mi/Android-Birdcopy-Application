@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 
 import java.io.File;
 

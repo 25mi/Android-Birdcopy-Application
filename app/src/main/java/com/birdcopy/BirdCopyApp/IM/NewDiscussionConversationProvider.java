@@ -25,8 +25,7 @@ import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.R;
 
@@ -121,7 +120,7 @@ public class NewDiscussionConversationProvider implements IContainerItemProvider
         String userId = null;
         String username = null;
 
-        if (FlyingContext.getInstance() != null) {
+        if (FlyingIMContext.getInstance() != null) {
 
             userId = FlyingDataManager.getCurrentRongID();
             username = FlyingDataManager.getNickName();

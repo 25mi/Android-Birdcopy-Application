@@ -24,7 +24,7 @@ import com.birdcopy.BirdCopyApp.R;
 /**
  * User: special
  * Date: 13-12-10
- * Time: 下午10:44
+ * SubtitleTime: 下午10:44
  * Mail: specialcyci@gmail.com
  */
 public class ResideMenu extends FrameLayout{

@@ -22,6 +22,9 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告.
  *
@@ -103,12 +106,12 @@ public class CrashHandler implements UncaughtExceptionHandler {
         //收集设备参数信息
         collectDeviceInfo(mContext);
 
-        String path = ShareDefine.getCrushFolder();
+        String path = FlyingFileManager.getCrushFolder();
         File dir = new File(path);
 
         if(dir.length()>1024*1024)
         {
-            ShareDefine.deleteDirectory(path);
+            FlyingFileManager.deleteDirectory(path);
         }
 
         //保存日志文件
@@ -179,7 +182,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             {
 
-                String path = ShareDefine.getCrushFolder();
+                String path = FlyingFileManager.getCrushFolder();
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();

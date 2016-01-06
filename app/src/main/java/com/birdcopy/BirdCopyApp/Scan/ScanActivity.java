@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
+import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.Scan.camera.CameraManager;
 import com.birdcopy.BirdCopyApp.Scan.decoding.CaptureActivityHandler;
 import com.birdcopy.BirdCopyApp.Scan.decoding.InactivityTimer;

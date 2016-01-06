@@ -18,10 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.FlyingWelcomeActivity;
 import java.util.List;
 import java.util.Locale;
@@ -254,7 +254,7 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
      */
     private void enterActivity() {
 
-        if (FlyingContext.getInstance() == null)
+        if (FlyingIMContext.getInstance() == null)
             return;
 
         String token = FlyingDataManager.getRongToken();
@@ -283,7 +283,7 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
                 if (RongCloudEvent.getInstance() != null)
                     RongCloudEvent.getInstance().setOtherListener();
 
-                if (FlyingContext.getInstance() != null) {
+                if (FlyingIMContext.getInstance() != null) {
                     //mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(io.rong.app.ui.activity.FlyingConversationActivity.this);
                 }
             }
@@ -342,9 +342,9 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         if (targetId == null)
             return;
 
-        if (FlyingContext.getInstance() != null) {
+        if (FlyingIMContext.getInstance() != null) {
 
-            getSupportActionBar().setTitle(FlyingContext.getInstance().getGroupNameById(targetId));
+            getSupportActionBar().setTitle(FlyingIMContext.getInstance().getGroupNameById(targetId));
         }
     }
 
@@ -438,10 +438,10 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         getSupportActionBar().setTitle(targetIds);
         String[] ids = targetIds.split(",");
 
-        if (FlyingContext.getInstance() != null) {
+        if (FlyingIMContext.getInstance() != null) {
 
             for (int i = 0; i < ids.length; i++) {
-                sb.append(FlyingContext.getInstance().getUserInfoByRongId(ids[i]).getName().toString());
+                sb.append(FlyingIMContext.getInstance().getUserInfoByRongId(ids[i]).getName().toString());
                 sb.append(",");
             }
 
@@ -456,9 +456,9 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
      */
     private void setPrivateActionBar(String targetId) {
 
-        if (FlyingContext.getInstance() != null) {
+        if (FlyingIMContext.getInstance() != null) {
 
-            UserInfo userInfo = FlyingContext.getInstance().getUserInfoByRongId(targetId);
+            UserInfo userInfo = FlyingIMContext.getInstance().getUserInfoByRongId(targetId);
 
             if (userInfo.getName() == null || userInfo.getName().equalsIgnoreCase("")) {
 

@@ -2,7 +2,6 @@ package com.birdcopy.BirdCopyApp;
 
 import java.util.ArrayList;
 
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Component.Adapter.DragAdapter;
 import com.birdcopy.BirdCopyApp.Component.Adapter.OtherAdapter;

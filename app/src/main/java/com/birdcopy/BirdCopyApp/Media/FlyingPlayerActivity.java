@@ -15,6 +15,10 @@
  */
 package com.birdcopy.BirdCopyApp.Media;
 
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.Media.SrtSubtitle.Caption;
+import com.birdcopy.BirdCopyApp.Media.SrtSubtitle.FlyingSubParser;
+import com.birdcopy.BirdCopyApp.Media.SrtSubtitle.FlyingSubTitle;
 import com.google.android.exoplayer.AspectRatioFrameLayout;
 import com.google.android.exoplayer.ExoPlaybackException;
 import com.google.android.exoplayer.ExoPlayer;
@@ -54,18 +58,24 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.accessibility.CaptioningManager;
-import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.birdcopy.BirdCopyApp.R;
 
@@ -111,7 +121,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   //private TextView playerStateTextView;
   //private SubtitleLayout subtitleLayout;
 
-  private FlyingSubtitle subtitleView;
+  private FlyingSubtitleView subtitleView;
   //private Button videoButton;
   //private Button audioButton;
   //private Button textButton;
@@ -126,7 +136,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
   private Uri contentUri;
   private int contentType;
-  private String contentId;
+  private String mContentId;
   private String provider;
 
   private AudioCapabilitiesReceiver audioCapabilitiesReceiver;
@@ -134,7 +144,8 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   // Activity lifecycle
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState)
+  {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.player_activity);
@@ -173,11 +184,30 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     //playerStateTextView = (TextView) findViewById(R.id.player_state_view);
     //subtitleLayout = (SubtitleLayout) findViewById(R.id.subtitles);
 
-    subtitleView = (FlyingSubtitle) findViewById(R.id.subtitles);
+    //字幕相关
+    String subFilePath =FlyingFileManager.getLessonSubTargetPath(mContentId);
 
-    subtitleView.activity=this;
-    subtitleView.setText("Hold fast to dreams \\n紧紧抓住梦想");
-    subtitleView.setParentView(videoFrame);
+    if(FlyingFileManager.fileExists(subFilePath)){
+
+      subtitleView = (FlyingSubtitleView) findViewById(R.id.subtitles);
+
+      subtitleView.activity=this;
+      subtitleView.setText("welcome");
+      subtitleView.setParentView(videoFrame);
+      subtitleView.setVisibility(View.VISIBLE);
+
+      try{
+
+        String subtitleString = FlyingFileManager.getStringFromFile(subFilePath);
+        parseSubtitile(subFilePath);
+      }
+      catch (Exception e)
+      {
+        //
+      }
+
+      initSubTimer();
+    }
 
     mediaController = new KeyCompatibleMediaController(this);
     mediaController.setAnchorView(root);
@@ -204,13 +234,14 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
   }
 
   @Override
-  public void onResume() {
+  public void onResume()
+  {
     super.onResume();
     Intent intent = getIntent();
     contentUri = intent.getData();
     contentType = intent.getIntExtra(CONTENT_TYPE_EXTRA,
             inferContentType(contentUri, intent.getStringExtra(CONTENT_EXT_EXTRA)));
-    contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
+    mContentId = intent.getStringExtra(CONTENT_ID_EXTRA);
     provider = intent.getStringExtra(PROVIDER_EXTRA);
     //configureSubtitleView();
     if (player == null) {
@@ -313,7 +344,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
             new SmoothStreamingTestMediaDrmCallback());
       case TYPE_DASH:
         return new DashRendererBuilder(this, userAgent, contentUri.toString(),
-            new WidevineTestMediaDrmCallback(contentId, provider));
+            new WidevineTestMediaDrmCallback(mContentId, provider));
       case TYPE_HLS:
         return new HlsRendererBuilder(this, userAgent, contentUri.toString());
       case TYPE_OTHER:
@@ -744,4 +775,123 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
     }
   }
 
+  //////////////////////////////////////////////////////////////
+  //#pragma  智能字幕处理相关
+  //////////////////////////////////////////////////////////////
+
+  private FlyingSubTitle subTitle;
+
+  private void parseSubtitile(String subtitle)
+  {
+
+    InputStream is = null;
+    is = new ByteArrayInputStream(subtitle.getBytes());
+
+    FlyingSubParser subParser = new FlyingSubParser();
+
+    try{
+
+      subTitle = subParser.parse(is);
+    }
+    catch (Exception e)
+    {
+      Log.e("LoginActivity", "---------subParser.parse exception----------:" + e.getMessage());
+
+    }
+  }
+
+  private Timer myTimer;
+
+  //设置字幕自动同步机制
+  public  void initSubTimer() {
+
+    Timer myTimer = new Timer();
+    myTimer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+
+        FlyingPlayerActivity.this.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+
+            updateSubtitleTimerFired(player.getCurrentPosition());
+          }
+        });
+      }
+    }, 1000, 1000); // initial delay 1 second, interval 1 second
+  }
+
+
+  long timestamp=-1;
+
+  boolean   enableUpdateSub = false;
+  boolean   enableAISub = false;
+
+  private void updateSubtitleTimerFired(long time)
+  {
+
+    long freshTimeInSeconds=0;
+
+    if (time!=0) {
+
+      freshTimeInSeconds=time;
+    }
+    else{
+
+      if(playerNeedsPrepare){
+
+        return;
+      }
+      else{
+
+        freshTimeInSeconds = player.getCurrentPosition();
+      }
+    }
+
+    //更新时间戳
+    timestamp=freshTimeInSeconds;
+
+    if ((enableAISub&&enableUpdateSub) ||time!=0) {
+
+      int freshIndex = subTitle.idxOfSubItemWithSubTime(freshTimeInSeconds);
+
+      //如果现在是字幕时间
+      if(freshIndex != FlyingSubTitle.NSNotFound){
+
+        //取得更新字幕内容
+        Caption currentSubItem =subTitle.getSubItemForIndex(freshIndex);
+        subtitleView.setText(currentSubItem.content);
+      }
+      //空白字幕区
+      else{
+
+        //片头字幕区
+        if (freshTimeInSeconds < (subTitle.getStartSubtitleTime()-1) ) {
+
+          subtitleView.setText("Welcome!");
+        }
+        else{
+
+          if ( freshTimeInSeconds > subTitle.getEndSubtitleTime() ) {
+
+            subtitleView.setText("Game over,you are great!");
+          }
+          else{
+
+            //延迟字幕一秒钟,不更新
+            if (freshTimeInSeconds<subTitle.getSubItemForIndex(subtitleView.currentSubtitleIndex).end.getMseconds()+2) {
+              freshIndex= subtitleView.currentSubtitleIndex;
+            }
+            else{
+              //超过一秒，更新字幕为空
+              subtitleView.setText("");
+            }
+          }
+        }
+      }
+
+      //更新字幕索引
+      subtitleView.currentSubtitleIndex = freshIndex;
+    }
+  }
 }

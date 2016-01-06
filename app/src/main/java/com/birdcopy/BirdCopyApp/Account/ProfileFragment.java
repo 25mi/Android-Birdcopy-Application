@@ -18,11 +18,11 @@ import android.widget.*;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.nostra13.universalimageloader.core.ImageLoader;

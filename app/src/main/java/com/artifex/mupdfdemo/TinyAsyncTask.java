@@ -349,7 +349,7 @@ public abstract class TinyAsyncTask<Params, Progress, Result> {
      * Waits if necessary for at most the given time for the computation
      * to complete, and then retrieves its result.
      *
-     * @param timeout Time to wait before cancelling the operation.
+     * @param timeout SubtitleTime to wait before cancelling the operation.
      * @param unit The time unit for the timeout.
      *
      * @return The computed result.

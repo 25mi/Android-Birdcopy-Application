@@ -3,8 +3,9 @@ package com.birdcopy.BirdCopyApp.ChannelManage;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
@@ -53,7 +54,7 @@ public class AlbumDataModle
     {
         String url = ShareDefine.getAlbumListByTagURL(contentType, 0, true,false);
 
-        if (ShareDefine.checkNetWorkStatus()==true)
+        if (FlyingHttpTool.checkNetWorkStatus()==true)
         {
             Ion.with(MyApplication.getInstance().getApplicationContext())
                     .load(url)
@@ -100,7 +101,7 @@ public class AlbumDataModle
     {
         String url = ShareDefine.getAlbumListByTagURL(contentType,pageNumber, true,true);
 
-        if (ShareDefine.checkNetWorkStatus()==true)
+        if (FlyingHttpTool.checkNetWorkStatus()==true)
         {
             Ion.with(MyApplication.getInstance().getApplicationContext())
                     .load(url)

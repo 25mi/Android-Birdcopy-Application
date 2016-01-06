@@ -2,8 +2,9 @@ package com.birdcopy.BirdCopyApp.DataManager;
 
 import android.content.SharedPreferences;
 
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
 
 import java.text.SimpleDateFormat;
@@ -16,6 +17,16 @@ import io.rong.imlib.model.UserInfo;
  * Created by vincentsung on 12/16/15.
  */
 public class FlyingDataManager {
+
+    public static void init()
+    {
+        setOPENUDID();
+    }
+
+    public static void setOPENUDID()
+    {
+        OpenUDID_manager.sync(MyApplication.getInstance().getApplicationContext());
+    }
 
     public static String getServerNetAddress() {
         return MyApplication.getInstance().getResources().getString(R.string.KServerNetAddress);
@@ -93,7 +104,7 @@ public class FlyingDataManager {
 
             if (rongID!=null)
             {
-                UserInfo userInfo= FlyingContext.getInstance().getUserInfoByRongId(rongID);
+                UserInfo userInfo= FlyingIMContext.getInstance().getUserInfoByRongId(rongID);
 
                 if(userInfo!=null && userInfo.getPortraitUri()!=null)
                 {
@@ -143,7 +154,7 @@ public class FlyingDataManager {
     }
 
     //向服务器获获取备份数据和最新充值数据，在本地激活用户ID
-    static  public void creatLocalUSerProfileWithServer()
+    static  public void creatLocalUserProfileWithServer()
     {
         //获取头像、昵称
         FlyingHttpTool.getUserInfoByopenID(FlyingDataManager.getCurrentPassport(),

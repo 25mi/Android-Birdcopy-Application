@@ -3,9 +3,10 @@ package com.birdcopy.BirdCopyApp.ContentList;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
@@ -64,7 +65,7 @@ public class LessonDataModle
                 pageNumber,
                 sortByTime);
 
-        if (ShareDefine.checkNetWorkStatus()==true)
+        if (FlyingHttpTool.checkNetWorkStatus()==true)
         {
             Ion.with( MyApplication.getInstance().getApplicationContext())
                     .load(url)
@@ -154,7 +155,7 @@ public class LessonDataModle
 
         String url = ShareDefine.getCoverLessonList(true,pagenumber);
 
-        if (ShareDefine.checkNetWorkStatus()==true)
+        if (FlyingHttpTool.checkNetWorkStatus()==true)
         {
             Ion.with( MyApplication.getInstance().getApplicationContext())
                     .load(url)

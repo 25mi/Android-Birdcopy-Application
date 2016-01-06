@@ -3,9 +3,11 @@ package com.birdcopy.BirdCopyApp.UpdateVersion;
 import android.app.DownloadManager;
 import android.content.IntentFilter;
 import android.os.*;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.Component.Download.FlyingHttpDownLoader;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.Download.FlyingHttpDownLoader;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 
 import javax.xml.transform.Result;
 
@@ -22,7 +24,7 @@ public class UpdateAppDownload extends AsyncTask<Void, Void, Result>
 
     @Override
     protected Result doInBackground(Void... arg0) {
-        if(ShareDefine.checkNetWorkStatus()&&ShareDefine.checkSDcardStatus()){
+        if(FlyingHttpTool.checkNetWorkStatus()&& FlyingFileManager.checkSDcardStatus()){
             downloadNewApp();
         }
         return null;

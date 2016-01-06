@@ -23,25 +23,26 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentListAdapter;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_STATISTIC;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_TOUCH_RECORD;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingLessonDAO;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingStatisticDAO;
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.DAO.FlyingTouchDAO;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_TOUCH_RECORD;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingTouchDAO;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Document.CommonIntent;
-import com.birdcopy.BirdCopyApp.Component.Download.FlyingDownloadManager;
-import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.db.DownloadDao;
-import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.DownloadConstants;
-import com.birdcopy.BirdCopyApp.Component.Download.HttpDownloader.utils.MyIntents;
+import com.birdcopy.BirdCopyApp.Download.FlyingDownloadManager;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.Download.HttpDownloader.db.DownloadDao;
+import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.DownloadConstants;
+import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.MyIntents;
 import com.birdcopy.BirdCopyApp.Component.UI.tagview.OnTagClickListener;
 import com.birdcopy.BirdCopyApp.Component.UI.tagview.Tag;
 import com.birdcopy.BirdCopyApp.Component.UI.tagview.TagView;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Media.FlyingPlayerActivity;
@@ -123,7 +124,7 @@ public class ContentActivity extends FragmentActivity
     private boolean mHasRight=false;
     private boolean mPlayonline=false;
 
-    private FlyingLessonDAO mDao;
+    private FlyingContentDAO mDao;
 
     public  int mDownloadStatus = DownloadConstants.STATUS_DEFAULT;
     public  double mDownlaodProress = 0;
@@ -164,7 +165,7 @@ public class ContentActivity extends FragmentActivity
             mLessonData=(BE_PUB_LESSON)b.getSerializable(ShareDefine.SAVED_OBJECT_KEY);
         }
 
-        mDao= new FlyingLessonDAO();
+        mDao= new FlyingContentDAO();
         mDownloadDao = new DownloadDao(MyApplication.getInstance());
 
         initData();
@@ -646,7 +647,7 @@ public class ContentActivity extends FragmentActivity
             case DownloadConstants.STATUS_INSTALL:
                 try
                 {
-                    String path =ShareDefine.getLessonContentPath(mLessonData.getBELESSONID(),mLessonData.getBECONTENTURL());
+                    String path = FlyingFileManager.getLessonContentPath(mLessonData.getBELESSONID(), mLessonData.getBECONTENTURL());
 
                     mLessonData.setLocalURLOfContent(path);
                     mLessonData.setBEDLPERCENT(1.0);
@@ -704,8 +705,6 @@ public class ContentActivity extends FragmentActivity
                         String playURL=mLessonData.getBECONTENTURL();
                         if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
                         {
-
-                            //Uri uri = Uri.parse(playURL);
 
                             int downloadType = FlyingPlayerActivity.TYPE_OTHER;
                             if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
@@ -772,7 +771,7 @@ public class ContentActivity extends FragmentActivity
                 else if (mDownloadStatus== DownloadConstants.STATUS_DOWNLOADING)
                 {
                     //暂停
-                    getFlyingDownloadManager().pauseDownloder(mLessonData.getBELESSONID());
+                    FlyingDownloadManager.getInstance().pauseDownloder(mLessonData.getBELESSONID());
 
                     mBuyButton.setBackgroundResource(R.drawable.graybutton);
                     mBuyButton.setText("暂停状态");
@@ -782,7 +781,7 @@ public class ContentActivity extends FragmentActivity
                 else if (mDownloadStatus== DownloadConstants.STATUS_PAUSE)
                 {
                     //继续下载
-                    getFlyingDownloadManager().continueDownload(mLessonData.getBELESSONID());
+                    FlyingDownloadManager.getInstance().continueDownload(mLessonData.getBELESSONID());
 
                     mBuyButton.setBackgroundResource(R.drawable.graybutton);
                     mBuyButton.setText("下载..");
@@ -793,7 +792,7 @@ public class ContentActivity extends FragmentActivity
                 {
                     mDao.savelLesson(mLessonData);
                     //默认 需要下载
-                    getFlyingDownloadManager().startDownloaderForID(mLessonData.getBELESSONID());
+                    FlyingDownloadManager.getInstance().startDownloaderForID(mLessonData.getBELESSONID());
 
                     mBuyButton.setBackgroundResource(R.drawable.graybutton);
                     mBuyButton.setText("准备..");
@@ -834,8 +833,7 @@ public class ContentActivity extends FragmentActivity
                             {
                                 Ion.with(ContentActivity.this)
                                         .load(urlString)
-                                        .write(new File(ShareDefine.getLessonContentPathWithFileName(mLessonData.getBELESSONID(),ShareDefine.kResource_Background_filenmae)
-                                        ))
+                                        .write(new File(FlyingFileManager.getLessonBackgroundTargetPath(mLessonData.getBELESSONID())                                     ))
                                         .setCallback(new FutureCallback<File>() {
                                             @Override
                                             public void onCompleted(Exception e, File file) {
@@ -1034,11 +1032,6 @@ public class ContentActivity extends FragmentActivity
             Toast.makeText(ContentActivity.this, "没有金币了，需要充值了：）",
                     Toast.LENGTH_LONG).show();
         }
-    }
-
-    private FlyingDownloadManager getFlyingDownloadManager()
-    {
-        return  MyApplication.getLeesonDownloadManager();
     }
 
     private void  shareCurrentContent()

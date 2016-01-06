@@ -19,10 +19,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.ShareDefine;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.IM.photo.PhotoCollectionsProvider;
 import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
@@ -262,8 +263,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         {//小灰条消息
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
-            //if (FlyingContext.getInstance() != null)
-              //  getFriendByUserIdHttpRequest = FlyingContext.getInstance().getUserInfoByUserId(message.getSenderUserId(), (ApiCallback<User>) this);
+            //if (FlyingIMContext.getInstance() != null)
+              //  getFriendByUserIdHttpRequest = FlyingIMContext.getInstance().getUserInfoByUserId(message.getSenderUserId(), (ApiCallback<User>) this);
         }
         else if (messageContent instanceof DeAgreedFriendRequestMessage)
         {//好友添加成功消息
@@ -276,9 +277,9 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             Log.d(TAG, "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getExtra());
             Log.d(TAG, "onReceived-ContactNotificationMessage:+getmessage:" + contactContentMessage.getMessage().toString());
 //            RongIM.getInstance().getRongIMClient().deleteMessages(new int[]{message.getMessageId()});
-//            if(FlyingContext.getInstance()!=null) {
+//            if(FlyingIMContext.getInstance()!=null) {
 //                RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.SYSTEM, "10000");
-//                String targetname = FlyingContext.getInstance().getUserNameByUserId(contactContentMessage.getSourceUserId());
+//                String targetname = FlyingIMContext.getInstance().getUserNameByUserId(contactContentMessage.getSourceUserId());
 //                RongIM.getInstance().getRongIMClient().insertMessage(Conversation.ConversationType.SYSTEM, "10000", contactContentMessage.getSourceUserId(), contactContentMessage, null);
 //
 //            }
@@ -379,7 +380,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
          * demo 代码  开发者需替换成自己的代码。
          */
         Log.e(TAG, "0604---------getUserInfo----userId---:" + userId);
-        return FlyingContext.getInstance().getUserInfoByRongId(userId);
+        return FlyingIMContext.getInstance().getUserInfoByRongId(userId);
 //        return new UserInfo("10000","新好友消息", Uri.parse("test"));
     }
 
@@ -395,10 +396,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        if (FlyingContext.getInstance().getGroupMap() == null)
+        if (FlyingIMContext.getInstance().getGroupMap() == null)
             return null;
 
-        return FlyingContext.getInstance().getGroupMap().get(groupId);
+        return FlyingIMContext.getInstance().getGroupMap().get(groupId);
 //        return null;
     }
 
@@ -670,7 +671,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                                                 .asBitmap()
                                                 .get();
 
-                                        ShareDefine.savePhoto(bitmap, null);
+                                        FlyingFileManager.savePhoto(bitmap, null);
                                         Toast.makeText(context, "已经成功保存图片", Toast.LENGTH_SHORT).show();
                                     }
                                     catch (Exception e) {
@@ -788,7 +789,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        FlyingContext.getInstance().setLastLocationCallback(callback);
+        FlyingIMContext.getInstance().setLastLocationCallback(callback);
         context.startActivity(new Intent(context, FlyingLocationActivity.class));//SOSO地图
     }
 
@@ -810,7 +811,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 conversation.getConversationType()== Conversation.ConversationType.PUBLIC_SERVICE)
         {
 
-            String name =FlyingContext.getInstance().getUserNameByUserId(conversation.getConversationTargetId());
+            String name = FlyingIMContext.getInstance().getUserNameByUserId(conversation.getConversationTargetId());
 
             RongIM.getInstance().startPrivateChat(context,conversation.getConversationTargetId(), name);
 

@@ -9,11 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.birdcopy.BirdCopyApp.Component.Base.MyApplication;
-import com.birdcopy.BirdCopyApp.Component.Base.ShareDefine;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingContext;
+import com.birdcopy.BirdCopyApp.MyApplication;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingHttpTool;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -84,7 +83,7 @@ public class FlyingWelcomeActivity extends Activity
                             //第一次运行切有注册记录
                             if(MyApplication.getSharedPreference().getBoolean("firstLaunch",true))
                             {
-                                FlyingDataManager.creatLocalUSerProfileWithServer();
+                                FlyingDataManager.creatLocalUserProfileWithServer();
 
                                 SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
                                 editor.putBoolean("firstLaunch", false);

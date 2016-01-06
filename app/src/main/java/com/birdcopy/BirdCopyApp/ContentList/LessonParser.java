@@ -1,6 +1,6 @@
 package com.birdcopy.BirdCopyApp.ContentList;
 
-import com.birdcopy.BirdCopyApp.Component.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
