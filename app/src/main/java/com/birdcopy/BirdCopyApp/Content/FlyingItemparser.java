@@ -1,7 +1,6 @@
 package com.birdcopy.BirdCopyApp.Content;
 
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

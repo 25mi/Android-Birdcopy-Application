@@ -33,7 +33,6 @@ import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Document.CommonIntent;
 import com.birdcopy.BirdCopyApp.Download.FlyingDownloadManager;
-import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.Download.HttpDownloader.db.DownloadDao;
 import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.DownloadConstants;
 import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.MyIntents;
@@ -49,12 +48,9 @@ import com.birdcopy.BirdCopyApp.Media.FlyingPlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.artifex.mupdfdemo.AsyncTask;
 import com.dgmltn.shareeverywhere.ShareView;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpGet;
 import com.koushikdutta.async.http.AsyncHttpResponse;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pingplusplus.libone.PayActivity;
 
@@ -122,7 +118,6 @@ public class ContentActivity extends FragmentActivity
 
     //下载用
     private boolean mHasRight=false;
-    private boolean mPlayonline=false;
 
     private FlyingContentDAO mDao;
 
@@ -197,7 +192,6 @@ public class ContentActivity extends FragmentActivity
         mTagList =new ArrayList<String>(Arrays.asList(mLessonData.getBETAG().split(" ")));
 
         //下载以及是否自动播放问题
-        mPlayonline=false;
         mLessonData.setBEDLSTATE(false);
     }
 
@@ -560,6 +554,7 @@ public class ContentActivity extends FragmentActivity
                     case MyIntents.Types.WAIT:
                     {// 下载之前的等待
                         mBuyButton.setText("等待...");
+
                         mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
 
                         mBuyButton.setClickable(true);
@@ -587,12 +582,12 @@ public class ContentActivity extends FragmentActivity
                         mDownlaodProress =1.00;
 
                         updateLessonAndDB();
-                        mBuyButton.setClickable(true);
 
                         //自动直接打开
                         playLesson();
                         mBuyButton.setText("...");
-                        mLessonData.setBEDLSTATE(false);
+
+                        mBuyButton.setClickable(true);
                     }
                     break;
                     case MyIntents.Types.ERROR:
@@ -637,7 +632,6 @@ public class ContentActivity extends FragmentActivity
                 break;
 
             case DownloadConstants.STATUS_DEFAULT:
-                mLessonData.setLocalURLOfContent(null);
                 mLessonData.setBEDLPERCENT(0.0);
                 mLessonData.setBEDLSTATE(false);
 
@@ -647,9 +641,6 @@ public class ContentActivity extends FragmentActivity
             case DownloadConstants.STATUS_INSTALL:
                 try
                 {
-                    String path = FlyingFileManager.getLessonContentPath(mLessonData.getBELESSONID(), mLessonData.getBECONTENTURL());
-
-                    mLessonData.setLocalURLOfContent(path);
                     mLessonData.setBEDLPERCENT(1.0);
                     mLessonData.setBEDLSTATE(false);
 
@@ -668,7 +659,6 @@ public class ContentActivity extends FragmentActivity
 
     private void playLesson()
     {
-
         if(!mHasRight)
         {
             Toast.makeText(ContentActivity.this, getString(R.string.lesson_right_alert),
@@ -680,44 +670,48 @@ public class ContentActivity extends FragmentActivity
             {
                 openLesson();
             }
-            else if (mLessonData.getLocalURLOfContent()!=null)
-            {
-                openLesson();
-            }
             else
             {
-                if (mLessonData.getBEDLSTATE() == true) {
-
-                    Toast.makeText(ContentActivity.this, getString(R.string.lesson_playonline_alert),
-                            Toast.LENGTH_LONG).show();
+                File contenFile = new File(mLessonData.getLocalURLOfContent());
+                if (contenFile.exists() && mLessonData.getBEDLPERCENT()==1)
+                {
+                    openLesson();
                 }
                 else
                 {
-                    //在线播放,暂时没有区分在线还是下载
-                    mPlayonline = true;
+                    if (mLessonData.getBEDLSTATE() == true) {
 
-                    if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
-                    {
-                        downloadORBuyLesson();
+                        Toast.makeText(ContentActivity.this, getString(R.string.lesson_playonline_alert),
+                                Toast.LENGTH_LONG).show();
                     }
                     else
                     {
-                        String playURL=mLessonData.getBECONTENTURL();
-                        if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
+                        if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
                         {
-
-                            int downloadType = FlyingPlayerActivity.TYPE_OTHER;
-                            if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
+                            downloadORBuyLesson();
+                        }
+                        else
+                        {
+                            String playURL=mLessonData.getBECONTENTURL();
+                            if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
                             {
-                                downloadType= FlyingPlayerActivity.TYPE_HLS;
+                                mLessonData.initLocalData();
+                                mDao.savelLesson(mLessonData);
+                                FlyingDownloadManager.downloadRelated(mLessonData);
+
+                                int downloadType = FlyingPlayerActivity.TYPE_OTHER;
+                                if ( mLessonData.getBECONTENTTYPE().contentEquals(ShareDefine.KDownloadTypeM3U8))
+                                {
+                                    downloadType= FlyingPlayerActivity.TYPE_HLS;
+                                }
+
+                                Intent mpdIntent = new Intent(this, FlyingPlayerActivity.class)
+                                        .setData(Uri.parse(playURL))
+                                        .putExtra(FlyingPlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
+                                        .putExtra(FlyingPlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
+
+                                startActivity(mpdIntent);
                             }
-
-                            Intent mpdIntent = new Intent(this, FlyingPlayerActivity.class)
-                                    .setData(Uri.parse(playURL))
-                                    .putExtra(FlyingPlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
-                                    .putExtra(FlyingPlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
-
-                            startActivity(mpdIntent);
                         }
                     }
                 }
@@ -739,16 +733,12 @@ public class ContentActivity extends FragmentActivity
         }
         else
         {
-            mPlayonline=false;
-
-            Boolean activeMembership = MyApplication.getSharedPreference().getBoolean("activeMembership", false);
-
             if(mHasRight)
             {
                 if (mDownloadStatus == DownloadConstants.STATUS_INSTALL)
                 {
                     File contenFile = new File(mLessonData.getLocalURLOfContent());
-                    if (contenFile.exists())
+                    if (contenFile.exists() && mLessonData.getBEDLPERCENT()==1)
                     {
                         mBuyButton.setText("尝试打开");
                         mLessonData.setBEDLSTATE(false);
@@ -790,6 +780,8 @@ public class ContentActivity extends FragmentActivity
                 }
                 else if (mDownloadStatus == DownloadConstants.STATUS_DEFAULT)
                 {
+                    //初始化本地信息，为下载做准备
+                    mLessonData.initLocalData();
                     mDao.savelLesson(mLessonData);
                     //默认 需要下载
                     FlyingDownloadManager.getInstance().startDownloaderForID(mLessonData.getBELESSONID());
@@ -800,52 +792,12 @@ public class ContentActivity extends FragmentActivity
                 }
 
                 updateLessonAndDB();
-
-                downloadBackgroundResource();
             }
             else
             {
                 inquiryRightWithUserID();
             }
         }
-    }
-
-    private void downloadBackgroundResource()
-    {
-        String url = ShareDefine.getLessonResource(mLessonData.getBELESSONID(),ShareDefine.kResource_Background);
-
-        Ion.with(ContentActivity.this)
-                .load(url)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
-
-                        if (result!=null)
-                        {
-                            String urlString = result.getResult();
-
-                            if(urlString !=null)
-                            {
-                                Ion.with(ContentActivity.this)
-                                        .load(urlString)
-                                        .write(new File(FlyingFileManager.getLessonBackgroundTargetPath(mLessonData.getBELESSONID())                                     ))
-                                        .setCallback(new FutureCallback<File>() {
-                                            @Override
-                                            public void onCompleted(Exception e, File file) {
-                                                // download done...
-                                                // do stuff with the File or error
-                                            }
-                                        });
-
-                            }
-                        }
-                    }
-                });
     }
 
     private void openLesson()

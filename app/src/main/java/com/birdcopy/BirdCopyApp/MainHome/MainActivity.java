@@ -547,16 +547,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
                 else
                 {
-                    if ((System.currentTimeMillis() - mExitTime) > 2000)
+                    if ((System.currentTimeMillis() - mExitTime) < 2000)
                     {
+                        finish();
+
                         String msg = "再按一次退出" + getString(R.string.app_name);
                         Toast.makeText(this, msg,
                                 Toast.LENGTH_SHORT).show();
                         mExitTime = System.currentTimeMillis();
+
                     }
                     else
                     {
-                        finish();
+                        return super.onKeyDown(keyCode, event);
                     }
                 }
             }
@@ -766,8 +769,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         android.support.v4.app.FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, contentFragment)
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commitAllowingStateLoss();
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void showMyLessons()

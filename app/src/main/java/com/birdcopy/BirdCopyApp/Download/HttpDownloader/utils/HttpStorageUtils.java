@@ -182,7 +182,8 @@ public class HttpStorageUtils
         }
         else
         {
-            return  FlyingFileManager.getLessonContentFilename(lessonID,contentURL);
+            return lessonID;
+            //return  FlyingFileManager.getLessonContentFilename(lessonID,contentURL);
         }
     }
 }

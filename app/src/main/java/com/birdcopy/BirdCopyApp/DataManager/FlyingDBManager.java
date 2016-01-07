@@ -27,11 +27,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 import java.io.ByteArrayInputStream;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
@@ -46,12 +43,12 @@ public class FlyingDBManager {
     {
         try{
 
-            copyDicDataBase(ShareDefine.KBaseDatdbaseFilename);
+            FlyingFileManager.copyDataBase(ShareDefine.KBaseDatdbaseFilename);
             FlyingDownloadManager.downloadShareDicData();
         }
         catch (Exception e)
         {
-
+            System.out.println("FlyingDBManager init" + e.getMessage());
         }
     }
 
@@ -126,17 +123,25 @@ public class FlyingDBManager {
      * @return
      */
     private static DicDaoMaster getDicDaoMaster() {
+
         if (dicDaoMaster == null) {
 
-            try {
-                OpenHelper helper = new OpenHelper(MyApplication.getInstance(),ShareDefine.KBaseDatdbaseFilename, null);
-                dicDaoMaster = new DicDaoMaster(helper.getWritableDatabase());
-            }
-            catch (Exception e)
-            {
+            String dicDBpath = FlyingFileManager.getDBDatabasePath();
 
+            if (!new File(dicDBpath).exists())
+            {
+                try{
+
+                    FlyingFileManager.copyDataBase(ShareDefine.KBaseDatdbaseFilename);
+                }
+                catch (Exception e)
+                {}
             }
+
+            SQLiteDatabase db =SQLiteDatabase.openOrCreateDatabase(dicDBpath,null);
+            dicDaoMaster = new DicDaoMaster(db);
         }
+
         return dicDaoMaster;
     }
 
@@ -169,31 +174,6 @@ public class FlyingDBManager {
         }
     }
 
-    /**
-     * Copies your database from your local assets-folder to the just created
-     * empty database in the system folder, from where it can be accessed and
-     * handled. This is done by transfering bytestream.
-     * */
-    private static void copyDicDataBase(String dbname) throws IOException {
-
-        // Open your local db as the input stream
-
-        InputStream myInput = MyApplication.getInstance().getResources().openRawResource(R.raw.mydic);
-        // Path to the just created empty db
-        File outFileName =MyApplication.getInstance().getDatabasePath(dbname);
-        // Open the empty db as the output stream
-        OutputStream myOutput = new FileOutputStream(outFileName.getPath());
-        // transfer bytes from the inputfile to the outputfile
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = myInput.read(buffer)) > 0) {
-            myOutput.write(buffer, 0, length);
-        }
-        // Close the streams
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
-    }
 
     //数据库相关操作
     public static void updateBaseDic(String lessonID)
@@ -202,10 +182,16 @@ public class FlyingDBManager {
 
         try
         {
-            MyTask dTask = new MyTask();
+            if(fileName!=null && fileName.length()!=0)
+            {
+                String mResponseStr = FlyingFileManager.getStringFromFile(fileName);
 
-            String mResponseStr = FlyingFileManager.getStringFromFile(fileName);
-            dTask.execute(mResponseStr);
+                if(mResponseStr!=null && mResponseStr.length()!=0)
+                {
+                    MyTask dTask = new MyTask();
+                    dTask.execute(mResponseStr);
+                }
+            }
         }
         catch (Exception e)
         {}
@@ -237,7 +223,7 @@ public class FlyingDBManager {
             }
             catch (Exception e)
             {
-                System.out.println("XML Pasing Excpetion = " + e);
+                System.out.println("XML Pasing Excpetion = " + e.getMessage());
                 return  null;
             }
         }

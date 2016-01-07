@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -74,6 +75,7 @@ public class FlyingFileManager {
         return targetPath;
     }
 
+    //课程资源本地的路径
     public static String getLessonDownloadPath(String lessonID)
     {
 
@@ -92,7 +94,7 @@ public class FlyingFileManager {
     //课程的字幕本地文件路径
     public static String getLessonSubTargetPath(String lessonID)
     {
-        String fileName = lessonID+"."+ShareDefine.kLessonSubtitleType;
+        String fileName = lessonID+"."+ShareDefine.kContentSubtitleExt;
         String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
 
         return targetPath;
@@ -101,7 +103,7 @@ public class FlyingFileManager {
     //课程的字典本地文件路径(ZIP文件)
     public static String getLessonDicPatchTargetPath(String lessonID)
     {
-        String fileName = lessonID+"."+ShareDefine.kLessonProType;
+        String fileName = lessonID+"."+ShareDefine.kContentDicPatchExt;
         String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
 
         return targetPath;
@@ -109,9 +111,7 @@ public class FlyingFileManager {
 
     public static String getLessonDicXMLTargetPath(String lessonID)
     {
-        String fileName = lessonID+"."+ShareDefine.kLessonProType;
-
-        String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
+        String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, ShareDefine.KLessonDicXMLFile);
 
         return targetPath;
     }
@@ -119,7 +119,7 @@ public class FlyingFileManager {
     //课程的补充相关资源本地文件路径(文件)
     public static String getLessonRelatedTargetPath(String lessonID)
     {
-        String fileName = "relative"+"."+ShareDefine.kLessonProType;
+        String fileName = "relative"+"."+ShareDefine.kContentRelativPatcheExt;
         String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
 
         return targetPath;
@@ -133,19 +133,57 @@ public class FlyingFileManager {
         return targetPath;
     }
 
-    public static String getLessonContentPath(String lessonID, String contentURL) {
+    //课程的主内容的本地文件路径
+    public static String getLessonContentTargetPath(String lessonID, String contentType, String contentURL)
+    {
+        if (contentType.equalsIgnoreCase(ShareDefine.KContentTypeVideo))
+        {
+            if(ShareDefine.checkMp4URL(contentURL))
+            {
+                String fileName =lessonID+"."+ShareDefine.kContentVedioExt;
+                return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+             }
+            else if(ShareDefine.checkM3U8(contentURL))
+            {
+                String fileName =lessonID+"."+ShareDefine.kContentVedioLivingExt;
+                return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+            }
+        }
 
-        return getLessonDownloadPath(lessonID) + "/" + getLessonContentFilename(lessonID, contentURL);
+        else if (contentType.equalsIgnoreCase(ShareDefine.KContentTypeAudio))
+        {
+            String fileName =lessonID+"."+ShareDefine.kContentAudioExt;
+            return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+        }
+        else if (contentType.equalsIgnoreCase(ShareDefine.KContentTypeText))
+        {
+
+            String extension = ShareDefine.getExtension(contentURL);
+
+            if(extension.equalsIgnoreCase("pdf"))
+            {
+                String fileName =lessonID+"."+extension;
+                return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+            }
+        }
+        else if (contentType.equalsIgnoreCase(ShareDefine.KContentTypePageWeb))
+        {
+            return null;
+        }
+
+        return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,lessonID+"."+ShareDefine.kContentUnkownExt);
+
+    }
+
+    //获取字典路径
+    public static String getDBDatabasePath() {
+
+        return new File(FlyingFileManager.getUserSharePath()+"/"+"mydic.db").getAbsolutePath();
     }
 
     private static String getLessonContentPathWithFileName(String lessonID, String fileName) {
 
         return getLessonDownloadPath(lessonID) + "/" + fileName;
-    }
-
-    public static String getLessonContentFilename(String lessonID, String contentURL) {
-
-        return lessonID + "." + ShareDefine.getExtension(contentURL);
     }
 
     public static String getCrushFolder() {
@@ -360,6 +398,31 @@ public class FlyingFileManager {
             flag = true;
         }
         return flag;
+    }
+
+    /**
+     * Copies your database from your local assets-folder to the just created
+     * empty database in the system folder, from where it can be accessed and
+     * handled. This is done by transfering bytestream.
+     * */
+    public static void copyDataBase(String dbname) throws IOException {
+
+        // Open your local db as the input stream
+        InputStream myInput = MyApplication.getInstance().getAssets().open(dbname);
+
+        String outFileName = getDBDatabasePath();
+        OutputStream myOutput = new FileOutputStream(outFileName);
+        // transfer bytes from the inputfile to the outputfile
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = myInput.read(buffer)) > 0) {
+            myOutput.write(buffer, 0, length);
+        }
+        // Close the streams
+        myOutput.flush();
+        myOutput.close();
+        myInput.close();
     }
 
     //////////////////////////////////////////////////////////////

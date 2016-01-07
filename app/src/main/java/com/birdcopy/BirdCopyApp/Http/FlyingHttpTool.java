@@ -1159,10 +1159,6 @@ public class FlyingHttpTool {
     //#pragma  内容相关
     //////////////////////////////////////////////////////////////
 
-
-    //////////////////////////////////////////////////////////////
-    //#pragma  内容的评论相关
-    //////////////////////////////////////////////////////////////
     public interface GetCommentListListener {
 
         void completion(ArrayList<FlyingCommentData> commentList,String allRecordCount);
@@ -1276,6 +1272,57 @@ public class FlyingHttpTool {
                 });
     }
 
+    public interface GetContentResourceListener {
+
+        void completion(String resultURL);
+    }
+
+    static public void getContentResource(String contentID,
+                                         String resourceType,
+                                         final GetContentResourceListener delegate) {
+
+        String url =  "http://"+
+                FlyingDataManager.getServerNetAddress()+
+                "/la_get_ln_rel_url_for_hp.action?getType=url"+
+                "&type="+
+                resourceType+
+                "&md5_value="+
+                contentID+
+                "&app_id="+
+                FlyingDataManager.getLocalAppID();
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result)
+                    {
+                        // print the response code, ie, 200
+                        //System.out.println(result.getHeaders().getResponseCode());
+                        // print the String that was downloaded
+                        String resultURL=null;
+
+                        if (result!=null)
+                        {
+                            String resultStr =result.getResult();
+
+                            if(ShareDefine.checkURL(resultStr))
+                            {
+                                resultURL = resultStr;
+                            }
+                        }
+
+                        if (delegate != null) {
+                            delegate.completion(resultURL);
+                        }
+                    }
+                });
+    }
+
+
     //////////////////////////////////////////////////////////////
     //#pragma  普通下载文件功能
     //////////////////////////////////////////////////////////////
@@ -1294,10 +1341,16 @@ public class FlyingHttpTool {
                 .setCallback(new FutureCallback<File>() {
                     @Override
                     public void onCompleted(Exception e, File file) {
-                        // download done...
-                        // do stuff with the File or error
+
+                        boolean isOK = false;
+
+                        if (file!=null && file.exists())
+                        {
+                            isOK = true;
+                        }
+
                         if (delegate != null) {
-                            delegate.completion(true);
+                            delegate.completion(isOK);
                         }
                     }
                 });
@@ -1352,8 +1405,6 @@ public class FlyingHttpTool {
                     }
                 });
     }
-
-
 
     public interface GetItemsListener {
 

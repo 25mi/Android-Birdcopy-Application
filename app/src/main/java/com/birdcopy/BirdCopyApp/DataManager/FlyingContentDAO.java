@@ -14,23 +14,23 @@ import java.util.List;
 
 public class FlyingContentDAO {
 
-    private BE_PUB_LESSONDao lessonDao;
+    private BE_PUB_LESSONDao contentDao;
 
     public FlyingContentDAO()
     {
 
-        lessonDao = FlyingDBManager.getContentDao();
+        contentDao = FlyingDBManager.getContentDao();
 
     }
 
     public BE_PUB_LESSON loadLesson(long id)
     {
-        return lessonDao.load(id);
+        return contentDao.load(id);
     }
 
     public List<BE_PUB_LESSON> loadAllData()
     {
-        return lessonDao.loadAll();
+        return contentDao.loadAll();
     }
 
     /**
@@ -43,7 +43,7 @@ public class FlyingContentDAO {
 
     public List<BE_PUB_LESSON> querylLesson(String where, String... params)
     {
-        return lessonDao.queryRaw(where, params);
+        return contentDao.queryRaw(where, params);
     }
 
     /**
@@ -61,13 +61,13 @@ public class FlyingContentDAO {
 
             if (lesson==null)
             {
-                return lessonDao.insertOrReplace(localLessonData);
+                return contentDao.insertOrReplace(localLessonData);
             }
             else
             {
                 long id =lesson.getId();
                 localLessonData.setId(id);
-                lessonDao.update(localLessonData);
+                contentDao.update(localLessonData);
 
                 return id;
             }
@@ -87,12 +87,12 @@ public class FlyingContentDAO {
         if(list == null || list.isEmpty()){
             return;
         }
-        lessonDao.getSession().runInTx(new Runnable() {
+        contentDao.getSession().runInTx(new Runnable() {
             @Override
             public void run() {
                 for(int i=0; i<list.size(); i++){
                     BE_PUB_LESSON localLessonData = list.get(i);
-                    lessonDao.insertOrReplace(localLessonData);
+                    contentDao.insertOrReplace(localLessonData);
                 }
             }
         });
@@ -103,7 +103,7 @@ public class FlyingContentDAO {
      * delete all localLessonData
      */
     public void deleteAllData(){
-        lessonDao.deleteAll();
+        contentDao.deleteAll();
     }
 
     /**
@@ -112,12 +112,12 @@ public class FlyingContentDAO {
      */
     public void deleteLesson(long id)
     {
-        lessonDao.deleteByKey(id);
+        contentDao.deleteByKey(id);
     }
 
     public void deleteLesson(BE_PUB_LESSON note)
     {
-        lessonDao.delete(note);
+        contentDao.delete(note);
     }
 
     public  BE_PUB_LESSON  selectWithLessonID(String lessonID)
@@ -126,7 +126,7 @@ public class FlyingContentDAO {
 
         //BE_PUB_LESSONDao.
 
-        BE_PUB_LESSON localLesson = lessonDao.queryBuilder()
+        BE_PUB_LESSON localLesson = contentDao.queryBuilder()
                 .where(BE_PUB_LESSONDao.Properties.BELESSONID.eq(lessonID))
                 .unique();
 
@@ -136,7 +136,7 @@ public class FlyingContentDAO {
     public  void  deleteWithLessonID(String lessonID)
     {
 
-        QueryBuilder<BE_PUB_LESSON> qb = lessonDao.queryBuilder();
+        QueryBuilder<BE_PUB_LESSON> qb = contentDao.queryBuilder();
         DeleteQuery<BE_PUB_LESSON> bd = qb.where(BE_LOCAl_LESSONDao.Properties.BELESSONID.eq(lessonID)).buildDelete();
         bd.executeDeleteWithoutDetachingEntities();
     }

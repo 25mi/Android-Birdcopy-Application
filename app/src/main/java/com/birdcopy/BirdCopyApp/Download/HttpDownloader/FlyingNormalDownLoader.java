@@ -42,12 +42,11 @@ public class FlyingNormalDownLoader
     {
         if(mLessonID!=null)
         {
-
             BE_PUB_LESSON lessonData = new FlyingContentDAO().selectWithLessonID(mLessonID);
             mContentURL=lessonData.getBECONTENTURL();
 
             //删除以前同样内容
-            String path= FlyingFileManager.getLessonContentPath(mLessonID, mContentURL);
+            String path= new FlyingContentDAO().selectWithLessonID(mLessonID).getLocalURLOfContent();
             if(path!=null)
             {
                 File contenFile = new File(path);
@@ -100,9 +99,6 @@ public class FlyingNormalDownLoader
             {
                 try
                 {
-                    String path =FlyingFileManager.getLessonContentPath(mLessonID,lessonData.getBECONTENTURL());
-
-                    lessonData.setLocalURLOfContent(path);
                     lessonData.setBEDLPERCENT(1.00);
                     lessonData.setBEDLSTATE(false);
 

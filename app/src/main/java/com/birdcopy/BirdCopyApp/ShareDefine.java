@@ -23,17 +23,17 @@ public class ShareDefine
     //文件格式和文件名
     public static final String KUserDBResource = "userModel";
     public static final String KDicModelName = "dicModel";
-    public static final String KDBType = "db";
-    public static final String kLessonVedioExt = "mp4";
-    public static final String kLessonAudioExt = "mp3";
-    public static final String kLessonHtmlExt = "html";
-    public static final String kLessonVedioLivingExt = "m3u8";
-    public static final String kLessonDocExt = "beunknown";
-    public static final String kLessonSubtitleType = "srt";
-    public static final String kLessonCoverType = "jpg";
-    public static final String kLessonProType = "zip";
-    public static final String kLessonRelativeType = "zip";
-    public static final String kLessonUnkownType = "beunknown";
+    public static final String KContentDBExt = "db";
+    public static final String kContentVedioExt = "mp4";
+    public static final String kContentAudioExt = "mp3";
+    public static final String kContentHtmlExt = "html";
+    public static final String kContentVedioLivingExt = "m3u8";
+    public static final String kContentDocExt = "beunknown";
+    public static final String kContentSubtitleExt = "srt";
+    public static final String kContentCoverExt = "jpg";
+    public static final String kContentDicPatchExt = "zip";
+    public static final String kContentRelativPatcheExt = "zip";
+    public static final String kContentUnkownExt = "beunknown";
 
     public static final String KGiftCountNow = "giftCountNow";
 
@@ -73,17 +73,14 @@ public class ShareDefine
     public static final String  kResource_description      = "des";         //描述(字符串)
     public static final String  kResource_Duration         = "dur";         //时长(字符串)
     public static final String  kResource_Pro              = "pro";         //语音字典(字符串)
-
-
+    public static final String  kResource_Background       = "bmu_doc_url"; //相关音乐
     public static final String  kResource_Keypoint         = "sp_desc";     //相关重点
     public static final String  kResource_KeyWord          = "sp_word";     //相关单词
 
-    public static final String  kResource_Background       = "bmu_doc_url"; //相关音乐
     public static final String  kResource_Background_filenmae   = "background.mp3";
-    public static final String  KLessonDicName             = "dic_mend_n.xml";
 
     //字典相关
-    public static final String  kShareBaseTempFile         = "dic800_all_n.zip";
+    public static final String  kShareBaseTempFile         = "tempdic.zip";
     public static final String  KBaseDicAllType            = "dic800_all_n";
     public static final String  KBaseDicMp3Type            = "dic800_mp3";
     public static final String  KBaseDicDefineType         = "dic800_define_n";
@@ -298,24 +295,6 @@ public class ShareDefine
                 lessonID;
     }
 
-    public static String getresourceOfLessonID(String lessonID, String resourceType, String resourceFormat) {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_rel_url_for_hp.action?type=" +
-                resourceType +
-                "&getType=" +
-                resourceFormat;
-    }
-
-    public static String getLessonResource(String lessonID, String resourceType) {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_rel_url_for_hp.action?md5_value=" +
-                lessonID +
-                "&type=" +
-                resourceType;
-    }
-
     public static String getAlbumListByTagURL(String lessonType,
                                               int pageNumber,
                                               boolean sortByTime,
@@ -516,6 +495,12 @@ public class ShareDefine
 
         return sPath.contains("m3u8");
     }
+
+    public static boolean checkMp4URL(String sPath) {
+
+        return sPath.contains(".mp4");
+    }
+
 
     public static int getVersionCode() throws Exception {
         // 获取packagemanager的实例
