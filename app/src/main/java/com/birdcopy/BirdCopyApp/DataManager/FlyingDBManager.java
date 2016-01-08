@@ -21,18 +21,9 @@ import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DaoSession;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DicDaoMaster;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DicDaoSession;
 import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
-import com.birdcopy.BirdCopyApp.R;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
-import java.io.ByteArrayInputStream;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Created by vincentsung on 1/5/16.
@@ -43,7 +34,6 @@ public class FlyingDBManager {
     {
         try{
 
-            FlyingFileManager.copyDataBase(ShareDefine.KBaseDatdbaseFilename);
             FlyingDownloadManager.downloadShareDicData();
         }
         catch (Exception e)
@@ -132,7 +122,7 @@ public class FlyingDBManager {
             {
                 try{
 
-                    FlyingFileManager.copyDataBase(ShareDefine.KBaseDatdbaseFilename);
+                    FlyingDownloadManager.downloadShareDicData();
                 }
                 catch (Exception e)
                 {}
@@ -207,19 +197,10 @@ public class FlyingDBManager {
         {
             try
             {
-                /** Handling XML */
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                SAXParser sp = spf.newSAXParser();
-                XMLReader xr = sp.getXMLReader();
+                FlyingItemparser.parser(params[0]);
 
-                /** Create handler to handle XML Tags ( extends DefaultHandler ) */
-                FlyingItemparser myXMLHandler = new FlyingItemparser();
-                myXMLHandler.initIndexTagDic();
-                xr.setContentHandler(myXMLHandler);
-                xr.parse(new InputSource(new ByteArrayInputStream(params[0].getBytes())));
-
-                mAllRecordCount = myXMLHandler.allRecordCount;
-                return myXMLHandler.entries;
+                mAllRecordCount = FlyingItemparser.allRecordCount;
+                return FlyingItemparser.resultList;
             }
             catch (Exception e)
             {

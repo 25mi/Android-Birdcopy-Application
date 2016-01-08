@@ -1469,22 +1469,13 @@ public class FlyingHttpTool {
         {
             try
             {
-                /** Handling XML */
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                SAXParser sp = spf.newSAXParser();
-                XMLReader xr = sp.getXMLReader();
+                FlyingItemparser.parser(params[0]);
 
-                /** Create handler to handle XML Tags ( extends DefaultHandler ) */
-                FlyingItemparser myXMLHandler = new FlyingItemparser();
-                myXMLHandler.initIndexTagDic();
-                xr.setContentHandler(myXMLHandler);
-                xr.parse(new InputSource(new ByteArrayInputStream(params[0].getBytes())));
-
-                return myXMLHandler.entries;
+                return FlyingItemparser.resultList;
             }
             catch (Exception e)
             {
-                System.out.println("XML Pasing Excpetion = " + e);
+                System.out.println("XML Pasing Excpetion = " + e.getMessage());
                 return  null;
             }
         }

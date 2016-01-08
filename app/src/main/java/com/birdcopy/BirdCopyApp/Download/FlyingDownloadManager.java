@@ -119,13 +119,13 @@ public class FlyingDownloadManager {
         FlyingDownloadManager.getSrtForLesson(lessonData, null);
 
         //缓存课程字典
-        FlyingDownloadManager.getDicForLesson(lessonData, null);
+        //FlyingDownloadManager.getDicForLesson(lessonData, null);
 
         //缓存背景音乐
         FlyingDownloadManager.getBackMp3ForLesson(lessonData, null);
 
         //缓存课程辅助资源
-        FlyingDownloadManager.getRelatedForLesson(lessonData, null);
+        //FlyingDownloadManager.getRelatedForLesson(lessonData, null);
     }
 
     public static void getSrtForLesson(BE_PUB_LESSON lessonData,String title) {
@@ -216,7 +216,7 @@ public class FlyingDownloadManager {
 
     public static void  downloadShareDicData() {
 
-        FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicMp3Type, new FlyingHttpTool.GetShareBaseZIPURLListener() {
+        FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicAllType, new FlyingHttpTool.GetShareBaseZIPURLListener() {
             @Override
             public void completion(String resultURL) {
 
@@ -232,6 +232,7 @@ public class FlyingDownloadManager {
 
                             try {
                                 FlyingFileManager.unzip(targetPath, outputDir, true);
+
                             } catch (Exception e) {
                                 //
                             }

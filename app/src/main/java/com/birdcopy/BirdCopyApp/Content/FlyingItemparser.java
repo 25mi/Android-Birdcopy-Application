@@ -2,22 +2,26 @@ package com.birdcopy.BirdCopyApp.Content;
 
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by vincentsung on 1/5/16.
  */
-public class FlyingItemparser extends DefaultHandler {
+public class FlyingItemparser {
 
     private static final String  kItemList  = "word_list";
     private static final String  kBEItem    = "word";
     private static final String  kBEWord    = "beword";
     private static final String  kBEIndex   = "beindex";
+    private static final String  kBEEntry   = "beentry";
+    private static final String  kBETag     = "betag";
 
 
     private static ArrayList<String> baseElements = new ArrayList<String>();
@@ -26,7 +30,10 @@ public class FlyingItemparser extends DefaultHandler {
 
     private static HashMap<String, String> indexTagDic = new HashMap<String, String>();
 
-    public  void initIndexTagDic()
+    private static HashMap<String, String> keyMap = new HashMap<String, String>();
+
+
+    public  static void initIndexTagDic()
     {
         baseElements.add(kBEWord);
         baseElements.add(kBEIndex);
@@ -35,107 +42,124 @@ public class FlyingItemparser extends DefaultHandler {
         mainElements.add("description");
         mainElements.add("source");
         mainElements.add("target");
-        mainElements.add("img");
+        mainElements.add("usage");
+
+        keyMap.put("ref", "[参见]");
+        keyMap.put("description", "[释意]");
+        keyMap.put("source", "[例句]");
+        keyMap.put("target", "[中文]");
+        keyMap.put("usage", "[用法]");
 
         tagEments.add("hyph");
         tagEments.add("phonetic");
         tagEments.add("variant");
         tagEments.add("usage");
-        tagEments.add("style");
         tagEments.add("field");
         tagEments.add("gram");
         tagEments.add("fre");
 
-        indexTagDic.put("n","0");
-        indexTagDic.put("v","1");
-        indexTagDic.put("vt","1");
-        indexTagDic.put("vi","1");
-        indexTagDic.put("aux v","1");
-        indexTagDic.put("adj","2");
-        indexTagDic.put("adv","3");
-        indexTagDic.put("pron","4");
-        indexTagDic.put("art","5");
-        indexTagDic.put("num","5");
-        indexTagDic.put("prep","6");
-        indexTagDic.put("conj","7");
-        indexTagDic.put("int","8");
+        keyMap.put("hyph","[发音]");
+        keyMap.put("phonetic","[音标]");
+        keyMap.put("variant","[变形]");
+        keyMap.put("derivative","[衍生]");
+        keyMap.put("field","[使用领域]");
+        keyMap.put("gram","[语法]");
+        keyMap.put("fre","[词频]");
+
+        keyMap.put("0","[名词]");
+        keyMap.put("1","[动词]");
+        keyMap.put("2","[形容词]");
+        keyMap.put("3","[副词]");
+        keyMap.put("4","[代词]");
+        keyMap.put("5","[限定词]");
+        keyMap.put("6","[介词]");
+        keyMap.put("7","[连词]");
+        keyMap.put("8","[叹词]");
+        keyMap.put("9","[其它]");
+
+        resultList = new ArrayList<BE_DIC_PUB>();
     }
 
-    private StringBuilder content;
+    private static BE_DIC_PUB item;
+    public  static ArrayList<BE_DIC_PUB> resultList;
+    public  static int allRecordCount=0;
 
-    private BE_DIC_PUB item;
+    public static void parser (String parserString)
+            throws XmlPullParserException, IOException
+    {
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        XmlPullParser xpp = factory.newPullParser();
 
+        xpp.setInput(new StringReader(parserString));
 
-    public ArrayList<BE_DIC_PUB> entries = new ArrayList<BE_DIC_PUB>();
-    public int allRecordCount=0;
+        int eventType = xpp.getEventType();
 
-    public void startElement(String uri, String localName, String qName,
-                             Attributes atts) throws SAXException {
+        while (eventType != XmlPullParser.END_DOCUMENT) {
 
-        content = new StringBuilder();
+            switch (eventType) {
 
-        if(localName.equalsIgnoreCase(kItemList)) {
+                case XmlPullParser.START_DOCUMENT: {
+                    initIndexTagDic();
 
-            allRecordCount = Integer.valueOf(atts.getValue("allRecordCount")).intValue();
-        }
-        else if(localName.equalsIgnoreCase(kBEItem)) {
+                    break;
+                }
+                case XmlPullParser.START_TAG:
+                {
+                    String tag = xpp.getName();
 
-            item = new BE_DIC_PUB();
-            item.setBEWORD("");
-            item.setBEINDEX(9);
-            
-            entries.add(item);
-        }
-    }
+                    if(kItemList.equalsIgnoreCase(tag)) {
 
-    public void endElement(String uri,
-                           String localName,
-                           String qName)
-            throws SAXException {
+                        allRecordCount = Integer.valueOf(xpp.getAttributeValue(0)).intValue();
+                    }
+                    else if (kBEItem.equalsIgnoreCase(tag)) {
 
-        String aStr="<"+localName+">";
-        String bStr="</"+localName+">";
+                        item = new BE_DIC_PUB();
+                        item.setBEWORD("");
+                        item.setBEINDEX(9);
 
-        String tempContent = aStr + content.toString() + bStr;
+                        resultList.add(item);
+                    }
+                    else if (kBEWord.equalsIgnoreCase(tag)) {
 
-        if (localName.equalsIgnoreCase(kBEWord)){
+                        item.setBEWORD(xpp.nextText());
+                    }
+                    else if (kBEIndex.equalsIgnoreCase(tag)) {
 
-            item.setBEWORD(content.toString());
-        }
-        else if (localName.equalsIgnoreCase(kBEIndex)){
+                        item.setBEINDEX(Integer.valueOf(xpp.nextText()));
+                    }
+                    else {
 
-            item.setBEINDEX(Integer.valueOf(content.toString()));
-        }
-        else if (mainElements.contains(localName)) {
+                        if (mainElements.contains(tag)) {
 
-            if (item.getBEENTRY()!=null) {
+                            if (item.getBEENTRY()!=null) {
 
-                item.setBEENTRY(item.getBEENTRY()+tempContent);
+                                item.setBEENTRY(item.getBEENTRY()+keyMap.get(tag)+xpp.nextText());
+                            }
+                            else{
+
+                                item.setBEENTRY(keyMap.get(tag)+xpp.nextText());
+                            }
+                        }
+                        else if (tagEments.contains(tag)) {
+
+                            if (item.getBETAG()!=null) {
+
+                                item.setBETAG(item.getBETAG()+keyMap.get(tag)+xpp.nextText());
+                            }
+                            else{
+                                item.setBETAG(keyMap.get(tag)+xpp.nextText());
+                            }
+                        }
+                    }
+
+                    break;
+                }
             }
-            else{
 
-                item.setBEENTRY(tempContent);
-            }
+            eventType = xpp.next();
         }
-        else if (tagEments.contains(localName)){
 
-            if (item.getBETAG()!=null) {
-
-                item.setBETAG(item.getBETAG()+tempContent);
-            }
-            else{
-                item.setBETAG(tempContent);
-            }
-        }
-    }
-
-    public void characters(char[] ch, int start, int length)
-            throws SAXException {
-        content.append(ch, start, length);
-    }
-
-    public void endDocument() throws SAXException {
-        // you can do something here for example send
-        // the BE_DIC_PUB object somewhere or whatever.
+        System.out.println("End document");
     }
 }
