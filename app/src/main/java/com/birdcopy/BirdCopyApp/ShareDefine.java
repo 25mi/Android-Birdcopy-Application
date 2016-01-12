@@ -102,16 +102,13 @@ public class ShareDefine
     public static final String KlessonStateChange = "KlessonStateChange";
     public static final int maxDownloadLessonThread = 2;
 
-    //安卓客户端辅助参数
+    public static final String KAppInstallFile = "temp.apk";
+
+    //辅助参数
     public static final String KLessonID = "KLessonID";
     public static final String KLessonTitle = "KLessonTitle";
 
     public static final String KIntenCorParameter = "KIntenCorParameter";
-
-    public static final String KAppDownloadURL = "KAppDownloadURL";
-
-    // APP下载参数
-    public static String downloadURL = null;
 
     //单个课程资源API相关
     public static final String KlessonResouceQRType = "lnview_matrix_str";
@@ -219,120 +216,6 @@ public class ShareDefine
         return result;
     }
 
-    public static String getLessonListByTagURL(
-            String contentType,
-            String downloadType,
-            String tag,
-            int pageNumber,
-            boolean sortByTime) {
-        String sortBy;
-
-        if (sortByTime) {
-            sortBy = "upd_time desc";
-        } else {
-            sortBy = "upd_time";
-        }
-
-        if (contentType == null) contentType = "";
-        if (downloadType == null) downloadType = "";
-        if (tag == null) tag = "";
-
-        try {
-            tag = URLEncoder.encode(tag, "utf-8");
-            sortBy = URLEncoder.encode(sortBy, "utf-8");
-        } catch (Exception e) {
-            return null;
-        }
-
-        String result = "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
-                ShareDefine.kperpageLessonCount +
-                "&page=" +
-                pageNumber +
-                "&url_2_type=" +
-                downloadType +
-                "&ln_tag=" +
-                tag +
-                "&res_type=" +
-                contentType +
-                "&ln_owner=" +
-                FlyingDataManager.getLessonOwner() +
-                "&sortindex=" +
-                sortBy;
-
-        return result;
-    }
-
-    public static String getCoverLessonList(boolean homeRec,
-                                            int pageNumber) {
-
-        String result = "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
-                ShareDefine.kperpageCoverCount +
-                "&page=" +
-                pageNumber +
-                "&ln_owner=" +
-                FlyingDataManager.getLessonOwner();
-
-        result += "&owner_recom=1";
-
-        if (homeRec) {
-            result += "&owner_recom=1";
-        } else {
-            result += "&owner_recom_c=1";
-        }
-
-        return result;
-    }
-
-    public static String getLessonDataByID(String lessonID) {
-
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_detail_for_hp.action?ln_id=" +
-                lessonID;
-    }
-
-    public static String getAlbumListByTagURL(String lessonType,
-                                              int pageNumber,
-                                              boolean sortByTime,
-                                              boolean homeRec) {
-        String sortBy;
-
-        if (sortByTime) {
-
-            sortBy = "upd_time desc";
-        } else {
-            sortBy = "upd_time";
-        }
-
-        try {
-            sortBy = URLEncoder.encode(sortBy, "utf-8");
-        } catch (Exception e) {
-            return null;
-        }
-
-        if (lessonType == null) lessonType = "";
-
-        String result = "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_tag_list_for_hp.action?perPageCount=" +
-                ShareDefine.kperpageLessonCount +
-                "&page=" +
-                pageNumber +
-                "&res_type=" +
-                lessonType +
-                "&tag_owner=" +
-                FlyingDataManager.getLessonOwner();
-
-        if (homeRec) {
-            result += "&owner_recom=1";
-        }
-
-        return result;
-    }
 
     public static String getTagListStrByTag(String tag, int count) {
 
@@ -356,14 +239,6 @@ public class ShareDefine
                 tag +
                 "&ln_owner=" +
                 FlyingDataManager.getLessonOwner();
-    }
-
-    public static String getAppVersionAndURL() {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/aa_get_app_info_from_hp.action?app_id=" +
-                FlyingDataManager.getLocalAppID() +
-                "&type=max";
     }
 
     public static String getAppBroadURL() {
@@ -493,14 +368,27 @@ public class ShareDefine
 
     public static boolean checkM3U8(String sPath) {
 
-        return sPath.contains("m3u8");
+        if(sPath==null)
+        {
+            return false;
+        }
+        else
+        {
+            return sPath.contains("m3u8");
+        }
     }
 
     public static boolean checkMp4URL(String sPath) {
 
-        return sPath.contains(".mp4");
+        if(sPath==null)
+        {
+            return false;
+        }
+        else
+        {
+            return sPath.contains(".mp4");
+        }
     }
-
 
     public static int getVersionCode() throws Exception {
         // 获取packagemanager的实例
@@ -559,9 +447,6 @@ public class ShareDefine
         return options;
     }
 
-    public static String getpakagename() {
-        return MyApplication.getInstance().getResources().getString(R.string.KPakagename);
-    }
 
     public static String getKSERVICE_ACTION() {
         return MyApplication.getInstance().getResources().getString(R.string.KSERVICE_ACTION);

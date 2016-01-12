@@ -783,7 +783,7 @@ public class MuPDFActivity extends FragmentActivity {
 		//获取本地数据或者把网络数据存到本地
 		String lessonID =getIntent().getStringExtra(ShareDefine.KLessonID);
 
-		String audioFilePath= FlyingFileManager.getLessonBackgroundTargetPath(lessonID);
+		String audioFilePath= FlyingFileManager.getLessonBackgroundFilePath(lessonID);
 
 		boolean flag = false;
 		File file = new File(audioFilePath);

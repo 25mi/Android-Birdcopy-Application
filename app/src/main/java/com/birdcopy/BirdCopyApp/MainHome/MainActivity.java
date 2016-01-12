@@ -1,7 +1,8 @@
 package com.birdcopy.BirdCopyApp.MainHome;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -9,8 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -19,6 +18,8 @@ import android.widget.FrameLayout;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
@@ -27,13 +28,13 @@ import com.birdcopy.BirdCopyApp.Content.ContentActivity;
 import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.birdcopy.BirdCopyApp.Account.ProfileFragment;
 import com.birdcopy.BirdCopyApp.Search.SearchActivity;
 import com.birdcopy.BirdCopyApp.SettingsFragment;
-import com.birdcopy.BirdCopyApp.UpdateVersion.UpdateAppDownload;
 import com.artifex.mupdfdemo.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,19 +51,12 @@ import android.widget.Toast;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpGet;
-import com.koushikdutta.async.http.AsyncHttpResponse;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import com.birdcopy.BirdCopyApp.ChannelActivity;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
-import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
+
 import com.birdcopy.BirdCopyApp.LocalContent.MyLeesonsFragment;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.ScanActivity;
@@ -144,6 +138,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initView();
 
         initRongCloud();
+
+        checkNewApp();
     }
 
     /**
@@ -278,7 +274,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(scan_btn, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(chat_btn, ResideMenu.DIRECTION_LEFT);
 
-        initActiveMenu();
+        //initActiveMenu();
     }
 
     public void cancelMenuGesture()
@@ -315,9 +311,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                 if(number==0)
                                 {
-                                    Message message = new Message();
-                                    message.what = MSG_NO_TEXT;
-                                    myHandler.sendMessage(message);
+                                    //doc_btn.setVisibility(View.GONE);
+
                                 }
                             }
                         }
@@ -343,9 +338,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                 if(number==0)
                                 {
-                                    Message message = new Message();
-                                    message.what = MSG_NO_VIDEO;
-                                    myHandler.sendMessage(message);
+                                    //video_btn.setVisibility(View.GONE);
+
                                 }
                             }
                         }
@@ -371,9 +365,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                 if(number==0)
                                 {
-                                    Message message = new Message();
-                                    message.what = MSG_NO_AUDIO;
-                                    myHandler.sendMessage(message);
+                                    //audio_btn.setVisibility(View.GONE);
+
                                 }
                             }
                         }
@@ -506,8 +499,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resetMenuGesture();
 
         mTopTitle.setText(title);
-
-        updateApp();
     }
 
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener()
@@ -572,109 +563,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         return super.onKeyDown(keyCode, event);
     }
 
-    Handler myHandler = new Handler()
-    {
-        // 接收到消息后处理
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                case HTTP_RESPONSE:
-                    MyTask dTask = new MyTask();
-                    dTask.execute(mResponseStr);
-                    break;
-
-                case MSG_NO_TEXT:
-                {
-                     //doc_btn.setVisibility(View.GONE);
-                    break;
-                }
-
-                case MSG_NO_VIDEO:
-                {
-                    //video_btn.setVisibility(View.GONE);
-                    break;
-                }
-
-                case MSG_NO_AUDIO:
-                {
-                    //audio_btn.setVisibility(View.GONE);
-                    break;
-                }
-            }
-
-            super.handleMessage(msg);
-        }
-    };
-
     private void showLessonViewWithID(String lessonID)
     {
 
-        String url = ShareDefine.getLessonDataByID(lessonID);
+        FlyingHttpTool.getLessonData(lessonID, new FlyingHttpTool.GetLessonDataListener() {
+            @Override
+            public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
 
-        try {
-            AsyncHttpClient.getDefaultInstance().executeString(new AsyncHttpGet(url), new AsyncHttpClient.StringCallback() {
-
-                @Override
-                public void onCompleted(Exception e, AsyncHttpResponse asyncHttpResponse, String s) {
-                    mResponseStr = s;
-                    Message message = new Message();
-                    message.what = HTTP_RESPONSE;
-                    myHandler.sendMessage(message);
-                }
-
-                @Override
-                public void onConnect(AsyncHttpResponse response) {
-                    //
-                }
-            });
-
-        } catch (Exception e) {
-            String msg = "联网失败提醒";
-            System.out.println(msg);
-        }
-    }
-
-    private class MyTask extends AsyncTask<String, Void, ArrayList<BE_PUB_LESSON>>
-    {
-        @Override
-        protected ArrayList<BE_PUB_LESSON> doInBackground(String... params)
-        {
-            try
-            {
-                /** Handling XML */
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                SAXParser sp = spf.newSAXParser();
-                XMLReader xr = sp.getXMLReader();
-
-                /** Create handler to handle XML Tags ( extends DefaultHandler ) */
-                LessonParser myXMLHandler = new LessonParser();
-                xr.setContentHandler(myXMLHandler);
-                xr.parse(new InputSource(new ByteArrayInputStream(params[0].getBytes())));
-
-                return  myXMLHandler.entries;
-            }
-            catch (Exception e)
-            {
-                System.out.println("XML Pasing Excpetion = " + e);
-                return  null;
-            }
-        }
-        @Override
-        protected void onPostExecute(ArrayList<BE_PUB_LESSON> result)
-        {
-            super.onPostExecute(result);
-
-            if(result!=null)
-            {
-                BE_PUB_LESSON lessonData =result.get(0);
-
-                if(lessonData!=null)
+                if(lessonList!=null && lessonList.get(0)!=null)
                 {
-                    showLessonViewWithData(lessonData);
+                    BE_PUB_LESSON lessonData =lessonList.get(0);
+
+                    if(lessonData!=null)
+                    {
+                        showLessonViewWithData(lessonData);
+                    }
                 }
             }
-        }
+        });
     }
 
     public void showLessonViewWithData(BE_PUB_LESSON lessonData)
@@ -1077,97 +983,52 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    public  void updateApp()
-    {
-        MyApplication.upgradeCount++;
-
-        if(MyApplication.upgradeCount>10)
-        {
-
-            checkNewApp();
-        }
-    }
-
     public  void checkNewApp()
     {
-        String urlStr = ShareDefine.getAppVersionAndURL();
-        try
-        {
-            AsyncHttpClient.getDefaultInstance().executeString(new AsyncHttpGet(urlStr), new AsyncHttpClient.StringCallback() {
 
-                @Override
-                public void onCompleted(Exception e, AsyncHttpResponse asyncHttpResponse, String s)
+        FlyingHttpTool.checkNewVersionAPP(FlyingDataManager.getLocalAppID(), new FlyingHttpTool.CheckNewVersionAPPDListener() {
+            @Override
+            public void completion(boolean isOK, final String downloadURL) {
+
+                if(isOK)
                 {
-                    try
-                    {
-                        String str = s;
-                        String[] separated = str.split(";");
+                    new AlertDialogWrapper.Builder(MainActivity.this)
+                            .setTitle("友情提醒")
+                            .setMessage(getString(R.string.upgrade_app__ACK))
+                            .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                        String version = separated[0]; // this will contain "Fruit"
-                        ShareDefine.downloadURL = separated[1]; // this will contain "Fruit"
+                                    if (which == AlertDialog.BUTTON_POSITIVE){
 
-                        MyApplication.getSharedPreference().getString("downloadURL", ShareDefine.downloadURL);
+                                        FlyingHttpTool.downloadFile(downloadURL, FlyingFileManager.getAPPFilePath(), new FlyingHttpTool.DownloadFileListener() {
+                                            @Override
+                                            public void completion(boolean isOK, String targetpath) {
 
-                        SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
-                        editor.putString(ShareDefine.KAppDownloadURL, ShareDefine.downloadURL);
-                        editor.commit();
+                                                if(isOK)
+                                                {
+                                                    File file = new File(targetpath);
+                                                    if(!file.exists()){
+                                                        return ;
+                                                    }
 
-                        if(compareVersionCode(version))
-                        {
-                            new AlertDialogWrapper.Builder(MainActivity.this)
-                                    .setTitle("友情提醒")
-                                    .setMessage(getString(R.string.upgrade_app__ACK))
-                                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            if (which == AlertDialog.BUTTON_POSITIVE){
-
-                                                new UpdateAppDownload().execute();
-                                                MyApplication.upgradeCount=0;
+                                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                                    intent.setDataAndType(Uri.fromFile(file),
+                                                            "application/vnd.android.package-archive");
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+                                                }
                                             }
-                                            dialog.dismiss();
-                                        }
-                                    }).show();
-
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        System.out.println("XML Pasing Excpetion = " + e);
-                    }
-                }
-
-                @Override
-                public void onConnect(AsyncHttpResponse response) {
-                    //
-                }
-            });
-        }
-        catch (Exception e)
-        {
-            String msg = "联网失败提醒";
-            System.out.println(msg);
-        }
-    }
-
-    public boolean compareVersionCode(String serverCode)
-    {
-        if(serverCode!=null)
-        {
-            try
-            {
-                if(Integer.parseInt(serverCode)>ShareDefine.getVersionCode()){
-                    return true;
+                                        });
+                                    }
+                                    dialog.dismiss();
+                                }
+                            }).show();
                 }
             }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return false;
+        });
     }
+
 
     public static void startPDFActivity(Context context, String filePath, String title, String lessonID,boolean showThumbnails){
         try{

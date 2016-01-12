@@ -14,6 +14,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.OpenUDID_manager;
 
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.IM.ContactNotificationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.DeAgreedFriendRequestMessage;
 import com.birdcopy.BirdCopyApp.IM.NewDiscussionConversationProvider;
@@ -33,8 +34,6 @@ public class MyApplication extends MultiDexApplication
 
     //private static AsyncHttpClient nonNIOasyncHttpClient;
 
-    public  static int upgradeCount=0;
-
     public static MyApplication getInstance() {
 
         return mInstance;
@@ -50,7 +49,7 @@ public class MyApplication extends MultiDexApplication
         }
 
         FlyingDataManager.init();
-        FlyingDBManager.init();
+        FlyingDBManager.initDB();
         initRongCloud();
 
         initImageLoader(getApplicationContext());
@@ -71,7 +70,7 @@ public class MyApplication extends MultiDexApplication
          * 只有两个进程需要初始化，主进程和 push 进程
          */
 
-        if (getString(R.string.KPakagename).equals(getCurProcessName(getApplicationContext())) ||
+        if (getString(R.string.KApplicaionID).equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
             RongIM.init(this);
@@ -81,7 +80,7 @@ public class MyApplication extends MultiDexApplication
              *
              * 注册相关代码，只需要在主进程里做。
              */
-            if (getString(R.string.KPakagename).equals(getCurProcessName(getApplicationContext()))) {
+            if (getString(R.string.KApplicaionID).equals(getCurProcessName(getApplicationContext()))) {
 
                 RongCloudEvent.init(this);
                 FlyingIMContext.init(this);

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.birdcopy.BirdCopyApp.ChannelManage.AlbumData;
-import com.birdcopy.BirdCopyApp.ChannelManage.AlbumDataModle;
 import com.birdcopy.BirdCopyApp.ChannelManage.ChannelItem;
 import com.birdcopy.BirdCopyApp.Component.Adapter.HomeFragmentPagerAdapter;
 import com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView;
@@ -25,16 +24,13 @@ import java.util.ArrayList;
 /**
  * Created by BirdCopyApp on 22/7/14.
  */
-public class TabContentFragment extends Fragment implements AlbumDataModle.DealResult
+public class TabContentFragment extends Fragment
 {
-    public final static int SET_TAGLIST = 0;
-
     private View tablConent;
 
     //记录菜单位置
     private int mDrawMenuPosition=MainActivity.homeMenuPostion;
 
-    private AlbumDataModle albumDataModle;
     /** 用户选择的新闻分类列表*/
     private ArrayList<ChannelItem> mUserChannelList=null;
 
@@ -100,27 +96,6 @@ public class TabContentFragment extends Fragment implements AlbumDataModle.DealR
 
         return tablConent;
     }
-    
-    Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            // TODO Auto-generated method stub
-            switch (msg.what) 
-            {
-                case SET_TAGLIST:
-                {
-                    // notify the adapter that we can update now
-                    initAndShowView();
-                    break;
-                }
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
 
     /** 此方法意思为fragment是否可见 ,可见时候加载数据 */
     @Override
@@ -131,7 +106,7 @@ public class TabContentFragment extends Fragment implements AlbumDataModle.DealR
             //fragment可见时加载数据
             if(mShadeleft !=null && mUserChannelList.size() !=0)
             {
-                handler.obtainMessage(SET_TAGLIST).sendToTarget();
+                initAndShowView();
             }
             else
             {
@@ -199,39 +174,46 @@ public class TabContentFragment extends Fragment implements AlbumDataModle.DealR
         }
         */
 
-        if (albumDataModle ==null)
-        {
-            albumDataModle = new AlbumDataModle();
-            albumDataModle.setDelegate(this);
-        }
+        FlyingHttpTool.getAlbumList(contentType, 0, true, false, new FlyingHttpTool.GetAlbumListListener() {
+            @Override
+            public void completion(final ArrayList<AlbumData> albumList, String allRecordCount) {
 
-        albumDataModle.loadChannelAlbumListData(contentType);
+                if(albumList!=null && albumList.size()!=0)
+                {
+                    ArrayList<ChannelItem> channelList = new ArrayList<ChannelItem>();
+
+                    for (int i=0;i<albumList.size();i++)
+                    {
+                        ChannelItem navigate = new ChannelItem();
+                        navigate.setId(i);
+                        navigate.setName(albumList.get(i).getTagString());
+                        navigate.setOrderId(i);
+                        navigate.setSelected(0);
+                        channelList.add(navigate);
+                    }
+
+                    mUserChannelList=channelList;
+                }
+                else
+                {
+                    mUserChannelList=null;
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        initAndShowView();
+                    }
+                });
+
+            }
+        });
     }
 
     public void parseALbumDataOK(ArrayList<AlbumData> list)
     {
-        if(list!=null && list.size()!=0)
-        {
-            ArrayList<ChannelItem> channelList = new ArrayList<ChannelItem>();
 
-            for (int i=0;i<list.size();i++)
-            {
-                ChannelItem navigate = new ChannelItem();
-                navigate.setId(i);
-                navigate.setName(list.get(i).getTagString());
-                navigate.setOrderId(i);
-                navigate.setSelected(0);
-                channelList.add(navigate);
-            }
-
-            mUserChannelList=channelList;
-        }
-        else
-        {
-            mUserChannelList=null;
-        }
-
-        handler.obtainMessage(SET_TAGLIST).sendToTarget();
     }
 
     public void setMaxAlbums(int itemCount)

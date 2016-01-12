@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 
@@ -30,94 +31,153 @@ import java.util.zip.ZipInputStream;
 public class FlyingFileManager {
 
     //////////////////////////////////////////////////////////////
-    //文件位置管理
+    //文件夹管理
     //////////////////////////////////////////////////////////////
-    static final String KUSerDataFoldName = ".birdcopy";
-    static final String KUserDownloadsDir = "Downloads";
-    static final String KUserCacheDir     = "Cache";
+    static final String KUserDataFoldName = ".birdcopy";
+    static final String KUserDownloadsDir = "downloads";
     static final String kShareBaseDir     = "shareBase";
+	static final String kUserMediaDir     = "media";
+	static final String KUserCrushDir     = "crush";
 
-    public static String getUserDownloadPath() {
+	public static String getUserLocalDir() {
 
-        String downloadPath = KUSerDataFoldName + "/" + KUserDownloadsDir;
+        String relativePath = KUserDataFoldName + File.separator + FlyingDataManager.getLocalAppID();
+	    File dir = getFile(relativePath);
 
-        File folderName = Environment.getExternalStoragePublicDirectory(downloadPath);
+        if (!dir.exists()) {
 
-        if (!folderName.exists()) {
-
-            folderName.mkdirs();
+	        dir.mkdirs();
         }
 
-        return downloadPath;
+        return relativePath;
+    }
+
+	public static String getUserDownloadDir() {
+
+        String relativePath = getUserLocalDir()+ File.separator + KUserDownloadsDir;
+		File dir = getFile(relativePath);
+
+	    if (!dir.exists()) {
+
+		    dir.mkdirs();
+	    }
+
+	    return relativePath;
     }
 
     //分享资源本地路径
-    public static String getUserSharePath()
+    public static String getUserShareDir()
     {
 
-        String path = getUserDownloadPath() + "/" + kShareBaseDir;
+        String relativePath = getUserLocalDir() + File.separator + kShareBaseDir;
+	    File dir = getFile(relativePath);
 
-        File folderName = Environment.getExternalStoragePublicDirectory(path);
+	    if (!dir.exists()) {
 
-        if (!folderName.exists()) {
+		    dir.mkdirs();
+	    }
 
-            folderName.mkdirs();
-        }
-
-        return folderName.getAbsolutePath();
+	    return relativePath;
     }
 
-    //分享资源文件下载到本地的路径
-    public static String getUserShareTargetPath()
+	public static String getUseMediaDir() {
+
+		String relativePath = getUserLocalDir() + File.separator + kUserMediaDir;
+		File dir = getFile(relativePath);
+
+		if (!dir.exists()) {
+
+			dir.mkdirs();
+		}
+
+		return relativePath;
+	}
+
+	public static String getUserCrushDir() {
+
+		String relativePath = getUserLocalDir() + File.separator + KUserCrushDir;
+		File dir = getFile(relativePath);
+
+		if (!dir.exists()) {
+
+			dir.mkdirs();
+		}
+
+		return relativePath;
+	}
+
+	//课程资源本地的路径
+    public static String getLessonDownloadDir(String lessonID)
     {
-        String targetPath = FlyingFileManager.getUserDownloadPath()+"/"+ShareDefine.kShareBaseTempFile;
 
-        return targetPath;
+        String relativePath = getUserDownloadDir() + File.separator + lessonID;
+	    File dir = getFile(relativePath);
+
+	    if (!dir.exists()) {
+
+		    dir.mkdirs();
+	    }
+
+	    return relativePath;
     }
 
-    //课程资源本地的路径
-    public static String getLessonDownloadPath(String lessonID)
-    {
 
-        String path = getUserDownloadPath() + "/" + lessonID;
+	public static File getFile(String  relativePath)
+	{
+		File path = Environment.getExternalStorageDirectory();
 
-        File folderName = Environment.getExternalStoragePublicDirectory(path);
+		return new File(path, relativePath);
+	}
 
-        if (!folderName.exists()) {
+	//////////////////////////////////////////////////////////////
+	//文件路径管理
+	//////////////////////////////////////////////////////////////
 
-            folderName.mkdirs();
-        }
+	public static String getAPPFilePath()
+	{
 
-        return folderName.getAbsolutePath();
-    }
+		String targetPath = getUserDownloadDir()+File.separator+ShareDefine.KAppInstallFile;
+
+		return targetPath;
+	}
+
+	//分享资源文件下载到本地的路径
+	public static String getUserShareBaseFilePath()
+	{
+		String targetPath = getUserShareDir()+File.separator+ShareDefine.kShareBaseTempFile;
+
+		return targetPath;
+	}
 
     //课程的字幕本地文件路径
-    public static String getLessonSubTargetPath(String lessonID)
+    public static String getLessonSubFilePath(String lessonID)
     {
         String fileName = lessonID+"."+ShareDefine.kContentSubtitleExt;
-        String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
+        String targetPath =  getLessonContentPathWithFileName(lessonID, fileName);
 
         return targetPath;
     }
 
     //课程的字典本地文件路径(ZIP文件)
-    public static String getLessonDicPatchTargetPath(String lessonID)
+    public static String getLessonDicZipFilePath(String lessonID)
     {
         String fileName = lessonID+"."+ShareDefine.kContentDicPatchExt;
-        String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
+        String targetPath =  getLessonContentPathWithFileName(lessonID, fileName);
 
         return targetPath;
     }
 
-    public static String getLessonDicXMLTargetPath(String lessonID)
+    public static String getLessonDicXMLFilePath(String lessonID)
     {
-        String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, ShareDefine.KLessonDicXMLFile);
+	    String fileName = ShareDefine.KLessonDicXMLFile;
+
+	    String targetPath =  getLessonContentPathWithFileName(lessonID, fileName);
 
         return targetPath;
     }
 
     //课程的补充相关资源本地文件路径(文件)
-    public static String getLessonRelatedTargetPath(String lessonID)
+    public static String getLessonRelatedZipFilePath(String lessonID)
     {
         String fileName = "relative"+"."+ShareDefine.kContentRelativPatcheExt;
         String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID, fileName);
@@ -126,34 +186,36 @@ public class FlyingFileManager {
     }
 
     //课程的背景音乐相关资源本地文件路径
-    public static String getLessonBackgroundTargetPath(String lessonID)
+    public static String getLessonBackgroundFilePath(String lessonID)
     {
-        String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID,ShareDefine.kResource_Background_filenmae);
+	    String fileName = ShareDefine.kResource_Background_filenmae;
+
+	    String targetPath =  FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
 
         return targetPath;
     }
 
     //课程的主内容的本地文件路径
-    public static String getLessonContentTargetPath(String lessonID, String contentType, String contentURL)
+    public static String getLessonContentFilePath(String lessonID, String contentType, String contentURL)
     {
         if (contentType.equalsIgnoreCase(ShareDefine.KContentTypeVideo))
         {
             if(ShareDefine.checkMp4URL(contentURL))
             {
                 String fileName =lessonID+"."+ShareDefine.kContentVedioExt;
-                return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+                return   getLessonContentPathWithFileName(lessonID, fileName);
              }
             else if(ShareDefine.checkM3U8(contentURL))
             {
                 String fileName =lessonID+"."+ShareDefine.kContentVedioLivingExt;
-                return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+                return   getLessonContentPathWithFileName(lessonID, fileName);
             }
         }
 
         else if (contentType.equalsIgnoreCase(ShareDefine.KContentTypeAudio))
         {
             String fileName =lessonID+"."+ShareDefine.kContentAudioExt;
-            return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+            return   getLessonContentPathWithFileName(lessonID, fileName);
         }
         else if (contentType.equalsIgnoreCase(ShareDefine.KContentTypeText))
         {
@@ -163,7 +225,7 @@ public class FlyingFileManager {
             if(extension.equalsIgnoreCase("pdf"))
             {
                 String fileName =lessonID+"."+extension;
-                return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,fileName);
+                return   getLessonContentPathWithFileName(lessonID, fileName);
             }
         }
         else if (contentType.equalsIgnoreCase(ShareDefine.KContentTypePageWeb))
@@ -171,78 +233,46 @@ public class FlyingFileManager {
             return null;
         }
 
-        return   FlyingFileManager.getLessonContentPathWithFileName(lessonID,lessonID+"."+ShareDefine.kContentUnkownExt);
+        return   getLessonContentPathWithFileName(lessonID, lessonID + "." + ShareDefine.kContentUnkownExt);
 
     }
 
     //获取字典路径
-    public static String getDBDatabasePath() {
+    public static String getMyDicDBFilePath() {
 
-        return new File(FlyingFileManager.getUserSharePath()+"/"+"mydic.db").getAbsolutePath();
+        return getUserShareDir()+File.separator+"mydic.db";
     }
 
     private static String getLessonContentPathWithFileName(String lessonID, String fileName) {
 
-        return getLessonDownloadPath(lessonID) + "/" + fileName;
-    }
-
-    public static String getCrushFolder() {
-
-        String path = KUSerDataFoldName + "/" + "crush";
-
-        File folderName = Environment.getExternalStoragePublicDirectory(path);
-
-        if (!folderName.exists()) {
-
-            folderName.mkdirs();
-        }
-
-        return folderName.getAbsolutePath();
-    }
-
-    public static File getUserCachePath() {
-
-        String downloadPath = KUSerDataFoldName + "/" + KUserCacheDir;
-
-        File folderName = Environment.getExternalStoragePublicDirectory(downloadPath);
-
-        if (!folderName.exists()) {
-
-            folderName.mkdirs();
-        }
-
-        return folderName;
+        return getLessonDownloadDir(lessonID) + File.separator + fileName;
     }
 
     //////////////////////////////////////////////////////////////
-    //文件操作
+    //文件操作管理
     //////////////////////////////////////////////////////////////
-
-    /**
-     * 删除单个文件
-     *
-     * @param sPath 被删除文件的文件名
-     * @return 单个文件删除成功返回true，否则返回false
-     */
-    public static boolean fileExists(String sPath) {
+    public static boolean fileExists(String filePath) {
 
         boolean flag = false;
 
-        File file = new File(sPath);
-        if (file.isFile() && file.exists()) {
+        if(filePath!=null)
+        {
+	        File file = getFile(filePath);
 
-            flag = true;
+	        if (file.isFile() && file.exists()) {
+
+                flag = true;
+            }
         }
+
         return flag;
     }
 
+    static  public String getStringFromFile(String filePath) throws IOException {
 
-    /**
-     *读取文件到字符串
-     */
-    static  public String getStringFromFile(String fileName) throws IOException {
+	    File file = getFile(filePath);
 
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
+	    BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -262,15 +292,17 @@ public class FlyingFileManager {
     /**
      *ZIP解压缩
      */
-    public static  boolean unzip( String fromStr, String toStr, boolean remove ) throws IOException
+    public static  boolean unzip( String fromPath, String toPath, boolean remove ) throws IOException
     {
-        File from = new File(fromStr);
-        if (!from.exists() || fromStr.equals(toStr))
+
+	    File fromFile = getFile(fromPath);
+
+        if (!fromFile.exists() || fromPath.equals(toPath))
             return false;
 
-        unzip(new FileInputStream(from), new File(toStr));
+        unzip(new FileInputStream(fromFile), getFile(toPath));
 
-        if (remove) deleteFile(fromStr);
+        if (remove) deleteFile(fromPath);
 
         return true;
     }
@@ -330,16 +362,24 @@ public class FlyingFileManager {
      */
     public static boolean DeleteFolderOrFile(String sPath) {
         boolean flag = false;
-        File file = new File(sPath);
-        // 判断目录或文件是否存在
+
+
+	    File file = getFile(sPath);
+
         if (!file.exists()) {  // 不存在返回 false
-            return flag;
-        } else {
+
+	        return flag;
+        }
+        else {
+
             // 判断是否为文件
             if (file.isFile()) {  // 为文件时调用删除文件方法
-                return deleteFile(sPath);
-            } else {  // 为目录时调用删除目录方法
-                return deleteDirectory(sPath);
+
+	            return deleteFile(sPath);
+            }
+            else {  // 为目录时调用删除目录方法
+
+	            return deleteDirectory(sPath);
             }
         }
     }
@@ -351,15 +391,19 @@ public class FlyingFileManager {
      * @return 目录删除成功返回true，否则返回false
      */
     public static boolean deleteDirectory(String sPath) {
+
         //如果sPath不以文件分隔符结尾，自动添加文件分隔符
         if (!sPath.endsWith(File.separator)) {
             sPath = sPath + File.separator;
         }
-        File dirFile = new File(sPath);
+
+	    File dirFile = getFile(sPath);        // 判断目录或文件是否存在
+
         //如果dir对应的文件不存在，或者不是一个目录，则退出
         if (!dirFile.exists() || !dirFile.isDirectory()) {
             return false;
         }
+
         boolean flag = true;
         //删除文件夹下的所有文件(包括子目录)
         File[] files = dirFile.listFiles();
@@ -391,7 +435,8 @@ public class FlyingFileManager {
      */
     public static boolean deleteFile(String sPath) {
         boolean flag = false;
-        File file = new File(sPath);
+
+	    File file = getFile(sPath);
         // 路径为文件且不为空则进行删除
         if (file.isFile() && file.exists()) {
             file.delete();
@@ -400,79 +445,14 @@ public class FlyingFileManager {
         return flag;
     }
 
-    /**
-     * Copies your database from your local assets-folder to the just created
-     * empty database in the system folder, from where it can be accessed and
-     * handled. This is done by transfering bytestream.
-     * */
-    public static void copyDataBase(String dbname) throws IOException {
-
-        // Open your local db as the input stream
-        InputStream myInput = MyApplication.getInstance().getAssets().open(dbname);
-
-        String outFileName = getDBDatabasePath();
-        OutputStream myOutput = new FileOutputStream(outFileName);
-        // transfer bytes from the inputfile to the outputfile
-
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = myInput.read(buffer)) > 0) {
-            myOutput.write(buffer, 0, length);
-        }
-        // Close the streams
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
-    }
-
-    //////////////////////////////////////////////////////////////
-    //图片文件操作
-    //////////////////////////////////////////////////////////////
-
-    public static String savePhotoToSDCard(Bitmap photoBitmap, String path,
-                                           String photoName) {
-
-        String filePath = "";
-        if (checkSDcardStatus()) {
-            File dir = new File(path);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            File photoFile = new File(path, photoName + ".png");
-            FileOutputStream fileOutputStream = null;
-            try {
-                fileOutputStream = new FileOutputStream(photoFile);
-                if (photoBitmap != null) {
-                    if (photoBitmap.compress(Bitmap.CompressFormat.PNG, 100,
-                            fileOutputStream)) {
-                        fileOutputStream.flush();
-                        filePath = photoFile.toString();
-                        System.out.println(filePath);
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                photoFile.delete();
-                e.printStackTrace();
-            } catch (IOException e) {
-                photoFile.delete();
-                e.printStackTrace();
-            } finally {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return filePath;
-    }
 
     private static MediaScannerConnection msConn = null;
 
-    public static void savePhoto(Bitmap bmp, String name) {
-        File imageFileFolder = new File(Environment.getExternalStorageDirectory(), "图片");
-        imageFileFolder.mkdir();
+    public static void savePhotoToLocal(Bitmap bmp, String name) {
+
+	    File imageFileFolder = new File(getFile(getUseMediaDir()), "图片");
+
+	    imageFileFolder.mkdir();
         FileOutputStream out = null;
         Calendar c = Calendar.getInstance();
         if (name == null) {
@@ -511,26 +491,5 @@ public class FlyingFileManager {
             }
         });
         msConn.connect();
-    }
-
-    public static boolean createFolderName(String folderName) {
-        File folder = new File(folderName);
-        return (folder.exists() && folder.isDirectory()) ? true : folder.mkdirs();
-    }
-
-    public static boolean checkSDcardStatus() {
-        if (android.os.Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File file = Environment.getExternalStorageDirectory();
-            StatFs statfs = new StatFs(file.getPath());
-            long availableBlock = statfs.getAvailableBlocks();
-            long blockSize = statfs.getBlockSize();
-            long availableSize = availableBlock * blockSize / 1024 / 1024;
-            if (availableSize >= 50) {
-                return true;
-            } else {
-
-            }
-        }
-        return false;
     }
 }

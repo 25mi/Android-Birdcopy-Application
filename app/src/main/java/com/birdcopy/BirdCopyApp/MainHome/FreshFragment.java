@@ -9,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListAdapter;
-import com.birdcopy.BirdCopyApp.ContentList.LessonDataModle;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.StaggeredGridView;
 
@@ -22,11 +23,10 @@ import android.os.Handler;
 /**
  * Created by songbaoqiang on 6/8/14.
  */
-public class FreshFragment extends Fragment implements LessonDataModle.DealResult
+public class FreshFragment extends Fragment
 {
 
     public static final String SAVED_DATA_KEY   = "SAVED_DATA_KEY";
-    public final static int SET_LESSONLIST = 0;
 
     private View freshConent;
 
@@ -45,8 +45,6 @@ public class FreshFragment extends Fragment implements LessonDataModle.DealResul
 
     Boolean mIsLastRow=false;
 
-    private LessonDataModle mLessonDataModle = new LessonDataModle();
-
     //是否默认加载数据
     private boolean mLoadDataDefault = false;
 
@@ -63,26 +61,6 @@ public class FreshFragment extends Fragment implements LessonDataModle.DealResul
         super.onCreate(savedInstanceState);
     }
 
-    Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            // TODO Auto-generated method stub
-            switch (msg.what) {
-                case SET_LESSONLIST:
-                {
-                    // notify the adapter that we can update now
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
-
     /** 此方法意思为fragment是否可见 ,可见时候加载数据 */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser)
@@ -92,7 +70,7 @@ public class FreshFragment extends Fragment implements LessonDataModle.DealResul
             //fragment可见时加载数据
             if(mData !=null && mData.size() !=0)
             {
-                handler.obtainMessage(SET_LESSONLIST).sendToTarget();
+                mAdapter.notifyDataSetChanged();
             }
             else
             {
@@ -189,47 +167,40 @@ public class FreshFragment extends Fragment implements LessonDataModle.DealResul
         if (mData.size() <mMaxNumOfLessons)
         {
             currentLodingIndex++;
-            mLessonDataModle.setDelegate(this);
-            mLessonDataModle.loadMoreLessonData ( mContentType,
-                    mDownloadType,
-                    mTag,
-                    currentLodingIndex,
-                    sortByTime);
 
-            mLessonDataModle.loadcoverlessonlist(currentLodingIndex);
+            FlyingHttpTool.getLessonList(mContentType, mDownloadType, mTag, currentLodingIndex, sortByTime, new FlyingHttpTool.GetLessonListListener() {
+                @Override
+                public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
+
+                    if(lessonList!=null || lessonList.size()!=0)
+                    {
+                        for (BE_PUB_LESSON data : lessonList) {
+                            mAdapter.add(data);
+                        }
+                        // stash all the data in our backing store
+                        mData.addAll(lessonList);
+                        mMaxNumOfLessons = Integer.parseInt(allRecordCount);
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                // notify the adapter that we can update now
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
-    public void parseOK(ArrayList<BE_PUB_LESSON> list)
-    {
-
-        if(list!=null || list.size()!=0)
-        {
-            for (BE_PUB_LESSON data : list) {
-                mAdapter.add(data);
-            }
-            // stash all the data in our backing store
-            mData.addAll(list);
-
-            handler.obtainMessage(SET_LESSONLIST).sendToTarget();
-        }
+    public void setTagString(String tagString) {
+        mTag = tagString;
     }
 
-    @Override
-    public void setMaxItems(int itemCount)
-    {
-
-        mMaxNumOfLessons = itemCount;
-    }
-
-    public void setTagString(String tagString)
-    {
-        mTag=tagString;
-    }
-
-    public String getTagString()
-    {
-        return  mTag;
+    public String getTagString() {
+        return mTag;
     }
 
     public void setDownloadType(String downloadType)

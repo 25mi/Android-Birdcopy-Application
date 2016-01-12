@@ -46,9 +46,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
-    <!-- 获取机型信息权限 -->
-
-    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!--获取联系人信息，demo中演示发送通讯录消息-->
@@ -65,7 +62,8 @@
         android:icon="@drawable/icon"
         android:label="艾奈特"
         android:largeHeap="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true">
         <activity
             android:name=".MainHome.FlyingWelcomeActivity"
             android:screenOrientation="portrait" >
@@ -141,13 +139,6 @@
                 <data android:scheme="file"/>
             </intent-filter>
         </activity>
-
-        <!--背景下载服务 -->
-        <service android:name=".Download.HttpDownloader.service.DownloadService" >
-            <intent-filter>
-                <action android:name="it.birdcopy.inet.DownloadService"/>
-            </intent-filter>
-        </service>
 
         <!--openid服务 -->
         <service android:name=".DataManager.OpenUDID_service" >

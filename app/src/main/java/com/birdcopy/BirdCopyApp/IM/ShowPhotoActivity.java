@@ -84,7 +84,7 @@ public class ShowPhotoActivity extends Activity {
                                     {
                                         Bitmap bitmap = mShowPhoto.getDrawingCache();
 
-                                        FlyingFileManager.savePhoto(bitmap, null);
+                                        FlyingFileManager.savePhotoToLocal(bitmap, null);
                                         Toast.makeText(ShowPhotoActivity.this, "已经成功保存图片", Toast.LENGTH_SHORT).show();
 
                                         break;

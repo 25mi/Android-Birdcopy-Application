@@ -1,13 +1,10 @@
 package com.birdcopy.BirdCopyApp.Download;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
-import com.birdcopy.BirdCopyApp.Download.HttpDownloader.service.ServiceManager;
-import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.MyIntents;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.koushikdutta.async.future.FutureCallback;
@@ -19,7 +16,7 @@ import java.io.File;
 /**
  * Created by vincentsung on 1/8/16.
  */
-public class FlyngHttpDownloader {
+public class FlyngDirectDownloader {
 
     private   String mLessonID;
     private   String mContentURL=null;
@@ -27,7 +24,7 @@ public class FlyngHttpDownloader {
     private   String mFileName="unknown";
     private   String mFolderName="downloads";
 
-    public FlyngHttpDownloader(String mLessonID)
+    public FlyngDirectDownloader(String mLessonID)
     {
         super();
         this.mLessonID=mLessonID;
@@ -73,6 +70,7 @@ public class FlyngHttpDownloader {
                         @Override
                         public void onCompleted(Exception e, File result) {
 
+                            finishDownloadTask();
                         }
                     });
         }
@@ -89,9 +87,7 @@ public class FlyngHttpDownloader {
 
     public void pauseDownload()
     {
-        
     }
-
 
     private void  finishDownloadTask()
     {

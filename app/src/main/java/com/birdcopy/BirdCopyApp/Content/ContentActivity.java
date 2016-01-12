@@ -6,8 +6,6 @@ import android.graphics.Rect;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -29,38 +27,24 @@ import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_TOUCH_RECORD;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingTouchDAO;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Document.CommonIntent;
 import com.birdcopy.BirdCopyApp.Download.FlyingDownloadManager;
-import com.birdcopy.BirdCopyApp.Download.HttpDownloader.db.DownloadDao;
-import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.DownloadConstants;
-import com.birdcopy.BirdCopyApp.Download.HttpDownloader.utils.MyIntents;
 import com.birdcopy.BirdCopyApp.Component.UI.tagview.OnTagClickListener;
 import com.birdcopy.BirdCopyApp.Component.UI.tagview.Tag;
 import com.birdcopy.BirdCopyApp.Component.UI.tagview.TagView;
 import com.birdcopy.BirdCopyApp.Component.listener.BackGestureListener;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.ContentList.LessonParser;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Media.FlyingPlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
-import com.artifex.mupdfdemo.AsyncTask;
 import com.dgmltn.shareeverywhere.ShareView;
-import com.koushikdutta.async.http.AsyncHttpClient;
-import com.koushikdutta.async.http.AsyncHttpGet;
-import com.koushikdutta.async.http.AsyncHttpResponse;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pingplusplus.libone.PayActivity;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,8 +59,6 @@ public class ContentActivity extends FragmentActivity
 {
     public static final String SAVED_DATA_KEY   = "SAVED_DATA_KEY";
     public final static int HTTP_RESPONSE = 0;
-    private  String mResponseStr=null;
-    public static final Uri   DOWNLOADCONTENTOBSERURI= Uri.parse("content://downloads/my_downloads");
 
     public BE_PUB_LESSON mLessonData;
 
@@ -121,11 +103,6 @@ public class ContentActivity extends FragmentActivity
 
     private FlyingContentDAO mDao;
 
-    public  int mDownloadStatus = DownloadConstants.STATUS_DEFAULT;
-    public  double mDownlaodProress = 0;
-
-    private DownloadDao mDownloadDao;
-
     private HttpDownloadReceiver mDownloadReceiver;
 
     /** 手势监听 */
@@ -161,7 +138,6 @@ public class ContentActivity extends FragmentActivity
         }
 
         mDao= new FlyingContentDAO();
-        mDownloadDao = new DownloadDao(MyApplication.getInstance());
 
         initData();
         initView();
@@ -173,7 +149,7 @@ public class ContentActivity extends FragmentActivity
 
         mDownloadReceiver = new HttpDownloadReceiver();
         IntentFilter downloadfilter = new IntentFilter();
-        downloadfilter.addAction(ShareDefine.getKRECEIVER_ACTION());
+        downloadfilter.addAction(mLessonData.getBELESSONID());
         registerReceiver(mDownloadReceiver, downloadfilter);
     }
 
@@ -425,27 +401,6 @@ public class ContentActivity extends FragmentActivity
         */
     }
 
-    Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            // TODO Auto-generated method stub
-            switch (msg.what)
-            {
-                case SET_COMMENTLIST:
-                {
-                    // notify the adapter that we can update now
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
-
     private void onLoadMoreItems()
     {
         if (mData.size() <mMaxNumOfComments)
@@ -458,23 +413,29 @@ public class ContentActivity extends FragmentActivity
                         @Override
                         public void completion(ArrayList<FlyingCommentData> commentList, String allRecordCount) {
 
-                            if(commentList!=null && commentList.size()!=0)
-                            {
+                            if (commentList != null && commentList.size() != 0) {
+
                                 for (FlyingCommentData data : commentList) {
                                     mAdapter.add(data);
                                 }
                                 // stash all the data in our backing store
                                 mData.addAll(commentList);
 
-                                handler.obtainMessage(SET_COMMENTLIST).sendToTarget();
-
                                 mMaxNumOfComments = Integer.parseInt(allRecordCount);
 
-                                if(mMaxNumOfComments>0)
-                                {
-                                    mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
-                                    mCommentListView.addFooterView(mFooterView);
-                                }
+	                            ContentActivity.this.runOnUiThread(new Runnable() {
+
+		                            public void run() {
+
+			                            // notify the adapter that we can update now
+			                            mAdapter.notifyDataSetChanged();
+
+			                            if (mMaxNumOfComments > 0) {
+				                            mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
+				                            mCommentListView.addFooterView(mFooterView);
+			                            }
+		                            }
+	                            });
                             }
                         }
                     });
@@ -485,28 +446,21 @@ public class ContentActivity extends FragmentActivity
     {
         if(mHasRight)
         {
-            if (mLessonData.getLocalURLOfContent()!=null||
+            if (mLessonData.getBEDLPERCENT()==1 ||
                     mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
             {
                 mBuyButton.setBackgroundResource(R.drawable.greenbutton);
                 mBuyButton.setText("马上欣赏");
-                mDownloadStatus = DownloadConstants.STATUS_INSTALL;
             }
             else
             {
-                mDownloadStatus = mDownloadDao.getStatusByUrl(mLessonData.getBECONTENTURL());
-
-                if (mDownloadStatus == DownloadConstants.STATUS_DEFAULT)
-                {
-                    mBuyButton.setText("离线收藏");
-                }
-                else if (mDownloadStatus== DownloadConstants.STATUS_DOWNLOADING)
+                if(mLessonData.getBEDLPERCENT()<1 && mLessonData.getBEDLPERCENT()>0)
                 {
                     mBuyButton.setText("下载中...");
                 }
-                else if (mDownloadStatus== DownloadConstants.STATUS_PAUSE)
+                else
                 {
-                    mBuyButton.setText("暂停状态...");
+                    mBuyButton.setText("离线收藏");
                 }
             }
         }
@@ -542,69 +496,28 @@ public class ContentActivity extends FragmentActivity
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            if (intent != null
-                    && intent.getAction().equals(
-                    ShareDefine.getKRECEIVER_ACTION())
-                    && intent.getStringExtra(MyIntents.URL).equals(mLessonData.getBECONTENTURL())
-                    )
+            String progress = intent.getStringExtra(ShareDefine.KIntenCorParameter);
+
+            if(progress.equalsIgnoreCase("100"))
             {
-                int type = intent.getIntExtra(MyIntents.TYPE, -1);
-                switch (type)
-                {
-                    case MyIntents.Types.WAIT:
-                    {// 下载之前的等待
-                        mBuyButton.setText("等待...");
+                mBuyButton.setBackgroundResource(R.drawable.greenbutton);
+                mBuyButton.setText("马上欣赏");
 
-                        mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
+                updateLessonAndDB(1);
 
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                    case MyIntents.Types.PROCESS:
-                    {
-                        String progress = intent.getStringExtra(MyIntents.PROCESS_PROGRESS);
-                        mBuyButton.setText(progress + "%");
+                //自动直接打开
+                playLesson();
+                mBuyButton.setText("...");
 
-                        mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
-                        mDownlaodProress =Double.parseDouble(progress)/100.00;
+                mBuyButton.setClickable(true);
+            }
+            else
+            {
+                mBuyButton.setText(progress + "%");
 
-                        updateLessonAndDB();
+                updateLessonAndDB(Double.parseDouble(progress)/100.00);
 
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                    case MyIntents.Types.COMPLETE:
-                    {
-                        mBuyButton.setBackgroundResource(R.drawable.greenbutton);
-                        mBuyButton.setText("马上欣赏");
-
-                        mDownloadStatus=DownloadConstants.STATUS_INSTALL;
-                        mDownlaodProress =1.00;
-
-                        updateLessonAndDB();
-
-                        //自动直接打开
-                        playLesson();
-                        mBuyButton.setText("...");
-
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                    case MyIntents.Types.ERROR:
-                    {
-                        Toast.makeText(ContentActivity.this, "下载失败，重新试试吧：）",
-                                Toast.LENGTH_SHORT).show();
-
-                        mBuyButton.setBackgroundResource(R.drawable.graybutton);
-                        mBuyButton.setText("重新下载");
-
-                        mDownloadStatus=DownloadConstants.STATUS_DEFAULT;
-
-                        updateLessonAndDB();
-                        mBuyButton.setClickable(true);
-                    }
-                    break;
-                }
+                mBuyButton.setClickable(true);
             }
         }
     }
@@ -619,42 +532,19 @@ public class ContentActivity extends FragmentActivity
         }
     }
 
-    private void updateLessonAndDB()
+    private void updateLessonAndDB(double downlaodProress)
     {
-        switch(mDownloadStatus)
-        {
-            case DownloadConstants.STATUS_DOWNLOADING:
-                //正在下载，不做任何事情
-                mLessonData.setBEDLPERCENT(mDownlaodProress);
-                mLessonData.setBEDLSTATE(true);
+        mLessonData.setBEDLPERCENT(downlaodProress);
 
-                mDao.savelLesson(mLessonData);
-                break;
-
-            case DownloadConstants.STATUS_DEFAULT:
-                mLessonData.setBEDLPERCENT(0.0);
-                mLessonData.setBEDLSTATE(false);
-
-                mDao.savelLesson(mLessonData);
-                break;
-
-            case DownloadConstants.STATUS_INSTALL:
-                try
-                {
-                    mLessonData.setBEDLPERCENT(1.0);
-                    mLessonData.setBEDLSTATE(false);
-
-                    mDao.savelLesson(mLessonData);
-
-                    BE_TOUCH_RECORD touchData = new FlyingTouchDAO().selectWithUserID(FlyingDataManager.getCurrentPassport(),mLessonData.getBELESSONID());
-                    touchData.setBETOUCHTIMES(touchData.getBETOUCHTIMES()+1);
-                    new FlyingTouchDAO().savelTouch(touchData);
-                }
-                catch (Exception e)
-                {}
-
-                break;
+        if(downlaodProress<1.0 &&downlaodProress>0.0) {
+            mLessonData.setBEDLSTATE(true);
         }
+        else
+        {
+            mLessonData.setBEDLSTATE(false);
+        }
+
+        mDao.savelLesson(mLessonData);
     }
 
     private void playLesson()
@@ -672,8 +562,7 @@ public class ContentActivity extends FragmentActivity
             }
             else
             {
-                File contenFile = new File(mLessonData.getLocalURLOfContent());
-                if (contenFile.exists() && mLessonData.getBEDLPERCENT()==1)
+                if (FlyingFileManager.fileExists(mLessonData.getLocalURLOfContent()) && mLessonData.getBEDLPERCENT()==1)
                 {
                     openLesson();
                 }
@@ -686,14 +575,14 @@ public class ContentActivity extends FragmentActivity
                     }
                     else
                     {
-                        if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
+                        if(ShareDefine.KContentTypeText.equals(mLessonData.getBECONTENTTYPE()))
                         {
                             downloadORBuyLesson();
                         }
                         else
                         {
                             String playURL=mLessonData.getBECONTENTURL();
-                            if(!mLessonData.getBEDOWNLOADTYPE().equals(ShareDefine.KDownloadTypeMagnet))
+                            if(!ShareDefine.KDownloadTypeMagnet.equals(mLessonData.getBEDOWNLOADTYPE()))
                             {
                                 mLessonData.initLocalData();
                                 mDao.savelLesson(mLessonData);
@@ -721,24 +610,23 @@ public class ContentActivity extends FragmentActivity
 
     private void downloadORBuyLesson()
     {
-        if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
+        if(mHasRight)
         {
-            Intent intent = new Intent(this,FlyingWebViewActivity.class);
-
-            intent.putExtra("url", mLessonData.getBECONTENTURL());
-            intent.putExtra("title", mLessonData.getBETITLE());
-            intent.putExtra("lessonID",mLessonData.getBELESSONID());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-        else
-        {
-            if(mHasRight)
+            if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypePageWeb))
             {
-                if (mDownloadStatus == DownloadConstants.STATUS_INSTALL)
+                Intent intent = new Intent(this,FlyingWebViewActivity.class);
+
+                intent.putExtra("url", mLessonData.getBECONTENTURL());
+                intent.putExtra("title", mLessonData.getBETITLE());
+                intent.putExtra("lessonID",mLessonData.getBELESSONID());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+            else
+            {
+                if(FlyingFileManager.fileExists(mLessonData.getLocalURLOfContent()))
                 {
-                    File contenFile = new File(mLessonData.getLocalURLOfContent());
-                    if (contenFile.exists() && mLessonData.getBEDLPERCENT()==1)
+                    if (mLessonData.getBEDLPERCENT()==1)
                     {
                         mBuyButton.setText("尝试打开");
                         mLessonData.setBEDLSTATE(false);
@@ -754,49 +642,24 @@ public class ContentActivity extends FragmentActivity
 
                         mBuyButton.setClickable(true);
                         mBuyButton.setText("重新下载");
-
-                        mDownloadStatus=DownloadConstants.STATUS_DEFAULT;
                     }
                 }
-                else if (mDownloadStatus== DownloadConstants.STATUS_DOWNLOADING)
-                {
-                    //暂停
-                    FlyingDownloadManager.getInstance().pauseDownloder(mLessonData.getBELESSONID());
-
-                    mBuyButton.setBackgroundResource(R.drawable.graybutton);
-                    mBuyButton.setText("暂停状态");
-
-                    mDownloadStatus=DownloadConstants.STATUS_PAUSE;
-                }
-                else if (mDownloadStatus== DownloadConstants.STATUS_PAUSE)
-                {
-                    //继续下载
-                    FlyingDownloadManager.getInstance().continueDownload(mLessonData.getBELESSONID());
-
-                    mBuyButton.setBackgroundResource(R.drawable.graybutton);
-                    mBuyButton.setText("下载..");
-
-                    mDownloadStatus=DownloadConstants.STATUS_DOWNLOADING;
-                }
-                else if (mDownloadStatus == DownloadConstants.STATUS_DEFAULT)
+                else
                 {
                     //初始化本地信息，为下载做准备
                     mLessonData.initLocalData();
                     mDao.savelLesson(mLessonData);
-                    //默认 需要下载
+                    //默认\需要下载
                     FlyingDownloadManager.getInstance().startDownloaderForID(mLessonData.getBELESSONID());
 
                     mBuyButton.setBackgroundResource(R.drawable.graybutton);
-                    mBuyButton.setText("准备..");
-                    mDownloadStatus=DownloadConstants.STATUS_DEFAULT;
+                    mBuyButton.setText("准备...");
                 }
-
-                updateLessonAndDB();
             }
-            else
-            {
-                inquiryRightWithUserID();
-            }
+        }
+        else
+        {
+            inquiryRightWithUserID();
         }
     }
 
@@ -885,19 +748,18 @@ public class ContentActivity extends FragmentActivity
                                 //清空输入框
                                 mCommnetEditText.setText("");
 
-                                mAdapter.insert(finalCommentData,0);
-                                mData.add(0,finalCommentData);
-
-                                handler.obtainMessage(SET_COMMENTLIST).sendToTarget();
-
+                                mAdapter.insert(finalCommentData, 0);
+                                mData.add(0, finalCommentData);
                                 mMaxNumOfComments = mMaxNumOfComments+1;
+
+                                // notify the adapter that we can update now
+                                mAdapter.notifyDataSetChanged();
 
                                 if(mFooterView == null)
                                 {
                                     mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
                                     mCommentListView.addFooterView(mFooterView);
                                 }
-
                             }
                         }
                     });
@@ -1124,93 +986,32 @@ public class ContentActivity extends FragmentActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    Handler myHandler = new Handler()
-    {
-        // 接收到消息后处理
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what) {
-                case HTTP_RESPONSE:
-                    MyTask dTask = new MyTask();
-                    dTask.execute(mResponseStr);
-                    break;
-            }
-
-            super.handleMessage(msg);
-        }
-    };
-
     private void showLessonViewWithID(String lessonID)
     {
 
-        String url = ShareDefine.getLessonDataByID(lessonID);
-        try
-        {
-            AsyncHttpClient.getDefaultInstance().executeString(new AsyncHttpGet(url), new AsyncHttpClient.StringCallback() {
+        FlyingHttpTool.getLessonData(lessonID, new FlyingHttpTool.GetLessonDataListener() {
+            @Override
+            public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
 
-                @Override
-                public void onCompleted(Exception e, AsyncHttpResponse asyncHttpResponse, String s)
+                if(lessonList!=null && lessonList.get(0)!=null)
                 {
-                    mResponseStr = s;
-                    Message message = new Message();
-                    message.what = HTTP_RESPONSE;
-                    myHandler.sendMessage(message);
+                    BE_PUB_LESSON lessonData =lessonList.get(0);
+
+                    if(lessonData!=null)
+                    {
+                        mLessonData=lessonData;
+
+                        ContentActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                initData();
+                                initView();
+                            }
+                        });
+                    }
                 }
-
-                @Override
-                public void onConnect(AsyncHttpResponse response) {
-                    //
-                }
-            });
-        }
-        catch (Exception e)
-        {
-            String msg = "联网失败提醒";
-            System.out.println(msg);
-        }
-    }
-
-    private class MyTask extends AsyncTask<String, Void, ArrayList<BE_PUB_LESSON>>
-    {
-        @Override
-        protected ArrayList<BE_PUB_LESSON> doInBackground(String... params)
-        {
-            try
-            {
-                /** Handling XML */
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                SAXParser sp = spf.newSAXParser();
-                XMLReader xr = sp.getXMLReader();
-
-                /** Create handler to handle XML Tags ( extends DefaultHandler ) */
-                LessonParser myXMLHandler = new LessonParser();
-                xr.setContentHandler(myXMLHandler);
-                xr.parse(new InputSource(new ByteArrayInputStream(params[0].getBytes())));
-
-                return myXMLHandler.entries;
             }
-            catch (Exception e)
-            {
-
-                System.out.println("XML Pasing Excpetion = " + e);
-                return null;
-            }
-        }
-        @Override
-        protected void onPostExecute(ArrayList<BE_PUB_LESSON> result)
-        {
-            super.onPostExecute(result);
-
-            BE_PUB_LESSON lessonData =result.get(0);
-
-            if(lessonData!=null)
-            {
-                mLessonData=lessonData;
-
-                initData();
-                initView();
-            }
-        }
+        });
     }
 
     private void initGestureDetector() {

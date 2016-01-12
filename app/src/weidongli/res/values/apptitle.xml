@@ -5,6 +5,5 @@
     <string name="KServerNetAddress">www.birdenglish.com:8888</string>
     <string name="KlessonQwner">weidongli</string>
     <string name="KLocalAppID">f83a30b74be1a0cfcad03097ae0842bf</string>
-    <string name="KPakagename">com.birdcopy.weidongli</string>
-   
+
 </resources>

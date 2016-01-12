@@ -11,13 +11,14 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.birdcopy.BirdCopyApp.ChannelManage.AlbumData;
-import com.birdcopy.BirdCopyApp.ChannelManage.AlbumDataModle;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.Component.Adapter.HomeFragmentPagerAdapter;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.UI.DynamicHeightViewPager;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.StaggeredGridView;
-import com.birdcopy.BirdCopyApp.ContentList.LessonDataModle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ import com.birdcopy.BirdCopyApp.R;
 /**
  * Created by birdcopy on 23/9/14.
  */
-public class HomeFragment extends Fragment implements LessonDataModle.DealResult,AlbumDataModle.DealResult
+public class HomeFragment extends Fragment
 {
     private View mHomeContent;
 
@@ -36,7 +37,6 @@ public class HomeFragment extends Fragment implements LessonDataModle.DealResult
     private LinearLayout mCoverIndex;
     HomeFragmentPagerAdapter mCoverLessonAdapetr;
     private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-    private LessonDataModle mCoverLessonDataModle = new LessonDataModle();
     private ArrayList<BE_PUB_LESSON> mCoverLessonList=null;
     private TextView mCoverTitle;
     private List<View> dots;
@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment implements LessonDataModle.DealResult
     int     currentLodingIndex=0;
 
     Boolean mIsLastRow=false;
-    private AlbumDataModle mAlbumDataModle= new AlbumDataModle();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -142,29 +141,29 @@ public class HomeFragment extends Fragment implements LessonDataModle.DealResult
 
     private void onLoadMorCoverLesson()
     {
-        mCoverLessonDataModle.setDelegate(this);
-        mCoverLessonDataModle.loadcoverlessonlist(1);
+
+        FlyingHttpTool.getCoverList(FlyingDataManager.getLessonOwner(), 1, new FlyingHttpTool.GetCoverListListener() {
+            @Override
+            public void completion(final ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
+
+               getActivity().runOnUiThread(new Runnable() {
+	               @Override
+	               public void run() {
+
+		               if (lessonList != null && lessonList.size() != 0) {
+			               mCoverLessonList = lessonList;
+		               } else {
+			               mCoverLessonList = null;
+			               mViewPager.setVisibility(View.GONE);
+			               mCoverIndex.setVisibility(View.GONE);
+		               }
+
+		               initCover();
+	               }
+               });
+            }
+        });
     }
-
-    public void parseOK(ArrayList<BE_PUB_LESSON> list)
-    {
-        if(list!=null && list.size()!=0)
-        {
-            mCoverLessonList=list;
-
-        }
-        else
-        {
-            mCoverLessonList=null;
-            mViewPager.setVisibility(View.GONE);
-            mCoverIndex.setVisibility(View.GONE);
-        }
-
-        initCover();
-    }
-
-    public void setMaxItems(int itemCount)
-    {}
 
     /**
      *  初始化Fragment
@@ -249,26 +248,31 @@ public class HomeFragment extends Fragment implements LessonDataModle.DealResult
         if (mAlbumLisData.size() <mMaxNumOfTags)
         {
             currentLodingIndex++;
-            mAlbumDataModle.setDelegate(this);
-            mAlbumDataModle.loadHomlAlbumListData(null,currentLodingIndex);
-        }
-    }
 
-    public void setMaxAlbums(int itemCount)
-    {
-        mMaxNumOfTags= itemCount;
-    }
+            FlyingHttpTool.getAlbumList(null, currentLodingIndex, true, true, new FlyingHttpTool.GetAlbumListListener() {
+                @Override
+                public void completion(ArrayList<AlbumData> albumList, String allRecordCount) {
 
-    public void parseALbumDataOK(ArrayList<AlbumData> list)
-    {
-        if(list!=null || list.size()!=0)
-        {
-            for (AlbumData data : list) {
-                mAdapter.add(data);
-            }
-            // stash all the data in our backing store
-            mAlbumLisData.addAll(list);
-            mAdapter.notifyDataSetChanged();
+                    if(albumList!=null || albumList.size()!=0)
+                    {
+                        for (AlbumData data : albumList) {
+                            mAdapter.add(data);
+                        }
+                        // stash all the data in our backing store
+                        mAlbumLisData.addAll(albumList);
+
+                        mMaxNumOfTags= Integer.parseInt(allRecordCount);
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                // notify the adapter that we can update now
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 

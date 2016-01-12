@@ -29,10 +29,9 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDao;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
-import com.birdcopy.BirdCopyApp.Media.SrtSubtitle.FlyingSubTitle;
 import com.birdcopy.BirdCopyApp.R;
 
 import java.util.List;
@@ -44,8 +43,6 @@ import java.util.regex.Pattern;
  */
 public class FlyingSubtitleView extends EditText
 {
-    public int currentSubtitleIndex= FlyingSubTitle.NSNotFound;
-
     //默认支持取词
     public boolean isSupportExtractWord = true;
     private boolean isLongPressState;
@@ -97,7 +94,13 @@ public class FlyingSubtitleView extends EditText
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 //长按->初次启动--->显示放大镜&提词
-                case BEGINTOUCH:
+                case BEGINTOUCH: {
+
+                    if(onTouchListenerDelegate!=null)
+                    {
+                        onTouchListenerDelegate.onTouch();
+                    }
+
                     isLongPressState = true;
                     Bundle data = msg.getData();
                     int X = data.getInt("X");
@@ -109,6 +112,7 @@ public class FlyingSubtitleView extends EditText
                     //放大镜-初次显示
                     calculate(RawX, RawY, MotionEvent.ACTION_MOVE);
                     break;
+                }
             }
         }
 
@@ -449,7 +453,10 @@ public class FlyingSubtitleView extends EditText
     }
 
 
-    private void onLongPressWord(final String word) {
+    private void onLongPressWord( String oldWord) {
+
+
+        final String word = oldWord.toLowerCase();
 
         if (!"".equals(word)) {
 
@@ -467,11 +474,17 @@ public class FlyingSubtitleView extends EditText
                     public void completion(boolean isOK) {
                         if(isOK)
                         {
-                            String description = getDescription(word);
+                            final String description = getDescription(word);
 
                             if(description!=null && description.length()!=0)
                             {
-                                Toast.makeText(context,description, Toast.LENGTH_LONG).show();
+                                FlyingSubtitleView.this.post(new Runnable() {
+	                                @Override
+	                                public void run() {
+
+		                                Toast.makeText(context, description, Toast.LENGTH_LONG).show();
+	                                }
+                                });
                             }
                         }
                     }
@@ -488,7 +501,7 @@ public class FlyingSubtitleView extends EditText
     private String getDescription(String word)
     {
 
-        List<BE_DIC_PUB>  itemList = new FlyingItemDao().selectWith(word);
+        List<FlyingItemData>  itemList = new FlyingItemDAO().getItems(word);
 
         if (itemList.size()==1) {
 
@@ -498,7 +511,7 @@ public class FlyingSubtitleView extends EditText
 
             String result="";
 
-            for(BE_DIC_PUB item:itemList)
+            for(FlyingItemData item:itemList)
             {
 
                 result = result+"\n"+descriptionOnly(item);
@@ -508,7 +521,7 @@ public class FlyingSubtitleView extends EditText
         }
     }
 
-    private String descriptionOnly(BE_DIC_PUB item)
+    private String descriptionOnly(FlyingItemData item)
     {
 
         String entry = item.getBEENTRY();
@@ -521,11 +534,18 @@ public class FlyingSubtitleView extends EditText
 
         if(aRange!=-1 && bRange!=-1)
         {
-            return entry.substring(aRange+aStr.length(),bRange-1);
+            return entry.substring(aRange+aStr.length(),bRange);
         }
         else
         {
             return "";
         }
+    }
+
+    OnTouchListener onTouchListenerDelegate=null;
+
+    public interface OnTouchListener {
+
+        void onTouch();
     }
 }

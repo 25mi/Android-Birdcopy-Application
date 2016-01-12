@@ -671,7 +671,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                                                 .asBitmap()
                                                 .get();
 
-                                        FlyingFileManager.savePhoto(bitmap, null);
+                                        FlyingFileManager.savePhotoToLocal(bitmap, null);
                                         Toast.makeText(context, "已经成功保存图片", Toast.LENGTH_SHORT).show();
                                     }
                                     catch (Exception e) {

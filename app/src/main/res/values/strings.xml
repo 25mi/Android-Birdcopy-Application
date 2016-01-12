@@ -6,7 +6,7 @@
     <string name="KServerNetAddress">www.birdenglish.com:9999</string>
     <string name="KlessonQwner">BirdCopyApp</string>
     <string name="KLocalAppID">BirdCopyAppID</string>
-    <string name="KPakagename">com.birdcopy.beiyang</string>
+    <string name="KApplicaionID">com.birdcopy.beiyang</string>
 
     <string name="KSERVICE_ACTION">com.birdcopy.BirdCopyApp.DownloadService</string>
     <string name="KRECEIVER_ACTION">com.birdcopy.BirdCopyApp.HttpNormalDownloadreceiver</string>

@@ -3,7 +3,6 @@ package com.birdcopy.BirdCopyApp.Download;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
 import com.birdcopy.BirdCopyApp.ShareDefine;
-import com.birdcopy.BirdCopyApp.Download.HttpDownloader.FlyingNormalDownLoader;
 
 /**
  * Created by songbaoqiang on 6/13/14.
@@ -16,7 +15,7 @@ public class FlyingDownloader {
 
     public String mDownloadType;
 
-    private FlyingNormalDownLoader mNormalDownloader;
+    private FlyngDirectDownloader mDirectDownloader;
 
     public FlyingDownloader(String mLessonID)
     {
@@ -28,7 +27,7 @@ public class FlyingDownloader {
 
         if (mDownloadType.equals(ShareDefine.KDownloadTypeNormal)){
 
-            mNormalDownloader = new FlyingNormalDownLoader(mLessonID);
+            mDirectDownloader = new FlyngDirectDownloader(mLessonID);
         }
         else if (mDownloadType.equals(ShareDefine.KDownloadTypeMagnet))
         {
@@ -45,7 +44,7 @@ public class FlyingDownloader {
 
         if (mDownloadType.equals(ShareDefine.KDownloadTypeNormal)){
 
-            mNormalDownloader.startDownload();
+            mDirectDownloader.startDownload();
         }
         else if (mDownloadType.equals(ShareDefine.KDownloadTypeMagnet))
         {
@@ -62,7 +61,7 @@ public class FlyingDownloader {
 
         if (mDownloadType.equals(ShareDefine.KDownloadTypeNormal)){
 
-            mNormalDownloader.cancelDownload();
+            mDirectDownloader.cancelDownload();
         }
         else if (mDownloadType.equals(ShareDefine.KDownloadTypeMagnet))
         {
@@ -79,7 +78,7 @@ public class FlyingDownloader {
 
         if (mDownloadType.equals(ShareDefine.KDownloadTypeNormal)){
 
-            mNormalDownloader.pauseDownload();
+            mDirectDownloader.pauseDownload();
         }
         else if (mDownloadType.equals(ShareDefine.KDownloadTypeMagnet))
         {
@@ -96,7 +95,7 @@ public class FlyingDownloader {
 
         if (mDownloadType.equals(ShareDefine.KDownloadTypeNormal)){
 
-            mNormalDownloader.continueDownload ();
+            mDirectDownloader.continueDownload ();
         }
         else if (mDownloadType.equals(ShareDefine.KDownloadTypeMagnet))
         {

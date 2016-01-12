@@ -20,7 +20,10 @@ public class FlyingDataManager {
 
     public static void init()
     {
-        setOPENUDID();
+        synchronized (MyApplication.getInstance()) {
+
+            setOPENUDID();
+        }
     }
 
     public static void setOPENUDID()

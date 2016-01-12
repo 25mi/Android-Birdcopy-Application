@@ -22,6 +22,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 
@@ -106,8 +107,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
         //收集设备参数信息
         collectDeviceInfo(mContext);
 
-        String path = FlyingFileManager.getCrushFolder();
-        File dir = new File(path);
+        String path = FlyingFileManager.getUserCrushDir();
+        File dir =  FlyingFileManager.getFile(path);
 
         if(dir.length()>1024*1024)
         {
@@ -126,7 +127,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     public void collectDeviceInfo(Context ctx) {
         try {
             PackageManager pm = ctx.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(ShareDefine.getpakagename(), PackageManager.GET_ACTIVITIES);
+            PackageInfo pi = pm.getPackageInfo(FlyingDataManager.getLocalAppID(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
                 String versionName = pi.versionName == null ? "null" : pi.versionName;
                 String versionCode = pi.versionCode + "";
@@ -182,8 +183,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             {
 
-                String path = FlyingFileManager.getCrushFolder();
-                File dir = new File(path);
+                String path = FlyingFileManager.getUserCrushDir();
+                File dir =   FlyingFileManager.getFile(path);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }

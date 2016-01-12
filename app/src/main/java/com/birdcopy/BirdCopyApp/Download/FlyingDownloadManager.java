@@ -1,5 +1,8 @@
 package com.birdcopy.BirdCopyApp.Download;
 
+import android.os.HandlerThread;
+import android.util.Log;
+
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDBManager;
@@ -113,80 +116,97 @@ public class FlyingDownloadManager {
         return result;
     }
 
-    public static void downloadRelated(BE_PUB_LESSON lessonData) {
+    public static void downloadRelated(final BE_PUB_LESSON lessonData) {
 
-        //缓存字幕
-        FlyingDownloadManager.getSrtForLesson(lessonData, null);
+	    Thread thread = new Thread(new Runnable() {
+		    @Override
+		    public void run() {
 
-        //缓存课程字典
-        //FlyingDownloadManager.getDicForLesson(lessonData, null);
+			    //缓存字幕
+			    FlyingDownloadManager.getSrtForLesson(lessonData, null);
 
-        //缓存背景音乐
-        FlyingDownloadManager.getBackMp3ForLesson(lessonData, null);
+			    //缓存课程字典
+			    FlyingDownloadManager.getDicForLesson(lessonData, null);
 
-        //缓存课程辅助资源
-        //FlyingDownloadManager.getRelatedForLesson(lessonData, null);
+			    //缓存背景音乐
+			    FlyingDownloadManager.getBackMp3ForLesson(lessonData, null);
+
+			    //缓存课程辅助资源
+			    FlyingDownloadManager.getRelatedForLesson(lessonData, null);
+		    }
+	    });
+	    thread.start();
     }
 
     public static void getSrtForLesson(BE_PUB_LESSON lessonData,String title) {
 
-        String lessonID = lessonData.getBELESSONID();
+	    String lessonID = lessonData.getBELESSONID();
 
-        String targetPath =  FlyingFileManager.getLessonSubTargetPath(lessonID);
+	    String targetPath =  FlyingFileManager.getLessonSubFilePath(lessonID);
 
-        FlyingHttpTool.downloadFile(lessonData.getBESUBURL(), targetPath, null);
+	    FlyingHttpTool.downloadFile(lessonData.getBESUBURL(), targetPath, null);
     }
 
     public static void getDicForLesson(final BE_PUB_LESSON lessonData,String title) {
 
-        final String lessonID = lessonData.getBELESSONID();
-        final String targetPath =  FlyingFileManager.getLessonDicPatchTargetPath(lessonID);
+	    final String lessonID = lessonData.getBELESSONID();
+	    final String targetPath =  FlyingFileManager.getLessonDicZipFilePath(lessonID);
 
-        FlyingHttpTool.downloadFile(lessonData.getBEPROURL(), targetPath, new FlyingHttpTool.DownloadFileListener() {
-            @Override
-            public void completion(boolean isOK) {
-                //
-                if(isOK)
-                {
-                    String outputDir = FlyingFileManager.getLessonDownloadPath(lessonData.getBELESSONID());
+	    FlyingHttpTool.downloadFile(lessonData.getBEPROURL(), targetPath, new FlyingHttpTool.DownloadFileListener() {
+		    @Override
+		    public void completion(boolean isOK, String targetpath) {
+			    //
+			    if (isOK) {
+				    Thread thread = new Thread(new Runnable() {
+					    @Override
+					    public void run() {
 
-                    try {
-                        FlyingFileManager.unzip(targetPath, outputDir, true);
+						    String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
 
-                        //升级课程补丁
-                        FlyingDBManager.updateBaseDic(lessonID);
+						    try {
+							    FlyingFileManager.unzip(targetPath, outputDir, false);
 
-                    } catch (Exception e) {
+							    //升级课程补丁
+							    FlyingDBManager.updateBaseDic(lessonID);
 
-                    }
-                }
-            }
-        });
+						    } catch (Exception e) {
+
+						    }
+					    }
+				    });
+				    thread.start();
+
+			    }
+		    }
+	    });
     }
 
     public static void getRelatedForLesson(final BE_PUB_LESSON lessonData,String title) {
 
-        String lessonID = lessonData.getBELESSONID();
-        final String targetPath =  FlyingFileManager.getLessonRelatedTargetPath(lessonID);
+	    String lessonID = lessonData.getBELESSONID();
 
-        FlyingHttpTool.downloadFile(lessonData.getBERELATIVEURL(), targetPath, new FlyingHttpTool.DownloadFileListener() {
-            @Override
-            public void completion(boolean isOK) {
-                //
-                if (isOK)
-                {
-                    String outputDir = FlyingFileManager.getLessonDownloadPath(lessonData.getBELESSONID());
+	    FlyingHttpTool.downloadFile(lessonData.getBERELATIVEURL(), FlyingFileManager.getLessonRelatedZipFilePath(lessonID), new FlyingHttpTool.DownloadFileListener() {
+		    @Override
+		    public void completion(boolean isOK, final String targetpath) {
+			    //
+			    if (isOK) {
+				    Thread thread = new Thread(new Runnable() {
+					    @Override
+					    public void run() {
 
-                    try {
-                        FlyingFileManager.unzip(targetPath, outputDir, true);
-                    }
-                    catch (Exception e)
-                    {
+						    String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
 
-                    }
-                }
-            }
-        });
+						    try {
+							    FlyingFileManager.unzip(targetpath, outputDir, false);
+						    } catch (Exception e) {
+
+						    }
+					    }
+				    });
+				    thread.start();
+			    }
+		    }
+	    });
     }
 
     private static void getBackMp3ForLesson(final BE_PUB_LESSON lessonData,String title)
@@ -200,11 +220,11 @@ public class FlyingDownloadManager {
 
                     if(resultURL!=null)
                     {
-                        final String targetPath = FlyingFileManager.getLessonBackgroundTargetPath(lessonData.getBELESSONID());
+                        final String targetPath = FlyingFileManager.getLessonBackgroundFilePath(lessonData.getBELESSONID());
 
                         FlyingHttpTool.downloadFile(resultURL, targetPath, new FlyingHttpTool.DownloadFileListener() {
                             @Override
-                            public void completion(boolean isOK) {
+                            public void completion(boolean isOK, String targetpath) {
                                 //
                             }
                         });
@@ -214,31 +234,71 @@ public class FlyingDownloadManager {
         }
     }
 
-    public static void  downloadShareDicData() {
+    public interface  DownloadShareDicDataListener{
 
-        FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicAllType, new FlyingHttpTool.GetShareBaseZIPURLListener() {
+        void completion(boolean isOK);
+    }
+
+    public static void  downloadShareDicZip(final  DownloadShareDicDataListener delegate) {
+
+	    FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicAllType, new FlyingHttpTool.GetShareBaseZIPURLListener() {
             @Override
             public void completion(String resultURL) {
 
-                final String targetPath = FlyingFileManager.getUserShareTargetPath();
+                if(resultURL!=null)
+                {
+	                final String targetPath = FlyingFileManager.getUserShareBaseFilePath();
 
-                FlyingHttpTool.downloadFile(resultURL, targetPath, new FlyingHttpTool.DownloadFileListener() {
-                    @Override
-                    public void completion(boolean isOK) {
+                    FlyingHttpTool.downloadFile(resultURL, targetPath, new FlyingHttpTool.DownloadFileListener() {
+                        @Override
+                        public void completion(boolean isOK, String targetpath) {
 
-                        if(isOK)
-                        {
-                            String outputDir = FlyingFileManager.getUserSharePath();
+	                        if(isOK)
+                            {
+	                            Thread thread = new Thread(new Runnable() {
+		                            @Override
+		                            public void run() {
 
-                            try {
-                                FlyingFileManager.unzip(targetPath, outputDir, true);
+			                            String outputDir = FlyingFileManager.getUserShareDir();
 
-                            } catch (Exception e) {
-                                //
+			                            try {
+				                            FlyingFileManager.unzip(targetPath, outputDir, false);
+
+				                            if(delegate!=null)
+				                            {
+					                            delegate.completion(true);
+				                            }
+
+			                            } catch (Exception e) {
+				                            //
+				                            if(delegate!=null)
+				                            {
+					                            delegate.completion(false);
+				                            }
+			                            }
+
+		                            }
+	                            });
+	                            thread.start();
+                            }
+                            else
+                            {
+                                if(delegate!=null)
+                                {
+                                    delegate.completion(false);
+                                }
                             }
                         }
+                    });
+                }
+                else {
+
+                    if(delegate!=null)
+                    {
+                        delegate.completion(false);
                     }
-                });
+                }
+
             }
         });
     }

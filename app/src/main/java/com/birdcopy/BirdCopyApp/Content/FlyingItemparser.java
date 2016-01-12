@@ -1,6 +1,6 @@
 package com.birdcopy.BirdCopyApp.Content;
 
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,12 +28,10 @@ public class FlyingItemparser {
     private static ArrayList<String> mainElements = new ArrayList<String>();
     private static ArrayList<String> tagEments = new ArrayList<String>();
 
-    private static HashMap<String, String> indexTagDic = new HashMap<String, String>();
-
     private static HashMap<String, String> keyMap = new HashMap<String, String>();
 
 
-    public  static void initIndexTagDic()
+    public  static void initParserData()
     {
         baseElements.add(kBEWord);
         baseElements.add(kBEIndex);
@@ -77,12 +75,12 @@ public class FlyingItemparser {
         keyMap.put("8","[叹词]");
         keyMap.put("9","[其它]");
 
-        resultList = new ArrayList<BE_DIC_PUB>();
+        resultList = new ArrayList<FlyingItemData>();
     }
 
-    private static BE_DIC_PUB item;
-    public  static ArrayList<BE_DIC_PUB> resultList;
-    public  static int allRecordCount=0;
+    private static FlyingItemData item;
+    public  static ArrayList<FlyingItemData> resultList;
+    public  static String allRecordCount;
 
     public static void parser (String parserString)
             throws XmlPullParserException, IOException
@@ -100,7 +98,7 @@ public class FlyingItemparser {
             switch (eventType) {
 
                 case XmlPullParser.START_DOCUMENT: {
-                    initIndexTagDic();
+                    initParserData();
 
                     break;
                 }
@@ -110,13 +108,13 @@ public class FlyingItemparser {
 
                     if(kItemList.equalsIgnoreCase(tag)) {
 
-                        allRecordCount = Integer.valueOf(xpp.getAttributeValue(0)).intValue();
+                        allRecordCount = xpp.getAttributeValue(0);
                     }
                     else if (kBEItem.equalsIgnoreCase(tag)) {
 
-                        item = new BE_DIC_PUB();
+                        item = new FlyingItemData();
                         item.setBEWORD("");
-                        item.setBEINDEX(9);
+                        item.setBEINDEX("9");
 
                         resultList.add(item);
                     }
@@ -126,7 +124,7 @@ public class FlyingItemparser {
                     }
                     else if (kBEIndex.equalsIgnoreCase(tag)) {
 
-                        item.setBEINDEX(Integer.valueOf(xpp.nextText()));
+                        item.setBEINDEX(xpp.nextText());
                     }
                     else {
 
@@ -134,11 +132,15 @@ public class FlyingItemparser {
 
                             if (item.getBEENTRY()!=null) {
 
-                                item.setBEENTRY(item.getBEENTRY()+keyMap.get(tag)+xpp.nextText());
+                                item.setBEENTRY(item.getBEENTRY()+
+                                        "<"+tag+">"+xpp.nextText()+
+                                        "<"+tag+">");
                             }
                             else{
 
-                                item.setBEENTRY(keyMap.get(tag)+xpp.nextText());
+	                            item.setBEENTRY(
+			                            "<"+tag+">"+xpp.nextText()+
+			                            "<"+tag+">");
                             }
                         }
                         else if (tagEments.contains(tag)) {

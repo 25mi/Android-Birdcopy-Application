@@ -7,21 +7,24 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.birdcopy.BirdCopyApp.ChannelManage.AlbumData;
+import com.birdcopy.BirdCopyApp.ChannelManage.FlyingAlbumParser;
 import com.birdcopy.BirdCopyApp.Comment.CommentDataResult;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
 import com.birdcopy.BirdCopyApp.Content.FlyingItemparser;
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
+import com.birdcopy.BirdCopyApp.ContentList.FlyingLessonParser;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_TOUCH_RECORD;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDao;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDAO;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingTouchDAO;
+import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Tools.DateTools;
@@ -40,18 +43,13 @@ import com.pingplusplus.libone.PayActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -61,6 +59,75 @@ import io.rong.imlib.model.UserInfo;
  * Created by vincentsung on 12/16/15.
  */
 public class FlyingHttpTool {
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //#pragma 检查APP是否有新版本
+    //////////////////////////////////////////////////////////////////////////////////
+    public interface CheckNewVersionAPPDListener {
+
+        void completion(boolean isOK, String downloadURL);
+    }
+
+    static public void checkNewVersionAPP(String appID,
+                                           final CheckNewVersionAPPDListener delegate ) {
+
+        String url = "http://" +
+                FlyingDataManager.getServerNetAddress() +
+                "/aa_get_app_info_from_hp.action?app_id=" +
+                appID +
+                "&type=max";
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        // print the response code, ie, 200
+                        //System.out.println(result.getHeaders().getResponseCode());
+                        // print the String that was downloaded
+
+                        if (result != null) {
+                            String resultStr = result.getResult();
+
+                            String[] separated = resultStr.split(";");
+
+                            String version = separated[0]; // this will contain "Fruit"
+                            String downloadURL = separated[1]; // this will contain "Fruit"
+
+                            boolean isOK =false;
+
+                            if(version!=null)
+                            {
+                                try
+                                {
+                                    if(Integer.parseInt(version)>ShareDefine.getVersionCode()){
+
+                                        isOK=true;
+                                    }
+                                    else
+                                    {
+                                        isOK=false;
+
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.printStackTrace();
+                                }
+                            }
+
+                            if (delegate != null) {
+
+                                delegate.completion(isOK,downloadURL);
+                            }
+                        }
+                    }
+                });
+    }
 
     //////////////////////////////////////////////////////////////////////////////////
     //#pragma  登录问题
@@ -1155,8 +1222,299 @@ public class FlyingHttpTool {
                     });
         }
     }
+
+
     //////////////////////////////////////////////////////////////
     //#pragma  内容相关
+    //////////////////////////////////////////////////////////////
+
+    public interface GetLessonDataListener {
+
+        void completion(ArrayList<BE_PUB_LESSON> lessonList,String allRecordCount);
+    }
+
+    static public void getLessonData(String lessonID,
+                                     final GetLessonDataListener delegate ) {
+        String url =  "http://" +
+                FlyingDataManager.getServerNetAddress() +
+                "/la_get_ln_detail_for_hp.action?ln_id=" +
+                lessonID;
+
+        Ion.with( MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        // print the response code, ie, 200
+                        //System.out.println(result.getHeaders().getResponseCode());
+                        // print the String that was downloaded
+
+	                    final String resultStr =result.getResult();
+
+                        if (resultStr!=null)
+                        {
+	                        Thread thread = new Thread(new Runnable() {
+		                        @Override
+		                        public void run() {
+
+			                        try {
+
+				                        FlyingLessonParser.parser(resultStr);
+
+				                        if(delegate!=null)
+				                        {
+					                        delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
+				                        }
+			                        }
+			                        catch (Exception ex)
+			                        {
+				                        //
+			                        }
+		                        }
+	                        });
+	                        thread.start();
+                        }
+                    }
+                });
+    }
+
+    public interface GetLessonListListener {
+
+        void completion(ArrayList<BE_PUB_LESSON> lessonList,String allRecordCount);
+    }
+
+    static public void getLessonList(String contentType,
+                                     String downloadType,
+                                     String tag,
+                                     int pageNumber,
+                                     boolean sortByTime,
+                                     final GetLessonListListener delegate ) {
+
+        String sortBy;
+
+        if (sortByTime) {
+            sortBy = "upd_time desc";
+        } else {
+            sortBy = "upd_time";
+        }
+
+        if (contentType == null) contentType = "";
+        if (downloadType == null) downloadType = "";
+        if (tag == null) tag = "";
+
+        try {
+            tag = URLEncoder.encode(tag, "utf-8");
+            sortBy = URLEncoder.encode(sortBy, "utf-8");
+        } catch (Exception e) {
+            //
+        }
+
+        String url = "http://" +
+                FlyingDataManager.getServerNetAddress() +
+                "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
+                ShareDefine.kperpageLessonCount +
+                "&page=" +
+                pageNumber +
+                "&url_2_type=" +
+                downloadType +
+                "&ln_tag=" +
+                tag +
+                "&res_type=" +
+                contentType +
+                "&ln_owner=" +
+                FlyingDataManager.getLessonOwner() +
+                "&sortindex=" +
+                sortBy;
+
+        Ion.with( MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        // print the response code, ie, 200
+                        //System.out.println(result.getHeaders().getResponseCode());
+                        // print the String that was downloaded
+
+	                    final String resultStr =result.getResult();
+
+	                    if (resultStr!=null)
+	                    {
+		                    Thread thread = new Thread(new Runnable() {
+			                    @Override
+			                    public void run() {
+
+				                    try {
+
+					                    FlyingLessonParser.parser(resultStr);
+
+					                    if(delegate!=null)
+					                    {
+						                    delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
+					                    }
+				                    }
+				                    catch (Exception ex)
+				                    {
+					                    //
+				                    }
+			                    }
+		                    });
+		                    thread.start();
+	                    }
+                    }
+                });
+    }
+
+    public interface GetCoverListListener {
+
+        void completion(ArrayList<BE_PUB_LESSON> lessonList,String allRecordCount);
+    }
+
+    static public void getCoverList(String author,
+                                      int pageNumber,
+                                      final GetCoverListListener delegate ) {
+
+        String url = "http://" +
+                FlyingDataManager.getServerNetAddress() +
+                "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
+                ShareDefine.kperpageCoverCount +
+                "&page=" +
+                pageNumber +
+                "&ln_owner=" +
+                author;
+
+        url += "&owner_recom=1";
+
+        Ion.with( MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        // print the response code, ie, 200
+                        //System.out.println(result.getHeaders().getResponseCode());
+                        // print the String that was downloaded
+
+	                    final String resultStr =result.getResult();
+
+	                    if (resultStr!=null)
+                        {
+                            Thread thread  = new Thread(new Runnable() {
+	                            @Override
+	                            public void run() {
+
+		                            try {
+
+			                            FlyingLessonParser.parser(resultStr);
+
+			                            if(delegate!=null)
+			                            {
+				                            delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
+			                            }
+		                            }
+		                            catch (Exception ex)
+		                            {
+			                            //
+			                            Log.e("getCoverList", ex.getMessage());
+		                            }
+	                            }
+                            });
+	                        thread.start();
+                        }
+                    }
+                });
+    }
+
+    public interface GetAlbumListListener {
+
+        void completion(ArrayList<AlbumData> albumList,String allRecordCount);
+    }
+
+    static public void getAlbumList(String lessonType,
+                                    int pageNumber,
+                                    boolean sortByTime,
+                                    boolean homeRec,
+                                    final GetAlbumListListener delegate ) {
+
+        String sortBy;
+
+        if (sortByTime) {
+
+            sortBy = "upd_time desc";
+        } else {
+            sortBy = "upd_time";
+        }
+
+        try {
+            sortBy = URLEncoder.encode(sortBy, "utf-8");
+        } catch (Exception e) {
+            //
+        }
+
+        if (lessonType == null) lessonType = "";
+
+        String url = "http://" +
+                FlyingDataManager.getServerNetAddress() +
+                "/la_get_tag_list_for_hp.action?perPageCount=" +
+                ShareDefine.kperpageLessonCount +
+                "&page=" +
+                pageNumber +
+                "&res_type=" +
+                lessonType +
+                "&tag_owner=" +
+                FlyingDataManager.getLessonOwner();
+
+        if (homeRec) {
+            url += "&owner_recom=1";
+        }
+
+        Ion.with(MyApplication.getInstance().getApplicationContext())
+                .load(url)
+                .noCache()
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+
+	                    final String resultStr =result.getResult();
+
+	                    if (resultStr!=null)
+                        {
+	                        Thread thread = new Thread(new Runnable() {
+		                        @Override
+		                        public void run() {
+
+			                        try {
+
+				                        FlyingAlbumParser.parser(resultStr);
+
+				                        if(delegate!=null)
+				                        {
+					                        delegate.completion(FlyingAlbumParser.resultList, FlyingAlbumParser.allRecordCount);
+				                        }
+			                        }
+			                        catch (Exception ex)
+			                        {
+				                        //
+			                        }
+		                        }
+	                        });
+	                        thread.start();
+                        }
+                    }
+                });
+    }
+
+    //////////////////////////////////////////////////////////////
+    //#pragma  内容的评论相关
     //////////////////////////////////////////////////////////////
 
     public interface GetCommentListListener {
@@ -1204,18 +1562,28 @@ public class FlyingHttpTool {
                     @Override
                     public void onCompleted(Exception e, Response<String> result)
                     {
-                        if (result!=null) {
-                            String resultStr = result.getResult();
 
-                            Gson gson = new Gson();
-                            java.lang.reflect.Type type = new TypeToken<CommentDataResult>() {
-                            }.getType();
-                            CommentDataResult commentDataResult = gson.fromJson(resultStr, type);
+	                    final String resultStr =result.getResult();
 
-                            if (delegate != null) {
-                                delegate.completion(commentDataResult.rs, commentDataResult.allRecordCount);
-                            }
-                        }
+	                    if (resultStr!=null) {
+
+		                    Thread thread = new Thread(new Runnable() {
+			                    @Override
+			                    public void run() {
+
+				                    Gson gson = new Gson();
+				                    java.lang.reflect.Type type = new TypeToken<CommentDataResult>() {
+				                    }.getType();
+
+				                    CommentDataResult commentDataResult = gson.fromJson(resultStr, type);
+
+				                    if (delegate != null) {
+					                    delegate.completion(commentDataResult.rs, commentDataResult.allRecordCount);
+				                    }
+			                    }
+		                    });
+		                    thread.start();
+	                    }
                     }
                 });
     }
@@ -1328,32 +1696,43 @@ public class FlyingHttpTool {
     //////////////////////////////////////////////////////////////
     public interface DownloadFileListener {
 
-        void completion(boolean isOK);
+        void completion(boolean isOK, String targetpath);
     }
 
     static public void downloadFile(String url,
-                                    String targetpath,
+                                    final String targetpath,
                                     final DownloadFileListener delegate)
     {
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .write(new File(targetpath))
-                .setCallback(new FutureCallback<File>() {
-                    @Override
-                    public void onCompleted(Exception e, File file) {
 
-                        boolean isOK = false;
+	    File targetFile = FlyingFileManager.getFile(targetpath);
 
-                        if (file!=null && file.exists())
-                        {
-                            isOK = true;
-                        }
+        if(FlyingFileManager.fileExists(targetpath)){
 
-                        if (delegate != null) {
-                            delegate.completion(isOK);
-                        }
-                    }
-                });
+	        if (delegate != null) {
+		        delegate.completion(true, targetpath);
+	        }
+        }
+        else
+        {
+	        Ion.with(MyApplication.getInstance().getApplicationContext())
+			        .load(url)
+			        .write(targetFile)
+			        .setCallback(new FutureCallback<File>() {
+				        @Override
+				        public void onCompleted(Exception e, File file) {
+
+					        boolean isOK = false;
+
+					        if (file != null && file.exists()) {
+						        isOK = true;
+					        }
+
+					        if (delegate != null) {
+						        delegate.completion(isOK, targetpath);
+					        }
+				        }
+			        });
+        }
     }
 
     //////////////////////////////////////////////////////////////
@@ -1411,13 +1790,9 @@ public class FlyingHttpTool {
         void completion(boolean isOK);
     }
 
-    static public GetItemsListener tempdelegate;
-
     static public void getItems(String word,
                                 final GetItemsListener delegate)
     {
-        tempdelegate=delegate;
-
         String url =  "http://"+
                 FlyingDataManager.getServerNetAddress()+
                 "/la_get_dic_list_for_hp.action?word="+
@@ -1438,59 +1813,41 @@ public class FlyingHttpTool {
                         //System.out.println(result.getHeaders().getResponseCode());
                         // print the String that was downloaded
 
-                        if (result!=null)
+	                    final String resultStr =result.getResult();
+
+	                    if (resultStr!=null)
                         {
-                            String resultStr =result.getResult();
+							Thread thread = new Thread(new Runnable() {
+								@Override
+								public void run() {
+									try
+									{
+										FlyingItemparser.parser(resultStr);
 
-                            try
-                            {
-                                MyTask dTask = new MyTask();
+										for(FlyingItemData item:FlyingItemparser.resultList){
 
-                                dTask.execute(resultStr);
-                            }
-                            catch (Exception exception)
-                            {
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(false);
-                                }
-                            }
+											new FlyingItemDAO().saveItem(item);
+										}
+
+										if(delegate!=null)
+										{
+											delegate.completion(true);
+										}
+									}
+									catch (Exception exception)
+									{
+										if(delegate!=null)
+										{
+											delegate.completion(false);
+										}
+									}
+								}
+							});
+	                        thread.start();
                         }
-
 
                     }
                 });
-    }
-
-    static private class MyTask extends AsyncTask<String, Void, ArrayList<BE_DIC_PUB>>
-    {
-        @Override
-        protected ArrayList<BE_DIC_PUB> doInBackground(String... params)
-        {
-            try
-            {
-                FlyingItemparser.parser(params[0]);
-
-                return FlyingItemparser.resultList;
-            }
-            catch (Exception e)
-            {
-                System.out.println("XML Pasing Excpetion = " + e.getMessage());
-                return  null;
-            }
-        }
-        @Override
-        protected void onPostExecute(ArrayList<BE_DIC_PUB> result)
-        {
-            super.onPostExecute(result);
-
-            for(BE_DIC_PUB item:result){
-
-                new FlyingItemDao().saveItemn(item);
-            }
-
-            tempdelegate.completion(true);
-        }
     }
 
     //////////////////////////////////////////////////////////////

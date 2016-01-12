@@ -718,13 +718,8 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
                     @Override
                     public void completion(final UserInfo userInfo) {
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
-                                textView.setText(userInfo.getName() + " 正在共享位置");
-                            }
-                        });
+                        TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
+                        textView.setText(userInfo.getName() + " 正在共享位置");
                     }
                 });
             } else {

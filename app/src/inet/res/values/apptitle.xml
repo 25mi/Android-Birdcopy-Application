@@ -7,8 +7,4 @@
     <string name="KLocalAppID">fa75cf6337ee7a88ec32d7502904642e</string>
     <string name="KPakagename">it.birdcopy.inet</string>
 
-    <string name="KSERVICE_ACTION">it.birdcopy.inet.DownloadService</string>
-    <string name="KRECEIVER_ACTION">it.birdcopy.inet.HttpNormalDownloadreceiver</string>
-
-
 </resources>

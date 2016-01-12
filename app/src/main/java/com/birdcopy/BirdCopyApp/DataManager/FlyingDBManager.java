@@ -2,15 +2,14 @@ package com.birdcopy.BirdCopyApp.DataManager;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.util.Log;
 
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DicSQLiteOpenHelper;
 import com.birdcopy.BirdCopyApp.Download.FlyingDownloadManager;
+import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Content.FlyingItemparser;
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUB;
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_DIC_PUBDao;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_LOCAl_LESSONDao;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSONDao;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_RongUserDao;
@@ -18,64 +17,103 @@ import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTICDao;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_TOUCH_RECORDDao;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DaoMaster;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DaoSession;
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DicDaoMaster;
-import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.DicDaoSession;
 import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by vincentsung on 1/5/16.
  */
 public class FlyingDBManager {
 
-    public static void init()
-    {
-        try{
+	private static DaoMaster daoMaster;
+	private static DaoSession daoSession;
 
-            FlyingDownloadManager.downloadShareDicData();
-        }
-        catch (Exception e)
-        {
-            System.out.println("FlyingDBManager init" + e.getMessage());
-        }
+	private static DicSQLiteOpenHelper dicSQLiteOpenHelper;
+
+    public static void initDB()
+    {
+	    synchronized (MyApplication.getInstance()) {
+
+		    initDicDB();
+	    }
     }
 
     //数据库操作
-    public static BE_DIC_PUBDao getItemDao() {
-
-        return FlyingDBManager.getDicDaoSession().getBE_DIC_PUBDao();
-    }
-
     public static BE_PUB_LESSONDao getContentDao() {
 
-        return  FlyingDBManager.getDaoSession().getBE_PUB_LESSONDao();
+        return  getDaoSession().getBE_PUB_LESSONDao();
     }
 
     public static BE_LOCAl_LESSONDao getLocalContentDao() {
-        return FlyingDBManager.getDaoSession().getBE_LOCAl_LESSONDao();
+        return  getDaoSession().getBE_LOCAl_LESSONDao();
     }
 
     public static BE_STATISTICDao getStatisticDao() {
-        return FlyingDBManager.getDaoSession().getBE_STATISTICDao();
+        return  getDaoSession().getBE_STATISTICDao();
     }
 
     public static BE_TOUCH_RECORDDao getTouchDao() {
 
-        return FlyingDBManager.getDaoSession().getBE_TOUCH_RECORDDao();
+        return getDaoSession().getBE_TOUCH_RECORDDao();
     }
 
     public static BE_RongUserDao getRongUserDao() {
 
-        return FlyingDBManager.getDaoSession().getBE_RongUserDao();
+        return getDaoSession().getBE_RongUserDao();
     }
 
-    private static DaoMaster daoMaster;
-    private static DaoSession daoSession;
+	public static DicSQLiteOpenHelper getDicSQLiteOpenHelper() {
 
-    private static DicDaoMaster dicDaoMaster;
-    private static DicDaoSession dicDaoSession;
+		if(dicSQLiteOpenHelper==null)
+		{
+			synchronized (MyApplication.getInstance()) {
+
+				initDicDB();
+			}
+		}
+
+		return dicSQLiteOpenHelper;
+	}
+
+	private static void initDicDB()
+	{
+		if(dicSQLiteOpenHelper==null)
+		{
+			try{
+
+				final String dicDBpath = FlyingFileManager.getMyDicDBFilePath();
+
+				if (!FlyingFileManager.fileExists(dicDBpath))
+				{
+					try{
+
+						FlyingDownloadManager.downloadShareDicZip(new FlyingDownloadManager.DownloadShareDicDataListener() {
+							@Override
+							public void completion(boolean isOK) {
+
+                                if (isOK)
+                                {
+                                    dicSQLiteOpenHelper = DicSQLiteOpenHelper.getInstance(MyApplication.getInstance().getApplicationContext());
+                                }
+							}
+						});
+					}
+					catch (Exception e)
+					{}
+				}
+				else
+				{
+					if(dicSQLiteOpenHelper==null)
+					{
+						dicSQLiteOpenHelper = DicSQLiteOpenHelper.getInstance(MyApplication.getInstance().getApplicationContext());
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				System.out.println("FlyingDBManager init" + e.getMessage());
+			}
+		}
+	}
 
     /**
      * 取得userDaoMaster
@@ -87,6 +125,7 @@ public class FlyingDBManager {
         if (daoMaster == null) {
             OpenHelper helper = new OpenHelper(MyApplication.getInstance(), ShareDefine.KUserDatdbaseFilename, null);
             daoMaster = new DaoMaster(helper.getWritableDatabase());
+
         }
         return daoMaster;
     }
@@ -107,51 +146,7 @@ public class FlyingDBManager {
         return daoSession;
     }
 
-    /**
-     * 取得dicDaoMaster
-     *
-     * @return
-     */
-    private static DicDaoMaster getDicDaoMaster() {
-
-        if (dicDaoMaster == null) {
-
-            String dicDBpath = FlyingFileManager.getDBDatabasePath();
-
-            if (!new File(dicDBpath).exists())
-            {
-                try{
-
-                    FlyingDownloadManager.downloadShareDicData();
-                }
-                catch (Exception e)
-                {}
-            }
-
-            SQLiteDatabase db =SQLiteDatabase.openOrCreateDatabase(dicDBpath,null);
-            dicDaoMaster = new DicDaoMaster(db);
-        }
-
-        return dicDaoMaster;
-    }
-
-    /**
-     * 取得dicDaoSession
-     *
-     * @return
-     */
-    private static DicDaoSession getDicDaoSession() {
-
-        if (dicDaoSession == null) {
-            if (dicDaoMaster == null) {
-                dicDaoMaster = getDicDaoMaster();
-            }
-            dicDaoSession = dicDaoMaster.newSession();
-        }
-        return dicDaoSession;
-    }
-
-    public static class OpenHelper extends DaoMaster.OpenHelper {
+    private static class OpenHelper extends DaoMaster.OpenHelper {
 
         public OpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
             super(context, name, factory);
@@ -168,7 +163,7 @@ public class FlyingDBManager {
     //数据库相关操作
     public static void updateBaseDic(String lessonID)
     {
-        String fileName = FlyingFileManager.getLessonDicXMLTargetPath(lessonID);
+        String fileName = FlyingFileManager.getLessonDicXMLFilePath(lessonID);
 
         try
         {
@@ -178,45 +173,16 @@ public class FlyingDBManager {
 
                 if(mResponseStr!=null && mResponseStr.length()!=0)
                 {
-                    MyTask dTask = new MyTask();
-                    dTask.execute(mResponseStr);
+                    FlyingItemparser.parser(mResponseStr);
+
+                    for(FlyingItemData item:FlyingItemparser.resultList){
+
+                        new FlyingItemDAO().saveItem(item);
+                    }
                 }
             }
         }
         catch (Exception e)
         {}
-    }
-
-
-    static int mAllRecordCount=0;
-
-    static private class MyTask extends AsyncTask<String, Void, ArrayList<BE_DIC_PUB>>
-    {
-        @Override
-        protected ArrayList<BE_DIC_PUB> doInBackground(String... params)
-        {
-            try
-            {
-                FlyingItemparser.parser(params[0]);
-
-                mAllRecordCount = FlyingItemparser.allRecordCount;
-                return FlyingItemparser.resultList;
-            }
-            catch (Exception e)
-            {
-                System.out.println("XML Pasing Excpetion = " + e.getMessage());
-                return  null;
-            }
-        }
-        @Override
-        protected void onPostExecute(ArrayList<BE_DIC_PUB> result)
-        {
-            super.onPostExecute(result);
-
-            for(BE_DIC_PUB item:result){
-
-                new FlyingItemDao().saveItemn(item);
-            }
-        }
     }
 }

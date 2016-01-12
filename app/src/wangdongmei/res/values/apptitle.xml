@@ -5,9 +5,4 @@
     <string name="KServerNetAddress">www.birdenglish.com:8888</string>
     <string name="KlessonQwner">wangdongmei</string>
     <string name="KLocalAppID">9bbf65710cb44ee0b866aa973d7441cf</string>
-    <string name="KPakagename">com.birdcopy.wangdongmei</string>
-
-    <string name="KSERVICE_ACTION">com.birdcopy.wangdongmei.DownloadService</string>
-    <string name="KRECEIVER_ACTION">com.birdcopy.wangdongmei.HttpNormalDownloadreceiver</string>
-
 </resources>

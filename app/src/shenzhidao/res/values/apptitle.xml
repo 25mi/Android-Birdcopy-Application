@@ -5,10 +5,5 @@
     <string name="KServerNetAddress">d.birdcopy.com</string>
     <string name="KlessonQwner">shenzhidao</string>
     <string name="KLocalAppID">a530fc8617443d48a48259d465dd4d81</string>
-    <string name="KPakagename">d.birdcopy.shenzhidao</string>
-
-    <string name="KSERVICE_ACTION">d.birdcopy.shenzhidao.DownloadService</string>
-    <string name="KRECEIVER_ACTION">d.birdcopy.shenzhidao.HttpNormalDownloadreceiver</string>
-
 
 </resources>

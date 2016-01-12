@@ -305,11 +305,11 @@ public class BE_PUB_LESSON implements Serializable{
     // KEEP METHODS - put your custom methods here
     public void initLocalData()
     {
-        setLocalURLOfContent(FlyingFileManager.getLessonContentTargetPath(BELESSONID,BECONTENTTYPE,BECONTENTURL));
-        setLocalURLOfCover(null);//图片本身的缓存机制
-        setLocalURLOfPro(FlyingFileManager.getLessonDicPatchTargetPath(BELESSONID));
-        setLocalURLOfSub(FlyingFileManager.getLessonSubTargetPath(BELESSONID));
-        setLocalURLOfRelative(FlyingFileManager.getLessonRelatedTargetPath(BELESSONID));
+        setLocalURLOfContent(FlyingFileManager.getLessonContentFilePath(BELESSONID,BECONTENTTYPE,BECONTENTURL));
+        setLocalURLOfCover("");//图片本身的缓存机制
+        setLocalURLOfPro(FlyingFileManager.getLessonDicZipFilePath(BELESSONID));
+        setLocalURLOfSub(FlyingFileManager.getLessonSubFilePath(BELESSONID));
+        setLocalURLOfRelative(FlyingFileManager.getLessonRelatedZipFilePath(BELESSONID));
     }
 
     // KEEP METHODS END
