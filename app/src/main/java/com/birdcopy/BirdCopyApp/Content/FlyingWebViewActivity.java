@@ -108,7 +108,7 @@ public class FlyingWebViewActivity extends FragmentActivity
 
     private void  shareCurrentContent()
     {
-        String title = "来自"+getString(R.string.app_name)+"的精彩分享";
+        String title = "精彩分享";
         String desc  = "我也有自己的App了：）";
         String urlStr = "wwww.birdcopy.com/vip/"+ FlyingDataManager.getLessonOwner();
 
@@ -121,7 +121,7 @@ public class FlyingWebViewActivity extends FragmentActivity
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
 
-        shareIntent.putExtra(Intent.EXTRA_TITLE, R.string.app_name);
+        shareIntent.putExtra(Intent.EXTRA_TITLE, "分享精彩");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
         shareIntent.putExtra(Intent.EXTRA_TEXT, title +"\n"+desc+"\n"+urlStr);
         startActivity(Intent.createChooser(shareIntent, "分享精彩"));

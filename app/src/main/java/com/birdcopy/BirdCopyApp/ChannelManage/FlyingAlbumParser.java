@@ -54,7 +54,7 @@ public class FlyingAlbumParser {
 
                     if(kTagList.equalsIgnoreCase(tag)) {
 
-                        allRecordCount = xpp.getAttributeValue(0);
+                        allRecordCount = xpp.getAttributeValue(null, "allRecordCount");
                     }
                     else if (kEntryStr.equalsIgnoreCase(tag)) {
 

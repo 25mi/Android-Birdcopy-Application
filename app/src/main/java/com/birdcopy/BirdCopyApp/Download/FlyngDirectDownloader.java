@@ -46,33 +46,29 @@ public class FlyngDirectDownloader {
                 {
                     FlyingFileManager.deleteFile(path);
                 }
+
+                Ion.with(MyApplication.getInstance())
+                        .load(mContentURL)
+                        .progress(new ProgressCallback() {
+                            @Override
+                            public void onProgress(long downloaded, long total) {
+
+                                long process = 100 * downloaded / total;
+
+                                Intent updateIntent = new Intent(mLessonID);
+                                updateIntent.putExtra(ShareDefine.KIntenCorParameter, process);
+                                MyApplication.getInstance().sendBroadcast(updateIntent);
+                            }
+                        })
+                        .write(FlyingFileManager.getFile(path))
+                        .setCallback(new FutureCallback<File>() {
+                            @Override
+                            public void onCompleted(Exception e, File result) {
+
+                                //finishDownloadTask();
+                            }
+                        });
             }
-
-            SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
-            editor.putString(mContentURL, mLessonID);
-            editor.commit();
-
-            Ion.with(MyApplication.getInstance())
-                    .load(mContentURL)
-                    .progress(new ProgressCallback() {
-                        @Override
-                        public void onProgress(long downloaded, long total) {
-
-                            long process = 100*downloaded/total;
-
-                            Intent updateIntent = new Intent(mLessonID);
-                            updateIntent.putExtra(ShareDefine.KIntenCorParameter,process );
-                            MyApplication.getInstance().sendBroadcast(updateIntent);
-                        }
-                    })
-                    .write(new File(""))
-                    .setCallback(new FutureCallback<File>() {
-                        @Override
-                        public void onCompleted(Exception e, File result) {
-
-                            finishDownloadTask();
-                        }
-                    });
         }
     }
 
@@ -87,28 +83,5 @@ public class FlyngDirectDownloader {
 
     public void pauseDownload()
     {
-    }
-
-    private void  finishDownloadTask()
-    {
-        if(mLessonID!=null)
-        {
-            BE_PUB_LESSON lessonData = new FlyingContentDAO().selectWithLessonID(mLessonID);
-
-            if(lessonData.getLocalURLOfContent()==null)
-            {
-                try
-                {
-                    lessonData.setBEDLPERCENT(1.00);
-                    lessonData.setBEDLSTATE(false);
-
-                    new FlyingContentDAO().savelLesson(lessonData);
-                }
-                catch (Exception e)
-                {
-                    //
-                }
-            }
-        }
     }
 }

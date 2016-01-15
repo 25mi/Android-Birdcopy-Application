@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">菜鸟云出版</string>
-    <string name="version">2.2.0</string>
-    <string name="KServerNetAddress">www.birdenglish.com:9999</string>
+    <string name="KApplicaionID">e.birdcopy.beiyang</string>
+
+    <string name="KServerNetAddress">www.birdcopy.com</string>
     <string name="KlessonQwner">BirdCopyApp</string>
     <string name="KLocalAppID">BirdCopyAppID</string>
-    <string name="KApplicaionID">com.birdcopy.beiyang</string>
-
-    <string name="KSERVICE_ACTION">com.birdcopy.BirdCopyApp.DownloadService</string>
-    <string name="KRECEIVER_ACTION">com.birdcopy.BirdCopyApp.HttpNormalDownloadreceiver</string>
 
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

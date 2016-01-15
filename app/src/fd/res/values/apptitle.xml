@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">社科金博</string>
     <string name="KServerNetAddress">fd.birdcopy.com</string>
     <string name="KlessonQwner">fd</string>
     <string name="KLocalAppID">1e490d862e2a41a5891c8768fb4e2d7a</string>

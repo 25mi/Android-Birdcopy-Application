@@ -61,7 +61,11 @@ public class HomeFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
+
+	    //确保恢复时标题对
+	    MainActivity mainActivity = (MainActivity)getActivity();
+	    mainActivity.setmTopTitle(getString(R.string.left_drawer_item_home));
 
         mHomeContent = (View)inflater.inflate(R.layout.homecontent, null);
 
@@ -251,21 +255,21 @@ public class HomeFragment extends Fragment
 
             FlyingHttpTool.getAlbumList(null, currentLodingIndex, true, true, new FlyingHttpTool.GetAlbumListListener() {
                 @Override
-                public void completion(ArrayList<AlbumData> albumList, String allRecordCount) {
+                public void completion(final ArrayList<AlbumData> albumList, final String allRecordCount) {
 
                     if(albumList!=null || albumList.size()!=0)
                     {
-                        for (AlbumData data : albumList) {
-                            mAdapter.add(data);
-                        }
-                        // stash all the data in our backing store
-                        mAlbumLisData.addAll(albumList);
-
-                        mMaxNumOfTags= Integer.parseInt(allRecordCount);
 
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
 
+	                            for (AlbumData data : albumList) {
+		                            mAdapter.add(data);
+	                            }
+	                            // stash all the data in our backing store
+	                            mAlbumLisData.addAll(albumList);
+
+	                            mMaxNumOfTags= Integer.parseInt(allRecordCount);
                                 // notify the adapter that we can update now
                                 mAdapter.notifyDataSetChanged();
                             }

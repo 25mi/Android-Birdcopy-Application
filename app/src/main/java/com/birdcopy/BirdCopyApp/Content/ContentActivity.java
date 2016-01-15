@@ -411,21 +411,23 @@ public class ContentActivity extends FragmentActivity
                     currentLodingIndex,
                     new FlyingHttpTool.GetCommentListListener() {
                         @Override
-                        public void completion(ArrayList<FlyingCommentData> commentList, String allRecordCount) {
+                        public void completion(final ArrayList<FlyingCommentData> commentList, final String allRecordCount) {
 
                             if (commentList != null && commentList.size() != 0) {
 
-                                for (FlyingCommentData data : commentList) {
-                                    mAdapter.add(data);
-                                }
-                                // stash all the data in our backing store
-                                mData.addAll(commentList);
 
-                                mMaxNumOfComments = Integer.parseInt(allRecordCount);
 
 	                            ContentActivity.this.runOnUiThread(new Runnable() {
 
 		                            public void run() {
+
+			                            for (FlyingCommentData data : commentList) {
+				                            mAdapter.add(data);
+			                            }
+			                            // stash all the data in our backing store
+			                            mData.addAll(commentList);
+
+			                            mMaxNumOfComments = Integer.parseInt(allRecordCount);
 
 			                            // notify the adapter that we can update now
 			                            mAdapter.notifyDataSetChanged();
@@ -456,7 +458,7 @@ public class ContentActivity extends FragmentActivity
             {
                 if(mLessonData.getBEDLPERCENT()<1 && mLessonData.getBEDLPERCENT()>0)
                 {
-                    mBuyButton.setText("下载中...");
+                    mBuyButton.setText("下载了一部分");
                 }
                 else
                 {
@@ -496,14 +498,14 @@ public class ContentActivity extends FragmentActivity
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            String progress = intent.getStringExtra(ShareDefine.KIntenCorParameter);
+            long progress = intent.getLongExtra(ShareDefine.KIntenCorParameter, 0);
 
-            if(progress.equalsIgnoreCase("100"))
+            if(progress==100)
             {
                 mBuyButton.setBackgroundResource(R.drawable.greenbutton);
                 mBuyButton.setText("马上欣赏");
 
-                updateLessonAndDB(1);
+                updateLessonAndDB(progress);
 
                 //自动直接打开
                 playLesson();
@@ -513,9 +515,15 @@ public class ContentActivity extends FragmentActivity
             }
             else
             {
-                mBuyButton.setText(progress + "%");
+	            String  loadingText = "...";
+	            if(progress!=0)
+	            {
+		            loadingText = Long.toString(progress) + "%";
+	            }
 
-                updateLessonAndDB(Double.parseDouble(progress)/100.00);
+                mBuyButton.setText(loadingText);
+
+                //updateLessonAndDB(progress);
 
                 mBuyButton.setClickable(true);
             }
@@ -532,11 +540,11 @@ public class ContentActivity extends FragmentActivity
         }
     }
 
-    private void updateLessonAndDB(double downlaodProress)
+    private void updateLessonAndDB(long downlaodProress)
     {
-        mLessonData.setBEDLPERCENT(downlaodProress);
+        mLessonData.setBEDLPERCENT(downlaodProress/100.0);
 
-        if(downlaodProress<1.0 &&downlaodProress>0.0) {
+        if(downlaodProress<100 &&downlaodProress>0) {
             mLessonData.setBEDLSTATE(true);
         }
         else
@@ -544,7 +552,10 @@ public class ContentActivity extends FragmentActivity
             mLessonData.setBEDLSTATE(false);
         }
 
-        mDao.savelLesson(mLessonData);
+	    if(downlaodProress==100)
+	    {
+		    mDao.savelLesson(mLessonData);
+	    }
     }
 
     private void playLesson()
@@ -642,6 +653,8 @@ public class ContentActivity extends FragmentActivity
 
                         mBuyButton.setClickable(true);
                         mBuyButton.setText("重新下载");
+
+                        FlyingFileManager.deleteFile(mLessonData.getLocalURLOfContent());
                     }
                 }
                 else
@@ -667,23 +680,25 @@ public class ContentActivity extends FragmentActivity
     {
         if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeText))
         {
-            if(mLessonData.getLocalURLOfContent().contains("pdf"))
+	        String absolutePath = FlyingFileManager.getFile(mLessonData.getLocalURLOfContent()).getAbsolutePath();
+
+	        if(mLessonData.getLocalURLOfContent().contains("pdf"))
             {
-                MainActivity.startPDFActivity(this,mLessonData.getLocalURLOfContent(),mLessonData.getBETITLE(),mLessonData.getBELESSONID(),true);
+                MainActivity.startPDFActivity(this,absolutePath,mLessonData.getBETITLE(),mLessonData.getBELESSONID(),true);
             }
             else if(mLessonData.getLocalURLOfContent().contains("doc") || mLessonData.getLocalURLOfContent().contains("docx"))
             {
-                Intent intent = CommonIntent.getWordFileIntent(mLessonData.getLocalURLOfContent());
+                Intent intent = CommonIntent.getWordFileIntent(absolutePath);
                 startActivity(intent);
             }
             else if(mLessonData.getLocalURLOfContent().contains("ppt") || mLessonData.getLocalURLOfContent().contains("pptx"))
             {
-                Intent intent = CommonIntent.getPptFileIntent(mLessonData.getLocalURLOfContent());
+                Intent intent = CommonIntent.getPptFileIntent(absolutePath);
                 startActivity(intent);
             }
             else if(mLessonData.getLocalURLOfContent().contains("xls") || mLessonData.getLocalURLOfContent().contains("xlsx"))
             {
-                Intent intent = CommonIntent.getExcelFileIntent(mLessonData.getLocalURLOfContent());
+                Intent intent = CommonIntent.getExcelFileIntent(absolutePath);
                 startActivity(intent);
             }
         }
@@ -699,8 +714,15 @@ public class ContentActivity extends FragmentActivity
                     downloadType= FlyingPlayerActivity.TYPE_HLS;
                 }
 
+	            Uri uri =Uri.parse(playURL);
+
+	            if(FlyingFileManager.fileExists(mLessonData.getLocalURLOfContent()))
+	            {
+		            uri = Uri.fromFile(FlyingFileManager.getFile(mLessonData.getLocalURLOfContent()));
+	            }
+
                 Intent mpdIntent = new Intent(this, FlyingPlayerActivity.class)
-                        .setData(Uri.parse(playURL))
+                        .setData(uri)
                         .putExtra(FlyingPlayerActivity.CONTENT_ID_EXTRA, mLessonData.getBELESSONID())
                         .putExtra(FlyingPlayerActivity.CONTENT_TYPE_EXTRA, downloadType);
 
@@ -850,7 +872,7 @@ public class ContentActivity extends FragmentActivity
 
     private void  shareCurrentContent()
     {
-        String title = "来自"+getString(R.string.app_name)+"的精彩分享";
+        String title = "的精彩分享";
         String desc  = "我也有自己的App了：）";
         String urlStr = "wwww.birdcopy.com/vip/"+ FlyingDataManager.getLessonOwner();
 
@@ -864,7 +886,7 @@ public class ContentActivity extends FragmentActivity
             urlStr = mLessonData.getBEWEBURL();
         }
 
-        shareIntent.putExtra(Intent.EXTRA_TITLE, R.string.app_name);
+        shareIntent.putExtra(Intent.EXTRA_TITLE, "分享精彩");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
         shareIntent.putExtra(Intent.EXTRA_TEXT, title + "\n" + desc + "\n" + urlStr);
 
@@ -875,7 +897,7 @@ public class ContentActivity extends FragmentActivity
 
     private Intent[] getTxtIntent()
     {
-        String subject = "来自"+getString(R.string.app_name)+"的精彩分享";
+        String subject = "精彩分享";
         String body  = "就差你没有来了：）";
 
         if(mLessonData!=null)

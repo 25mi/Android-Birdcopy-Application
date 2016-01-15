@@ -66,7 +66,7 @@ public class FlyingHttpTool {
     //////////////////////////////////////////////////////////////////////////////////
     public interface CheckNewVersionAPPDListener {
 
-        void completion(boolean isOK, String downloadURL);
+        void completion(final boolean isOK, final String downloadURL);
     }
 
     static public void checkNewVersionAPP(String appID,
@@ -221,7 +221,7 @@ public class FlyingHttpTool {
     //////////////////////////////////////////////////////////////////////////////////
     public interface GetUserInfoByopenIDListener {
 
-        void completion(UserInfo userInfo);
+        void completion(final UserInfo userInfo);
     }
 
     static public void getUserInfoByopenID(final String account,
@@ -264,7 +264,7 @@ public class FlyingHttpTool {
 
     public interface RequestUploadPotraitListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void requestUploadPotrait(final String acount,
@@ -326,7 +326,7 @@ public class FlyingHttpTool {
 
     public interface RefreshUesrInfoListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void refreshUesrInfo(final String acount,
@@ -405,7 +405,7 @@ public class FlyingHttpTool {
 
     public interface RegOpenUDIDListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void regOpenUDID(String acount,
@@ -453,7 +453,7 @@ public class FlyingHttpTool {
 
     public interface VerifyOpenUDIDListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void verifyOpenUDID(String account,
@@ -497,7 +497,7 @@ public class FlyingHttpTool {
     //用终端登录官网后台
     public interface LoginWithQRListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void loginWithQR(String loginID,
@@ -627,7 +627,7 @@ public class FlyingHttpTool {
 
     public interface GetMembershipListener {
 
-        void completion(Date startDate,Date endDate);
+        void completion(final Date startDate,final Date endDate);
     }
 
     static public void getMembership(String account,
@@ -696,7 +696,7 @@ public class FlyingHttpTool {
 
     public interface UpdateMembershipListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void updateMembership(String account,
@@ -777,7 +777,7 @@ public class FlyingHttpTool {
 
     public interface GetMoneyDataListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void getMoneyData(String account,
@@ -841,7 +841,7 @@ public class FlyingHttpTool {
 
     public interface UploadMoneyDataListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void uploadMoneyData(String account,
@@ -907,7 +907,7 @@ public class FlyingHttpTool {
     //获取充值卡数据
     public interface GetQRDataListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void getQRData(String account,
@@ -965,7 +965,7 @@ public class FlyingHttpTool {
     //向服务器帐户进行充值
     public interface ChargingCradListener {
 
-        void completion(String resultStr);
+        void completion(final String resultStr);
     }
 
     static public void chargingCrad(String cardID,
@@ -1075,7 +1075,7 @@ public class FlyingHttpTool {
     //向服务器获课程统计数据
     public interface GetContentStatisticListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void getContentStatistic(String account,
@@ -1150,7 +1150,7 @@ public class FlyingHttpTool {
 
     public interface UploadContentStatisticListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void uploadContentStatistic(String account,
@@ -1230,7 +1230,7 @@ public class FlyingHttpTool {
 
     public interface GetLessonDataListener {
 
-        void completion(ArrayList<BE_PUB_LESSON> lessonList,String allRecordCount);
+        void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount);
     }
 
     static public void getLessonData(String lessonID,
@@ -1283,7 +1283,7 @@ public class FlyingHttpTool {
 
     public interface GetLessonListListener {
 
-        void completion(ArrayList<BE_PUB_LESSON> lessonList,String allRecordCount);
+        void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount);
     }
 
     static public void getLessonList(String contentType,
@@ -1352,15 +1352,16 @@ public class FlyingHttpTool {
 				                    try {
 
 					                    FlyingLessonParser.parser(resultStr);
-
-					                    if(delegate!=null)
-					                    {
-						                    delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
-					                    }
 				                    }
 				                    catch (Exception ex)
 				                    {
 					                    //
+					                    Log.e("getCoverList", ex.getMessage());
+				                    }
+
+				                    if(delegate!=null)
+				                    {
+					                    delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
 				                    }
 			                    }
 		                    });
@@ -1372,7 +1373,7 @@ public class FlyingHttpTool {
 
     public interface GetCoverListListener {
 
-        void completion(ArrayList<BE_PUB_LESSON> lessonList,String allRecordCount);
+        void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount);
     }
 
     static public void getCoverList(String author,
@@ -1434,7 +1435,7 @@ public class FlyingHttpTool {
 
     public interface GetAlbumListListener {
 
-        void completion(ArrayList<AlbumData> albumList,String allRecordCount);
+        void completion(final ArrayList<AlbumData> albumList,final String allRecordCount);
     }
 
     static public void getAlbumList(String lessonType,
@@ -1519,7 +1520,7 @@ public class FlyingHttpTool {
 
     public interface GetCommentListListener {
 
-        void completion(ArrayList<FlyingCommentData> commentList,String allRecordCount);
+        void completion(final ArrayList<FlyingCommentData> commentList,final String allRecordCount);
     }
 
     static public void getCommentList(String contentID,
@@ -1590,7 +1591,7 @@ public class FlyingHttpTool {
 
     public interface UpdateCommentListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void updateComment(FlyingCommentData commentData,
@@ -1642,7 +1643,7 @@ public class FlyingHttpTool {
 
     public interface GetContentResourceListener {
 
-        void completion(String resultURL);
+        void completion(final String resultURL);
     }
 
     static public void getContentResource(String contentID,
@@ -1696,7 +1697,7 @@ public class FlyingHttpTool {
     //////////////////////////////////////////////////////////////
     public interface DownloadFileListener {
 
-        void completion(boolean isOK, String targetpath);
+        void completion(final boolean isOK,final  String targetpath);
     }
 
     static public void downloadFile(String url,
@@ -1741,7 +1742,7 @@ public class FlyingHttpTool {
 
     public interface GetShareBaseZIPURLListener {
 
-        void completion(String resultURL);
+        void completion(final String resultURL);
     }
 
     static public void getShareBaseZIPURL(String resourceType,
@@ -1787,7 +1788,7 @@ public class FlyingHttpTool {
 
     public interface GetItemsListener {
 
-        void completion(boolean isOK);
+        void completion(final boolean isOK);
     }
 
     static public void getItems(String word,
@@ -1844,6 +1845,13 @@ public class FlyingHttpTool {
 								}
 							});
 	                        thread.start();
+                        }
+                        else
+                        {
+                            if(delegate!=null)
+                            {
+                                delegate.completion(false);
+                            }
                         }
 
                     }

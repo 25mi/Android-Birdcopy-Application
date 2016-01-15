@@ -74,6 +74,8 @@ public class FlyingLessonParser {
                         lesson = new BE_PUB_LESSON();
                         lesson.setBEDLPERCENT(0.0);
                         lesson.setBELESSONID(xpp.getAttributeValue(null, "id"));
+                        lesson.setBEOFFICIAL(true);
+	                    lesson.setBETAG("");
 
                         String tempType=xpp.getAttributeValue(null, "res_type");
 

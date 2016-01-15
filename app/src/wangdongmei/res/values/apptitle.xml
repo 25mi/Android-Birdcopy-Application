@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">燕赵会</string>
     <string name="KServerNetAddress">www.birdenglish.com:8888</string>
     <string name="KlessonQwner">wangdongmei</string>
     <string name="KLocalAppID">9bbf65710cb44ee0b866aa973d7441cf</string>

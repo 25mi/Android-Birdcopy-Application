@@ -15,7 +15,10 @@
  */
 package com.birdcopy.BirdCopyApp.Media;
 
+import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
 import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.google.android.exoplayer.AspectRatioFrameLayout;
 import com.google.android.exoplayer.ExoPlaybackException;
 import com.google.android.exoplayer.ExoPlayer;
@@ -55,6 +58,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.accessibility.CaptioningManager;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -72,14 +76,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.birdcopy.BirdCopyApp.R;
-
-import javax.xml.transform.sax.TemplatesHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * An activity that plays media using {@link FlyingPlayer}.
  */
 public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Callback,
-		OnClickListener,
 		FlyingPlayer.Listener,
 		FlyingPlayer.CaptionListener,
 		FlyingPlayer.Id3MetadataListener,
@@ -115,7 +117,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 	private EventLogger eventLogger;
 	private MediaController mediaController;
 	//private View debugRootView;
-	private View shutterView;
+	private ImageView shutterView;
 	private AspectRatioFrameLayout videoFrame;
 	private SurfaceView surfaceView;
 	//private TextView debugTextView;
@@ -140,6 +142,9 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 	private String mContentId;
 	private String provider;
 
+	BE_PUB_LESSON mLessondata;
+
+
 	private AudioCapabilitiesReceiver audioCapabilitiesReceiver;
 
 	// Activity lifecycle
@@ -157,6 +162,9 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 				inferContentType(contentUri, intent.getStringExtra(CONTENT_EXT_EXTRA)));
 		mContentId = intent.getStringExtra(CONTENT_ID_EXTRA);
 		provider = intent.getStringExtra(PROVIDER_EXTRA);
+
+
+		mLessondata = new FlyingContentDAO().selectWithLessonID(mContentId);
 
 		View root = findViewById(R.id.root);
 		root.setOnTouchListener(new OnTouchListener() {
@@ -181,7 +189,15 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 			}
 		});
 
-		shutterView = findViewById(R.id.shutter);
+
+		shutterView = (ImageView)findViewById(R.id.shutter);
+
+		if(mLessondata!=null && ShareDefine.KContentTypeAudio.equalsIgnoreCase(mLessondata.getBECONTENTTYPE()))
+		{
+			ImageLoader imageLoader = ImageLoader.getInstance();
+			imageLoader.displayImage(mLessondata.getBEIMAGEURL(), shutterView);
+		}
+
 		//debugRootView = findViewById(R.id.controls_root);
 
 		videoFrame = (AspectRatioFrameLayout) findViewById(R.id.video_frame);
@@ -240,11 +256,13 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 		if (player == null) {
 			if (!maybeRequestPermission()) {
 				preparePlayer(true);
-
-				initSubTimer();
 			}
 		} else {
 			player.setBackgrounded(false);
+		}
+
+		if(hasSubtitleContent())
+		{
 			initSubTimer();
 		}
 	}
@@ -254,9 +272,12 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 		super.onPause();
 		if (!enableBackgroundAudio) {
 			releasePlayer();
-			myTimer.cancel();
-		} else {
+		}
+		else {
 			player.setBackgrounded(true);
+		}
+		if(myTimer!=null)
+		{
 			myTimer.cancel();
 		}
 		shutterView.setVisibility(View.VISIBLE);
@@ -267,20 +288,9 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 		super.onDestroy();
 		audioCapabilitiesReceiver.unregister();
 		releasePlayer();
-		myTimer.cancel();
-	}
-
-	// OnClickListener methods
-
-	@Override
-	public void onClick(View view) {
-		if (view == surfaceView) {
-
-			if(!isPlayingNow())
-			{
-				player.getPlayerControl().start();
-				enableUpdateSub=true;
-			}
+		if(myTimer!=null)
+		{
+			myTimer.cancel();
 		}
 	}
 
@@ -631,12 +641,31 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 		return true;
 	}
 
-	private void toggleControlsVisibility()  {
-		if (mediaController.isShowing()) {
-			mediaController.hide();
-			//debugRootView.setVisibility(View.GONE);
-		} else {
-			showControls();
+	private void toggleControlsVisibility()
+	{
+		if(hasSubtitleContent())
+		{
+			if (mediaController.isShowing()) {
+
+				mediaController.hide();
+				//debugRootView.setVisibility(View.GONE);
+				playAndDoAI();
+			}
+			else
+			{
+				pauseAndDoAI();
+				showControls();
+			}
+		}
+		else
+		{
+			if (mediaController.isShowing()) {
+
+				mediaController.hide();
+			} else {
+
+				showControls();
+			}
 		}
 	}
 
@@ -800,7 +829,6 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 			subtitleView.activity=this;
 			subtitleView.onTouchListenerDelegate=this;
 			subtitleView.setText("welcome");
-			subtitleView.setParentView(videoFrame);
 			subtitleView.setVisibility(View.VISIBLE);
 
 			try{
@@ -817,7 +845,7 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 				@Override
 				public void run() {
 
-					subtitleView.setVisibility(View.INVISIBLE);
+					subtitleView.setVisibility(View.VISIBLE);
 				}
 			});
 			enableUpdateSub=true;
@@ -854,8 +882,14 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 	{
 		if(!enableUpdateSub)
 		{
-			myTimer.cancel();
-			return;
+			if(player.getPlayWhenReady())
+			{
+				enableUpdateSub=true;
+			}
+			else
+			{
+				return;
+			}
 		}
 
 		long freshTimeInSeconds=0;
@@ -891,11 +925,17 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 	@Override
 	public void onTouch()
 	{
-		if (isPlayingNow()) {
-
-			pauseAndDoAI();
+		pauseAndDoAI();
+	}
+	@Override
+	public void showWordMessageOver()
+	{
+		if(!isPlayingNow())
+		{
+			playAndDoAI();
 		}
 	}
+
 
 	private boolean hasSubtitleContent()
 	{
@@ -915,6 +955,16 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 		enableUpdateSub=false;
 
 		player.getPlayerControl().pause();
+	}
+
+	private void playAndDoAI()
+
+	{
+		//打开自动更新字幕
+		enableUpdateSub=true;
+
+		player.getPlayerControl().start();
+
 	}
 
 	private boolean isPlayingNow()

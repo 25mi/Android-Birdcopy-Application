@@ -108,7 +108,7 @@ public class FlyingItemparser {
 
                     if(kItemList.equalsIgnoreCase(tag)) {
 
-                        allRecordCount = xpp.getAttributeValue(0);
+                        allRecordCount = xpp.getAttributeValue(null, "allRecordCount");
                     }
                     else if (kBEItem.equalsIgnoreCase(tag)) {
 
@@ -134,13 +134,13 @@ public class FlyingItemparser {
 
                                 item.setBEENTRY(item.getBEENTRY()+
                                         "<"+tag+">"+xpp.nextText()+
-                                        "<"+tag+">");
+                                        "<"+"/"+tag+">");
                             }
                             else{
 
 	                            item.setBEENTRY(
 			                            "<"+tag+">"+xpp.nextText()+
-			                            "<"+tag+">");
+			                            "<"+"/"+tag+">");
                             }
                         }
                         else if (tagEments.contains(tag)) {

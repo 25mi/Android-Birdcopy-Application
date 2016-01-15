@@ -144,7 +144,11 @@ public class FlyingDownloadManager {
 
 	    String targetPath =  FlyingFileManager.getLessonSubFilePath(lessonID);
 
-	    FlyingHttpTool.downloadFile(lessonData.getBESUBURL(), targetPath, null);
+	    String url = lessonData.getBESUBURL();
+	    if(ShareDefine.checkURL(url))
+	    {
+		    FlyingHttpTool.downloadFile(url, targetPath, null);
+	    }
     }
 
     public static void getDicForLesson(final BE_PUB_LESSON lessonData,String title) {
@@ -152,67 +156,74 @@ public class FlyingDownloadManager {
 	    final String lessonID = lessonData.getBELESSONID();
 	    final String targetPath =  FlyingFileManager.getLessonDicZipFilePath(lessonID);
 
-	    FlyingHttpTool.downloadFile(lessonData.getBEPROURL(), targetPath, new FlyingHttpTool.DownloadFileListener() {
-		    @Override
-		    public void completion(boolean isOK, String targetpath) {
-			    //
-			    if (isOK) {
-				    Thread thread = new Thread(new Runnable() {
-					    @Override
-					    public void run() {
+        String url = lessonData.getBEPROURL();
+        if(ShareDefine.checkURL(url))
+        {
+	        FlyingHttpTool.downloadFile(url, targetPath, new FlyingHttpTool.DownloadFileListener() {
+		        @Override
+		        public void completion(boolean isOK, String targetpath) {
+			        //
+			        if (isOK) {
+				        Thread thread = new Thread(new Runnable() {
+					        @Override
+					        public void run() {
 
-						    String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
+						        String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
 
-						    try {
-							    FlyingFileManager.unzip(targetPath, outputDir, false);
+						        try {
+							        FlyingFileManager.unzip(targetPath, outputDir, false);
 
-							    //升级课程补丁
-							    FlyingDBManager.updateBaseDic(lessonID);
+							        //升级课程补丁
+							        FlyingDBManager.updateBaseDic(lessonID);
 
-						    } catch (Exception e) {
+						        } catch (Exception e) {
 
-						    }
-					    }
-				    });
-				    thread.start();
+						        }
+					        }
+				        });
+				        thread.start();
 
-			    }
-		    }
-	    });
+			        }
+		        }
+	        });
+        }
     }
 
     public static void getRelatedForLesson(final BE_PUB_LESSON lessonData,String title) {
 
 	    String lessonID = lessonData.getBELESSONID();
 
-	    FlyingHttpTool.downloadFile(lessonData.getBERELATIVEURL(), FlyingFileManager.getLessonRelatedZipFilePath(lessonID), new FlyingHttpTool.DownloadFileListener() {
-		    @Override
-		    public void completion(boolean isOK, final String targetpath) {
-			    //
-			    if (isOK) {
-				    Thread thread = new Thread(new Runnable() {
-					    @Override
-					    public void run() {
+	    String url = lessonData.getBERELATIVEURL();
+	    if(ShareDefine.checkURL(url)) {
 
-						    String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
+		    FlyingHttpTool.downloadFile(url, FlyingFileManager.getLessonRelatedZipFilePath(lessonID), new FlyingHttpTool.DownloadFileListener() {
+			    @Override
+			    public void completion(boolean isOK, final String targetpath) {
+				    //
+				    if (isOK) {
+					    Thread thread = new Thread(new Runnable() {
+						    @Override
+						    public void run() {
 
-						    try {
-							    FlyingFileManager.unzip(targetpath, outputDir, false);
-						    } catch (Exception e) {
+							    String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
 
+							    try {
+								    FlyingFileManager.unzip(targetpath, outputDir, false);
+							    } catch (Exception e) {
+
+							    }
 						    }
-					    }
-				    });
-				    thread.start();
+					    });
+					    thread.start();
+				    }
 			    }
-		    }
-	    });
+		    });
+	    }
     }
 
     private static void getBackMp3ForLesson(final BE_PUB_LESSON lessonData,String title)
     {
-        if (lessonData.getBECONTENTTYPE().equalsIgnoreCase(ShareDefine.KContentTypeText) &&
-        lessonData.getBEOFFICIAL()==true)
+        if (lessonData.getBECONTENTTYPE().equalsIgnoreCase(ShareDefine.KContentTypeText) )
         {
             FlyingHttpTool.getContentResource(lessonData.getBELESSONID(), ShareDefine.kResource_Background, new FlyingHttpTool.GetContentResourceListener() {
                 @Override

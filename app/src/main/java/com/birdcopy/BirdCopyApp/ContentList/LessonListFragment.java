@@ -79,9 +79,9 @@ public class LessonListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        if(savedInstanceState!=null)
+	    if(savedInstanceState!=null)
         {
             String temp = savedInstanceState.getString(SAVED_DATA_KEY);
 
@@ -162,21 +162,21 @@ public class LessonListFragment extends Fragment
 
             FlyingHttpTool.getLessonList(mContentType, mDownloadType, mTag, currentLodingIndex, sortByTime, new FlyingHttpTool.GetLessonListListener() {
                 @Override
-                public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
+                public void completion(final ArrayList<BE_PUB_LESSON> lessonList, final String allRecordCount) {
 
                     if (lessonList != null || lessonList.size() != 0) {
-                        for (BE_PUB_LESSON data : lessonList) {
-                            mAdapter.add(data);
-                        }
-                        // stash all the data in our backing store
-                        mData.addAll(lessonList);
-
-                        mMaxNumOfLessons = Integer.parseInt(allRecordCount);
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
+	                            for (BE_PUB_LESSON data : lessonList) {
+		                            mAdapter.add(data);
+	                            }
+	                            // stash all the data in our backing store
+	                            mData.addAll(lessonList);
+
+	                            mMaxNumOfLessons = Integer.parseInt(allRecordCount);
                                 // notify the adapter that we can update now
                                 mAdapter.notifyDataSetChanged();
                             }

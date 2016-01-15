@@ -154,26 +154,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         mDrawMenu.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
-            }
+	        @Override
+	        public void onClick(View v) {
+		        // TODO Auto-generated method stub
+		        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+	        }
         });
 
         mTopScan.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanNow();
-            }
+	        @Override
+	        public void onClick(View v) {
+		        scanNow();
+	        }
         });
 
         mTopSearch.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                searchNow();
-            }
+	        @Override
+	        public void onClick(View v) {
+		        searchNow();
+	        }
         });
 
         mDrawMenuPosition = homeMenuPostion;
@@ -276,6 +276,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         //initActiveMenu();
     }
+
+	public void setmTopTitle(String topTitle)
+	{
+		mTopTitle.setText(topTitle);
+	}
 
     public void cancelMenuGesture()
     {
@@ -516,8 +521,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     };
 
 
-    private long mExitTime;
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
@@ -538,15 +541,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
                 else
                 {
-                    if ((System.currentTimeMillis() - mExitTime) < 2000)
+                    if (mTopTitle.getText().toString().equalsIgnoreCase(getString(R.string.left_drawer_item_home)))
                     {
-                        finish();
-
-                        String msg = "再按一次退出" + getString(R.string.app_name);
+                        String msg ="请点击左上角图标：）" ;
                         Toast.makeText(this, msg,
                                 Toast.LENGTH_SHORT).show();
-                        mExitTime = System.currentTimeMillis();
-
                     }
                     else
                     {
@@ -556,6 +555,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
             return true;
         }
+
         //拦截MENU按钮点击事件，让他无任何操作
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
@@ -768,7 +768,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void  shareMyApp()
     {
-        String title = "来自"+getString(R.string.app_name) +"的精彩分享";
+        String title ="精彩分享";
         String desc  = "我也有自己的App了：）";
 
         String url = ShareDefine.getAppWebURL();
@@ -780,7 +780,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
 
-            shareIntent.putExtra(Intent.EXTRA_TITLE, R.string.app_name);
+            shareIntent.putExtra(Intent.EXTRA_TITLE,  "分享精彩");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
             shareIntent.putExtra(Intent.EXTRA_TEXT, title +"\n"+desc+"\n"+webURL);
             startActivity(Intent.createChooser(shareIntent, "分享精彩"));
@@ -833,6 +833,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
+
+        super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode)
         {
             case ShareDefine.CHANNEL_REQUEST:
@@ -904,7 +907,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             default:
                 break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public  void dealWithScanString(String scanStr)

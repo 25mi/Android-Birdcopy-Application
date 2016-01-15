@@ -783,12 +783,11 @@ public class MuPDFActivity extends FragmentActivity {
 		//获取本地数据或者把网络数据存到本地
 		String lessonID =getIntent().getStringExtra(ShareDefine.KLessonID);
 
-		String audioFilePath= FlyingFileManager.getLessonBackgroundFilePath(lessonID);
+		String audioPath= FlyingFileManager.getLessonBackgroundFilePath(lessonID);
 
-		boolean flag = false;
-		File file = new File(audioFilePath);
 		// 判断目录或文件是否存在
-		if (!file.exists()) {  // 不存在返回 false
+		if (FlyingFileManager.fileExists(audioPath))
+		{  // 不存在返回 false
 
 			mAudioButton.setVisibility(View.GONE);
 			return;
@@ -806,7 +805,7 @@ public class MuPDFActivity extends FragmentActivity {
 					mp = new MediaPlayer();
 				}
 
-				mp.setDataSource(audioFilePath);
+				mp.setDataSource(FlyingFileManager.getFile(audioPath).getAbsolutePath());
 				mp.prepare();
 				mp.start();
 			}

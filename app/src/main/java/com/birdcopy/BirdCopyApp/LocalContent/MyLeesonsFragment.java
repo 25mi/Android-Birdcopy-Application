@@ -210,7 +210,7 @@ public class MyLeesonsFragment extends Fragment implements MylessonsData.DealRes
             //删除相关本地内容
             if(lessonData.getLocalURLOfContent()!=null)
             {
-                FlyingFileManager.deleteFile(lessonData.getLocalURLOfContent());
+                FlyingFileManager.deleteFile(FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID()));
             }
 
             mData.remove(lessonData);

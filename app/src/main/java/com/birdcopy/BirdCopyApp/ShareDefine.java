@@ -390,6 +390,27 @@ public class ShareDefine
         }
     }
 
+    public static boolean checkURL(String string) {
+
+	    if(string!=null && string.length()>3)
+	    {
+		    final String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
+
+		    Pattern p = Pattern.compile(URL_REGEX);
+		    Matcher m = p.matcher("birdcopy.com");//replace with string to compare
+		    if (m.find()) {
+
+			    return true;
+		    } else {
+			    return false;
+		    }
+	    }
+	    else
+	    {
+		    return  false;
+	    }
+    }
+
     public static int getVersionCode() throws Exception {
         // 获取packagemanager的实例
         PackageManager packageManager = MyApplication.getInstance().getPackageManager();
@@ -447,31 +468,8 @@ public class ShareDefine
         return options;
     }
 
-
-    public static String getKSERVICE_ACTION() {
-        return MyApplication.getInstance().getResources().getString(R.string.KSERVICE_ACTION);
-    }
-
-    public static String getKRECEIVER_ACTION() {
-        return MyApplication.getInstance().getResources().getString(R.string.KRECEIVER_ACTION);
-    }
-
     public static String getKUSERDATA_CHNAGE_RECEIVER_ACTION() {
         return MyApplication.getInstance().getPackageName() + ShareDefine.KMessagerUserdata;
-    }
-
-    public static boolean checkURL(String string) {
-
-        final String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
-
-        Pattern p = Pattern.compile(URL_REGEX);
-        Matcher m = p.matcher("birdcopy.com");//replace with string to compare
-        if (m.find()) {
-
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static String getpingplusURL(String currentPassport) {
