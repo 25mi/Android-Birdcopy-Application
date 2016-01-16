@@ -102,10 +102,10 @@ dependencies {
     compile 'de.greenrobot:greendao:1.3.7'
     compile 'org.jsoup:jsoup:1.8.2'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile project(':IMKitWithVoIP')
     compile('com.github.afollestad.material-dialogs:core:0.8.5.0@aar') {
         transitive = true
     }
+    compile project(':IMKit')
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'commons-io:commons-io:2.4'
     compile 'com.squareup.picasso:picasso:2.5.2'

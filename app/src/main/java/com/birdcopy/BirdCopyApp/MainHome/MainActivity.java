@@ -77,6 +77,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 {
     //顶部按钮
     private ImageView mDrawMenu;
+    private TextView  mUnReadTextView;
+
     private TextView mTopTitle;
     private ImageView mTopScan;
     private ImageView mTopSearch;
@@ -122,7 +124,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Fragment fg;
 
     //RongCloud
-    private  int mMessageCount=0;
+    private  int mMessageUnreadCount=0;
     public static final String ACTION_RONGCLOUD_RECEIVE_MESSAGE = "action_rongcloud_receive_message";
 
 
@@ -132,12 +134,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        //
+        initRongCloud();
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        initSlidingMenu();
         initView();
-
-        initRongCloud();
 
         checkNewApp();
     }
@@ -147,25 +149,29 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initView()
     {
+        initSlidingMenu();
+
         mDrawMenu = (ImageView) findViewById(R.id.top_menu);
+        mUnReadTextView = (TextView) findViewById(R.id.unreadcount);
+
         mTopTitle = (TextView) findViewById(R.id.top_title);
         mTopScan = (ImageView) findViewById(R.id.top_scan);
         mTopSearch = (ImageView) findViewById(R.id.top_search);
 
         mDrawMenu.setOnClickListener(new OnClickListener() {
 
-	        @Override
-	        public void onClick(View v) {
-		        // TODO Auto-generated method stub
-		        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
-	        }
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+            }
         });
 
         mTopScan.setOnClickListener(new OnClickListener() {
-	        @Override
-	        public void onClick(View v) {
-		        scanNow();
-	        }
+            @Override
+            public void onClick(View v) {
+                scanNow();
+            }
         });
 
         mTopSearch.setOnClickListener(new OnClickListener() {
@@ -215,6 +221,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 editor.putBoolean("showMenuDemo", true);
                 editor.commit();
             }
+        }
+    }
+
+    public void setmUnReadCount(String title)
+    {
+        if(title==null || title.equals("0") )
+        {
+            mUnReadTextView.setVisibility(View.GONE);
+        }
+        else
+        {
+            mUnReadTextView.setText(title);
+            mUnReadTextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -384,8 +403,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     {
         // Successfully got a response
         try {
-            MenuTask dTask = new MenuTask();
-            dTask.execute();
+
+	        RongIMClient.getInstance().getTotalUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+		        @Override
+		        public void onSuccess(Integer integer) {
+
+			        mMessageUnreadCount = integer;
+
+			        chat_btn.setSubCount(Integer.toString(mMessageUnreadCount));
+			        setmUnReadCount(Integer.toString(mMessageUnreadCount));
+		        }
+
+		        @Override
+		        public void onError(RongIMClient.ErrorCode errorCode) {
+
+
+		        }
+	        });
+
+	        MenuTask dTask = new MenuTask();
+	        dTask.execute();
         }
         catch (Exception e)
         {}
@@ -949,7 +986,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         {
             if (scanStr != null)
             {
-
                 String loginID = ShareDefine.getLoginIDFromQR(scanStr);
 
                 if (loginID!=null) {
@@ -987,7 +1023,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public  void checkNewApp()
     {
-
         FlyingHttpTool.checkNewVersionAPP(FlyingDataManager.getLocalAppID(), new FlyingHttpTool.CheckNewVersionAPPDListener() {
             @Override
             public void completion(boolean isOK, final String downloadURL) {
@@ -1051,19 +1086,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void  initRongCloud()
     {
         //准备融云环境
-        FlyingHttpTool.connectWithRongCloud();
+        FlyingHttpTool.connectWithRongCloud(new FlyingHttpTool.ConnectWithRongCloudIDListener() {
+	        @Override
+	        public void completion(Boolean result) {
+
+		        if (result == true) {
+
+			        RongIMClient.getInstance().getTotalUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+				        @Override
+				        public void onSuccess(Integer integer) {
+
+					        mMessageUnreadCount = integer;
+					        setmUnReadCount(Integer.toString(mMessageUnreadCount));
+				        }
+
+				        @Override
+				        public void onError(RongIMClient.ErrorCode errorCode) {
+
+
+				        }
+			        });
+		        }
+	        }
+        });
         getConversationPush();
         getPushMessage();
-
-        RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new RongIM.OnReceiveUnreadCountChangedListener() {
-            @Override
-            public void onMessageIncreased(int i) {
-
-                chat_btn.setSubCount(Integer.toString(i));
-
-                mMessageCount=i;
-            }
-        });
     }
 
     /**

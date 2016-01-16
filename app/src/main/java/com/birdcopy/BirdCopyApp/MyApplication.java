@@ -12,13 +12,10 @@ import android.support.multidex.MultiDexApplication;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDBManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
-import com.birdcopy.BirdCopyApp.DataManager.OpenUDID_manager;
 
-import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.IM.ContactNotificationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.DeAgreedFriendRequestMessage;
 import com.birdcopy.BirdCopyApp.IM.NewDiscussionConversationProvider;
-import com.birdcopy.BirdCopyApp.IM.RealTimeLocationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -91,7 +88,6 @@ public class MyApplication extends MultiDexApplication
                     RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
 
                     RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
-                    RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
 
                     //@ 消息模板展示
                     RongContext.getInstance().registerConversationTemplate(new NewDiscussionConversationProvider());

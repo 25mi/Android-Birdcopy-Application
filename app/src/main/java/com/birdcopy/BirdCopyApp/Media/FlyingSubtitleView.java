@@ -94,7 +94,9 @@ public class FlyingSubtitleView extends EditText
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 
-		switch (event.getAction()) {
+		switch (event.getAction())
+		{
+
 			case MotionEvent.ACTION_DOWN:
 				mLastMotionX = x;
 				mLastMotionY = y;
@@ -160,10 +162,12 @@ public class FlyingSubtitleView extends EditText
 
 	// 其实当前控件并没有获得焦点，我只是欺骗Android系统，让Android系统以我获得焦点的方式去处理
 	// 用于将该控件Add到其他View下,导致失去焦点.
-	@Override
-	@ViewDebug.ExportedProperty(category = "focus")
+	//@Override
+	//@ViewDebug.ExportedProperty(category = "focus")
 	public boolean isFocused() {
-		return super.isFocused();// return true一定有焦点
+
+		return false;
+		//return super.isFocused();// return true一定有焦点
 	}
 
 	private void cleanLongPress() {
@@ -260,9 +264,6 @@ public class FlyingSubtitleView extends EditText
 	private void onLongPressWord( String oldWord)
 	{
 
-		requestFocus();
-		setFocusable(false);
-
 		final String word = oldWord.toLowerCase();
 
 		if (!"".equals(word)) {
@@ -298,6 +299,11 @@ public class FlyingSubtitleView extends EditText
 				});
 
 			}
+		}
+		else
+		{
+			requestFocus();
+			setFocusable(false);
 		}
 
 		onTouchListenerDelegate.showWordMessageOver();

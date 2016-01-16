@@ -106,6 +106,14 @@
         <item name="android:width">15.0dip</item>
     </style>
 
+    <style name="top_unread_count">
+        <item name="android:textSize">10.0sp</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:height">15.0dip</item>
+        <item name="android:width">15.0dip</item>
+    </style>
+
     <style name="title_text_style">
         <item name="android:textSize">14.0sp</item>
         <item name="android:textColor">@color/title_text_color</item>

@@ -4,12 +4,31 @@
     style="@style/title_bar_style"
     android:orientation="horizontal">
 
-    <ImageView
+    <LinearLayout
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10.0dip">
+
+        <ImageView
             android:id="@+id/top_menu"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10.0dip"
             android:src="@drawable/ic_menu"/>
+
+        <TextView
+            android:id="@+id/unreadcount"
+            style="@style/top_unread_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dip"
+            android:layout_marginTop="0.0dip"
+            android:background="@drawable/home_unread_count_bg"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/top_title"

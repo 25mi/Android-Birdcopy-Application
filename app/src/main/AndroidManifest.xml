@@ -41,6 +41,7 @@
     <!-- 获取机型信息权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <!-- 防止设备休眠 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -186,46 +187,39 @@
             android:name="TencentMapSDK"
             android:value="CQGBZ-DQRWU-CNYVP-4F2OT-4XMDH-U4BT5" />
 
-        <activity android:name=".IM.RealTimeLocationActivity"/>
-
-        <activity android:name=".IM.FlyingLocationActivity"/>
-        <activity android:name=".IM.ShowPhotoActivity" />
-
         <!-- begin imlib request -->
-        <activity
-            android:name="io.rong.voipkit.activity.CallSideActivity"
-            android:screenOrientation="portrait">
+        <service
+            android:name="io.rong.imlib.ipc.RongService"
+            android:process=":ipc"></service>
+        <service android:name="io.rong.imlib.ReConnectService" />
+
+        <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
+        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="io.rong.imkit"
-                    android:pathPrefix="/VoIPCall"
-                    android:scheme="rong" />
+                <action android:name="io.rong.push.message" />
             </intent-filter>
-        </activity>
+        </receiver>
+        <receiver
+            android:name="io.rong.imlib.HeartbeatReceiver"
+            android:process=":ipc" />
 
         <activity
-            android:name="io.rong.voipkit.activity.CalledSideActivity"
-            android:excludeFromRecents="true"
-            android:screenOrientation="portrait">
+            android:name="io.rong.imkit.tools.SelectPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.tools.PreviewPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.tools.RongWebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.widget.provider.TakingPicturesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="io.rong.imkit"
-                    android:pathPrefix="/VoIPAccept"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
         <service
             android:name="io.rong.push.PushService"
-            android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -234,7 +228,7 @@
         </service>
         <service
             android:name="io.rong.push.CommandService"
-            android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -244,9 +238,9 @@
 
         <receiver
             android:name="io.rong.push.PushReceiver"
-            android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
-                <action android:name="io.rong.imlib.action.push.heartbeat" />
+                <action android:name="io.rong.push.HeartBeat" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -266,35 +260,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="io.rong.imkit.tools.SelectPictureActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.tools.PreviewPictureActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.tools.RongWebviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.widget.provider.TakingPicturesActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-
-        <service
-            android:name="io.rong.imlib.ipc.RongService"
-            android:process=":ipc" >
-        </service>
-        <service android:name="io.rong.imlib.ReConnectService" />
-
-        <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
-        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver" >
-            <intent-filter>
-                <action android:name="io.rong.push.message" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="io.rong.imlib.HeartbeatReceiver"
-            android:process=":ipc" />
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="e5t4ouvptjtsa" />

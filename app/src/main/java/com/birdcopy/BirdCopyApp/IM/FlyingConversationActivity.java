@@ -5,42 +5,33 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.FlyingWelcomeActivity;
-import java.util.List;
 import java.util.Locale;
 
-import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.UriFragment;
-import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.TextInputProvider;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.PublicServiceProfile;
 import io.rong.imlib.model.UserInfo;
-import io.rong.message.InformationNotificationMessage;
 
 import com.birdcopy.BirdCopyApp.R;
 
@@ -51,7 +42,8 @@ import com.birdcopy.BirdCopyApp.R;
  * 2，加载会话页面
  * 3，push 和 通知 判断
  */
-public class FlyingConversationActivity extends BaseActivity implements RongIMClient.RealTimeLocationListener {
+public class FlyingConversationActivity extends BaseActivity
+{
 
     private String TAG = FlyingConversationActivity.class.getSimpleName();
     /**
@@ -76,7 +68,7 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
     private boolean isDiscussion = false;
 
     private RelativeLayout mRealTimeBar;//real-time bar
-    private RealTimeLocationConstant.RealTimeLocationStatus currentLocationStatus;
+    //private RealTimeLocationConstant.RealTimeLocationStatus currentLocationStatus;
     //private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private LoadingDialog mDialog;
 
@@ -116,12 +108,6 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         checkTextInputEditTextChanged();
 
         isPushMessage(intent);
-
-        //地理位置共享，若不是用地理位置共享，可忽略
-        setRealTime();
-
-        if ("FlyingConversationActivity".equals(this.getClass().getSimpleName()))
-            EventBus.getDefault().register(this);
 
     }
 
@@ -330,7 +316,6 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         } else {
             getSupportActionBar().setTitle(R.string.de_actionbar_sub_defult);
         }
-
     }
 
     /**
@@ -496,19 +481,19 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
         switch (item.getItemId()) {
             case R.id.icon:
 
-                if (mConversationType == null)
-                    return true;
+	            if (mConversationType == null)
+		            return true;
 
-                enterSettingActivity();
+	            enterSettingActivity();
+
                 break;
-            case android.R.id.home:
-                if (!closeRealTimeLocation()) {
-                    finish();
-                }
-                break;
+
+	        case android.R.id.home:
+		        finish();
+		        break;
         }
 
-        return super.onOptionsItemSelected(item);
+	    return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -516,7 +501,7 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
      */
     private void enterSettingActivity() {
 
-        Toast.makeText(FlyingConversationActivity.this,"预留入口",Toast.LENGTH_SHORT);
+        Toast.makeText(FlyingConversationActivity.this,"预留入口",Toast.LENGTH_LONG);
         /*
         if (mConversationType == Conversation.ConversationType.PUBLIC_SERVICE
                 || mConversationType == Conversation.ConversationType.APP_PUBLIC_SERVICE) {
@@ -570,275 +555,20 @@ public class FlyingConversationActivity extends BaseActivity implements RongIMCl
     @Override
     protected void onResume() {
         super.onResume();
-        showRealTimeLocationBar(null);
     }
 
-
-/*－－－－－－－－－－－－－地理位置共享 start－－－－－－－－－*/
-
-    private void setRealTime() {
-
-        mRealTimeBar = (RelativeLayout) this.findViewById(R.id.layout);
-
-        mRealTimeBar.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (currentLocationStatus == null)
-                    currentLocationStatus = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, mTargetId);
-
-                if (currentLocationStatus == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
-
-                    final AlterDialogFragment alterDialogFragment = AlterDialogFragment.newInstance("", "加入位置共享", "取消", "加入");
-                    alterDialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
-
-                        @Override
-                        public void onDialogPositiveClick(AlterDialogFragment dialog) {
-                            RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, mTargetId);
-
-                            if (status == null || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
-                                startRealTimeLocation();
-                            } else {
-                                joinRealTimeLocation();
-                            }
-
-                        }
-
-                        @Override
-                        public void onDialogNegativeClick(AlterDialogFragment dialog) {
-                            alterDialogFragment.dismiss();
-                        }
-                    });
-                    alterDialogFragment.show(getSupportFragmentManager());
-
-                } else {
-                    Intent intent = new Intent(FlyingConversationActivity.this, RealTimeLocationActivity.class);
-                    intent.putExtra("conversationType", mConversationType.getValue());
-                    intent.putExtra("targetId", mTargetId);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        if (!TextUtils.isEmpty(mTargetId) && mConversationType != null) {
-
-            RealTimeLocationConstant.RealTimeLocationErrorCode errorCode = RongIMClient.getInstance().getRealTimeLocation(mConversationType, mTargetId);
-            if (errorCode == RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_SUCCESS || errorCode == RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_IS_ON_GOING) {
-                RongIMClient.getInstance().addRealTimeLocationListener(mConversationType, mTargetId, this);//设置监听
-                currentLocationStatus = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, mTargetId);
-
-                if (currentLocationStatus == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
-                    showRealTimeLocationBar(currentLocationStatus);
-                }
-            }
-        }
-
-
-    }
-
-    //real-time location method beign
-
-    private void startRealTimeLocation() {
-        RongIMClient.getInstance().startRealTimeLocation(mConversationType, mTargetId);
-        Intent intent = new Intent(FlyingConversationActivity.this, RealTimeLocationActivity.class);
-        intent.putExtra("conversationType", mConversationType.getValue());
-        intent.putExtra("targetId", mTargetId);
-        startActivity(intent);
-    }
-
-    private void joinRealTimeLocation() {
-        RongIMClient.getInstance().joinRealTimeLocation(mConversationType, mTargetId);
-        Intent intent = new Intent(FlyingConversationActivity.this, RealTimeLocationActivity.class);
-        intent.putExtra("conversationType", mConversationType.getValue());
-        intent.putExtra("targetId", mTargetId);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-
-            if (!closeRealTimeLocation()) {
-                super.onBackPressed();
-                this.finish();
-            }
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-
-    private boolean closeRealTimeLocation() {
-
-        if (mConversationType == null || TextUtils.isEmpty(mTargetId))
-            return false;
-
-        if (mConversationType != null && !TextUtils.isEmpty(mTargetId)) {
-
-            RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, mTargetId);
-
-            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
-                return false;
-            }
-        }
-
-        final AlterDialogFragment alterDialogFragment = AlterDialogFragment.newInstance("提示", "退出当前页面将会终止实时位置共享,确定退出？", "否", "是");
-        alterDialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
-            @Override
-            public void onDialogPositiveClick(AlterDialogFragment dialog) {
-                RongIMClient.getInstance().quitRealTimeLocation(mConversationType, mTargetId);
-                finish();
-            }
-
-            @Override
-            public void onDialogNegativeClick(AlterDialogFragment dialog) {
-                alterDialogFragment.dismiss();
-            }
-        });
-        alterDialogFragment.show(getSupportFragmentManager());
-
-        return true;
-    }
-
-
-    private void showRealTimeLocationBar(RealTimeLocationConstant.RealTimeLocationStatus status) {
-
-        if (status == null)
-            status = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, mTargetId);
-
-        final List<String> userIds = RongIMClient.getInstance().getRealTimeLocationParticipants(mConversationType, mTargetId);
-
-        if (status != null && status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
-
-            if (userIds != null && userIds.get(0) != null && userIds.size() == 1) {
-
-                FlyingHttpTool.getUserInfoByopenID(userIds.get(0), FlyingDataManager.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
-                    @Override
-                    public void completion(final UserInfo userInfo) {
-
-                        TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
-                        textView.setText(userInfo.getName() + " 正在共享位置");
-                    }
-                });
-            } else {
-                if (userIds != null && userIds.size() > 0) {
-                    if (mRealTimeBar != null) {
-                        TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
-                        textView.setText(userIds.size() + " 人正在共享位置");
-                    }
-                } else {
-                    if (mRealTimeBar != null && mRealTimeBar.getVisibility() == View.VISIBLE) {
-                        mRealTimeBar.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-        } else if (status != null && status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING) {
-            TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
-            textView.setText("你正在共享位置");
-        } else {
-
-            if (mRealTimeBar != null && userIds != null) {
-                TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
-                textView.setText(userIds.size() + " 人正在共享位置");
-            }
-        }
-
-        if (userIds != null && userIds.size() > 0) {
-
-            if (mRealTimeBar != null && mRealTimeBar.getVisibility() == View.GONE) {
-                mRealTimeBar.setVisibility(View.VISIBLE);
-            }
-        } else {
-
-            if (mRealTimeBar != null && mRealTimeBar.getVisibility() == View.VISIBLE) {
-                mRealTimeBar.setVisibility(View.GONE);
-            }
-        }
-
-    }
-
-    public void onEventMainThread(RongEvent.RealTimeLocationMySelfJoinEvent event) {
-
-        onParticipantsJoin(RongIM.getInstance().getRongIMClient().getCurrentUserId());
-    }
-
-    private void hideRealTimeBar() {
-        if (mRealTimeBar != null) {
-            mRealTimeBar.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     protected void onDestroy() {
-        if ("FlyingConversationActivity".equals(this.getClass().getSimpleName()))
-            EventBus.getDefault().unregister(this);
+
         super.onDestroy();
     }
 
-
-    @Override
-    public void onStatusChange(final RealTimeLocationConstant.RealTimeLocationStatus status) {
-        currentLocationStatus = status;
-
-        EventBus.getDefault().post(status);
-
-        if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
-            hideRealTimeBar();
-
-            RealTimeLocationConstant.RealTimeLocationErrorCode errorCode = RongIMClient.getInstance().getRealTimeLocation(mConversationType, mTargetId);
-
-            if (errorCode == RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_SUCCESS) {
-                RongIM.getInstance().getRongIMClient().insertMessage(mConversationType, mTargetId, RongIM.getInstance().getRongIMClient().getCurrentUserId(), InformationNotificationMessage.obtain("位置共享已结束"));
-            }
-        } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING) {//发自定义消息
-            showRealTimeLocationBar(status);
-        } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
-            showRealTimeLocationBar(status);
-        } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_CONNECTED) {
-            showRealTimeLocationBar(status);
-        }
-
-    }
-
-
-    @Override
-    public void onReceiveLocation(double latitude, double longitude, String userId) {
-        EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
-    }
-
-    @Override
-    public void onParticipantsJoin(String userId) {
-        EventBus.getDefault().post(RongEvent.RealTimeLocationJoinEvent.obtain(userId));
-
-        if (RongIMClient.getInstance().getCurrentUserId().equals(userId)) {
-            showRealTimeLocationBar(null);
-        }
-    }
-
-    @Override
-    public void onParticipantsQuit(String userId) {
-        EventBus.getDefault().post(RongEvent.RealTimeLocationQuitEvent.obtain(userId));
-    }
-
-    @Override
-    public void onError(RealTimeLocationConstant.RealTimeLocationErrorCode errorCode) {
-        Log.e(TAG, "onError:---" + errorCode);
-    }
-
-    /*－－－－－－－－－－－－－地理位置共享 end－－－－－－－－－*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
-            if (!closeRealTimeLocation()) {
-                this.finish();
-            }
-        }
-        return false;
-    }
+        return super.onKeyDown(keyCode,event);
 
+    }
 
 }

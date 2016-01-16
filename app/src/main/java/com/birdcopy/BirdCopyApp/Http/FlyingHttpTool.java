@@ -133,7 +133,12 @@ public class FlyingHttpTool {
     //#pragma  登录问题
     //////////////////////////////////////////////////////////////////////////////////
 
-    static public void connectWithRongCloud()
+    public interface ConnectWithRongCloudIDListener {
+
+        void completion(final Boolean result);
+    }
+
+    static public void connectWithRongCloud(final ConnectWithRongCloudIDListener delegate)
     {
         final String  currentPassport= FlyingDataManager.getCurrentPassport();
 
@@ -159,7 +164,7 @@ public class FlyingHttpTool {
                         if (code.equals("1")) {
 
                             String rongDeviceKoken = result.get("token").getAsString();
-                            httpGetTokenSuccess(rongDeviceKoken);
+                            httpGetTokenSuccess(rongDeviceKoken,delegate);
 
                         } else {
                             String errorInfo = result.get("rm").getAsString();
@@ -170,7 +175,7 @@ public class FlyingHttpTool {
                 });
     }
 
-    static private void httpGetTokenSuccess(final String token) {
+    static private void httpGetTokenSuccess(final String token,final ConnectWithRongCloudIDListener delegate) {
 
         Log.e("LoginActivity", "---------httpGetTokenSuccess----------:" + token);
         try {
@@ -191,6 +196,11 @@ public class FlyingHttpTool {
 
                             //清除Rong Token
                             FlyingDataManager.setRongToken(ShareDefine.RONG_DEFAULT_TOKEN);
+
+                            if(delegate!=null)
+                            {
+                                delegate.completion(false);
+                            }
                         }
 
                         @Override
@@ -201,12 +211,20 @@ public class FlyingHttpTool {
 
                             //保存Rong Token
                             FlyingDataManager.setRongToken(token);
+                            if(delegate!=null)
+                            {
+                                delegate.completion(true);
+                            }
                         }
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
 
                             Log.e("LoginActivity", "---------onError ----------:" + e);
+                            if(delegate!=null)
+                            {
+                                delegate.completion(false);
+                            }
                         }
                     }
             );

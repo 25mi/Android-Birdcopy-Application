@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_RongUser;
-import com.birdcopy.BirdCopyApp.IM.FlyingLocationActivity;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -32,7 +31,6 @@ public class FlyingIMContext {
     private HashMap<String, Group> groupMap;
     private FlyingRongUserDAO mRongUserDAO = new FlyingRongUserDAO();
     private ArrayList<UserInfo> mFriendInfos;
-    private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
 
 
     public static FlyingIMContext getInstance() {
@@ -51,8 +49,6 @@ public class FlyingIMContext {
     private FlyingIMContext(Context context) {
         mContext = context;
         mDemoContext = this;
-
-        RongIM.setLocationProvider(new LocationProvider());
     }
 
     public static void init(Context context) {
@@ -251,34 +247,4 @@ public class FlyingIMContext {
         }
         return groupReturn.getName();
     }
-
-
-    public RongIM.LocationProvider.LocationCallback getLastLocationCallback() {
-        return mLastLocationCallback;
-    }
-
-    public void setLastLocationCallback(RongIM.LocationProvider.LocationCallback lastLocationCallback) {
-        this.mLastLocationCallback = lastLocationCallback;
-    }
-
-    class LocationProvider implements RongIM.LocationProvider {
-
-        /**
-         * 位置信息提供者:LocationProvider 的回调方法，打开第三方地图页面。
-         *
-         * @param context  上下文
-         * @param callback 回调
-         */
-        @Override
-        public void onStartLocation(Context context, RongIM.LocationProvider.LocationCallback callback) {
-            /**
-             * demo 代码  开发者需替换成自己的代码。
-             */
-            FlyingIMContext.getInstance().setLastLocationCallback(callback);
-            Intent intent = new Intent(context, FlyingLocationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);//SOSO地图
-        }
-    }
-
 }
