@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_width="match_parent" android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/lesson_top_bar"
+            layout="@layout/lesson_head" />
+
+        <ListView
+            android:id="@+id/commentList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputcomment_box"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:paddingTop="5dip"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip">
+
+        <EditText
+            android:id="@+id/comment_edit_text"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:layout_height="42dp"
+            android:layout_marginLeft="5dip"
+            android:hint="骄傲的在这里输入评论"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionDone"/>
+
+        <ImageView
+            android:id="@+id/comment_btn"
+            android:layout_width="35dip"
+            android:layout_height="35dip"
+            android:src="@drawable/ic_action_repost_pressed"
+            android:scaleType="fitXY"
+            android:paddingTop="2dip"
+            />
+    </LinearLayout>
+
+</FrameLayout>

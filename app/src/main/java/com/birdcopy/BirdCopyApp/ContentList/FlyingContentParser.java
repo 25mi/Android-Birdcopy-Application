@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by songbaoqiang on 6/11/14.
  */
-public class FlyingLessonParser {
+public class FlyingContentParser {
 
     private static final String  kLessonList  = "lesson_list";
     private static final String  kEntryStr    = "lesson";

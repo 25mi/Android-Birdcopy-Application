@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="90dp"
+            android:id="@+id/lessonCoverGroup"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="50.0px"
+            android:scaleType="centerCrop"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lessonPageCover"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                />
+
+            <Button android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/lessonPagePlay"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_drawer_doc"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="你的潜力，我们的动力"
+            android:id="@+id/lessonPageTitle"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:layout_toRightOf="@id/lessonCoverGroup"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="24dp"/>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/graybutton"
+            android:text="离线欣赏"
+            android:id="@+id/buyButton"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical|center"
+            android:layout_toRightOf="@id/lessonCoverGroup"
+            android:layout_below="@id/lessonPageTitle"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="24dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="暂无简介：）"
+        android:id="@+id/lessonpageDesc"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5.0px"
+        />
+
+    <com.birdcopy.BirdCopyApp.Component.UI.tagview.TagView
+        android:id="@+id/tagview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        app:lineMargin="5dp"
+        app:tagMargin="3dp"
+        app:textPaddingBottom="3dp"
+        app:textPaddingLeft="10dp"
+        app:textPaddingRight="10dp"
+        app:textPaddingTop="3dp">
+    </com.birdcopy.BirdCopyApp.Component.UI.tagview.TagView>
+
+</LinearLayout>

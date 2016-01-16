@@ -121,7 +121,7 @@ public class ContentActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lesson);
+        setContentView(R.layout.content);
 
         setNeedBackGesture(true);
 
@@ -212,12 +212,15 @@ public class ContentActivity extends FragmentActivity
         mShareView = (ShareView) findViewById(R.id.share_view);
         mShareView.setShareIntent(getTxtIntent());
 
+	    //内容主体
+	    View content = getLayoutInflater().inflate(R.layout.content_main, null);
+
         //封面和播放按钮
-        mCoverView = (ImageView)findViewById(R.id.lessonPageCover);
+        mCoverView = (ImageView)content.findViewById(R.id.lessonPageCover);
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(mLessonData.getBEIMAGEURL(), mCoverView);
 
-        mPlayButton = (Button)findViewById(R.id.lessonPagePlay);
+        mPlayButton = (Button)content.findViewById(R.id.lessonPagePlay);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,10 +232,10 @@ public class ContentActivity extends FragmentActivity
         initPlayButton();
 
         //内容标题和购买下载按钮
-        mLessonTitleView =  (TextView)findViewById(R.id.lessonPageTitle);
+        mLessonTitleView =  (TextView)content.findViewById(R.id.lessonPageTitle);
         mLessonTitleView.setText(mLessonData.getBETITLE());
 
-        mBuyButton = (Button)findViewById(R.id.buyButton);
+        mBuyButton = (Button)content.findViewById(R.id.buyButton);
         mBuyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,7 +246,7 @@ public class ContentActivity extends FragmentActivity
         initBuyButton();
 
         //课程详情
-        mDescView  = (TextView)findViewById(R.id.lessonpageDesc);
+        mDescView  = (TextView)content.findViewById(R.id.lessonpageDesc);
 
         String desc = mLessonData.getBEDESC();
 
@@ -253,7 +256,7 @@ public class ContentActivity extends FragmentActivity
         }
 
         //关键词标签云
-        mTagView =  (TagView)findViewById(R.id.tagview);
+        mTagView =  (TagView)content.findViewById(R.id.tagview);
         mTagView.addTags(mTagList.toArray(new String[mTagList.size()]));
         mTagView.setOnTagClickListener(new OnTagClickListener() {
             @Override
@@ -272,8 +275,9 @@ public class ContentActivity extends FragmentActivity
 
         //评论
         mCommentListView = (ListView)findViewById(R.id.commentList);
+	    mCommentListView.addHeaderView(content);
 
-        if (mAdapter == null) {
+	    if (mAdapter == null) {
             mAdapter = new FlyingCommentListAdapter(ContentActivity.this, R.id.comment_item_content);
         }
         mCommentListView.setAdapter(mAdapter);
@@ -309,7 +313,7 @@ public class ContentActivity extends FragmentActivity
 
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-                final FlyingCommentData commentData = mData.get(position);
+                final FlyingCommentData commentData = mData.get(position-1);
 
                 if(!commentData.userID.equalsIgnoreCase(FlyingDataManager.getCurrentPassport()))
                 {

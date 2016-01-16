@@ -11,417 +11,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3cc824a-6ff3-418c-bb93-064efe1c063b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IMKit/IMKit.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Rong_IMKit_v2_4_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/home_unread_count_bg.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Rong_IMKit_v2_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/IMKitWithVoIP.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/build.gradle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/.classpath" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/assets/voip_ring_call.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/assets/voip_ring_called.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/java/io/rong/imkit/MainActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/Rong_IMKit_v2_4_1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/arm64-v8a/libRongIMLib.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/armeabi-v7a/libRongIMLib.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/armeabi-v7a/libRongIMVoip.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/armeabi-v7a/libumcs.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/armeabi/libRongIMLib.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/armeabi/libRongIMVoip.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/armeabi/libumcs.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/libs/x86/libRongIMLib.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/readme" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_add_people.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bar_back.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bar_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bar_more.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bg_albums_spinner.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bg_text_hover.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bg_text_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_bg_voice_popup.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_pub_service_enter_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_pub_service_enter_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_pub_service_follow_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_pub_service_follow_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_send_hover.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_send_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_voice_hover.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_btn_voice_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_call_answer.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_call_answer_down.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_call_over.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_call_over_down.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_call_refuse.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_call_refuse_down.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_checkbox_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_checkbox_pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_conversation_list_msg_send_failure.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_conversation_list_msg_sending.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_conversation_newmsg.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_default_discussion_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_default_group_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_default_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ed_pub_service_search_hover.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ed_pub_service_search_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_hands_free.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_hands_free_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_hands_free_down.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_albums_checked.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_albums_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_bubble_left.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_bubble_no_left.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_bubble_no_right.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_bubble_right.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_bubble_white.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_camera.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_def_coversation_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_def_msg_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_def_rich_content.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_delete.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_emoji_block.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_extend_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_extend_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_keyboard_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_keyboard_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_location.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_location_item_default.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_menu_keyboard.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_message_block.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_notice_loading.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_notice_point.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_notice_wraning.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_phone.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_picture.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_portrait_voip.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_setting_friends_add.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_setting_friends_delete.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_smiley_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_smiley_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_text.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_trangle.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_receive.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_receive_play1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_receive_play2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_receive_play3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_sent.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_sent_play1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_sent_play2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_voice_sent_play3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_6.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_7.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_8.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_cancel.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_volume_wraning.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_ic_warning.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_img_camera.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_mebmer_delete.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_precheckbox_normal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_precheckbox_pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_public_service_menu_bg.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_radio_button_off.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_radio_button_on.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_receive_voice_one.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_receive_voice_three.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_receive_voice_two.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_send_voice_one.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_send_voice_three.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_send_voice_two.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_sound_off.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_sound_off_disable.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_sound_off_down.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_unread_count_bg.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_unread_message_count.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_unread_remind_without_count.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_voice_icon_left.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_voice_icon_right.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_voice_unread.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_voide_message_unread.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_volume_four.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_volume_one.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_volume_three.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_volume_two.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/rc_volume_zero.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f004.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f30f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f319.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f332.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f339.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f33b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f349.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f356.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f35a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f366.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f36b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f377.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f37b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f381.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f382.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f384.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f389.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f393.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f3a4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f3b2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f3b5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f3c0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f3c2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f3e1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f434.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f436.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f437.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f44a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f44c.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f44d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f44e.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f44f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f451.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f46a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f46b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f47b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f47c.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f47d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f47f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f484.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f48a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f48b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f48d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f494.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4a1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4a2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4a3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4a4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4a9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4aa.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4b0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4da.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4de.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f4e2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f525.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f52b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f556.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f600.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f601.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f602.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f603.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f605.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f606.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f607.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f608.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f609.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f60a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f60b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f60c.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f60d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f60e.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f60f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f611.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f612.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f613.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f614.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f615.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f616.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f618.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f61a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f61c.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f61d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f61e.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f61f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f621.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f622.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f623.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f624.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f628.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f629.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f62a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f62b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f62c.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f62d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f62e.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f62f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f630.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f631.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f632.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f633.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f634.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f635.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f636.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f637.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f648.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f649.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f64a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f64f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f680.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f6ab.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f6b2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u1f6bf.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u23f0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u23f3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u2600.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u2601.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u2614.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u2615.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u261d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u263a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u26a1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u26bd.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u26c4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u26c5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u270a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u270b.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u270c.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u270f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u2744.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xhdpi/u2b50.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xxhdpi/rc_default_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xxhdpi/rc_group_default_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xxhdpi/rc_ic_bubble_white.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable-xxhdpi/rc_ic_warning.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_an_voice_receive.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_an_voice_sent.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_bg_editinput.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_bg_item.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_bg_menu.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_answer_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_finish_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_hands_free_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_input.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_over_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_public_service_enter_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_public_service_unfollow_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_refuse_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_send.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_sound_off_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_btn_voice.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_ed_public_service_search_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_ic_extend.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_ic_keyboard.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_ic_smiley.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_ic_voice.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_item_list_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_item_top_list_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_photo_checkbox.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_preview_checkbox.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/drawable/rc_switch_btn.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_ac_albums.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_ac_camera.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_ac_preview.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_ac_selected_pictrue.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_ac_webview.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_activity.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_calledside_layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_callside_layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_conversation_member_list.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_conversationlist.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_dialog_alter.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_messageinput.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_messagelist.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_photo.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_photo2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_public_service_inf.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_public_service_search.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_public_service_sub_list.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fr_test.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_fragment_base_setting.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_albums.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_app_service_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_base_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_conversation_member.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_discussion_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_discussion_notification_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_group_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_image_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_information_notification_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_location_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_preview_fragment.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_progress.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_input_menu.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_input_menu_item.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_input_menus.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_list.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_multi_rich_content_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_rich_content_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_public_service_search.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_rich_content_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_system_conversation.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_text_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_item_voice_message.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_ui_voice_cover.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_block.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_block_popup.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_emoji_grid.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_emoji_txt.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_ext_pager.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_input.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_notice.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_notification_loading.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_plugins.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_text_btn.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_txt_provider.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_vo_popup.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/layout/rc_wi_vo_provider.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values-en/rc_strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values-sw/rc_strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_attrs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_color.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_config.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_configuration.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_emoji.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_ids.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_string.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_style.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/IMKitWithVoIP/src/main/res/values/rc_theme.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app-inet-release.apk.zip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/AMap_Services_V2.5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/Android_2DMapApi_V2.5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/Android_Location_V1.3.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/TencentLocationSDK_v4.1.1_r175129.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/TencentMapSDK_Raster_v1.0.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/arm64-v8a/libtencentloc.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/armeabi-v7a/libtencentloc.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/armeabi/libtencentloc.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/libs/x86/libtencentloc.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/BasicMapActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/FlyingLocationActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/LocationMapActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationHorizontalScrollView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationInputProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RealTimeLocationMessageProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongHorizontalScrollView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/ShareContentProvider.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/BaseActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/BaseActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/FlyingConversationActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/FlyingConversationActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/AMap_Services_V2_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Android_2DMapApi_V2_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Android_Location_V1_3_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/TencentLocationSDK_v4_1_1_r175129.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/TencentMapSDK_Raster_v1_0_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/lesson.xml" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ContentList/FlyingLessonParser.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ContentList/FlyingContentParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Content/ContentActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Content/ContentActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Http/FlyingHttpTool.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Http/FlyingHttpTool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/DataManager/FlyingIMContext.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/DataManager/FlyingIMContext.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Media/FlyingSubtitleView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Media/FlyingSubtitleView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Account/ProfileFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Account/ProfileFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/IM/RongCloudEvent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/lesson.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/lesson.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/main_head.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_head.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Android-Birdcopy-Application.iws" />
@@ -471,6 +74,9 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <PATH>
@@ -481,6 +87,60 @@
               <PATH_ELEMENT>
                 <option name="myItemId" value="Android-Birdcopy-Application" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+            </PATH>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Android-Birdcopy-Application" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value=":app" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
+              </PATH_ELEMENT>
+            </PATH>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Android-Birdcopy-Application" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value=":app" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Tasks" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
+              </PATH_ELEMENT>
+            </PATH>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Android-Birdcopy-Application" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value=":app" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Tasks" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="build" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
               </PATH_ELEMENT>
             </PATH>
           </tree_state>
@@ -503,33 +163,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33242506">
-              <caret line="1098" column="0" selection-start-line="1098" selection-start-column="0" selection-end-line="1098" selection-end-column="0" />
+            <state vertical-scroll-proportion="-39.074074">
+              <caret line="512" column="9" selection-start-line="512" selection-start-column="9" selection-end-line="512" selection-end-column="9" />
               <folding>
-                <element signature="e#5946#5987#0" expanded="true" />
-                <element signature="e#8289#8330#0" expanded="true" />
-                <element signature="e#8916#8965#0" expanded="true" />
-                <element signature="e#9050#9094#0" expanded="true" />
-                <element signature="e#9306#9347#0" expanded="true" />
-                <element signature="e#9429#9470#0" expanded="true" />
-                <element signature="e#10904#10905#0" expanded="true" />
-                <element signature="e#10953#10954#0" expanded="true" />
-                <element signature="e#15699#15700#0" expanded="true" />
-                <element signature="e#15755#15756#0" expanded="true" />
-                <element signature="e#15980#16021#0" expanded="true" />
-                <element signature="e#17018#17067#0" expanded="true" />
-                <element signature="e#17225#17269#0" expanded="true" />
-                <element signature="e#18001#18002#0" expanded="true" />
-                <element signature="e#18040#18041#0" expanded="true" />
-                <element signature="e#18811#18852#0" expanded="true" />
-                <element signature="e#35092#35128#0" expanded="true" />
-                <element signature="e#35177#35189#0" expanded="true" />
-                <element signature="e#37786#38403#0" expanded="true" />
-                <element signature="e#38402#38403#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#5804#5845#0" expanded="true" />
+                <element signature="e#8147#8188#0" expanded="true" />
+                <element signature="e#8774#8823#0" expanded="true" />
+                <element signature="e#8908#8952#0" expanded="true" />
+                <element signature="e#9164#9205#0" expanded="true" />
+                <element signature="e#9287#9328#0" expanded="true" />
+                <element signature="e#10762#10763#0" expanded="true" />
+                <element signature="e#10811#10812#0" expanded="true" />
+                <element signature="e#15557#15558#0" expanded="true" />
+                <element signature="e#15613#15614#0" expanded="true" />
+                <element signature="e#15838#15879#0" expanded="true" />
+                <element signature="e#16876#16925#0" expanded="true" />
+                <element signature="e#17083#17127#0" expanded="true" />
+                <element signature="e#17280#17321#0" expanded="true" />
+                <element signature="e#17466#17507#0" expanded="true" />
+                <element signature="e#17973#17974#0" expanded="true" />
+                <element signature="e#18012#18013#0" expanded="true" />
+                <element signature="e#18570#18611#0" expanded="true" />
+                <element signature="e#34731#34767#0" expanded="true" />
+                <element signature="e#34816#34828#0" expanded="true" />
+                <element signature="e#37425#38042#0" expanded="true" />
+                <element signature="e#38041#38042#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.518518">
+              <caret line="22" column="39" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="39" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -544,27 +217,87 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyApplication.java">
+      <file leaf-file-name="FlyingDataManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/DataManager/FlyingDataManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="89" column="54" selection-start-line="89" selection-start-column="54" selection-end-line="89" selection-end-column="54" />
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding>
+                <element signature="e#956#1031#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="content.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.0344827">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContentActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Content/ContentActivity.java">
+      <file leaf-file-name="FlyingContentParser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ContentList/FlyingContentParser.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="123" column="37" selection-start-line="123" selection-start-column="37" selection-end-line="123" selection-end-column="37" />
+              <caret line="17" column="55" selection-start-line="17" selection-start-column="55" selection-end-line="17" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.39951575">
+              <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="content_main.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="26.37931">
+              <caret line="2" column="65" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="65" />
+              <folding>
+                <element signature="e#2750#3078#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="comment_head.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/comment_head.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="layoutResourceFile_vertical" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -7520,7 +7253,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="5808759631000" />
+        <entry key="$PROJECT_DIR$" value="5808864362000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -7959,7 +7692,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/settings.gradle" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/IMKit/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/IMKit/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyApplication.java" />
@@ -7976,9 +7708,15 @@
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/left_unread_count_bg.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/main_head.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/lesson.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Http/FlyingHttpTool.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/lesson.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ContentList/FlyingLessonParser.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ContentList/FlyingContentParser.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/content.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Content/ContentActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
       </list>
     </option>
   </component>
@@ -8041,86 +7779,6 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BirdCopyApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BirdCopyApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Birdcopy-Application" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="IMKit" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
@@ -8164,7 +7822,25 @@
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.app">
+  <component name="RunManager" selected="Gradle.Android-Birdcopy-Application:app [assembleBeiyang]">
+    <configuration default="false" name="Android-Birdcopy-Application:app [assembleBeiyang]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/app" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="assembleBeiyang" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -8219,6 +7895,22 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -8307,9 +7999,15 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Android Application.app" />
+      <item index="1" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application:app [assembleBeiyang]" />
     </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Gradle.Android-Birdcopy-Application:app [assembleBeiyang]" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="HTML_FILE_NAME" />
@@ -8349,7 +8047,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5327245" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6057839" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39878234" sideWeight="0.49353796" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5175038" sideWeight="0.49353796" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39878234" sideWeight="0.50646204" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -8357,13 +8055,13 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31098545" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20193861" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -8393,51 +8091,22 @@
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java</url>
-          <line>1098</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Content/ContentActivity.java</url>
+          <line>317</line>
           <properties />
-          <option name="timeStamp" value="24" />
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/app/src/main/res/layout/lesson.xml</url>
-          <line>119</line>
+          <url>file://$PROJECT_DIR$/app/src/main/res/layout/content.xml</url>
+          <line>23</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="25" />
+      <option name="time" value="27" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/widget/TextView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33227345">
-          <caret line="245" column="13" selection-start-line="245" selection-start-column="13" selection-end-line="245" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_menu.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Component/UI/ResideMenu/ResideMenuItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33227345">
-          <caret line="48" column="50" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/menu_item.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -8480,13 +8149,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/DataManager/FlyingDataManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0476948">
-          <caret line="129" column="26" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -8588,14 +8250,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.980922">
-          <caret line="125" column="13" selection-start-line="125" selection-start-column="13" selection-end-line="125" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -8781,33 +8435,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/lesson.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/comment_head.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55">
-          <caret line="109" column="18" selection-start-line="109" selection-start-column="13" selection-end-line="109" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/ContentList/FlyingContentParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="55" selection-start-line="17" selection-start-column="55" selection-end-line="17" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="26.37931">
+          <caret line="2" column="65" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="65" />
           <folding>
-            <element signature="e#736#3582#0" expanded="false" />
-            <element signature="e#3596#3988#0" expanded="false" />
-            <element signature="e#4002#4614#0" expanded="false" />
-            <element signature="e#4865#5908#0" expanded="false" />
+            <element signature="e#2750#3078#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0344827">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/DataManager/FlyingDataManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding>
+            <element signature="e#956#1031#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/Content/ContentActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="123" column="37" selection-start-line="123" selection-start-column="37" selection-end-line="123" selection-end-column="37" />
-          <folding />
+        <state vertical-scroll-proportion="0.14451827">
+          <caret line="317" column="0" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
+          <folding>
+            <element signature="e#8512#8936#0" expanded="true" />
+            <element signature="e#8935#8936#0" expanded="true" />
+            <element signature="e#11044#12012#0" expanded="true" />
+            <element signature="e#12011#12012#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MyApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="-1.3131956">
           <caret line="89" column="54" selection-start-line="89" selection-start-column="54" selection-end-line="89" selection-end-column="54" />
           <folding />
         </state>
@@ -8821,32 +8517,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.518518">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/birdcopy/BirdCopyApp/MainHome/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33242506">
-          <caret line="1098" column="0" selection-start-line="1098" selection-start-column="0" selection-end-line="1098" selection-end-column="0" />
+        <state vertical-scroll-proportion="-39.074074">
+          <caret line="512" column="9" selection-start-line="512" selection-start-column="9" selection-end-line="512" selection-end-column="9" />
           <folding>
-            <element signature="e#5946#5987#0" expanded="true" />
-            <element signature="e#8289#8330#0" expanded="true" />
-            <element signature="e#8916#8965#0" expanded="true" />
-            <element signature="e#9050#9094#0" expanded="true" />
-            <element signature="e#9306#9347#0" expanded="true" />
-            <element signature="e#9429#9470#0" expanded="true" />
-            <element signature="e#10904#10905#0" expanded="true" />
-            <element signature="e#10953#10954#0" expanded="true" />
-            <element signature="e#15699#15700#0" expanded="true" />
-            <element signature="e#15755#15756#0" expanded="true" />
-            <element signature="e#15980#16021#0" expanded="true" />
-            <element signature="e#17018#17067#0" expanded="true" />
-            <element signature="e#17225#17269#0" expanded="true" />
-            <element signature="e#18001#18002#0" expanded="true" />
-            <element signature="e#18040#18041#0" expanded="true" />
-            <element signature="e#18811#18852#0" expanded="true" />
-            <element signature="e#35092#35128#0" expanded="true" />
-            <element signature="e#35177#35189#0" expanded="true" />
-            <element signature="e#37786#38403#0" expanded="true" />
-            <element signature="e#38402#38403#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#5804#5845#0" expanded="true" />
+            <element signature="e#8147#8188#0" expanded="true" />
+            <element signature="e#8774#8823#0" expanded="true" />
+            <element signature="e#8908#8952#0" expanded="true" />
+            <element signature="e#9164#9205#0" expanded="true" />
+            <element signature="e#9287#9328#0" expanded="true" />
+            <element signature="e#10762#10763#0" expanded="true" />
+            <element signature="e#10811#10812#0" expanded="true" />
+            <element signature="e#15557#15558#0" expanded="true" />
+            <element signature="e#15613#15614#0" expanded="true" />
+            <element signature="e#15838#15879#0" expanded="true" />
+            <element signature="e#16876#16925#0" expanded="true" />
+            <element signature="e#17083#17127#0" expanded="true" />
+            <element signature="e#17280#17321#0" expanded="true" />
+            <element signature="e#17466#17507#0" expanded="true" />
+            <element signature="e#17973#17974#0" expanded="true" />
+            <element signature="e#18012#18013#0" expanded="true" />
+            <element signature="e#18570#18611#0" expanded="true" />
+            <element signature="e#34731#34767#0" expanded="true" />
+            <element signature="e#34816#34828#0" expanded="true" />
+            <element signature="e#37425#38042#0" expanded="true" />
+            <element signature="e#38041#38042#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39951575">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>

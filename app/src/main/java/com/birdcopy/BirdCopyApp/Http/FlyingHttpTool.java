@@ -15,7 +15,7 @@ import com.birdcopy.BirdCopyApp.ChannelManage.FlyingAlbumParser;
 import com.birdcopy.BirdCopyApp.Comment.CommentDataResult;
 import com.birdcopy.BirdCopyApp.Comment.FlyingCommentData;
 import com.birdcopy.BirdCopyApp.Content.FlyingItemparser;
-import com.birdcopy.BirdCopyApp.ContentList.FlyingLessonParser;
+import com.birdcopy.BirdCopyApp.ContentList.FlyingContentParser;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_TOUCH_RECORD;
@@ -1280,11 +1280,11 @@ public class FlyingHttpTool {
 
 			                        try {
 
-				                        FlyingLessonParser.parser(resultStr);
+				                        FlyingContentParser.parser(resultStr);
 
 				                        if(delegate!=null)
 				                        {
-					                        delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
+					                        delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
 				                        }
 			                        }
 			                        catch (Exception ex)
@@ -1369,7 +1369,7 @@ public class FlyingHttpTool {
 
 				                    try {
 
-					                    FlyingLessonParser.parser(resultStr);
+					                    FlyingContentParser.parser(resultStr);
 				                    }
 				                    catch (Exception ex)
 				                    {
@@ -1379,7 +1379,7 @@ public class FlyingHttpTool {
 
 				                    if(delegate!=null)
 				                    {
-					                    delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
+					                    delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
 				                    }
 			                    }
 		                    });
@@ -1431,11 +1431,11 @@ public class FlyingHttpTool {
 
 		                            try {
 
-			                            FlyingLessonParser.parser(resultStr);
+			                            FlyingContentParser.parser(resultStr);
 
 			                            if(delegate!=null)
 			                            {
-				                            delegate.completion(FlyingLessonParser.resultList, FlyingLessonParser.allRecordCount);
+				                            delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
 			                            }
 		                            }
 		                            catch (Exception ex)

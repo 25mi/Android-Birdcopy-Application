@@ -2,7 +2,6 @@ package com.birdcopy.BirdCopyApp.MainHome;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -18,8 +17,6 @@ import android.widget.FrameLayout;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDAO;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.Component.Document.WebFragment;
 import com.birdcopy.BirdCopyApp.Component.UI.ResideMenu.ResideMenu;
@@ -516,14 +513,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         {
             mDrawMenuPosition = scanMenuPostion;
 
-            scanNow();
+	        title = getString(R.string.left_drawer_item_scan);
+	        scanNow();
         }
 
         else if (view == chat_btn)
         {
             mDrawMenuPosition = chatMenuPostion;
 
-            showChatListNow();
+	        title = getString(R.string.left_drawer_item_chat);
+	        showChatListNow();
         }
 
                 /*
@@ -563,33 +562,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK)
         {
-            if (resideMenu.isOpened())
-            {
-                resideMenu.closeMenu();
-            }
-            else
-            {
-                if(fg instanceof WebFragment)
-                {
-                    //WebFragment webFragment=(WebFragment)fg;
-                    //webFragment.onKeyDown(keyCode, event);
+	        if(fg instanceof WebFragment)
+	        {
+		        //WebFragment webFragment=(WebFragment)fg;
+		        //webFragment.onKeyDown(keyCode, event);
 
-                    return super.onKeyDown(keyCode, event);
-                }
-                else
-                {
-                    if (mTopTitle.getText().toString().equalsIgnoreCase(getString(R.string.left_drawer_item_home)))
-                    {
-                        String msg ="请点击左上角图标：）" ;
-                        Toast.makeText(this, msg,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        return super.onKeyDown(keyCode, event);
-                    }
-                }
-            }
+		        return super.onKeyDown(keyCode, event);
+	        }
+	        else
+	        {
+		        if (mTopTitle.getText().toString().equalsIgnoreCase(getString(R.string.left_drawer_item_home)))
+		        {
+			        if (!resideMenu.isOpened())
+			        {
+				        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+			        }
+		        }
+		        else
+		        {
+			        return super.onKeyDown(keyCode, event);
+		        }
+	        }
             return true;
         }
 
