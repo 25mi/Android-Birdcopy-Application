@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="KAppName">艾奈特</string>
+
+    <string name="KAndroidAppID">it.birdcopy.inet</string>
+
     <string name="KServerNetAddress">it.birdcopy.com</string>
+    <string name="KRongToken">pgyu6atqykgju</string>
+
     <string name="KlessonQwner">inet</string>
-    <string name="KLocalAppID">fa75cf6337ee7a88ec32d7502904642e</string>
+    <string name="KBirdCopyAppID">fa75cf6337ee7a88ec32d7502904642e</string>
 
 </resources>

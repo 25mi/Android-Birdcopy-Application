@@ -175,7 +175,7 @@ public class ContentActivity extends FragmentActivity
     {
         //获取年费会员数据
         new FlyingHttpTool().getMembership(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
                     @Override
                     public void completion(Date startDate, Date endDate) {
@@ -318,7 +318,7 @@ public class ContentActivity extends FragmentActivity
                 if(!commentData.userID.equalsIgnoreCase(FlyingDataManager.getCurrentPassport()))
                 {
 
-                    FlyingHttpTool.getUserInfoByopenID(commentData.userID, FlyingDataManager.getLocalAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                    FlyingHttpTool.getUserInfoByopenID(commentData.userID, FlyingDataManager.getBirdcopyAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
                         @Override
                         public void completion(UserInfo userInfo) {
 
@@ -764,7 +764,7 @@ public class ContentActivity extends FragmentActivity
 
             final FlyingCommentData  finalCommentData = commentData;
             FlyingHttpTool.updateComment(finalCommentData,
-                    FlyingDataManager.getLocalAppID(),
+                    FlyingDataManager.getBirdcopyAppID(),
                     new FlyingHttpTool.UpdateCommentListener() {
                         @Override
                         public void completion(boolean isOK) {
@@ -798,7 +798,7 @@ public class ContentActivity extends FragmentActivity
 
         FlyingHttpTool.toBuyProduct(ContentActivity.this,
                 FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 good);
     }
 
@@ -857,7 +857,7 @@ public class ContentActivity extends FragmentActivity
 
             //向服务器备份消费数据
             FlyingHttpTool.uploadContentStatistic(FlyingDataManager.getCurrentPassport(),
-                    FlyingDataManager.getLocalAppID(),null);
+                    FlyingDataManager.getBirdcopyAppID(),null);
 
             mHasRight=true;
             initBuyButton();

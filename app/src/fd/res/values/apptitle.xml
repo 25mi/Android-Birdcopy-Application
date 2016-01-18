@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="KAppName">社科金融</string>
+
+    <string name="KAndroidAppID">fd.birdcopy.fd</string>
     <string name="KServerNetAddress">fd.birdcopy.com</string>
+    <string name="KRongToken">x4vkb1qpvcx9k</string>
+
     <string name="KlessonQwner">fd</string>
-    <string name="KLocalAppID">1e490d862e2a41a5891c8768fb4e2d7a</string>
+    <string name="KBirdCopyAppID">1e490d862e2a41a5891c8768fb4e2d7a</string>
 
 </resources>

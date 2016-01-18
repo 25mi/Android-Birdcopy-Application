@@ -16,6 +16,7 @@ import android.view.ViewDebug;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
@@ -278,7 +279,9 @@ public class FlyingSubtitleView extends EditText
 			}
 			else
 			{
-				FlyingHttpTool.getItems(word, new FlyingHttpTool.GetItemsListener() {
+				FlyingHttpTool.getItems(word,
+						FlyingDataManager.getBirdcopyAppID(),
+						new FlyingHttpTool.GetItemsListener() {
 					@Override
 					public void completion(boolean isOK) {
 						if(isOK)

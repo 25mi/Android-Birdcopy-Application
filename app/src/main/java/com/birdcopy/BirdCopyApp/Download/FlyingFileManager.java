@@ -41,7 +41,7 @@ public class FlyingFileManager {
 
 	public static String getUserLocalDir() {
 
-        String relativePath = KUserDataFoldName + File.separator + FlyingDataManager.getLocalAppID();
+        String relativePath = KUserDataFoldName + File.separator + FlyingDataManager.getBirdcopyAppID();
 	    File dir = getFile(relativePath);
 
         if (!dir.exists()) {

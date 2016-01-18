@@ -863,7 +863,7 @@ public final class RongCloudEvent implements
             if (scanStr != null)
             {
                 FlyingHttpTool.chargingCrad(FlyingDataManager.getCurrentPassport(),
-                        FlyingDataManager.getLocalAppID(),
+                        FlyingDataManager.getBirdcopyAppID(),
                         scanStr,
                         new FlyingHttpTool.ChargingCradListener() {
                             @Override
@@ -885,7 +885,7 @@ public final class RongCloudEvent implements
 
                     FlyingHttpTool.loginWithQR(loginID,
                             FlyingDataManager.getCurrentPassport(),
-                            FlyingDataManager.getLocalAppID(),
+		                    FlyingDataManager.getBirdcopyAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                                 @Override
                                 public void completion(boolean isOK) {

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="KApplicaionID">e.birdcopy.beiyang</string>
+    <string name="KAppName">菜鸟微群</string>
 
-    <string name="KServerNetAddress">www.birdcopy.com</string>
-    <string name="KlessonQwner">BirdCopyApp</string>
-    <string name="KLocalAppID">BirdCopyAppID</string>
+    <string name="KAndroidAppID">fd.birdcopy.fd</string>
+
+    <string name="KServerNetAddress">fd.birdcopy.com</string>
+    <string name="KRongToken">x4vkb1qpvcx9k</string>
+
+    <string name="KlessonQwner">fd</string>
+    <string name="KBirdCopyAppID">1e490d862e2a41a5891c8768fb4e2d7a</string>
 
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

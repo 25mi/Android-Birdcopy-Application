@@ -245,7 +245,7 @@ public class ShareDefine
         return "http://" +
                 FlyingDataManager.getServerNetAddress() +
                 "/aa_get_app_info_from_hp.action?app_id=" +
-                FlyingDataManager.getLocalAppID() +
+                FlyingDataManager.getBirdcopyAppID() +
                 "&type=img1";
     }
 
@@ -253,7 +253,7 @@ public class ShareDefine
         return "http://" +
                 FlyingDataManager.getServerNetAddress() +
                 "/aa_get_app_info_from_hp.action?app_id=" +
-                FlyingDataManager.getLocalAppID() +
+                FlyingDataManager.getBirdcopyAppID() +
                 "&type=page";
     }
 
@@ -478,7 +478,7 @@ public class ShareDefine
                 "/ua_get_user_info_from_hp.action?tuser_key=" +
                 currentPassport +
                 "&app_id=" +
-                FlyingDataManager.getLocalAppID() +
+                FlyingDataManager.getBirdcopyAppID() +
                 "&type=validth";
     }
 

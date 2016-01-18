@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
 
         //获取会员金币数据
         FlyingHttpTool.getMoneyData(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 new FlyingHttpTool.GetMoneyDataListener() {
                     @Override
                     public void completion(boolean isOK) {
@@ -118,7 +118,7 @@ public class ProfileFragment extends Fragment {
 
         //获取年费会员数据
         FlyingHttpTool.getMembership(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 new FlyingHttpTool.GetMembershipListener() {
                     @Override
                     public void completion(Date startDate, Date endDate) {
@@ -244,7 +244,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(getActivity(), "你已经是年费会员！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "你已经是年费会员！测试！！！！！！", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -302,7 +302,7 @@ public class ProfileFragment extends Fragment {
                         mNikeName.setText(nickName);
 
                         FlyingHttpTool.refreshUesrInfo(FlyingDataManager.getCurrentPassport(),
-                                FlyingDataManager.getLocalAppID(),
+                                FlyingDataManager.getBirdcopyAppID(),
                                 nickName,
                                 null,
                                 null,
@@ -327,7 +327,7 @@ public class ProfileFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         FlyingHttpTool.toBuyProduct(mainActivity,
                 FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 good);
     }
 
@@ -434,7 +434,7 @@ public class ProfileFragment extends Fragment {
     public void uploadPortImage(File portraitFile)
     {
         FlyingHttpTool.requestUploadPotrait(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 portraitFile,
                 new FlyingHttpTool.RequestUploadPotraitListener() {
                     @Override

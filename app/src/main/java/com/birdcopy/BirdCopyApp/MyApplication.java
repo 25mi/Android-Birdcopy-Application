@@ -19,6 +19,8 @@ import com.birdcopy.BirdCopyApp.IM.NewDiscussionConversationProvider;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.pingplusplus.android.PingppLog;
+
 import java.io.IOException;
 
 import io.rong.imkit.RongContext;
@@ -45,6 +47,9 @@ public class MyApplication extends MultiDexApplication
             mInstance = this;
         }
 
+
+	    PingppLog.DEBUG = true;
+
         FlyingDataManager.init();
         FlyingDBManager.initDB();
         initRongCloud();
@@ -67,7 +72,7 @@ public class MyApplication extends MultiDexApplication
          * 只有两个进程需要初始化，主进程和 push 进程
          */
 
-        if (getString(R.string.KApplicaionID).equals(getCurProcessName(getApplicationContext())) ||
+        if (getString(R.string.KAndroidAppID).equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
             RongIM.init(this);
@@ -77,7 +82,7 @@ public class MyApplication extends MultiDexApplication
              *
              * 注册相关代码，只需要在主进程里做。
              */
-            if (getString(R.string.KApplicaionID).equals(getCurProcessName(getApplicationContext()))) {
+            if (getString(R.string.KAndroidAppID).equals(getCurProcessName(getApplicationContext()))) {
 
                 RongCloudEvent.init(this);
                 FlyingIMContext.init(this);

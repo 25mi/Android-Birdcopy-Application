@@ -177,7 +177,6 @@ public class FlyingHttpTool {
 
     static private void httpGetTokenSuccess(final String token,final ConnectWithRongCloudIDListener delegate) {
 
-        Log.e("LoginActivity", "---------httpGetTokenSuccess----------:" + token);
         try {
             /**
              * IMKit SDK调用第二步
@@ -192,7 +191,7 @@ public class FlyingHttpTool {
                         @Override
                         public void onTokenIncorrect() {
 
-                            Log.e("LoginActivity", "---------onTokenIncorrect ----------:");
+                            Log.e("httpGetTokenSuccess", "---------onTokenIncorrect ----------:");
 
                             //清除Rong Token
                             FlyingDataManager.setRongToken(ShareDefine.RONG_DEFAULT_TOKEN);
@@ -220,7 +219,7 @@ public class FlyingHttpTool {
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
 
-                            Log.e("LoginActivity", "---------onError ----------:" + e);
+                            Log.e("httpGetTokenSuccess", "---------onError ----------:" + e);
                             if(delegate!=null)
                             {
                                 delegate.completion(false);
@@ -1631,7 +1630,7 @@ public class FlyingHttpTool {
                 "&content="+
                 commentData.commentContent+
                 "&app_id="+
-                FlyingDataManager.getLocalAppID();
+                appID;
 
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
@@ -1666,6 +1665,7 @@ public class FlyingHttpTool {
 
     static public void getContentResource(String contentID,
                                          String resourceType,
+                                          String appID,
                                          final GetContentResourceListener delegate) {
 
         String url =  "http://"+
@@ -1676,7 +1676,7 @@ public class FlyingHttpTool {
                 "&md5_value="+
                 contentID+
                 "&app_id="+
-                FlyingDataManager.getLocalAppID();
+                appID;
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
                 .load(url)
@@ -1764,6 +1764,7 @@ public class FlyingHttpTool {
     }
 
     static public void getShareBaseZIPURL(String resourceType,
+                                          String appID,
                                 final GetShareBaseZIPURLListener delegate) {
 
         String url =  "http://"+
@@ -1771,7 +1772,7 @@ public class FlyingHttpTool {
                 "/la_get_res_url_from_hp.action?type="+
                 resourceType+
                 "&app_id="+
-                FlyingDataManager.getLocalAppID();
+                appID;
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
                 .load(url)
@@ -1810,6 +1811,7 @@ public class FlyingHttpTool {
     }
 
     static public void getItems(String word,
+                                String appID,
                                 final GetItemsListener delegate)
     {
         String url =  "http://"+
@@ -1817,7 +1819,7 @@ public class FlyingHttpTool {
                 "/la_get_dic_list_for_hp.action?word="+
                 word+
                 "&app_id="+
-                FlyingDataManager.getLocalAppID();
+                appID;
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
                 .load(url)

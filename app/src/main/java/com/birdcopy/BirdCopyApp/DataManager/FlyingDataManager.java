@@ -39,8 +39,8 @@ public class FlyingDataManager {
         return MyApplication.getInstance().getResources().getString(R.string.KlessonQwner);
     }
 
-    public static String getLocalAppID() {
-        return MyApplication.getInstance().getResources().getString(R.string.KLocalAppID);
+    public static String getBirdcopyAppID() {
+        return MyApplication.getInstance().getResources().getString(R.string.KBirdCopyAppID);
     }
 
     static public String getCurrentPassport()
@@ -151,7 +151,7 @@ public class FlyingDataManager {
         Date newEnddate = ca.getTime();
 
         FlyingHttpTool.updateMembership(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 newStartDate,
                 newEnddate, null);
     }
@@ -161,7 +161,7 @@ public class FlyingDataManager {
     {
         //获取头像、昵称
         FlyingHttpTool.getUserInfoByopenID(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 new FlyingHttpTool.GetUserInfoByopenIDListener() {
                     @Override
                     public void completion(UserInfo userInfo) {
@@ -173,21 +173,21 @@ public class FlyingDataManager {
 
         //从服务器获取会员资格
         FlyingHttpTool.getMembership(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 null);
 
         //苹果渠道购买、金币消费、点击单词统计
         FlyingHttpTool.getMoneyData(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 null);
         //充值卡记录
         FlyingHttpTool.getQRData(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 null);
 
         //内容相关数据
         FlyingHttpTool.getContentStatistic(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getLocalAppID(),
+                FlyingDataManager.getBirdcopyAppID(),
                 null);
     }
 }

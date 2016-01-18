@@ -36,7 +36,6 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <!--  位置权限 -->
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 获取机型信息权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -46,9 +45,8 @@
     <!-- 防止设备休眠 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
     <!--获取联系人信息，demo中演示发送通讯录消息-->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -61,7 +59,7 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
-        android:label="北阳英语"
+        android:label="@string/KAppName"
         android:largeHeap="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
@@ -86,18 +84,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="e.birdcopy.com"
+                    android:host="@string/KServerNetAddress"
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".Content.ContentActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".Content.FlyingWebViewActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".Search.SearchActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ChannelActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".Content.ContentActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Content.FlyingWebViewActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Search.SearchActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ChannelActivity" android:screenOrientation="portrait" />
         <activity android:name=".ImageShowActivity" />
         <activity
             android:name=".Scan.ScanActivity"
@@ -107,8 +101,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".Comment.FlyingCommentActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".Comment.FlyingCommentActivity" android:screenOrientation="portrait" />
 
         <!--PDF阅读器 -->
         <activity
@@ -158,7 +151,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="e.birdcopy.beiyang"
+                    android:host="@string/KAndroidAppID"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" /><!-- 不能修改 -->
             </intent-filter>
@@ -176,16 +169,11 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:host="e.birdcopy.beiyang"
+                    android:host="@string/KAndroidAppID"
                     android:path="/subconversationlist"
                     android:scheme="rong" /><!-- 不能修改 -->
             </intent-filter>
         </activity>
-
-        <!-- soso   地图 -->
-        <meta-data
-            android:name="TencentMapSDK"
-            android:value="CQGBZ-DQRWU-CNYVP-4F2OT-4XMDH-U4BT5" />
 
         <!-- begin imlib request -->
         <service
@@ -262,7 +250,7 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="e5t4ouvptjtsa" />
+            android:value="@string/KRongToken" />
         <!-- end -->
 
         <!-- Ping++ SDK 注册 -->
@@ -284,7 +272,7 @@
 
         <!-- 微信支付注册 -->
         <activity-alias
-            android:name="e.birdcopy.beiyang.wxapi.WXPayEntryActivity"
+            android:name="it.birdcopy.inet.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="com.pingplusplus.android.PaymentActivity" />
 

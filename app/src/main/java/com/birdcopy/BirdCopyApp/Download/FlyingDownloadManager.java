@@ -6,6 +6,7 @@ import android.util.Log;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDBManager;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.koushikdutta.async.future.FutureCallback;
@@ -225,7 +226,10 @@ public class FlyingDownloadManager {
     {
         if (lessonData.getBECONTENTTYPE().equalsIgnoreCase(ShareDefine.KContentTypeText) )
         {
-            FlyingHttpTool.getContentResource(lessonData.getBELESSONID(), ShareDefine.kResource_Background, new FlyingHttpTool.GetContentResourceListener() {
+            FlyingHttpTool.getContentResource(lessonData.getBELESSONID(),
+                    ShareDefine.kResource_Background,
+                    FlyingDataManager.getBirdcopyAppID(),
+                    new FlyingHttpTool.GetContentResourceListener() {
                 @Override
                 public void completion(String resultURL) {
 
@@ -252,7 +256,9 @@ public class FlyingDownloadManager {
 
     public static void  downloadShareDicZip(final  DownloadShareDicDataListener delegate) {
 
-	    FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicAllType, new FlyingHttpTool.GetShareBaseZIPURLListener() {
+	    FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicAllType,
+                FlyingDataManager.getBirdcopyAppID(),
+                new FlyingHttpTool.GetShareBaseZIPURLListener() {
             @Override
             public void completion(String resultURL) {
 

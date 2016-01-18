@@ -3,7 +3,6 @@ package com.birdcopy.BirdCopyApp.MainHome;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,7 +69,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.message.ContactNotificationMessage;
 
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener
+public class MainActivity extends FragmentActivity implements View.OnClickListener,Thread.UncaughtExceptionHandler
 {
     //顶部按钮
     private ImageView mDrawMenu;
@@ -131,6 +130,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+	    //在此调用下面方法，才能捕获到线程中的异常
+	    Thread.setDefaultUncaughtExceptionHandler(this);
+
         //
         initRongCloud();
 
@@ -140,6 +142,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         checkNewApp();
     }
+
+	//必须实现接口uncaughtException
+	@Override
+	public void uncaughtException(Thread arg0, Throwable arg1) {
+		//在此处理异常， arg1即为捕获到的异常
+		Log.i("AAA", "uncaughtException   " + arg1);
+	}
 
     /**
      * 初始化layout控件
@@ -855,7 +864,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             ShareDefine.broadUserDataChange();
             FlyingHttpTool.uploadMoneyData(FlyingDataManager.getCurrentPassport(),
-                    FlyingDataManager.getLocalAppID(),
+		            FlyingDataManager.getBirdcopyAppID(),
                     null);
         }
     }
@@ -963,7 +972,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             {
 
                 FlyingHttpTool.chargingCrad(FlyingDataManager.getCurrentPassport(),
-                        FlyingDataManager.getLocalAppID(),
+		                FlyingDataManager.getBirdcopyAppID(),
                         scanStr,
                         new FlyingHttpTool.ChargingCradListener() {
                             @Override
@@ -985,7 +994,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                     FlyingHttpTool.loginWithQR(loginID,
                             FlyingDataManager.getCurrentPassport(),
-                            FlyingDataManager.getLocalAppID(),
+		                    FlyingDataManager.getBirdcopyAppID(),
                             new FlyingHttpTool.LoginWithQRListener() {
                                 @Override
                                 public void completion(boolean isOK) {
@@ -1016,44 +1025,47 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public  void checkNewApp()
     {
-        FlyingHttpTool.checkNewVersionAPP(FlyingDataManager.getLocalAppID(), new FlyingHttpTool.CheckNewVersionAPPDListener() {
+        FlyingHttpTool.checkNewVersionAPP(FlyingDataManager.getBirdcopyAppID(),
+		        new FlyingHttpTool.CheckNewVersionAPPDListener() {
             @Override
             public void completion(boolean isOK, final String downloadURL) {
 
                 if(isOK)
                 {
+	                final String apkPath =FlyingFileManager.getAPPFilePath();
+
                     new AlertDialogWrapper.Builder(MainActivity.this)
                             .setTitle("友情提醒")
                             .setMessage(getString(R.string.upgrade_app__ACK))
-                            .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+		                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			                    @Override
+			                    public void onClick(DialogInterface dialog, int which) {
 
-                                    if (which == AlertDialog.BUTTON_POSITIVE){
+				                    FlyingHttpTool.downloadFile(downloadURL, apkPath, new FlyingHttpTool.DownloadFileListener() {
+					                    @Override
+					                    public void completion(boolean isOK, String targetpath) {
 
-                                        FlyingHttpTool.downloadFile(downloadURL, FlyingFileManager.getAPPFilePath(), new FlyingHttpTool.DownloadFileListener() {
-                                            @Override
-                                            public void completion(boolean isOK, String targetpath) {
+						                    if (isOK) {
 
-                                                if(isOK)
-                                                {
-                                                    File file = new File(targetpath);
-                                                    if(!file.exists()){
-                                                        return ;
-                                                    }
+							                    File file = FlyingFileManager.getFile(targetpath);
 
-                                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                                    intent.setDataAndType(Uri.fromFile(file),
-                                                            "application/vnd.android.package-archive");
-                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        });
-                                    }
-                                    dialog.dismiss();
-                                }
-                            }).show();
+							                    Intent intent = new Intent(Intent.ACTION_VIEW);
+							                    intent.setDataAndType(Uri.fromFile(file),
+									                    "application/vnd.android.package-archive");
+							                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							                    startActivity(intent);
+						                    }
+					                    }
+				                    });
+			                    }
+		                    })
+		                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			                    @Override
+			                    public void onClick(DialogInterface dialog, int which) {
+
+				                    dialog.dismiss();
+			                    }
+		                    }).show();
                 }
             }
         });

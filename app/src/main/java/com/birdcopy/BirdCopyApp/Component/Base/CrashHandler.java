@@ -127,7 +127,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     public void collectDeviceInfo(Context ctx) {
         try {
             PackageManager pm = ctx.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(FlyingDataManager.getLocalAppID(), PackageManager.GET_ACTIVITIES);
+            PackageInfo pi = pm.getPackageInfo(FlyingDataManager.getBirdcopyAppID(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
                 String versionName = pi.versionName == null ? "null" : pi.versionName;
                 String versionCode = pi.versionCode + "";
