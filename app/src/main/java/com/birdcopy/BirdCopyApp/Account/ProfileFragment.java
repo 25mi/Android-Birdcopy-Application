@@ -244,7 +244,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(getActivity(), "你已经是年费会员！测试！！！！！！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "你已经是年费会员!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
