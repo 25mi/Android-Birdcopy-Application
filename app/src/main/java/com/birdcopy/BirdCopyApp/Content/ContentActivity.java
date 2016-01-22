@@ -42,8 +42,8 @@ import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.Media.FlyingPlayerActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.dgmltn.shareeverywhere.ShareView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pingplusplus.libone.PayActivity;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -217,8 +217,9 @@ public class ContentActivity extends FragmentActivity
 
         //封面和播放按钮
         mCoverView = (ImageView)content.findViewById(R.id.lessonPageCover);
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(mLessonData.getBEIMAGEURL(), mCoverView);
+	    Picasso.with(this)
+			    .load(mLessonData.getBEIMAGEURL())
+			    .into(mCoverView);
 
         mPlayButton = (Button)content.findViewById(R.id.lessonPagePlay);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -763,32 +764,30 @@ public class ContentActivity extends FragmentActivity
             commentData.commentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
             final FlyingCommentData  finalCommentData = commentData;
-            FlyingHttpTool.updateComment(finalCommentData,
-                    FlyingDataManager.getBirdcopyAppID(),
-                    new FlyingHttpTool.UpdateCommentListener() {
-                        @Override
-                        public void completion(boolean isOK) {
+            FlyingHttpTool.uploadComment(finalCommentData,
+		            FlyingDataManager.getBirdcopyAppID(),
+		            new FlyingHttpTool.UploadCommentListener() {
+			            @Override
+			            public void completion(boolean isOK) {
 
-                            if(isOK)
-                            {
-                                //清空输入框
-                                mCommnetEditText.setText("");
+				            if (isOK) {
+					            //清空输入框
+					            mCommnetEditText.setText("");
 
-                                mAdapter.insert(finalCommentData, 0);
-                                mData.add(0, finalCommentData);
-                                mMaxNumOfComments = mMaxNumOfComments+1;
+					            mAdapter.insert(finalCommentData, 0);
+					            mData.add(0, finalCommentData);
+					            mMaxNumOfComments = mMaxNumOfComments + 1;
 
-                                // notify the adapter that we can update now
-                                mAdapter.notifyDataSetChanged();
+					            // notify the adapter that we can update now
+					            mAdapter.notifyDataSetChanged();
 
-                                if(mFooterView == null)
-                                {
-                                    mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
-                                    mCommentListView.addFooterView(mFooterView);
-                                }
-                            }
-                        }
-                    });
+					            if (mFooterView == null) {
+						            mFooterView = LayoutInflater.from(ContentActivity.this).inflate(R.layout.comment_foot, null);
+						            mCommentListView.addFooterView(mFooterView);
+					            }
+				            }
+			            }
+		            });
         }
     }
 

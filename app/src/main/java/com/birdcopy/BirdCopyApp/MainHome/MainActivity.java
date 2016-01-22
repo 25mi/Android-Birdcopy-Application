@@ -810,7 +810,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         String title ="精彩分享";
         String desc  = "我也有自己的App了：）";
 
-        String url = ShareDefine.getAppWebURL();
+        String url =
+		    FlyingDataManager.getServerNetAddress() +
+		    "/aa_get_app_info_from_hp.action?app_id=" +
+		    FlyingDataManager.getBirdcopyAppID() +
+		    "&type=page";
 
         try
         {
@@ -1025,7 +1029,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public  void checkNewApp()
     {
-        FlyingHttpTool.checkNewVersionAPP(FlyingDataManager.getBirdcopyAppID(),
+        FlyingHttpTool.checkNewVersionAPP(FlyingDataManager.getCurrentPassport(),
+		        FlyingDataManager.getBirdcopyAppID(),
 		        new FlyingHttpTool.CheckNewVersionAPPDListener() {
             @Override
             public void completion(boolean isOK, final String downloadURL) {
@@ -1091,31 +1096,33 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void  initRongCloud()
     {
         //准备融云环境
-        FlyingHttpTool.connectWithRongCloud(new FlyingHttpTool.ConnectWithRongCloudIDListener() {
-	        @Override
-	        public void completion(Boolean result) {
+        FlyingHttpTool.connectWithRongCloud(FlyingDataManager.getCurrentPassport(),
+		        FlyingDataManager.getBirdcopyAppID(),
+		        new FlyingHttpTool.ConnectWithRongCloudIDListener() {
+			        @Override
+			        public void completion(Boolean result) {
 
-		        if (result == true) {
+				        if (result == true) {
 
-			        RongIMClient.getInstance().getTotalUnreadCount(new RongIMClient.ResultCallback<Integer>() {
-				        @Override
-				        public void onSuccess(Integer integer) {
+					        RongIMClient.getInstance().getTotalUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+						        @Override
+						        public void onSuccess(Integer integer) {
 
-					        mMessageUnreadCount = integer;
-					        setmUnReadCount(Integer.toString(mMessageUnreadCount));
+							        mMessageUnreadCount = integer;
+							        setmUnReadCount(Integer.toString(mMessageUnreadCount));
+						        }
+
+						        @Override
+						        public void onError(RongIMClient.ErrorCode errorCode) {
+
+
+						        }
+					        });
 				        }
-
-				        @Override
-				        public void onError(RongIMClient.ErrorCode errorCode) {
-
-
-				        }
-			        });
-		        }
-	        }
-        });
-        getConversationPush();
-        getPushMessage();
+			        }
+		        });
+	    getConversationPush();
+	    getPushMessage();
     }
 
     /**

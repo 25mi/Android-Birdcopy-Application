@@ -17,8 +17,6 @@ import com.birdcopy.BirdCopyApp.IM.ContactNotificationMessageProvider;
 import com.birdcopy.BirdCopyApp.IM.DeAgreedFriendRequestMessage;
 import com.birdcopy.BirdCopyApp.IM.NewDiscussionConversationProvider;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pingplusplus.android.PingppLog;
 
 import java.io.IOException;
@@ -53,8 +51,6 @@ public class MyApplication extends MultiDexApplication
         FlyingDataManager.init();
         FlyingDBManager.initDB();
         initRongCloud();
-
-        initImageLoader(getApplicationContext());
 
         //CrashHandler crashHandler = CrashHandler.getInstance();
         //crashHandler.init(getApplicationContext());
@@ -122,19 +118,6 @@ public class MyApplication extends MultiDexApplication
         return null;
     }
 
-
-    /** 初始化ImageLoader */
-    public static void initImageLoader(Context context)
-    {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .memoryCacheExtraOptions(1920, 1080) // default = device screen dimensions
-            .build();
-
-        // Initialize ImageLoader with configuration.
-        ImageLoader.getInstance().init(config);
-    }
-
-
     public static SharedPreferences getSharedPreference()
     {
         return MyApplication.getInstance().getSharedPreferences("mySetting",MODE_PRIVATE);
@@ -181,8 +164,5 @@ public class MyApplication extends MultiDexApplication
     public void onLowMemory()
     {
         super.onLowMemory();
-
-        //系统内存降低的时候，回收bitmap缓存
-        ImageLoader.getInstance().clearMemoryCache();
     }
 }

@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.birdcopy.BirdCopyApp.ShareDefine;
-import com.birdcopy.BirdCopyApp.Component.Tools.Options;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by vincentsung on 12/18/15.
@@ -20,9 +18,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class FlyingCommentListAdapter extends ArrayAdapter<FlyingCommentData> {
 
     private static final String TAG = "FlyingCommentListAdapter";
-
-    DisplayImageOptions options = Options.getListOptions();
-    protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     static class ViewHolder {
         ImageView commentPortrait;
@@ -69,7 +64,9 @@ public class FlyingCommentListAdapter extends ArrayAdapter<FlyingCommentData> {
 
         if(itemData.portraitURL!=null &&itemData.portraitURL.length()>0)
         {
-            imageLoader.displayImage(itemData.portraitURL, vh.commentPortrait);
+            Picasso.with(getContext())
+                    .load(itemData.portraitURL)
+                    .into(vh.commentPortrait);
         }
         else
         {

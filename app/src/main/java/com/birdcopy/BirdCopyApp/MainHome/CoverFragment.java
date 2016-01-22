@@ -12,7 +12,7 @@ import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by birdcopy on 22/9/14.
@@ -61,8 +61,9 @@ public class CoverFragment  extends Fragment
             }
         });
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(mLessonData.getBEIMAGEURL(), imageView);
+        Picasso.with(getContext())
+                .load(mLessonData.getBEIMAGEURL())
+                .into(imageView);
 
 
         if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))

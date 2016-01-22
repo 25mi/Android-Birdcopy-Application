@@ -2,11 +2,15 @@ package com.birdcopy.BirdCopyApp.Search;
 
 import android.os.Handler;
 import android.os.Message;
+
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.artifex.mupdfdemo.AsyncTask;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpGet;
 import com.koushikdutta.async.http.AsyncHttpResponse;
+
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,7 +49,24 @@ public class SearchData
     };
     public void getTagListStrByTag(String tag,int count)
     {
-        String url = ShareDefine.getTagListStrByTag(tag, count);
+        if (tag == null) {
+            tag = "";
+        }
+
+        try {
+            tag = URLEncoder.encode(tag, "utf-8");
+        } catch (Exception e) {
+        }
+
+        String url = FlyingDataManager.getServerNetAddress() +
+                "/la_get_tag_string_for_hp.action?vc=3&perPageCount=" +
+                count +
+                "&page=" +
+                1 +
+                "&ln_tag=" +
+                tag +
+                "&ln_owner=" +
+                FlyingDataManager.getLessonOwner();
 
         try
         {

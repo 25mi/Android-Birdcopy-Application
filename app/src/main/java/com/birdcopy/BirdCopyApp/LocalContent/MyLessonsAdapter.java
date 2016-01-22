@@ -13,7 +13,7 @@ import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /***
  * ADAPTER
@@ -65,8 +65,9 @@ public class MyLessonsAdapter extends ArrayAdapter<BE_PUB_LESSON> {
 
         BE_PUB_LESSON itemData = (BE_PUB_LESSON)getItem(position);
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(itemData.getBEIMAGEURL(), vh.mMyLessonCoverImageView);
+        Picasso.with(getContext())
+                .load(itemData.getBEIMAGEURL())
+                .into(vh.mMyLessonCoverImageView);
 
         vh.mMyLessonTitleTextView.setText(itemData.getBETITLE());
         convertView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);

@@ -5,19 +5,14 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.birdcopy.BirdCopyApp.ChannelManage.AlbumData;
-import com.birdcopy.BirdCopyApp.Component.Tools.Options;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /***
  * ADAPTER
@@ -26,9 +21,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class AlbumListAdapter extends ArrayAdapter<AlbumData> {
 
     private static final String TAG = "AlbumListAdapter";
-
-    DisplayImageOptions options= Options.getListOptions();
-    protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     static class ViewHolder {
         TextView albumTitleTextView;
@@ -69,35 +61,10 @@ public class AlbumListAdapter extends ArrayAdapter<AlbumData> {
         AlbumData itemData = (AlbumData)getItem(position);
 
         vh.albumTitleTextView.setText(itemData.getTagString());
+        Picasso.with(getContext())
+                .load(itemData.getImageURL())
+                .into(vh.albumCoverImageView);
 
-        vh.albumCoverImageView.setVisibility(View.INVISIBLE);
-        imageLoader.displayImage(itemData.getImageURL(), vh.albumCoverImageView);
-
-        int fadeInDuration = 2000; // Configure time values here
-
-        Animation fadeIn = new AlphaAnimation(0, 1);
-        fadeIn.setInterpolator(new AccelerateInterpolator()); // add this
-        fadeIn.setDuration(fadeInDuration);
-
-        fadeIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation)
-            {
-                vh.albumCoverImageView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        vh.albumCoverImageView.setAnimation(fadeIn);
         convertView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
 
         return convertView;

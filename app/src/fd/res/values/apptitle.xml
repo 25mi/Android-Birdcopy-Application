@@ -4,7 +4,7 @@
     <string name="KAppName">社科金融</string>
 
     <string name="KAndroidAppID">fd.birdcopy.fd</string>
-    <string name="KServerNetAddress">fd.birdcopy.com</string>
+    <string name="KServerNetAddress">http://fd.birdcopy.com</string>
     <string name="KRongToken">x4vkb1qpvcx9k</string>
 
     <string name="KlessonQwner">fd</string>

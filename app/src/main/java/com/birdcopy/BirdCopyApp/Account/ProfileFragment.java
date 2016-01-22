@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -219,18 +220,10 @@ public class ProfileFragment extends Fragment {
     {
         String portraitUri = FlyingDataManager.getPortraitUri();
 
-        if (portraitUri != null && portraitUri.contains("http"))
-        {
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(portraitUri, mUserCover);
-        }
-        else
-        {
-            mUserCover.setImageResource(R.drawable.default_head);
-
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(portraitUri, mUserCover);
-        }
+	    Picasso.with(getContext())
+			    .load(portraitUri)
+			    .placeholder(R.drawable.default_head)
+			    .into(mUserCover);
     }
 
     private void initStaticViewAndMembership()
@@ -244,7 +237,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(getActivity(), "你已经是年费会员!", Toast.LENGTH_SHORT).show();
+	                    Toast.makeText(getActivity(), "你已经是年费会员!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -326,9 +319,9 @@ public class ProfileFragment extends Fragment {
 
         MainActivity mainActivity = (MainActivity) getActivity();
         FlyingHttpTool.toBuyProduct(mainActivity,
-                FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getBirdcopyAppID(),
-                good);
+		        FlyingDataManager.getCurrentPassport(),
+		        FlyingDataManager.getBirdcopyAppID(),
+		        good);
     }
 
     private void toScanCoin() {
@@ -411,7 +404,11 @@ public class ProfileFragment extends Fragment {
                             //为防止原始图片过大导致内存溢出，这里先缩小原图显示，然后释放原始Bitmap占用的内存
                             Bitmap smallBitmap = zoomBitmap(photo, photo.getWidth() / scale, photo.getHeight() / scale);
                             //释放原始图片占用的内存，防止out of memory异常发生
-                            photo.recycle();
+
+	                        if(smallBitmap != photo ) {
+
+		                        photo.recycle();
+	                        }
 
                             mUserCover.setImageBitmap(smallBitmap);
                             savePhotoTOLocal(smallBitmap);
@@ -482,7 +479,7 @@ public class ProfileFragment extends Fragment {
         }
         catch (Exception e)
         {
-            //Log.i("Error writing bitmap", e);
+	        Log.e("Error writing bitmap", e.getMessage());
         }
     }
 }

@@ -135,7 +135,9 @@ public class FlyingIMContext {
 
         if(rongUser==null)
         {
-            String url = ShareDefine.getUsrInfoByRongID(rongID);
+            String url =  FlyingDataManager.getServerNetAddress() +
+                    "/tu_rc_get_usr_from_hp.action?user_id=" +
+                    rongID;
 
             Ion.with(MyApplication.getInstance().getApplicationContext())
                     .load(url)

@@ -45,21 +45,122 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Retrofit;
+import retrofit2.ScalarsConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by vincentsung on 12/16/15.
  */
 public class FlyingHttpTool {
 
+	//////////////////////////////////////////////////////////////////////////////////
+	//基础封装Retrofit
+	//////////////////////////////////////////////////////////////////////////////////
+	private static final String API_URL = FlyingDataManager.getServerNetAddress();
+
+	public interface BirdCopyService {
+
+		@GET("aa_get_app_info_from_hp.action")
+		Call<ResponseBody> checkNewVersionAPP(@QueryMap Map<String, String> params);
+
+		@GET("tu_rc_get_urt_from_hp.action")
+		Call<RongCloudTokenResult> connectWithRongCloud(@QueryMap Map<String, String> params);
+
+		@GET("tu_rc_get_usr_from_hp.action")
+		Call<UserInfoResult>  getUserInfoByopenID(@QueryMap Map<String, String> params);
+
+		@GET("tu_rc_sync_urb_from_hp.action")
+		Call<CallResult> refreshUesrInfo(@QueryMap Map<String, String> params);
+
+		@GET("ua_reg_user_from_hp.action")
+		Call<ResponseBody> regOpenUDID(@QueryMap Map<String, String> params);
+
+		@GET("tu_ua_get_status_from_tn.action")
+		Call<CallResultCode> verifyOpenUDID(@QueryMap Map<String, String> params);
+
+		@GET("ua_send_prelogin_info_from_hp.action")
+		Call<ResponseBody> loginWithQR(@QueryMap Map<String, String> params);
+
+		@GET("pa_get_on_from_tn.action")
+		Call<GetOrderNoResult> getOrderNo(@QueryMap Map<String, String> params);
+
+		@GET("ua_get_user_info_from_hp.action")
+		Call<ResponseBody> getMembership(@QueryMap Map<String, String> params);
+
+		@GET("ua_sync_validth_from_hp.action")
+		Call<CallResult> updateMembership(@QueryMap Map<String, String> params);
+
+		@GET("ua_get_user_info_from_hp.action")
+		Call<ResponseBody> getMoneyData(@QueryMap Map<String, String> params);
+
+		@GET("ua_sync_accobk_from_hp.action")
+		Call<ResponseBody> uploadMoneyData(@QueryMap Map<String, String> params);
+
+
+		@GET("la_get_user_info_from_hp.action")
+		Call<ResponseBody> getQRData(@QueryMap Map<String, String> params);
+
+
+		@GET("la_topup_pwd_from_hp.action")
+		Call<ResponseBody> chargingCrad(@QueryMap Map<String, String> params);
+
+		@GET("ua_get_user_info_from_hp.action")
+		Call<ResponseBody> getContentStatistic(@QueryMap Map<String, String> params);
+
+
+		@GET("ua_sync_lnclick_from_hp.action")
+		Call<ResponseBody> uploadContentStatistic(@QueryMap Map<String, String> params);
+
+		@GET("la_get_ln_detail_for_hp.action")
+		Call<ResponseBody> getLessonData(@QueryMap Map<String, String> params);
+
+		@GET("la_get_ln_list_for_hp.action")
+		Call<ResponseBody> getLessonList(@QueryMap Map<String, String> params);
+
+
+		@GET("tu_add_ct_from_tn.action")
+		Call<CallResult> uploadComment(@QueryMap Map<String, String> params);
+
+
+		@Multipart
+		@POST("tu_rc_sync_urp_from_hp.action")
+		Call<UpUserProtraitResult> uploadPotrait(@Part("tuser_key") RequestBody userId
+				, @Part("portrait\"; filename=\"portrait.png ")RequestBody image);
+	}
+
+	static private Retrofit retrofit = new Retrofit.Builder()
+			.baseUrl(API_URL)
+			.addConverterFactory(GsonConverterFactory.create())
+			.client(new OkHttpClient())
+			.build();
+
+	static private BirdCopyService birdCopyService = retrofit.create(BirdCopyService.class);
 
     //////////////////////////////////////////////////////////////////////////////////
     //#pragma 检查APP是否有新版本
@@ -69,64 +170,72 @@ public class FlyingHttpTool {
         void completion(final boolean isOK, final String downloadURL);
     }
 
-    static public void checkNewVersionAPP(String appID,
-                                           final CheckNewVersionAPPDListener delegate ) {
+    static public void checkNewVersionAPP(final String account,
+                                          final String appID,
+                                          final CheckNewVersionAPPDListener delegate )
+    {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("type", "max");
 
-        String url = "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/aa_get_app_info_from_hp.action?app_id=" +
-                appID +
-                "&type=max";
+	    Call<ResponseBody> apiCall = birdCopyService.checkNewVersionAPP(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+			    try{
 
-                        if (result != null) {
-                            String resultStr = result.getResult();
+				    String resultStr = response.body().string();
 
-                            String[] separated = resultStr.split(";");
+				    if (resultStr != null) {
+					    String[] separated = resultStr.split(";");
 
-                            String version = separated[0]; // this will contain "Fruit"
-                            String downloadURL = separated[1]; // this will contain "Fruit"
+					    String version = separated[0]; // this will contain "Fruit"
+					    String downloadURL = separated[1]; // this will contain "Fruit"
 
-                            boolean isOK =false;
+					    boolean isOK = false;
 
-                            if(version!=null)
-                            {
-                                try
-                                {
-                                    if(Integer.parseInt(version)>ShareDefine.getVersionCode()){
+					    if (version != null) {
+						    try {
+							    if (Integer.parseInt(version) > ShareDefine.getVersionCode()) {
 
-                                        isOK=true;
-                                    }
-                                    else
-                                    {
-                                        isOK=false;
+								    isOK = true;
+							    } else {
+								    isOK = false;
 
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    ex.printStackTrace();
-                                }
-                            }
+							    }
+						    } catch (Exception ex) {
+							    ex.printStackTrace();
+						    }
+					    }
 
-                            if (delegate != null) {
+					    if (delegate != null) {
 
-                                delegate.completion(isOK,downloadURL);
-                            }
-                        }
-                    }
-                });
+						    delegate.completion(isOK, downloadURL);
+					    }
+				    }
+
+			    }
+			    catch (IOException e)
+			    {
+				    if (delegate != null) {
+
+					    delegate.completion(false, null);
+				    }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+
+				    delegate.completion(false, null);
+			    }
+		    }
+	    });
+
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -138,41 +247,41 @@ public class FlyingHttpTool {
         void completion(final Boolean result);
     }
 
-    static public void connectWithRongCloud(final ConnectWithRongCloudIDListener delegate)
+    static public void connectWithRongCloud(final String account,
+                                            String appID,
+                                            final ConnectWithRongCloudIDListener delegate)
     {
-        final String  currentPassport= FlyingDataManager.getCurrentPassport();
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
 
-        String url =  "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/tu_rc_get_urt_from_hp.action?tuser_key=" +
-                currentPassport;
+	    Call<RongCloudTokenResult> apiCall = birdCopyService.connectWithRongCloud(map);
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+	    apiCall.enqueue(new Callback<RongCloudTokenResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<RongCloudTokenResult> response) {
 
-                        if (e != null) {
-                            //Toast.makeText(FlyingWelcomeActivity.this, "Error get RongToken", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String code = result.get("rc").getAsString();
+			    RongCloudTokenResult result = response.body();
 
-                        if (code.equals("1")) {
+			    if ("1".equals(result.getRc())) {
 
-                            String rongDeviceKoken = result.get("token").getAsString();
-                            httpGetTokenSuccess(rongDeviceKoken,delegate);
+				    String rongDeviceKoken = result.getToken();
+				    httpGetTokenSuccess(rongDeviceKoken, delegate);
 
-                        } else {
-                            String errorInfo = result.get("rm").getAsString();
-                            Toast.makeText(MyApplication.getInstance().getApplicationContext(), errorInfo, Toast.LENGTH_SHORT).show();
-                        }
+			    } else {
+				    String errorInfo = result.getRm();
+				    Toast.makeText(MyApplication.getInstance().getApplicationContext(), errorInfo, Toast.LENGTH_SHORT).show();
+			    }
+		    }
 
-                    }
-                });
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    Log.e("Network Avail Error", t.getMessage());
+
+		    }
+	    });
+
     }
 
     static private void httpGetTokenSuccess(final String token,final ConnectWithRongCloudIDListener delegate) {
@@ -243,40 +352,40 @@ public class FlyingHttpTool {
 
     static public void getUserInfoByopenID(final String account,
                                    String appID,
-                                   final GetUserInfoByopenIDListener delegate ) {
+                                           final GetUserInfoByopenIDListener delegate ) {
 
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/tu_rc_get_usr_from_hp.action?tuser_key=" +
-                account;
+	    Map<String,String> map = new HashMap<>();
+	    map.put("tuser_key", account);
+	    map.put("app_id", appID);
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+	    Call<UserInfoResult> apiCall = birdCopyService.getUserInfoByopenID(map);
+	    apiCall.enqueue(new Callback<UserInfoResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<UserInfoResult> response) {
 
-                        UserInfo userInfo = null;
+			    UserInfoResult result = response.body();
+			    UserInfo userInfo = null;
 
-                        String code = result.get("rc").getAsString();
+			    if ("1".equals(result.getRc())) {
 
-                        if (code.equals("1")) {
+				    userInfo = new UserInfo(ShareDefine.getMD5(account), result.getName(), Uri.parse(result.getPortraitUri()));
 
-                            String name = result.get("name").getAsString();
-                            Uri uri = Uri.parse(result.get("portraitUri").getAsString());
-                            userInfo = new UserInfo(ShareDefine.getMD5(account), name, uri);
+				    FlyingIMContext.getInstance().addOrReplaceRongUserInfo(userInfo);
+			    }
 
-                            FlyingIMContext.getInstance().addOrReplaceRongUserInfo(userInfo);
-                        }
+			    if (delegate != null) {
+				    delegate.completion(userInfo);
+			    }
+		    }
 
-                        if (delegate != null) {
-                            delegate.completion(userInfo);
-                        }
-                    }
-                });
+		    @Override
+		    public void onFailure(Throwable t) {
 
+			    if (delegate != null) {
+				    delegate.completion(null);
+			    }
+		    }
+	    });
     }
 
     public interface RequestUploadPotraitListener {
@@ -284,61 +393,124 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void requestUploadPotrait(final String acount,
+    static public void requestUploadPotrait(final String account,
                                             final String appID,
                                             File portraitFile,
                                             final RequestUploadPotraitListener delegate)
     {
-        String url="http://"+ FlyingDataManager.getServerNetAddress()+"/tu_rc_sync_urp_from_hp.action";
+		/*
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .setMultipartParameter("tuser_key", acount)
-                .setMultipartFile("portrait", portraitFile)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+	    String url = FlyingDataManager.getServerNetAddress() + "/tu_rc_sync_urp_from_hp.action";
 
-                        if (e != null) {
-                            //Toast.makeText(getActivity(), "upload portarit", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+	    Ion.with(MyApplication.getInstance().getApplicationContext())
+			    .load(url)
+			    .setMultipartParameter("tuser_key", account)
+			    .setMultipartFile("portrait", portraitFile)
+			    .asJsonObject()
+			    .setCallback(new FutureCallback<JsonObject>() {
+				    @Override
+				    public void onCompleted(Exception e, JsonObject result) {
+					    // do stuff with the result or error
 
-                        //上传图片到服务器，成功后通知融云服务器更新用户信息
-                        String code = result.get("rc").getAsString();
-                        if (code.equals("1")) {
+					    if (e != null) {
+						    //Toast.makeText(getActivity(), "upload portarit", Toast.LENGTH_SHORT).show();
+						    return;
+					    }
 
-                            String  portraitUri =  result.get("portraitUri").getAsString();
+					    //上传图片到服务器，成功后通知融云服务器更新用户信息
+					    String code = result.get("rc").getAsString();
+					    if (code.equals("1")) {
 
-                            if(portraitUri==null)
-                            {
-                                portraitUri="http://www.birdcopy.com/img/logo.png";
-                            }
+						    String portraitUri = result.get("portraitUri").getAsString();
 
-                            //更新本地信息
-                            FlyingDataManager.setPortraitUri(portraitUri);
+						    if (portraitUri == null) {
+							    portraitUri = "http://www.birdcopy.com/img/logo.png";
+						    }
 
-                            refreshUesrInfo(acount,
-                                    appID,
-                                    null,
-                                    portraitUri,
-                                    null,
-                                    new RefreshUesrInfoListener() {
-                                        @Override
-                                        public void completion(boolean isOK) {
-                                            delegate.completion(isOK);
-                                        }
-                                    }
-                            );
-                        }
-                        else
-                        {
-                            delegate.completion(false);
-                        }
-                    }
-                });
+						    //更新本地信息
+						    FlyingDataManager.setPortraitUri(portraitUri);
+
+						    refreshUesrInfo(account,
+								    appID,
+								    null,
+								    portraitUri,
+								    null,
+								    new RefreshUesrInfoListener() {
+									    @Override
+									    public void completion(boolean isOK) {
+										    delegate.completion(isOK);
+									    }
+								    }
+						    );
+					    } else
+					    {
+						    delegate.completion(false);
+					    }
+				    }
+			    });
+
+	    RequestBody file = RequestBody
+			    .create(MediaType.parse("image/*"), portraitFile);
+
+	    RequestBody requestBody = new MultipartBody.Builder()
+			    .setType(MultipartBody.FORM)
+			    .addFormDataPart("tuser_key", account)
+			    .addFormDataPart("portrait", "portrait.jpg", file)
+			    .build();*/
+
+        RequestBody userid = RequestBody.create(MediaType.parse("text/plain"), account);
+
+		RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), portraitFile);
+
+
+	    Call<UpUserProtraitResult> apiCall = birdCopyService.uploadPotrait(userid,body);
+
+	    apiCall.enqueue(new Callback<UpUserProtraitResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<UpUserProtraitResult> response) {
+
+			    UpUserProtraitResult result = response.body();
+			    //上传图片到服务器，成功后通知融云服务器更新用户信息
+			    if ("1".equals(result.getRc())) {
+
+				    String portraitUri = result.getPortraitUri();
+
+				    if (portraitUri == null) {
+					    portraitUri = "http://www.birdcopy.com/img/logo.png";
+				    }
+
+				    //更新本地信息
+				    FlyingDataManager.setPortraitUri(portraitUri);
+
+				    refreshUesrInfo(account,
+						    appID,
+						    null,
+						    portraitUri,
+						    null,
+						    new RefreshUesrInfoListener() {
+							    @Override
+							    public void completion(boolean isOK) {
+								    delegate.completion(isOK);
+							    }
+						    }
+				    );
+			    } else {
+				    if (delegate != null) {
+
+					    delegate.completion(false);
+				    }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     public interface RefreshUesrInfoListener {
@@ -346,74 +518,68 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void refreshUesrInfo(final String acount,
+    static public void refreshUesrInfo(final String account,
                                        String appID,
                                        final String nickName,
                                        final String portraitUri,
                                        final String br_intro,
                                        final RefreshUesrInfoListener delegate)
     {
-        String url = "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/tu_rc_sync_urb_from_hp.action?tuser_key=" +
-                acount+
-                "&app_id="+
-                appID;
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
 
-        if (nickName != null && !nickName.equalsIgnoreCase("")) {
-            url += "&name=";
-            url += nickName;
-        }
+	    if (nickName != null && !nickName.equalsIgnoreCase("")) {
 
-        if (portraitUri != null && !portraitUri.equalsIgnoreCase("")) {
-            url += "&portrait_uri=";
-            url += portraitUri;
-        }
+		    map.put("name", nickName);
+	    }
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+	    if (portraitUri != null && !portraitUri.equalsIgnoreCase("")) {
 
-                        boolean resultCode=false;
-                        if (e != null) {
-                            //Toast.makeText(getActivity(), "Error get RongToken", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String code = result.get("rc").getAsString();
+		    map.put("portrait_uri", portraitUri);
+	    }
 
-                        if (code.equals("1")) {
+	    Call<CallResult> apiCall = birdCopyService.refreshUesrInfo(map);
 
-                            resultCode=true;
+	    apiCall.enqueue(new Callback<CallResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<CallResult> response) {
 
-                            String rongID = ShareDefine.getMD5(acount);
-                            UserInfo userInfo = FlyingIMContext.getInstance().getUserInfoByRongId(rongID);
+			    CallResult result = response.body();
 
-                            //更新本地信息
-                            if(nickName!=null)
-                            {
-                                FlyingDataManager.setNickName(nickName);
-                                userInfo.setName(nickName);
-                            }
+			    if ("1".equals(result.getRc())) {
 
-                            if(portraitUri!=null)
-                            {
-                                FlyingDataManager.setPortraitUri(portraitUri);
-                                userInfo.setPortraitUri(Uri.parse(portraitUri));
-                            }
+				    String rongID = ShareDefine.getMD5(account);
+				    UserInfo userInfo = FlyingIMContext.getInstance().getUserInfoByRongId(rongID);
 
-                            //更新融云信息
-                            FlyingIMContext.getInstance().addOrReplaceRongUserInfo(userInfo);
-                        }
+				    //更新本地信息
+				    if (nickName != null) {
+					    FlyingDataManager.setNickName(nickName);
+					    userInfo.setName(nickName);
+				    }
 
-                        if (delegate != null) {
-                            delegate.completion(resultCode);
-                        }
-                    }
-                });
+				    if (portraitUri != null) {
+					    FlyingDataManager.setPortraitUri(portraitUri);
+					    userInfo.setPortraitUri(Uri.parse(portraitUri));
+				    }
+
+				    //更新融云信息
+				    FlyingIMContext.getInstance().addOrReplaceRongUserInfo(userInfo);
+			    }
+
+			    if (delegate != null) {
+				    delegate.completion(true);
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     //////////////////////////////////////////////////////////////
@@ -425,47 +591,65 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void regOpenUDID(String acount,
-                                   String appID,
+    static public void regOpenUDID(final String account,
+                                   final String appID,
                                    final RegOpenUDIDListener delegate )
     {
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/ua_reg_user_from_hp.action?user_key="+
-                acount+
-                "&app_id="+
-                appID+
-                "&type=reg";
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("type", "reg");
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+	    Call<ResponseBody> apiCall = birdCopyService.regOpenUDID(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-                        if (result != null) {
-                            String resultStr = result.getResult();
+			    try{
 
-                            if (resultStr.equals("0") || resultStr.equals("1")) {
-                                if (delegate != null) {
+				    String resultStr = response.body().string();
 
-                                    delegate.completion(true);
-                                }
-                            } else {
-                                if (delegate != null) {
+				    if (resultStr != null) {
+					    if (resultStr.equals("0") || resultStr.equals("1")) {
+						    if (delegate != null) {
 
-                                    delegate.completion(false);
-                                }
-                            }
-                        }
-                    }
-                });
+							    delegate.completion(true);
+						    }
+					    } else {
+						    if (delegate != null) {
+
+							    delegate.completion(false);
+						    }
+					    }
+				    }
+				    else
+				    {
+					    if (delegate != null) {
+
+						    delegate.completion(false);
+					    }
+				    }
+			    }
+			    catch (IOException e)
+			    {
+				    //
+				    if (delegate != null) {
+
+					    delegate.completion(false);
+				    }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+
+				    delegate.completion(false);
+			    }
+		    }
+	    });
+
     }
 
     public interface VerifyOpenUDIDListener {
@@ -477,38 +661,34 @@ public class FlyingHttpTool {
                                    String appID,
                                    final VerifyOpenUDIDListener delegate )
     {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
 
-        String url =  "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/tu_ua_get_status_from_tn.action?tuser_key="+
-                account+
-                "&app_id="+
-                appID;
+	    Call<CallResultCode> apiCall = birdCopyService.verifyOpenUDID(map);
+	    apiCall.enqueue(new Callback<CallResultCode>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<CallResultCode> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
+			    CallResultCode result = response.body();
 
-                        boolean isOK =false;
-                        if (result!=null)
-                        {
-                            String resultCode=result.get("rs").getAsString();
+			    if ("1".equals(result.getRc()) &&
+					    !"-1".equalsIgnoreCase(result.getRs())) {
+				    if (delegate != null) {
+					    delegate.completion(true);
+				    }
+			    }
 
-                            if (!resultCode.equalsIgnoreCase("-1")) {
+		    }
 
-                                isOK=true;
-                            }
-                        }
+		    @Override
+		    public void onFailure(Throwable t) {
 
-                        if(delegate!=null)
-                        {
-                            delegate.completion(isOK);
-                        }
-                    }
-                });
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     //用终端登录官网后台
@@ -522,54 +702,44 @@ public class FlyingHttpTool {
                                    String appID,
                                    final LoginWithQRListener delegate )
     {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("oth1", loginID);
 
-        String url =  "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/ua_send_prelogin_info_from_hp.action?user_key="+
-                account+
-                "&oth1="+
-                loginID+
-                "&app_id="+
-                appID;
+	    Call<ResponseBody> apiCall = birdCopyService.loginWithQR(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+			    try {
+				    String resultStr = response.body().string();
 
-                        boolean isOK =false;
+				    if (resultStr.matches("[0-9]+")) {
+					    // 登录成功
+					    if (Integer.parseInt(resultStr) == 1) {
+						    Toast.makeText(MyApplication.getInstance().getApplicationContext(), "扫描登录成功", Toast.LENGTH_SHORT).show();
+					    }
 
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
+					    if (delegate != null) {
+						    delegate.completion(true);
+					    }
+				    }
+			    } catch (IOException e) {
+				    if (delegate != null) {
+					    delegate.completion(false);
+				    }
+			    }
+		    }
 
-                            if(resultStr.matches("[0-9]+"))
-                            {
-                                // 登录成功
-                                if(Integer.parseInt(resultStr)==1)
-                                {
-                                    Toast.makeText(MyApplication.getInstance().getApplicationContext(), "扫描登录成功", Toast.LENGTH_SHORT).show();
-                                }
+		    @Override
+		    public void onFailure(Throwable t) {
 
-                                isOK=true;
-                            }
-                        }
-
-                        if(delegate!=null)
-                        {
-                            delegate.completion(isOK);
-                        }
-
-                    }
-                });
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     //pragma 购买行为,反馈信息在Activity
@@ -578,62 +748,64 @@ public class FlyingHttpTool {
                                     final String appID,
                                     final Product good)
     {
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/pa_get_on_from_tn.action?"+
-                "tuser_key="+
-                account+
-                "&app_id="+
-                appID;
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key", account);
+	    map.put("app_id", appID);
 
-        Ion.with(activity)
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+	    Call<GetOrderNoResult> apiCall = birdCopyService.getOrderNo(map);
+	    apiCall.enqueue(new Callback<GetOrderNoResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<GetOrderNoResult> response) {
 
-                        // 产生个订单号
-                        String orderNo=result.get("order_no").getAsString();
+			    GetOrderNoResult result = response.body();
 
-                        // 计算总金额（以分为单位）
-                        int amount = good.productPrice*good.count;
-                        JSONArray billList = new JSONArray();
+			    if ("1".equals(result.getRc())) {
+				    // 产生个订单号
+				    String orderNo = result.getOrderNo();
 
-                        billList.put(good.productName+ " x " + good.count);
+				    // 计算总金额（以分为单位）
+				    int amount = good.productPrice * good.count;
+				    JSONArray billList = new JSONArray();
 
-                        // 构建账单json对象
-                        JSONObject bill = new JSONObject();
-                        JSONObject displayItem = new JSONObject();
-                        try {
-                            displayItem.put("name", "商品");
-                            displayItem.put("contents", billList);
-                            JSONArray display = new JSONArray();
-                            display.put(displayItem);
+				    billList.put(good.productName + " x " + good.count);
 
-                            // 自定义的额外信息 选填
-                            JSONObject extras = new JSONObject();
-                            extras.put("subject", "商品");
-                            extras.put("body", billList);
-                            extras.put("tuser_key",account);
-                            extras.put("app_id",appID);
+				    // 构建账单json对象
+				    JSONObject bill = new JSONObject();
+				    JSONObject displayItem = new JSONObject();
+				    try {
+					    displayItem.put("name", "商品");
+					    displayItem.put("contents", billList);
+					    JSONArray display = new JSONArray();
+					    display.put(displayItem);
 
-                            bill.put("order_no", orderNo);
-                            bill.put("amount", amount);
-                            bill.put("display", display);
-                            bill.put("extras", extras);// 该字段选填
-                        } catch (JSONException ex) {
-                            ex.printStackTrace();
-                        }
+					    // 自定义的额外信息 选填
+					    JSONObject extras = new JSONObject();
+					    extras.put("subject", "商品");
+					    extras.put("body", billList);
+					    extras.put("tuser_key", account);
+					    extras.put("app_id", appID);
 
-                        String URL = ShareDefine.getPingplusOnePayURL();
+					    bill.put("order_no", orderNo);
+					    bill.put("amount", amount);
+					    bill.put("display", display);
+					    bill.put("extras", extras);// 该字段选填
+				    } catch (JSONException ex) {
+					    ex.printStackTrace();
+				    }
 
-                        // 发起支付
-                        PayActivity.SHOW_CHANNEL_ALIPAY = true;
-                        PayActivity.CallPayActivity(activity, bill.toString(), URL);
-                    }
-                });
+				    String URL = ShareDefine.getPingplusOnePayURL();
+
+				    // 发起支付
+				    PayActivity.SHOW_CHANNEL_ALIPAY = true;
+				    PayActivity.CallPayActivity(activity, bill.toString(), URL);
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+		    }
+	    });
     }
 
     //////////////////////////////////////////////////////////////
@@ -651,64 +823,55 @@ public class FlyingHttpTool {
                               String appID,
                               final GetMembershipListener delegate)
     {
-        String url ="http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/ua_get_user_info_from_hp.action?user_key="+
-                account+
-                "&app_id="+
-                appID+
-                "&type=validth";
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key", account);
+	    map.put("app_id", appID);
+	    map.put("type", "validth");
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+	    Call<ResponseBody> apiCall = birdCopyService.getMembership(map);
+		apiCall.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-                        if (result!=null)
-                        {
-                            SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
+				try {
+					String resultStr = response.body().string();
 
-                            String resultStr =result.getResult();
+					String[] separated = resultStr.split(";");
+					if (separated.length==3) {
+						String startTime = separated[0];
+						String endTimeStr = separated[1];
 
-                            String[] separated = resultStr.split(";");
-                            if (separated.length==3)
-                            {
-                                String startTime = separated[0];
-                                String endTimeStr = separated[1];
+						try {
+							Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startTime);
+							Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTimeStr);
 
-                                try
-                                {
-                                    Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startTime);
-                                    Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTimeStr);
+							SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
 
-                                    //更新本地数据
-                                    editor.putString(MEMBERSHIP_STARTTIME, startTime);
-                                    editor.putString(MEMBERSHIP_ENDTIME, endTimeStr);
+							//更新本地数据
+							editor.putString(MEMBERSHIP_STARTTIME, startTime);
+							editor.putString(MEMBERSHIP_ENDTIME, endTimeStr);
 
-                                    editor.commit();
+							editor.commit();
 
-                                    if(delegate!=null)
-                                    {
-                                        delegate.completion(startDate,endDate);
-                                    }
-                                }
-                                catch (Exception exception)
-                                {
-                                    //
-                                }
-                            }
-                        }
-                    }
-                });
+							if (delegate != null) {
+								delegate.completion(startDate, endDate);
+							}
+						} catch (Exception exception) {
+							//
+						}
+					}
+				}
+				catch (IOException e)
+				{
+					//
+				}
+			}
 
+			@Override
+			public void onFailure(Throwable t) {
+
+			}
+		});
     }
 
     public interface UpdateMembershipListener {
@@ -730,53 +893,49 @@ public class FlyingHttpTool {
             String startDateUTFStr= URLEncoder.encode(startDateStr, "UTF-8");
             String endDateUTFStr = URLEncoder.encode(endDateStr,"UTF-8");
 
-            String url ="http://"+
-                    FlyingDataManager.getServerNetAddress()+
-                    "/ua_sync_validth_from_hp.action?"+
-                    "tuser_key="+
-                    account+
-                    "&app_id="+
-                    appID+
-                    "&vthg_type=21"+
-                    "&start_time="+
-                    startDateUTFStr+
-                    "&end_time="+
-                    endDateUTFStr;
+	        Map<String,String> map=new HashMap<>();
+	        map.put("tuser_key",account);
+	        map.put("app_id", appID);
+	        map.put("vthg_type", ShareDefine.KPAYCHANNEL_ALIPAY);
+	        map.put("start_time", startDateUTFStr);
+	        map.put("end_time", endDateUTFStr);
 
-            Ion.with(MyApplication.getInstance().getApplicationContext())
-                    .load(url)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            // do stuff with the result or error
+	        Call<CallResult> apiCall = birdCopyService.updateMembership(map);
+	        apiCall.enqueue(new Callback<CallResult>() {
+		        @Override
+		        public void onResponse(retrofit2.Response<CallResult> response) {
 
-                            String resultCode=result.get("rc").getAsString();
+			        CallResult result = response.body();
 
-                            if (resultCode.equalsIgnoreCase("1")) {
-                                //更新本地数据
-                                SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
+			        if ("1".equals(result.getRc())) {
 
-                                editor.putString(MEMBERSHIP_STARTTIME, startDateStr);
-                                editor.putString(MEMBERSHIP_ENDTIME, endDateStr);
-                                editor.commit();
+				        //更新本地数据
+				        SharedPreferences.Editor editor = MyApplication.getSharedPreference().edit();
 
-                                ShareDefine.broadUserDataChange();
+				        editor.putString(MEMBERSHIP_STARTTIME, startDateStr);
+				        editor.putString(MEMBERSHIP_ENDTIME, endDateStr);
+				        editor.commit();
 
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(true);
-                                }
-                            }
-                            else
-                            {
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(false);
-                                }
-                            }
-                        }
-                    });
+				        ShareDefine.broadUserDataChange();
+
+				        if (delegate != null) {
+					        delegate.completion(true);
+				        }
+			        } else {
+				        if (delegate != null) {
+					        delegate.completion(false);
+				        }
+			        }
+		        }
+
+		        @Override
+		        public void onFailure(Throwable t) {
+
+			        if (delegate != null) {
+				        delegate.completion(false);
+			        }
+		        }
+	        });
         }
         catch (Exception e)
         {
@@ -797,63 +956,62 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void getMoneyData(String account,
-                          String appID,
-                          final GetMoneyDataListener delegate) {
+    static public void getMoneyData(final String account,
+                                    final String appID,
+                                    final GetMoneyDataListener delegate)
+    {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("type", "accobk");
 
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/ua_get_user_info_from_hp.action?user_key="+
-                account+
-                "&app_id="+
-                appID+
-                "&type=accobk";
+		Call<ResponseBody> apiCall = birdCopyService.getMoneyData(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        final String currentAccount=account;
+			    try {
+				    String resultStr = response.body().string();
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+				    String[] separated = resultStr.split(";");
+				    if (separated.length == 4) {
+					    int BEMONEYCOUNT = Integer.parseInt(separated[0]);
+					    int BEGIFTCOUNT = Integer.parseInt(separated[1]);
+					    int BETOUCHCOUNT = Integer.parseInt(separated[2]);
+					    int BEQRCOUNT = Integer.parseInt(separated[3]);
 
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
+					    //更新本地数据
+					    BE_STATISTIC userData = new BE_STATISTIC();
+					    userData.setBEUSERID(account);
+					    userData.setBETIMES(0);
+					    userData.setBETIMESTAMP(DateTools.getTime());
+					    userData.setBEQRCOUNT(BEQRCOUNT);
+					    userData.setBEMONEYCOUNT(BEMONEYCOUNT);
+					    userData.setBETOUCHCOUNT(BETOUCHCOUNT);
+					    userData.setBEGIFTCOUNT(BEGIFTCOUNT);
 
-                            String[] separated = resultStr.split(";");
-                            if (separated.length==4)
-                            {
-                                int BEMONEYCOUNT = Integer.parseInt(separated[0]);
-                                int BEGIFTCOUNT = Integer.parseInt(separated[1]);
-                                int BETOUCHCOUNT = Integer.parseInt(separated[2]);
-                                int BEQRCOUNT = Integer.parseInt(separated[3]);
+					    if (delegate != null) {
+						    delegate.completion(false);
+					    }
+				    }
 
-                                //更新本地数据
-                                BE_STATISTIC userData = new BE_STATISTIC();
-                                userData.setBEUSERID(currentAccount);
-                                userData.setBETIMES(0);
-                                userData.setBETIMESTAMP(DateTools.getTime());
-                                userData.setBEQRCOUNT(BEQRCOUNT);
-                                userData.setBEMONEYCOUNT(BEMONEYCOUNT);
-                                userData.setBETOUCHCOUNT(BETOUCHCOUNT);
-                                userData.setBEGIFTCOUNT(BEGIFTCOUNT);
+			    } catch (IOException e) {
+				    //
+				    if (delegate != null) {
+					    delegate.completion(false);
+				    }
+			    }
 
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(false);
-                                }
-                            }
-                        }
-                    }
-                });
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     public interface UploadMoneyDataListener {
@@ -867,58 +1025,50 @@ public class FlyingHttpTool {
 
         BE_STATISTIC userData = new FlyingStatisticDAO().selectWithUserID(account);
 
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/ua_sync_accobk_from_hp.action?user_key="+
-                account+
-                "&app_id="+
-                appID+
-                "&appletpp_sum="+
-                userData.getBEMONEYCOUNT()+
-                "&reward_sum="+
-                userData.getBEGIFTCOUNT()+
-                "&consume_sum="+
-                userData.getBETOUCHCOUNT();
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("appletpp_sum",Integer.toString(userData.getBEMONEYCOUNT()));
+	    map.put("reward_sum",Integer.toString(userData.getBEGIFTCOUNT()));
+	    map.put("consume_sum", Integer.toString(userData.getBETOUCHCOUNT()));
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
-                        if (result!=null) {
-                            String resultStr = result.getResult();
+	    Call<ResponseBody> apiCall = birdCopyService.uploadMoneyData(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-                            if(resultStr.contentEquals("1"))
-                            {
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(true);
-                                }
-                            }
-                            else
-                            {
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(false);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if(delegate!=null)
-                            {
-                                delegate.completion(false);
-                            }
-                        }
-                    }
-                });
+			    try {
+				    String resultStr = response.body().string();
+
+				    if ("1".contentEquals(resultStr)) {
+
+					    if (delegate != null) {
+						    delegate.completion(true);
+					    }
+				    } else {
+
+					    if (delegate != null) {
+						    delegate.completion(false);
+					    }
+				    }
+
+			    } catch (IOException e) {
+
+				    if (delegate != null) {
+					    delegate.completion(false);
+				    }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
+
     }
 
     //获取充值卡数据
@@ -927,56 +1077,53 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void getQRData(String account,
-                             String appID,
-                             final GetQRDataListener delegate) {
+    static public void getQRData(final String account,
+                                 final String appID,
+                                 final GetQRDataListener delegate)
+    {
 
-        String url= "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/la_get_user_info_from_hp.action?user_key="+
-                account+
-                "&app_id="+
-                appID+
-                "&type=topup_pwd_total";
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("type", "topup_pwd_total");
 
-        final String currentAccount=account;
+	    Call<ResponseBody> apiCall = birdCopyService.getQRData(map);
+		apiCall.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+				try {
+					String resultStr = response.body().string();
 
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
+					int resultCode = Integer.parseInt(resultStr);
 
-                            int resultCode = Integer.parseInt(resultStr);
+					if (resultCode > 0) {
+						FlyingStatisticDAO statisticDAO = new FlyingStatisticDAO();
+						BE_STATISTIC userData = statisticDAO.selectWithUserID(account);
+						userData.setBEQRCOUNT(resultCode);
+						statisticDAO.saveStatic(userData);
 
-                            if(resultCode>0)
-                            {
-                                FlyingStatisticDAO statisticDAO =new FlyingStatisticDAO();
-                                BE_STATISTIC userData = statisticDAO.selectWithUserID(currentAccount);
-                                userData.setBEQRCOUNT(resultCode);
-                                statisticDAO.saveStatic(userData);
+						ShareDefine.broadUserDataChange();
 
-                                ShareDefine.broadUserDataChange();
+						if (delegate != null) {
+							delegate.completion(true);
+						}
+					}
+				} catch (IOException e) {
+					if (delegate != null) {
+						delegate.completion(false);
+					}
+				}
+			}
 
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(true);
-                                }
-                            }
-                        }
-                    }
-                });
+			@Override
+			public void onFailure(Throwable t) {
+
+				if (delegate != null) {
+					delegate.completion(false);
+				}
+			}
+		});
     }
 
     //向服务器帐户进行充值
@@ -985,108 +1132,99 @@ public class FlyingHttpTool {
         void completion(final String resultStr);
     }
 
-    static public void chargingCrad(String cardID,
-                             String account,
-                             String appID,
-                             final ChargingCradListener delegate) {
+    static public void chargingCrad(final String cardID,
+                                    final String account,
+                                    final String appID,
+                                    final ChargingCradListener delegate)
+    {
 
-        String url= "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/la_topup_pwd_from_hp.action?user_key="+
-                account+
-                "&app_id="+
-                appID+
-                "&topup_pwd="+
-                cardID;
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("topup_pwd", cardID);
 
-        final String currentAccount=account;
+	    Call<ResponseBody> apiCall = birdCopyService.chargingCrad(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+			    try {
 
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
+				    String resultStr = response.body().string();
 
-                            int resultCode = Integer.parseInt(resultStr);
+				    int resultCode = Integer.parseInt(resultStr);
 
-                            String responseStr="充值失败，请重试！";
-                            int chargCode=0;
+				    String responseStr = "充值失败，请重试！";
+				    int chargCode = 0;
 
-                            FlyingStatisticDAO statisticDAO =new FlyingStatisticDAO();
+				    FlyingStatisticDAO statisticDAO = new FlyingStatisticDAO();
 
-                            switch (resultCode) {
-                                case -1:
-                                    responseStr = "必须参数缺少";
-                                    break;
-                                case -11:
-                                    responseStr = "充值卡无效";
-                                    break;
-                                case -12:
-                                    responseStr = "充值卡无效";
-                                    break;
-                                case -13:
-                                    responseStr = "充值卡无效";
-                                    break;
-                                case -21:
-                                    responseStr = "充值卡无效";
-                                    break;
-                                case -22:
-                                    responseStr = "充值卡未出售";
-                                    break;
-                                case -23:
-                                    responseStr = "充值卡被锁定";
-                                    break;
-                                case -24:
-                                    responseStr = "充值卡失效";
-                                    break;
-                                case -31:
-                                    responseStr = "充值卡已充值";
-                                    break;
-                                case -32:
-                                    responseStr = "充值卡已充值";
-                                    break;
-                                case -99:
-                                    responseStr = "中途出错(系统原因)";
-                                    break;
-                                default:
+				    switch (resultCode) {
+					    case -1:
+						    responseStr = "必须参数缺少";
+						    break;
+					    case -11:
+						    responseStr = "充值卡无效";
+						    break;
+					    case -12:
+						    responseStr = "充值卡无效";
+						    break;
+					    case -13:
+						    responseStr = "充值卡无效";
+						    break;
+					    case -21:
+						    responseStr = "充值卡无效";
+						    break;
+					    case -22:
+						    responseStr = "充值卡未出售";
+						    break;
+					    case -23:
+						    responseStr = "充值卡被锁定";
+						    break;
+					    case -24:
+						    responseStr = "充值卡失效";
+						    break;
+					    case -31:
+						    responseStr = "充值卡已充值";
+						    break;
+					    case -32:
+						    responseStr = "充值卡已充值";
+						    break;
+					    case -99:
+						    responseStr = "中途出错(系统原因)";
+						    break;
+					    default:
 
-                                    BE_STATISTIC userData = statisticDAO.selectWithUserID(currentAccount);
-                                    chargCode =resultCode-userData.getBEQRCOUNT();
+						    BE_STATISTIC userData = statisticDAO.selectWithUserID(account);
+						    chargCode = resultCode - userData.getBEQRCOUNT();
 
-                                    userData.setBEQRCOUNT(resultCode);
-                                    statisticDAO.saveStatic(userData);
-                            }
+						    userData.setBEQRCOUNT(resultCode);
+						    statisticDAO.saveStatic(userData);
+				    }
 
-                            String showResult;
+				    String showResult;
 
-                            if(chargCode>0)
-                            {
-                                showResult="你目前充值总额是:"+resultStr;
-                                ShareDefine.broadUserDataChange();
-                            }
-                            else
-                            {
-                                showResult="充值失败，请重试！"+" 原因："+responseStr;
-                            }
+				    if (chargCode > 0) {
+					    showResult = "你目前充值总额是:" + resultStr;
+					    ShareDefine.broadUserDataChange();
+				    } else {
+					    showResult = "充值失败，请重试！" + " 原因：" + responseStr;
+				    }
 
-                            if(delegate!=null)
-                            {
-                                delegate.completion(showResult);
-                            }
-                        }
-                    }
-                });
+				    if (delegate != null) {
+					    delegate.completion(showResult);
+				    }
+
+			    } catch (IOException e) {
+
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			}
+		});
     }
 
     //向服务器获课程统计数据
@@ -1108,43 +1246,35 @@ public class FlyingHttpTool {
         for(final BE_PUB_LESSON lesson:allData)
         {
             //向服务器获取最新用户课程活跃统计数据
+	        Map<String,String> map=new HashMap<>();
+	        map.put("tuser_key",account);
+	        map.put("app_id", appID);
+	        map.put("type", "lnclick");
+	        map.put("ln_id", lesson.getBELESSONID());
 
-            String tempurl =  "http://"+
-                    FlyingDataManager.getServerNetAddress()+
-                    "/ua_get_user_info_from_hp.action?user_key="+
-                    account+
-                    "&app_id="+
-                    appID+
-                    "&type=lnclick"+
-                    "&ln_id="+
-                    lesson.getBELESSONID();
+	        Call<ResponseBody> apiCall = birdCopyService.getContentStatistic(map);
+	        apiCall.enqueue(new Callback<ResponseBody>() {
+		        @Override
+		        public void onResponse(retrofit2.Response<ResponseBody> response) {
 
+			        try {
+				        String resultStr = response.body().string();
 
-            Ion.with(MyApplication.getInstance().getApplicationContext())
-                    .load(tempurl)
-                    .noCache()
-                    .asString()
-                    .withResponse()
-                    .setCallback(new FutureCallback<Response<String>>() {
-                        @Override
-                        public void onCompleted(Exception e, Response<String> result)
-                        {
-                            // print the response code, ie, 200
-                            //System.out.println(result.getHeaders().getResponseCode());
-                            // print the String that was downloaded
+				        BE_TOUCH_RECORD touchData = new BE_TOUCH_RECORD();
+				        touchData.setBEUSERID(currentAccount);
+				        touchData.setBELESSONID(lesson.getBELESSONID());
+				        touchData.setBETOUCHTIMES(Integer.parseInt(resultStr));
 
-                            if (result!=null)
-                            {
-                                String resultStr =result.getResult();
-                                BE_TOUCH_RECORD touchData = new BE_TOUCH_RECORD();
-                                touchData.setBEUSERID(currentAccount);
-                                touchData.setBELESSONID(lesson.getBELESSONID());
-                                touchData.setBETOUCHTIMES(Integer.parseInt(resultStr));
+				        new FlyingTouchDAO().savelTouch(touchData);
+			        } catch (IOException e) {
+			        }
+		        }
 
-                                new FlyingTouchDAO().savelTouch(touchData);
-                            }
-                        }
-                    });
+		        @Override
+		        public void onFailure(Throwable t) {
+
+		        }
+	        });
 
             i=i+1;
         }
@@ -1192,51 +1322,42 @@ public class FlyingHttpTool {
 
         if(!updateStr.equals(""))
         {
-            String url =  "http://"+
-                    FlyingDataManager.getServerNetAddress()+
-                    "/ua_sync_lnclick_from_hp.action?user_key="+
-                    account+
-                    "&app_id="+
-                    appID+
-                    "&lncks="+
-                    updateStr;
+	        Map<String,String> map=new HashMap<>();
+	        map.put("tuser_key",account);
+	        map.put("app_id", appID);
+	        map.put("lncks", updateStr);
 
-            Ion.with(MyApplication.getInstance().getApplicationContext())
-                    .load(url)
-                    .noCache()
-                    .asString()
-                    .withResponse()
-                    .setCallback(new FutureCallback<Response<String>>() {
-                        @Override
-                        public void onCompleted(Exception e, Response<String> result)
-                        {
-                            if (result!=null) {
-                                String resultStr = result.getResult();
+	        Call<ResponseBody> apiCall = birdCopyService.uploadContentStatistic(map);
+			apiCall.enqueue(new Callback<ResponseBody>() {
+				@Override
+				public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-                                if(resultStr.contentEquals("1"))
-                                {
-                                    if(delegate!=null)
-                                    {
-                                        delegate.completion(true);
-                                    }
-                                }
-                                else
-                                {
-                                    if(delegate!=null)
-                                    {
-                                        delegate.completion(false);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if(delegate!=null)
-                                {
-                                    delegate.completion(false);
-                                }
-                            }
-                        }
-                    });
+					try {
+						String resultStr = response.body().string();
+
+						if ("1".contentEquals(resultStr)) {
+							if (delegate != null) {
+								delegate.completion(true);
+							}
+						} else {
+							if (delegate != null) {
+								delegate.completion(false);
+							}
+						}
+					} catch (IOException e) {
+						if (delegate != null) {
+							delegate.completion(false);
+						}
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable t) {
+					if (delegate != null) {
+						delegate.completion(false);
+					}
+				}
+			});
         }
     }
 
@@ -1252,50 +1373,52 @@ public class FlyingHttpTool {
 
     static public void getLessonData(String lessonID,
                                      final GetLessonDataListener delegate ) {
-        String url =  "http://" +
+        String url = 
                 FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_detail_for_hp.action?ln_id=" +
                 lessonID;
 
-        Ion.with( MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",FlyingDataManager.getCurrentPassport());
+	    map.put("app_id", FlyingDataManager.getBirdcopyAppID());
+	    map.put("ln_id", lessonID);
 
-	                    final String resultStr =result.getResult();
+	    Call<ResponseBody> apiCall = birdCopyService.getLessonData(map);
+		apiCall.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-                        if (resultStr!=null)
-                        {
-	                        Thread thread = new Thread(new Runnable() {
-		                        @Override
-		                        public void run() {
+				try {
+					final String resultStr = response.body().string();
 
-			                        try {
+					Thread thread = new Thread(new Runnable() {
+						@Override
+						public void run() {
 
-				                        FlyingContentParser.parser(resultStr);
+							try {
 
-				                        if(delegate!=null)
-				                        {
-					                        delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
-				                        }
-			                        }
-			                        catch (Exception ex)
-			                        {
-				                        //
-			                        }
-		                        }
-	                        });
-	                        thread.start();
-                        }
-                    }
-                });
+								FlyingContentParser.parser(resultStr);
+
+								if (delegate != null) {
+									delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
+								}
+							} catch (Exception ex) {
+								//
+							}
+						}
+					});
+					thread.start();
+
+				} catch (IOException e) {
+
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+
+			}
+		});
     }
 
     public interface GetLessonListListener {
@@ -1308,84 +1431,91 @@ public class FlyingHttpTool {
                                      String tag,
                                      int pageNumber,
                                      boolean sortByTime,
-                                     final GetLessonListListener delegate ) {
+                                     final GetLessonListListener delegate )
+    {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",FlyingDataManager.getCurrentPassport());
+	    map.put("app_id", FlyingDataManager.getBirdcopyAppID());
 
-        String sortBy;
-
-        if (sortByTime) {
-            sortBy = "upd_time desc";
-        } else {
-            sortBy = "upd_time";
+        if (sortByTime)
+        {
+	        try
+	        {
+		        map.put("sortindex", URLEncoder.encode("upd_time desc", "utf-8"));
+	        } catch (Exception e) {
+		        //
+	        }
+        }
+        else
+        {
+	        map.put("sortindex", "upd_time");
         }
 
-        if (contentType == null) contentType = "";
-        if (downloadType == null) downloadType = "";
-        if (tag == null) tag = "";
-
-        try {
-            tag = URLEncoder.encode(tag, "utf-8");
-            sortBy = URLEncoder.encode(sortBy, "utf-8");
-        } catch (Exception e) {
-            //
+        if (contentType != null)
+        {
+	        map.put("res_type",contentType);
         }
 
-        String url = "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
-                ShareDefine.kperpageLessonCount +
-                "&page=" +
-                pageNumber +
-                "&url_2_type=" +
-                downloadType +
-                "&ln_tag=" +
-                tag +
-                "&res_type=" +
-                contentType +
-                "&ln_owner=" +
-                FlyingDataManager.getLessonOwner() +
-                "&sortindex=" +
-                sortBy;
+        if (downloadType != null)
+        {
+	        map.put("url_2_type",downloadType);
+        }
+        if (tag != null)
+        {
+	        try {
 
-        Ion.with( MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+		        map.put("ln_tag",URLEncoder.encode(tag, "utf-8"));
 
-	                    final String resultStr =result.getResult();
+	        } catch (Exception e) {
+		        //
+	        }
+        }
 
-	                    if (resultStr!=null)
-	                    {
-		                    Thread thread = new Thread(new Runnable() {
-			                    @Override
-			                    public void run() {
+	    map.put("vc", "3");
+	    map.put("perPageCount", ShareDefine.kperpageLessonCount);
+	    map.put("page", Integer.toString(pageNumber));
+	    map.put("ln_owner", FlyingDataManager.getLessonOwner());
 
-				                    try {
+	    Call<ResponseBody> apiCall = birdCopyService.getLessonList(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-					                    FlyingContentParser.parser(resultStr);
-				                    }
-				                    catch (Exception ex)
-				                    {
-					                    //
-					                    Log.e("getCoverList", ex.getMessage());
-				                    }
+			    try
+			    {
+				    final String resultStr = response.body().string();
+				    if (resultStr != null) {
+					    Thread thread = new Thread(new Runnable() {
+						    @Override
+						    public void run() {
 
-				                    if(delegate!=null)
-				                    {
-					                    delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
-				                    }
-			                    }
-		                    });
-		                    thread.start();
-	                    }
-                    }
-                });
+							    try {
+
+								    FlyingContentParser.parser(resultStr);
+							    } catch (Exception ex) {
+								    //
+								    Log.e("getCoverList", ex.getMessage());
+							    }
+
+							    if (delegate != null) {
+								    delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
+							    }
+						    }
+					    });
+					    thread.start();
+				    }
+			    }
+			    catch (IOException e)
+			    {
+
+			    }
+			}
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+		    }
+	    });
     }
 
     public interface GetCoverListListener {
@@ -1397,7 +1527,7 @@ public class FlyingHttpTool {
                                       int pageNumber,
                                       final GetCoverListListener delegate ) {
 
-        String url = "http://" +
+        String url =
                 FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
                 ShareDefine.kperpageCoverCount +
@@ -1478,7 +1608,7 @@ public class FlyingHttpTool {
 
         if (lessonType == null) lessonType = "";
 
-        String url = "http://" +
+        String url =
                 FlyingDataManager.getServerNetAddress() +
                 "/la_get_tag_list_for_hp.action?perPageCount=" +
                 ShareDefine.kperpageLessonCount +
@@ -1556,8 +1686,7 @@ public class FlyingHttpTool {
             //
         }
 
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
+        String url = FlyingDataManager.getServerNetAddress()+
                 "/tu_cm_get_ct_list_from_tn.action?perPageCount="+
                 ShareDefine.kperpageLessonCount+
                 "&page="+
@@ -1606,56 +1735,52 @@ public class FlyingHttpTool {
                 });
     }
 
-    public interface UpdateCommentListener {
+    public interface UploadCommentListener {
 
         void completion(final boolean isOK);
     }
 
-    static public void updateComment(FlyingCommentData commentData,
+    static public void uploadComment(FlyingCommentData commentData,
                                       String appID,
-                                      final UpdateCommentListener delegate )
+                                      final UploadCommentListener delegate )
     {
-        String url = "http://"+
-                FlyingDataManager.getServerNetAddress()+
-                "/tu_add_ct_from_tn.action?tuser_key="+
-                commentData.userID+
-                "&ct_id="+
-                commentData.contentID+
-                "&ct_type="+
-                commentData.contentType+
-                "&name="+
-                commentData.nickName+
-                "&portrait_url="+
-                commentData.portraitURL+
-                "&content="+
-                commentData.commentContent+
-                "&app_id="+
-                appID;
+
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",commentData.userID);
+	    map.put("app_id", appID);
+	    map.put("ct_id", commentData.contentID);
+	    map.put("ct_type", commentData.contentType);
+	    map.put("name", commentData.nickName);
+	    map.put("portrait_url", commentData.portraitURL);
+	    map.put("content", commentData.commentContent);
 
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
+	    Call<CallResult> apiCall = birdCopyService.uploadComment(map);
+	    apiCall.enqueue(new Callback<CallResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<CallResult> response) {
 
-                        boolean isOK=false;
+			    CallResult result = response.body();
+			    if ("1".equals(result.getRc())) {
 
-                        String code = result.get("rc").getAsString();
+				    if (delegate != null) {
+					    delegate.completion(true);
+				    }
+			    } else {
+				    if (delegate != null) {
+					    delegate.completion(false);
+				    }
+			    }
+		    }
 
-                        if (code.equals("1")) {
+		    @Override
+		    public void onFailure(Throwable t) {
 
-                            isOK=true;
-                        }
-
-                        if(delegate!=null)
-                        {
-                            delegate.completion(isOK);
-                        }
-                    }
-                });
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     public interface GetContentResourceListener {
@@ -1668,8 +1793,7 @@ public class FlyingHttpTool {
                                           String appID,
                                          final GetContentResourceListener delegate) {
 
-        String url =  "http://"+
-                FlyingDataManager.getServerNetAddress()+
+        String url = FlyingDataManager.getServerNetAddress()+
                 "/la_get_ln_rel_url_for_hp.action?getType=url"+
                 "&type="+
                 resourceType+
@@ -1767,8 +1891,7 @@ public class FlyingHttpTool {
                                           String appID,
                                 final GetShareBaseZIPURLListener delegate) {
 
-        String url =  "http://"+
-                FlyingDataManager.getServerNetAddress()+
+        String url = FlyingDataManager.getServerNetAddress()+
                 "/la_get_res_url_from_hp.action?type="+
                 resourceType+
                 "&app_id="+
@@ -1814,8 +1937,7 @@ public class FlyingHttpTool {
                                 String appID,
                                 final GetItemsListener delegate)
     {
-        String url =  "http://"+
-                FlyingDataManager.getServerNetAddress()+
+        String url =  FlyingDataManager.getServerNetAddress()+
                 "/la_get_dic_list_for_hp.action?word="+
                 word+
                 "&app_id="+

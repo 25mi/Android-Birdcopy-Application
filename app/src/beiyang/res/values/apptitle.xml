@@ -4,7 +4,7 @@
     <string name="KAppName">北阳英语</string>
 
     <string name="KAndroidAppID">e.birdcopy.beiyang</string>
-    <string name="KServerNetAddress">e.birdcopy.com</string>
+    <string name="KServerNetAddress">http://e.birdcopy.com</string>
     <string name="KRongToken">e5t4ouvptjtsa</string>
 
     <string name="KlessonQwner">beiyang</string>

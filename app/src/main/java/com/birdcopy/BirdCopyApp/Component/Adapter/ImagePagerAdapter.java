@@ -3,13 +3,11 @@ package com.birdcopy.BirdCopyApp.Component.Adapter;
 import java.util.ArrayList;
 
 import com.birdcopy.BirdCopyApp.Component.UI.imageshow.TouchImageView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.R;
-import com.birdcopy.BirdCopyApp.Component.Tools.Options;
 import com.birdcopy.BirdCopyApp.Component.UI.imageshow.ImageShowViewPager;
+import com.squareup.picasso.Picasso;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,8 +25,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 	Context context;
 	ArrayList<String> imgsUrl;
 	LayoutInflater inflater = null;
-	protected ImageLoader imageLoader = ImageLoader.getInstance();
-	DisplayImageOptions options;
+
 	//view内控件
 	TouchImageView full_image;
 	TextView progress_text;
@@ -39,7 +36,6 @@ public class ImagePagerAdapter extends PagerAdapter {
 		this.context = context;
 		this.imgsUrl = imgsUrl;
 		inflater = LayoutInflater.from(context);
-		options = Options.getListOptions();
 	}
 	
 	/** 动态加载数据 */
@@ -73,43 +69,11 @@ public class ImagePagerAdapter extends PagerAdapter {
 		progress= (ProgressBar)view.findViewById(R.id.progress);
 		retry= (TextView)view.findViewById(R.id.retry);//加载失败
 		progress_text.setText(String.valueOf(position));
-		imageLoader.displayImage(imgsUrl.get(position), full_image, options,new ImageLoadingListener() {
-			
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				progress.setVisibility(View.VISIBLE);
-				progress_text.setVisibility(View.VISIBLE);
-				full_image.setVisibility(View.GONE);
-				retry.setVisibility(View.GONE);
-			}
-			
-			@Override
-			public void onLoadingFailed(String imageUri, View view,
-					FailReason failReason) {
-				// TODO Auto-generated method stub
-				progress.setVisibility(View.GONE);
-				progress_text.setVisibility(View.GONE);
-				full_image.setVisibility(View.GONE);
-				retry.setVisibility(View.VISIBLE);
-			}
-			
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				progress.setVisibility(View.GONE);
-				progress_text.setVisibility(View.GONE);
-				full_image.setVisibility(View.VISIBLE);
-				retry.setVisibility(View.GONE);
-			}
-			
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-				progress.setVisibility(View.GONE);
-				progress_text.setVisibility(View.GONE);
-				full_image.setVisibility(View.GONE);
-				retry.setVisibility(View.VISIBLE);				
-			}
-		});
+
+		Picasso.with(MyApplication.getInstance().getApplicationContext())
+				.load(imgsUrl.get(position))
+				.into(full_image);
+
 		((ViewPager) container).addView(view);
 		return view;
 	}

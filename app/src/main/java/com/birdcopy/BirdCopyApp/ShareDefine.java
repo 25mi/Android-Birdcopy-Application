@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -54,8 +52,8 @@ public class ShareDefine
     public static final String KPriceIDstr = "金币";
 
     //API相关
-    public static final int kperpageLessonCount = 20;
-    public static final int kperpageCoverCount = 6;
+    public static final String kperpageLessonCount = "20";
+    public static final String kperpageCoverCount = "6";
 
     public static final int MAX_INT = 2147483647;
 
@@ -187,9 +185,10 @@ public class ShareDefine
     public final static int KPricePerYear = 68800;
     //public final static int    KPricePerYear   = 1;
 
+    public final static String KPAYCHANNEL_ALIPAY  = "21";
+
     public static String getPingplusOnePayURL() {
-        String result = "http://" +
-                FlyingDataManager.getServerNetAddress() +
+        String result = FlyingDataManager.getServerNetAddress() +
                 "/pa_get_o_charge_from_tn.action";
 
         return result;
@@ -202,7 +201,7 @@ public class ShareDefine
         if (contentType == null) contentType = "";
         if (downloadType == null) downloadType = "";
 
-        String result = "http://" +
+        String result =
                 FlyingDataManager.getServerNetAddress() +
                 "/la_get_ln_list_for_hp.action?vc=3" +
                 "&url_2_type=" +
@@ -216,49 +215,8 @@ public class ShareDefine
         return result;
     }
 
-
-    public static String getTagListStrByTag(String tag, int count) {
-
-        if (tag == null) {
-            tag = "";
-        }
-
-        try {
-            tag = URLEncoder.encode(tag, "utf-8");
-        } catch (Exception e) {
-            return null;
-        }
-
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_tag_string_for_hp.action?vc=3&perPageCount=" +
-                count +
-                "&page=" +
-                1 +
-                "&ln_tag=" +
-                tag +
-                "&ln_owner=" +
-                FlyingDataManager.getLessonOwner();
-    }
-
-    public static String getAppBroadURL() {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/aa_get_app_info_from_hp.action?app_id=" +
-                FlyingDataManager.getBirdcopyAppID() +
-                "&type=img1";
-    }
-
-    public static String getAppWebURL() {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/aa_get_app_info_from_hp.action?app_id=" +
-                FlyingDataManager.getBirdcopyAppID() +
-                "&type=page";
-    }
-
     public static String getChatURL(String lessonID) {
-        return "http://" +
+        return
                 FlyingDataManager.getServerNetAddress() +
                 "/mwc.screen?ln_id=" +
                 lessonID;
@@ -266,7 +224,7 @@ public class ShareDefine
 
     public static String getRefreshUseInfoURL(String passport, String name, String portraitURL) {
         if (passport != null) {
-            String result = "http://" +
+            String result =
                     FlyingDataManager.getServerNetAddress() +
                     "/tu_rc_sync_urb_from_hp.action?tuser_key=" +
                     passport;
@@ -285,13 +243,6 @@ public class ShareDefine
         } else {
             return null;
         }
-    }
-
-    public static String getUsrInfoByRongID(String rongID) {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
-                "/tu_rc_get_usr_from_hp.action?user_id=" +
-                rongID;
     }
 
 
@@ -457,24 +408,12 @@ public class ShareDefine
         return null;
     }
 
-    public static DisplayImageOptions getDisplayImageOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.placeholder_image) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.icon)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.error_image)  //设置图片加载/解码过程中错误时候显示的图片
-                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)//设置图片以如何的编码方式显示
-                .build();//构建完成
-
-        return options;
-    }
-
     public static String getKUSERDATA_CHNAGE_RECEIVER_ACTION() {
         return MyApplication.getInstance().getPackageName() + ShareDefine.KMessagerUserdata;
     }
 
     public static String getpingplusURL(String currentPassport) {
-        return "http://" +
-                FlyingDataManager.getServerNetAddress() +
+        return  FlyingDataManager.getServerNetAddress() +
                 "/ua_get_user_info_from_hp.action?tuser_key=" +
                 currentPassport +
                 "&app_id=" +

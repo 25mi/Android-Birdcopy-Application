@@ -10,14 +10,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.birdcopy.BirdCopyApp.MyApplication;
-import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 public class FlyingWelcomeActivity extends Activity
 {
@@ -44,7 +43,11 @@ public class FlyingWelcomeActivity extends Activity
 
     private void initBroadcast()
     {
-        String url = ShareDefine.getAppBroadURL();
+
+	    String url = FlyingDataManager.getServerNetAddress() +
+			    "/aa_get_app_info_from_hp.action?app_id=" +
+			    FlyingDataManager.getBirdcopyAppID() +
+			    "&type=img1";
 
         Ion.with(MyApplication.getInstance().getApplicationContext())
                 .load(url)
@@ -61,7 +64,10 @@ public class FlyingWelcomeActivity extends Activity
                             mResponseStr = result.getResult();
 
                             if (mResponseStr != null) {
-                                ImageLoader.getInstance().displayImage(mResponseStr, broadPic);
+
+                                Picasso.with(getApplicationContext())
+                                        .load(mResponseStr)
+                                        .into(broadPic);
                             }
                         }
                     }

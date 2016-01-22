@@ -12,12 +12,10 @@ import android.widget.*;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
-import com.birdcopy.BirdCopyApp.Component.Tools.Options;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightTextView;
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /***
  * ADAPTER
@@ -26,9 +24,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class LessonListAdapter extends ArrayAdapter<BE_PUB_LESSON> {
 
     private static final String TAG = "LessonListAdapter";
-
-    DisplayImageOptions options= Options.getListOptions();
-    protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     static class ViewHolder {
         ImageView lessonContentType;
@@ -49,7 +44,6 @@ public class LessonListAdapter extends ArrayAdapter<BE_PUB_LESSON> {
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent)
     {
-
         final ViewHolder vh;
         if (convertView == null)
         {
@@ -78,8 +72,10 @@ public class LessonListAdapter extends ArrayAdapter<BE_PUB_LESSON> {
         vh.lessonTitleTextView.setText(itemData.getBETITLE());
         vh.lessonDescriptionDyTextView.setText(itemData.getBEDESC());
 
-        vh.lessonCoverImageView.setVisibility(View.INVISIBLE);
-        imageLoader.displayImage(itemData.getBEIMAGEURL(), vh.lessonCoverImageView);
+        Picasso.with(getContext())
+                .load(itemData.getBEIMAGEURL())
+		        .placeholder(R.drawable.icon)
+		        .into(vh.lessonCoverImageView);
 
         if(itemData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))
         {
@@ -98,31 +94,6 @@ public class LessonListAdapter extends ArrayAdapter<BE_PUB_LESSON> {
             vh.lessonContentType.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(),R.drawable.ic_drawer_web));
         }
 
-        int fadeInDuration = 2000; // Configure time values here
-
-        Animation fadeIn = new AlphaAnimation(0, 1);
-        fadeIn.setInterpolator(new AccelerateInterpolator()); // add this
-        fadeIn.setDuration(fadeInDuration);
-
-        fadeIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation)
-            {
-                vh.lessonCoverImageView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        vh.lessonCoverImageView.setAnimation(fadeIn);
         convertView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
 
         return convertView;

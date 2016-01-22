@@ -76,7 +76,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.birdcopy.BirdCopyApp.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /**
  * An activity that plays media using {@link FlyingPlayer}.
@@ -194,8 +194,9 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
 		if(mLessondata!=null && ShareDefine.KContentTypeAudio.equalsIgnoreCase(mLessondata.getBECONTENTTYPE()))
 		{
-			ImageLoader imageLoader = ImageLoader.getInstance();
-			imageLoader.displayImage(mLessondata.getBEIMAGEURL(), shutterView);
+			Picasso.with(getApplicationContext())
+					.load(mLessondata.getBEIMAGEURL())
+					.into(shutterView);
 		}
 
 		//debugRootView = findViewById(R.id.controls_root);
