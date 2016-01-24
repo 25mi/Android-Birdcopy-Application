@@ -15,6 +15,7 @@ import com.birdcopy.BirdCopyApp.ChannelManage.ChannelItem;
 import com.birdcopy.BirdCopyApp.Component.Adapter.HomeFragmentPagerAdapter;
 import com.birdcopy.BirdCopyApp.Component.UI.ColumnHorizontalScrollView;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.Tools.BaseTools;
@@ -174,40 +175,46 @@ public class TabContentFragment extends Fragment
         }
         */
 
-        FlyingHttpTool.getAlbumList(contentType, 0, true, false, new FlyingHttpTool.GetAlbumListListener() {
-            @Override
-            public void completion(final ArrayList<AlbumData> albumList, String allRecordCount) {
-
-                if(albumList!=null && albumList.size()!=0)
-                {
-                    ArrayList<ChannelItem> channelList = new ArrayList<ChannelItem>();
-
-                    for (int i=0;i<albumList.size();i++)
-                    {
-                        ChannelItem navigate = new ChannelItem();
-                        navigate.setId(i);
-                        navigate.setName(albumList.get(i).getTagString());
-                        navigate.setOrderId(i);
-                        navigate.setSelected(0);
-                        channelList.add(navigate);
-                    }
-
-                    mUserChannelList=channelList;
-                }
-                else
-                {
-                    mUserChannelList=null;
-                }
-
-                getActivity().runOnUiThread(new Runnable() {
+        FlyingHttpTool.getAlbumList(FlyingDataManager.getCurrentPassport(),
+                FlyingDataManager.getBirdcopyAppID(),
+                contentType,
+                1,
+                true,
+                false,
+                new FlyingHttpTool.GetAlbumListListener() {
                     @Override
-                    public void run() {
+                    public void completion(final ArrayList<AlbumData> albumList, String allRecordCount) {
 
-                        initAndShowView();
+                        if(albumList!=null && albumList.size()!=0)
+                        {
+                            ArrayList<ChannelItem> channelList = new ArrayList<ChannelItem>();
+
+                            for (int i=0;i<albumList.size();i++)
+                            {
+                                ChannelItem navigate = new ChannelItem();
+                                navigate.setId(i);
+                                navigate.setName(albumList.get(i).getTagString());
+                                navigate.setOrderId(i);
+                                navigate.setSelected(0);
+                                channelList.add(navigate);
+                            }
+
+                            mUserChannelList=channelList;
+                        }
+                        else
+                        {
+                            mUserChannelList=null;
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                initAndShowView();
+                            }
+                        });
+
                     }
-                });
-
-            }
         });
     }
 

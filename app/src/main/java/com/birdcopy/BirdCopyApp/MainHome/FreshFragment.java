@@ -168,30 +168,37 @@ public class FreshFragment extends Fragment
         {
             currentLodingIndex++;
 
-            FlyingHttpTool.getLessonList(mContentType, mDownloadType, mTag, currentLodingIndex, sortByTime, new FlyingHttpTool.GetLessonListListener() {
-                @Override
-                public void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount) {
+            FlyingHttpTool.getLessonList(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    mContentType,
+                    mDownloadType,
+                    mTag,
+                    currentLodingIndex,
+                    sortByTime,
+                    new FlyingHttpTool.GetLessonListListener() {
+                        @Override
+                        public void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount) {
 
-                    if(lessonList!=null || lessonList.size()!=0)
-                    {
-                        getActivity().runOnUiThread(new Runnable() {
-	                        @Override
-	                        public void run() {
+                            if(lessonList!=null || lessonList.size()!=0)
+                            {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-		                        for (BE_PUB_LESSON data : lessonList) {
-			                        mAdapter.add(data);
-		                        }
-		                        // stash all the data in our backing store
-		                        mData.addAll(lessonList);
-		                        mMaxNumOfLessons = Integer.parseInt(allRecordCount);
+                                        for (BE_PUB_LESSON data : lessonList) {
+                                            mAdapter.add(data);
+                                        }
+                                        // stash all the data in our backing store
+                                        mData.addAll(lessonList);
+                                        mMaxNumOfLessons = Integer.parseInt(allRecordCount);
 
-		                        // notify the adapter that we can update now
-		                        mAdapter.notifyDataSetChanged();
-	                        }
-                        });
-                    }
-                }
-            });
+                                        // notify the adapter that we can update now
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        }
+                    });
         }
     }
 

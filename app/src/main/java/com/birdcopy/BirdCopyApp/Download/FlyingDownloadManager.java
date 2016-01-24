@@ -148,7 +148,7 @@ public class FlyingDownloadManager {
 	    String url = lessonData.getBESUBURL();
 	    if(ShareDefine.checkURL(url))
 	    {
-		    FlyingHttpTool.downloadFile(url, targetPath, null);
+            FlyingOkHttp.downloadFile(url,targetPath,null,null);
 	    }
     }
 
@@ -160,65 +160,66 @@ public class FlyingDownloadManager {
         String url = lessonData.getBEPROURL();
         if(ShareDefine.checkURL(url))
         {
-	        FlyingHttpTool.downloadFile(url, targetPath, new FlyingHttpTool.DownloadFileListener() {
-		        @Override
-		        public void completion(boolean isOK, String targetpath) {
-			        //
-			        if (isOK) {
-				        Thread thread = new Thread(new Runnable() {
-					        @Override
-					        public void run() {
+            FlyingOkHttp.downloadFile(url, targetPath, null, new FlyingOkHttp.DownloadFileOKListener() {
+                @Override
+                public void completion(boolean isOK, String targetpath) {
 
-						        String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
+                    if (isOK) {
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-						        try {
-							        FlyingFileManager.unzip(targetPath, outputDir, false);
+                                String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
 
-							        //升级课程补丁
-							        FlyingDBManager.updateBaseDic(lessonID);
+                                try {
+                                    FlyingFileManager.unzip(targetPath, outputDir, false);
 
-						        } catch (Exception e) {
+                                    //升级课程补丁
+                                    FlyingDBManager.updateBaseDic(lessonID);
 
-						        }
-					        }
-				        });
-				        thread.start();
+                                } catch (Exception e) {
 
-			        }
-		        }
-	        });
+                                }
+                            }
+                        });
+                        thread.start();
+
+                    }
+                }
+            });
         }
     }
 
     public static void getRelatedForLesson(final BE_PUB_LESSON lessonData,String title) {
 
 	    String lessonID = lessonData.getBELESSONID();
+        final String targetPath =  FlyingFileManager.getLessonRelatedZipFilePath(lessonID);
 
-	    String url = lessonData.getBERELATIVEURL();
+        String url = lessonData.getBERELATIVEURL();
 	    if(ShareDefine.checkURL(url)) {
 
-		    FlyingHttpTool.downloadFile(url, FlyingFileManager.getLessonRelatedZipFilePath(lessonID), new FlyingHttpTool.DownloadFileListener() {
-			    @Override
-			    public void completion(boolean isOK, final String targetpath) {
-				    //
-				    if (isOK) {
-					    Thread thread = new Thread(new Runnable() {
-						    @Override
-						    public void run() {
+            FlyingOkHttp.downloadFile(url, targetPath, null, new FlyingOkHttp.DownloadFileOKListener() {
+                @Override
+                public void completion(boolean isOK, final String targetpath) {
 
-							    String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
+                    if (isOK) {
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-							    try {
-								    FlyingFileManager.unzip(targetpath, outputDir, false);
-							    } catch (Exception e) {
+                                String outputDir = FlyingFileManager.getLessonDownloadDir(lessonData.getBELESSONID());
 
-							    }
-						    }
-					    });
-					    thread.start();
-				    }
-			    }
-		    });
+                                try {
+                                    FlyingFileManager.unzip(targetpath, outputDir, false);
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        });
+                        thread.start();
+                    }
+                }
+            });
 	    }
     }
 
@@ -226,9 +227,11 @@ public class FlyingDownloadManager {
     {
         if (lessonData.getBECONTENTTYPE().equalsIgnoreCase(ShareDefine.KContentTypeText) )
         {
-            FlyingHttpTool.getContentResource(lessonData.getBELESSONID(),
-                    ShareDefine.kResource_Background,
+            FlyingHttpTool.getContentResource(
+                    FlyingDataManager.getCurrentPassport(),
                     FlyingDataManager.getBirdcopyAppID(),
+                    lessonData.getBELESSONID(),
+                    ShareDefine.kResource_Background,
                     new FlyingHttpTool.GetContentResourceListener() {
                 @Override
                 public void completion(String resultURL) {
@@ -237,12 +240,7 @@ public class FlyingDownloadManager {
                     {
                         final String targetPath = FlyingFileManager.getLessonBackgroundFilePath(lessonData.getBELESSONID());
 
-                        FlyingHttpTool.downloadFile(resultURL, targetPath, new FlyingHttpTool.DownloadFileListener() {
-                            @Override
-                            public void completion(boolean isOK, String targetpath) {
-                                //
-                            }
-                        });
+                        FlyingOkHttp.downloadFile(resultURL,targetPath,null,null);
                     }
                 }
             });
@@ -256,8 +254,9 @@ public class FlyingDownloadManager {
 
     public static void  downloadShareDicZip(final  DownloadShareDicDataListener delegate) {
 
-	    FlyingHttpTool.getShareBaseZIPURL(ShareDefine.KBaseDicAllType,
+	    FlyingHttpTool.getShareBaseZIPURL(FlyingDataManager.getCurrentPassport(),
                 FlyingDataManager.getBirdcopyAppID(),
+                ShareDefine.KBaseDicAllType,
                 new FlyingHttpTool.GetShareBaseZIPURLListener() {
             @Override
             public void completion(String resultURL) {
@@ -266,37 +265,37 @@ public class FlyingDownloadManager {
                 {
 	                final String targetPath = FlyingFileManager.getUserShareBaseFilePath();
 
-                    FlyingHttpTool.downloadFile(resultURL, targetPath, new FlyingHttpTool.DownloadFileListener() {
+                    FlyingOkHttp.downloadFile(resultURL, targetPath, null, new FlyingOkHttp.DownloadFileOKListener() {
                         @Override
                         public void completion(boolean isOK, String targetpath) {
 
-	                        if(isOK)
+                            if(isOK)
                             {
-	                            Thread thread = new Thread(new Runnable() {
-		                            @Override
-		                            public void run() {
+                                Thread thread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-			                            String outputDir = FlyingFileManager.getUserShareDir();
+                                        String outputDir = FlyingFileManager.getUserShareDir();
 
-			                            try {
-				                            FlyingFileManager.unzip(targetPath, outputDir, false);
+                                        try {
+                                            FlyingFileManager.unzip(targetPath, outputDir, false);
 
-				                            if(delegate!=null)
-				                            {
-					                            delegate.completion(true);
-				                            }
+                                            if(delegate!=null)
+                                            {
+                                                delegate.completion(true);
+                                            }
 
-			                            } catch (Exception e) {
-				                            //
-				                            if(delegate!=null)
-				                            {
-					                            delegate.completion(false);
-				                            }
-			                            }
+                                        } catch (Exception e) {
+                                            //
+                                            if(delegate!=null)
+                                            {
+                                                delegate.completion(false);
+                                            }
+                                        }
 
-		                            }
-	                            });
-	                            thread.start();
+                                    }
+                                });
+                                thread.start();
                             }
                             else
                             {

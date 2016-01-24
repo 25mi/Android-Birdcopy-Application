@@ -24,7 +24,6 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingItemDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingItemData;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingTouchDAO;
-import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.Component.Tools.DateTools;
@@ -32,12 +31,9 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 import com.pingplusplus.libone.PayActivity;
 
 import org.json.JSONArray;
@@ -46,7 +42,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,6 +53,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
@@ -66,12 +62,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
-import retrofit2.ScalarsConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 
 /**
@@ -87,13 +80,13 @@ public class FlyingHttpTool {
 	public interface BirdCopyService {
 
 		@GET("aa_get_app_info_from_hp.action")
-		Call<ResponseBody> checkNewVersionAPP(@QueryMap Map<String, String> params);
+		Call<ResponseBody> getAPPInfo(@QueryMap Map<String, String> params);
 
 		@GET("tu_rc_get_urt_from_hp.action")
 		Call<RongCloudTokenResult> connectWithRongCloud(@QueryMap Map<String, String> params);
 
 		@GET("tu_rc_get_usr_from_hp.action")
-		Call<UserInfoResult>  getUserInfoByopenID(@QueryMap Map<String, String> params);
+		Call<UserInfoResult>  getUserInfoByID(@QueryMap Map<String, String> params);
 
 		@GET("tu_rc_sync_urb_from_hp.action")
 		Call<CallResult> refreshUesrInfo(@QueryMap Map<String, String> params);
@@ -141,17 +134,29 @@ public class FlyingHttpTool {
 		Call<ResponseBody> getLessonData(@QueryMap Map<String, String> params);
 
 		@GET("la_get_ln_list_for_hp.action")
-		Call<ResponseBody> getLessonList(@QueryMap Map<String, String> params);
+		Call<ResponseBody> getLessonListData(@QueryMap Map<String, String> params);
 
+		@GET("la_get_tag_list_for_hp.action")
+		Call<ResponseBody> getTagList(@QueryMap Map<String, String> params);
+
+		@GET("tu_cm_get_ct_list_from_tn.action")
+		Call<CommentDataResult> getCommentList(@QueryMap Map<String, String> params);
 
 		@GET("tu_add_ct_from_tn.action")
 		Call<CallResult> uploadComment(@QueryMap Map<String, String> params);
 
+		@GET("la_get_ln_rel_url_for_hp.action")
+		Call<ResponseBody> getContentResource(@QueryMap Map<String, String> params);
 
-		@Multipart
+
+		@GET("la_get_res_url_from_hp.action")
+		Call<ResponseBody> getShareBaseZIPURL(@QueryMap Map<String, String> params);
+
+		@GET("la_get_dic_list_for_hp.action")
+		Call<ResponseBody> getItems(@QueryMap Map<String, String> params);
+
 		@POST("tu_rc_sync_urp_from_hp.action")
-		Call<UpUserProtraitResult> uploadPotrait(@Part("tuser_key") RequestBody userId
-				, @Part("portrait\"; filename=\"portrait.png ")RequestBody image);
+		Call<UpUserProtraitResult> uploadPotrait(@Body RequestBody body);
 	}
 
 	static private Retrofit retrofit = new Retrofit.Builder()
@@ -163,12 +168,63 @@ public class FlyingHttpTool {
 	static private BirdCopyService birdCopyService = retrofit.create(BirdCopyService.class);
 
     //////////////////////////////////////////////////////////////////////////////////
-    //#pragma 检查APP是否有新版本
+    //#pragma 获取APP信息
     //////////////////////////////////////////////////////////////////////////////////
-    public interface CheckNewVersionAPPDListener {
 
-        void completion(final boolean isOK, final String downloadURL);
+	public interface GetAPPBroadPicListener {
+
+		void completion(final boolean isOK, final String downloadURL);
+	}
+
+	static public void getAPPBroadPic(final String account,
+	                                      final String appID,
+	                                      final GetAPPBroadPicListener delegate )
+	{
+		Map<String,String> map=new HashMap<>();
+		map.put("tuser_key",account);
+		map.put("app_id", appID);
+		map.put("type", ShareDefine.KAPPBROADPIC);
+
+		Call<ResponseBody> apiCall = birdCopyService.getAPPInfo(map);
+		apiCall.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(retrofit2.Response<ResponseBody> response) {
+
+				try {
+
+					String resultStr = response.body().string();
+
+					if (resultStr != null) {
+
+						if (delegate != null) {
+
+							delegate.completion(true, resultStr);
+						}
+					}
+
+				} catch (IOException e) {
+					if (delegate != null) {
+
+						delegate.completion(false, null);
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+
+				if (delegate != null) {
+
+					delegate.completion(false, null);
+				}
+			}
+		});
     }
+
+	public interface CheckNewVersionAPPDListener {
+
+		void completion(final boolean isOK, final String downloadURL);
+	}
 
     static public void checkNewVersionAPP(final String account,
                                           final String appID,
@@ -177,9 +233,9 @@ public class FlyingHttpTool {
 	    Map<String,String> map=new HashMap<>();
 	    map.put("tuser_key",account);
 	    map.put("app_id", appID);
-	    map.put("type", "max");
+	    map.put("type", ShareDefine.KAPPMAXVERSION);
 
-	    Call<ResponseBody> apiCall = birdCopyService.checkNewVersionAPP(map);
+	    Call<ResponseBody> apiCall = birdCopyService.getAPPInfo(map);
 	    apiCall.enqueue(new Callback<ResponseBody>() {
 		    @Override
 		    public void onResponse(retrofit2.Response<ResponseBody> response) {
@@ -248,7 +304,7 @@ public class FlyingHttpTool {
     }
 
     static public void connectWithRongCloud(final String account,
-                                            String appID,
+                                            final String appID,
                                             final ConnectWithRongCloudIDListener delegate)
     {
 	    Map<String,String> map=new HashMap<>();
@@ -278,7 +334,6 @@ public class FlyingHttpTool {
 		    public void onFailure(Throwable t) {
 
 			    Log.e("Network Avail Error", t.getMessage());
-
 		    }
 	    });
 
@@ -351,14 +406,14 @@ public class FlyingHttpTool {
     }
 
     static public void getUserInfoByopenID(final String account,
-                                   String appID,
+                                           final String appID,
                                            final GetUserInfoByopenIDListener delegate ) {
 
 	    Map<String,String> map = new HashMap<>();
 	    map.put("tuser_key", account);
 	    map.put("app_id", appID);
 
-	    Call<UserInfoResult> apiCall = birdCopyService.getUserInfoByopenID(map);
+	    Call<UserInfoResult> apiCall = birdCopyService.getUserInfoByID(map);
 	    apiCall.enqueue(new Callback<UserInfoResult>() {
 		    @Override
 		    public void onResponse(retrofit2.Response<UserInfoResult> response) {
@@ -388,6 +443,50 @@ public class FlyingHttpTool {
 	    });
     }
 
+	public interface GetUserInfoByRongIDListener {
+
+		void completion(final UserInfo userInfo);
+	}
+
+	static public void getUserInfoByRongID(final String rongID,
+	                                       final String appID,
+	                                       final GetUserInfoByRongIDListener delegate ) {
+
+		Map<String,String> map = new HashMap<>();
+		map.put("user_id", rongID);
+		map.put("app_id", appID);
+
+		Call<UserInfoResult> apiCall = birdCopyService.getUserInfoByID(map);
+		apiCall.enqueue(new Callback<UserInfoResult>() {
+			@Override
+			public void onResponse(retrofit2.Response<UserInfoResult> response) {
+
+				UserInfoResult result = response.body();
+				UserInfo userInfo = null;
+
+				if ("1".equals(result.getRc())) {
+
+					userInfo = new UserInfo(rongID, result.getName(), Uri.parse(result.getPortraitUri()));
+
+					FlyingIMContext.getInstance().addOrReplaceRongUserInfo(userInfo);
+				}
+
+				if (delegate != null) {
+					delegate.completion(userInfo);
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+
+				if (delegate != null) {
+					delegate.completion(null);
+				}
+			}
+		});
+	}
+
+
     public interface RequestUploadPotraitListener {
 
         void completion(final boolean isOK);
@@ -398,8 +497,6 @@ public class FlyingHttpTool {
                                             File portraitFile,
                                             final RequestUploadPotraitListener delegate)
     {
-		/*
-
 	    String url = FlyingDataManager.getServerNetAddress() + "/tu_rc_sync_urp_from_hp.action";
 
 	    Ion.with(MyApplication.getInstance().getApplicationContext())
@@ -448,7 +545,7 @@ public class FlyingHttpTool {
 					    }
 				    }
 			    });
-
+		/*
 	    RequestBody file = RequestBody
 			    .create(MediaType.parse("image/*"), portraitFile);
 
@@ -456,14 +553,9 @@ public class FlyingHttpTool {
 			    .setType(MultipartBody.FORM)
 			    .addFormDataPart("tuser_key", account)
 			    .addFormDataPart("portrait", "portrait.jpg", file)
-			    .build();*/
+			    .build();
 
-        RequestBody userid = RequestBody.create(MediaType.parse("text/plain"), account);
-
-		RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), portraitFile);
-
-
-	    Call<UpUserProtraitResult> apiCall = birdCopyService.uploadPotrait(userid,body);
+	    Call<UpUserProtraitResult> apiCall = birdCopyService.uploadPotrait(requestBody);
 
 	    apiCall.enqueue(new Callback<UpUserProtraitResult>() {
 		    @Override
@@ -511,6 +603,7 @@ public class FlyingHttpTool {
 			    }
 		    }
 	    });
+	    */
     }
 
     public interface RefreshUesrInfoListener {
@@ -519,7 +612,7 @@ public class FlyingHttpTool {
     }
 
     static public void refreshUesrInfo(final String account,
-                                       String appID,
+                                       final String appID,
                                        final String nickName,
                                        final String portraitUri,
                                        final String br_intro,
@@ -657,9 +750,9 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void verifyOpenUDID(String account,
-                                   String appID,
-                                   final VerifyOpenUDIDListener delegate )
+    static public void verifyOpenUDID(final String account,
+                                      final String appID,
+                                      final VerifyOpenUDIDListener delegate )
     {
 	    Map<String,String> map=new HashMap<>();
 	    map.put("tuser_key",account);
@@ -697,9 +790,9 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void loginWithQR(String loginID,
-                                   String account,
-                                   String appID,
+    static public void loginWithQR(final String account,
+                                   final String appID,
+                                   final String loginID,
                                    final LoginWithQRListener delegate )
     {
 	    Map<String,String> map=new HashMap<>();
@@ -743,9 +836,9 @@ public class FlyingHttpTool {
     }
 
     //pragma 购买行为,反馈信息在Activity
-    public static void toBuyProduct(final Activity activity,
-                                    final String account,
+    public static void toBuyProduct(final String account,
                                     final String appID,
+                                    final Activity activity,
                                     final Product good)
     {
 	    Map<String,String> map=new HashMap<>();
@@ -793,7 +886,8 @@ public class FlyingHttpTool {
 					    ex.printStackTrace();
 				    }
 
-				    String URL = ShareDefine.getPingplusOnePayURL();
+				    String URL = FlyingDataManager.getServerNetAddress() +
+						    "/pa_get_o_charge_from_tn.action";
 
 				    // 发起支付
 				    PayActivity.SHOW_CHANNEL_ALIPAY = true;
@@ -819,9 +913,9 @@ public class FlyingHttpTool {
         void completion(final Date startDate,final Date endDate);
     }
 
-    static public void getMembership(String account,
-                              String appID,
-                              final GetMembershipListener delegate)
+    static public void getMembership(final String account,
+                                     final String appID,
+                                     final GetMembershipListener delegate)
     {
 	    Map<String,String> map=new HashMap<>();
 	    map.put("tuser_key", account);
@@ -879,26 +973,23 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void updateMembership(String account,
-                                           String appID,
-                                           Date startDate,
-                                           Date endDate,
-                                           final UpdateMembershipListener delegate)
+    static public void updateMembership(final String account,
+                                        final String appID,
+                                        final Date startDate,
+                                        final Date endDate,
+                                        final UpdateMembershipListener delegate)
     {
         final String startDateStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startDate);
         final String endDateStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endDate);
 
         try
         {
-            String startDateUTFStr= URLEncoder.encode(startDateStr, "UTF-8");
-            String endDateUTFStr = URLEncoder.encode(endDateStr,"UTF-8");
-
 	        Map<String,String> map=new HashMap<>();
 	        map.put("tuser_key",account);
 	        map.put("app_id", appID);
 	        map.put("vthg_type", ShareDefine.KPAYCHANNEL_ALIPAY);
-	        map.put("start_time", startDateUTFStr);
-	        map.put("end_time", endDateUTFStr);
+	        map.put("start_time", startDateStr);
+	        map.put("end_time", endDateStr);
 
 	        Call<CallResult> apiCall = birdCopyService.updateMembership(map);
 	        apiCall.enqueue(new Callback<CallResult>() {
@@ -1019,9 +1110,10 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void uploadMoneyData(String account,
-                             String appID,
-                             final UploadMoneyDataListener delegate) {
+    static public void uploadMoneyData(final String account,
+                                       final String appID,
+                                       final UploadMoneyDataListener delegate)
+    {
 
         BE_STATISTIC userData = new FlyingStatisticDAO().selectWithUserID(account);
 
@@ -1132,9 +1224,9 @@ public class FlyingHttpTool {
         void completion(final String resultStr);
     }
 
-    static public void chargingCrad(final String cardID,
-                                    final String account,
+    static public void chargingCrad(final String account,
                                     final String appID,
+                                    final String cardID,
                                     final ChargingCradListener delegate)
     {
 
@@ -1233,9 +1325,10 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void getContentStatistic(String account,
-                             String appID,
-                             final GetContentStatisticListener delegate) {
+    static public void getContentStatistic(final String account,
+                                           final String appID,
+                                           final GetContentStatisticListener delegate)
+    {
 
         ArrayList<BE_PUB_LESSON> allData =(ArrayList<BE_PUB_LESSON>)new FlyingContentDAO().loadAllData();
 
@@ -1300,9 +1393,10 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void uploadContentStatistic(String account,
-                                    String appID,
-                                    final UploadContentStatisticListener delegate) {
+    static public void uploadContentStatistic(final String account,
+                                              final String appID,
+                                              final UploadContentStatisticListener delegate)
+    {
 
         FlyingTouchDAO touchDAO = new FlyingTouchDAO();
 
@@ -1371,7 +1465,9 @@ public class FlyingHttpTool {
         void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount);
     }
 
-    static public void getLessonData(String lessonID,
+    static public void getLessonData(final String account,
+                                     final String appID,
+                                     final String lessonID,
                                      final GetLessonDataListener delegate ) {
         String url = 
                 FlyingDataManager.getServerNetAddress() +
@@ -1379,8 +1475,8 @@ public class FlyingHttpTool {
                 lessonID;
 
 	    Map<String,String> map=new HashMap<>();
-	    map.put("tuser_key",FlyingDataManager.getCurrentPassport());
-	    map.put("app_id", FlyingDataManager.getBirdcopyAppID());
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
 	    map.put("ln_id", lessonID);
 
 	    Call<ResponseBody> apiCall = birdCopyService.getLessonData(map);
@@ -1426,25 +1522,22 @@ public class FlyingHttpTool {
         void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount);
     }
 
-    static public void getLessonList(String contentType,
-                                     String downloadType,
-                                     String tag,
-                                     int pageNumber,
-                                     boolean sortByTime,
+    static public void getLessonList(final String account,
+                                     final String appID,
+                                     final String contentType,
+                                     final String downloadType,
+                                     final String tag,
+                                     final int pageNumber,
+                                     final boolean sortByTime,
                                      final GetLessonListListener delegate )
     {
 	    Map<String,String> map=new HashMap<>();
-	    map.put("tuser_key",FlyingDataManager.getCurrentPassport());
-	    map.put("app_id", FlyingDataManager.getBirdcopyAppID());
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
 
         if (sortByTime)
         {
-	        try
-	        {
-		        map.put("sortindex", URLEncoder.encode("upd_time desc", "utf-8"));
-	        } catch (Exception e) {
-		        //
-	        }
+	        map.put("sortindex", "upd_time desc");
         }
         else
         {
@@ -1462,13 +1555,7 @@ public class FlyingHttpTool {
         }
         if (tag != null)
         {
-	        try {
-
-		        map.put("ln_tag",URLEncoder.encode(tag, "utf-8"));
-
-	        } catch (Exception e) {
-		        //
-	        }
+	        map.put("ln_tag",tag);
         }
 
 	    map.put("vc", "3");
@@ -1476,13 +1563,12 @@ public class FlyingHttpTool {
 	    map.put("page", Integer.toString(pageNumber));
 	    map.put("ln_owner", FlyingDataManager.getLessonOwner());
 
-	    Call<ResponseBody> apiCall = birdCopyService.getLessonList(map);
+	    Call<ResponseBody> apiCall = birdCopyService.getLessonListData(map);
 	    apiCall.enqueue(new Callback<ResponseBody>() {
 		    @Override
 		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-			    try
-			    {
+			    try {
 				    final String resultStr = response.body().string();
 				    if (resultStr != null) {
 					    Thread thread = new Thread(new Runnable() {
@@ -1504,12 +1590,10 @@ public class FlyingHttpTool {
 					    });
 					    thread.start();
 				    }
-			    }
-			    catch (IOException e)
-			    {
+			    } catch (IOException e) {
 
 			    }
-			}
+		    }
 
 		    @Override
 		    public void onFailure(Throwable t) {
@@ -1518,66 +1602,126 @@ public class FlyingHttpTool {
 	    });
     }
 
+	public interface GetLessonAccountListener {
+
+		void completion(final  boolean isOK, final  int count);
+	}
+
+	static public void getLessonAccount(final String account,
+	                                    final String appID,
+	                                    final String contentType,
+	                                    final String lessonOwner,
+	                                    final GetLessonAccountListener delegate)
+	{
+
+		Map<String,String> map=new HashMap<>();
+		map.put("tuser_key",account);
+		map.put("app_id", appID);
+		map.put("vc", "3");
+
+		if (contentType != null)
+		{
+			map.put("res_type",contentType);
+		}
+
+		if(lessonOwner !=null)
+		{
+			map.put("ln_owner", lessonOwner);
+		}
+
+
+		Call<ResponseBody> apiCall = birdCopyService.getLessonListData(map);
+		apiCall.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(retrofit2.Response<ResponseBody> response) {
+
+				try {
+					final String resultStr = response.body().string();
+
+					if(delegate!=null)
+					{
+						delegate.completion(true,Integer.parseInt(resultStr));
+					}
+
+				} catch (IOException e) {
+
+					if(delegate!=null)
+					{
+						delegate.completion(false,0);
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+
+				if(delegate!=null)
+				{
+					delegate.completion(false,0);
+				}
+			}
+		});
+	}
+
+
+
     public interface GetCoverListListener {
 
         void completion(final ArrayList<BE_PUB_LESSON> lessonList,final String allRecordCount);
     }
 
-    static public void getCoverList(String author,
-                                      int pageNumber,
-                                      final GetCoverListListener delegate ) {
+    static public void getCoverList(final String account,
+                                    final String appID,
+                                    final String author,
+                                    final int pageNumber,
+                                    final GetCoverListListener delegate )
+    {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("vc", "3");
+	    map.put("perPageCount", ShareDefine.kperpageLessonCount);
+	    map.put("page", Integer.toString(pageNumber));
+	    map.put("ln_owner", author);
+	    map.put("owner_recom", "1");
 
-        String url =
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_list_for_hp.action?vc=3&perPageCount=" +
-                ShareDefine.kperpageCoverCount +
-                "&page=" +
-                pageNumber +
-                "&ln_owner=" +
-                author;
+	    Call<ResponseBody> apiCall = birdCopyService.getLessonListData(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        url += "&owner_recom=1";
+			    try {
+				    final String resultStr = response.body().string();
+				    if (resultStr != null) {
+					    Thread thread = new Thread(new Runnable() {
+						    @Override
+						    public void run() {
 
-        Ion.with( MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+							    try {
 
-	                    final String resultStr =result.getResult();
+								    FlyingContentParser.parser(resultStr);
 
-	                    if (resultStr!=null)
-                        {
-                            Thread thread  = new Thread(new Runnable() {
-	                            @Override
-	                            public void run() {
+								    if (delegate != null) {
+									    delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
+								    }
+							    } catch (Exception ex) {
+								    //
+								    Log.e("getCoverList", ex.getMessage());
+							    }
+						    }
+					    });
+					    thread.start();
+				    }
+			    } catch (IOException e) {
 
-		                            try {
+			    }
+		    }
 
-			                            FlyingContentParser.parser(resultStr);
+		    @Override
+		    public void onFailure(Throwable t) {
 
-			                            if(delegate!=null)
-			                            {
-				                            delegate.completion(FlyingContentParser.resultList, FlyingContentParser.allRecordCount);
-			                            }
-		                            }
-		                            catch (Exception ex)
-		                            {
-			                            //
-			                            Log.e("getCoverList", ex.getMessage());
-		                            }
-	                            }
-                            });
-	                        thread.start();
-                        }
-                    }
-                });
+		    }
+	    });
     }
 
     public interface GetAlbumListListener {
@@ -1585,80 +1729,66 @@ public class FlyingHttpTool {
         void completion(final ArrayList<AlbumData> albumList,final String allRecordCount);
     }
 
-    static public void getAlbumList(String lessonType,
-                                    int pageNumber,
-                                    boolean sortByTime,
-                                    boolean homeRec,
-                                    final GetAlbumListListener delegate ) {
+    static public void getAlbumList(final String account,
+                                    final String appID,
+                                    final String lessonType,
+                                    final int pageNumber,
+                                    final boolean sortByTime,
+                                    final boolean homeRec,
+                                    final GetAlbumListListener delegate )
+    {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("perPageCount", ShareDefine.kperpageLessonCount);
+	    map.put("page", Integer.toString(pageNumber));
+	    map.put("tag_owner", FlyingDataManager.getLessonOwner());
 
-        String sortBy;
+	    if (lessonType != null)
+	    {
+		    map.put("res_type", lessonType);
+	    }
 
-        if (sortByTime) {
+	    if (homeRec) {
+		    map.put("owner_recom", "1");
+	    }
 
-            sortBy = "upd_time desc";
-        } else {
-            sortBy = "upd_time";
-        }
+	    Call<ResponseBody> apiCall = birdCopyService.getTagList(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        try {
-            sortBy = URLEncoder.encode(sortBy, "utf-8");
-        } catch (Exception e) {
-            //
-        }
+			    try {
+				    final String resultStr = response.body().string();
+				    if (resultStr != null) {
+					    Thread thread = new Thread(new Runnable() {
+						    @Override
+						    public void run() {
 
-        if (lessonType == null) lessonType = "";
+							    try {
 
-        String url =
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_tag_list_for_hp.action?perPageCount=" +
-                ShareDefine.kperpageLessonCount +
-                "&page=" +
-                pageNumber +
-                "&res_type=" +
-                lessonType +
-                "&tag_owner=" +
-                FlyingDataManager.getLessonOwner();
+								    FlyingAlbumParser.parser(resultStr);
 
-        if (homeRec) {
-            url += "&owner_recom=1";
-        }
+								    if (delegate != null) {
+									    delegate.completion(FlyingAlbumParser.resultList, FlyingAlbumParser.allRecordCount);
+								    }
+							    } catch (Exception ex) {
+								    //
+							    }
+						    }
+					    });
+					    thread.start();
+				    }
+			    } catch (IOException e) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
+			    }
+		    }
 
-	                    final String resultStr =result.getResult();
+		    @Override
+		    public void onFailure(Throwable t) {
 
-	                    if (resultStr!=null)
-                        {
-	                        Thread thread = new Thread(new Runnable() {
-		                        @Override
-		                        public void run() {
-
-			                        try {
-
-				                        FlyingAlbumParser.parser(resultStr);
-
-				                        if(delegate!=null)
-				                        {
-					                        delegate.completion(FlyingAlbumParser.resultList, FlyingAlbumParser.allRecordCount);
-				                        }
-			                        }
-			                        catch (Exception ex)
-			                        {
-				                        //
-			                        }
-		                        }
-	                        });
-	                        thread.start();
-                        }
-                    }
-                });
+		    }
+	    });
     }
 
     //////////////////////////////////////////////////////////////
@@ -1670,69 +1800,41 @@ public class FlyingHttpTool {
         void completion(final ArrayList<FlyingCommentData> commentList,final String allRecordCount);
     }
 
-    static public void getCommentList(String contentID,
-                                      String contentType,
-                                      int pageNumber,
+    static public void getCommentList(final String account,
+                                      final String appID,
+                                      final String contentID,
+                                      final String contentType,
+                                      final int pageNumber,
                                       final GetCommentListListener delegate )
     {
         String sortBy="ins_time desc";
 
-        try
-        {
-            sortBy=URLEncoder.encode(sortBy,"utf-8");
-        }
-        catch (Exception e)
-        {
-            //
-        }
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("ct_id",contentID);
+	    map.put("ct_type",contentType);
+	    map.put("perPageCount", ShareDefine.kperpageLessonCount);
+	    map.put("page", Integer.toString(pageNumber));
+	    map.put("sortindex", sortBy);
 
-        String url = FlyingDataManager.getServerNetAddress()+
-                "/tu_cm_get_ct_list_from_tn.action?perPageCount="+
-                ShareDefine.kperpageLessonCount+
-                "&page="+
-                pageNumber+
-                "&ct_id="+
-                contentID+
-                "&ct_type="+
-                contentType+
-                "&page="+
-                pageNumber+
-                "&sortindex="+
-                sortBy;
+	    Call<CommentDataResult> apiCall = birdCopyService.getCommentList(map);
+	    apiCall.enqueue(new Callback<CommentDataResult>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<CommentDataResult> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
+			    CommentDataResult commentDataResult = response.body();
 
-	                    final String resultStr =result.getResult();
+			    if (commentDataResult != null && delegate != null) {
+				    delegate.completion(commentDataResult.rs, commentDataResult.allRecordCount);
+			    }
+		    }
 
-	                    if (resultStr!=null) {
+		    @Override
+		    public void onFailure(Throwable t) {
 
-		                    Thread thread = new Thread(new Runnable() {
-			                    @Override
-			                    public void run() {
-
-				                    Gson gson = new Gson();
-				                    java.lang.reflect.Type type = new TypeToken<CommentDataResult>() {
-				                    }.getType();
-
-				                    CommentDataResult commentDataResult = gson.fromJson(resultStr, type);
-
-				                    if (delegate != null) {
-					                    delegate.completion(commentDataResult.rs, commentDataResult.allRecordCount);
-				                    }
-			                    }
-		                    });
-		                    thread.start();
-	                    }
-                    }
-                });
+		    }
+	    });
     }
 
     public interface UploadCommentListener {
@@ -1740,20 +1842,19 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void uploadComment(FlyingCommentData commentData,
-                                      String appID,
-                                      final UploadCommentListener delegate )
+    static public void uploadComment(final String account,
+                                     final String appID,
+                                     final FlyingCommentData commentData,
+                                     final UploadCommentListener delegate )
     {
-
 	    Map<String,String> map=new HashMap<>();
-	    map.put("tuser_key",commentData.userID);
+	    map.put("tuser_key",account);
 	    map.put("app_id", appID);
 	    map.put("ct_id", commentData.contentID);
 	    map.put("ct_type", commentData.contentType);
 	    map.put("name", commentData.nickName);
 	    map.put("portrait_url", commentData.portraitURL);
 	    map.put("content", commentData.commentContent);
-
 
 	    Call<CallResult> apiCall = birdCopyService.uploadComment(map);
 	    apiCall.enqueue(new Callback<CallResult>() {
@@ -1788,94 +1889,44 @@ public class FlyingHttpTool {
         void completion(final String resultURL);
     }
 
-    static public void getContentResource(String contentID,
-                                         String resourceType,
-                                          String appID,
-                                         final GetContentResourceListener delegate) {
-
-        String url = FlyingDataManager.getServerNetAddress()+
-                "/la_get_ln_rel_url_for_hp.action?getType=url"+
-                "&type="+
-                resourceType+
-                "&md5_value="+
-                contentID+
-                "&app_id="+
-                appID;
-
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
-                        String resultURL=null;
-
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
-
-                            if(ShareDefine.checkURL(resultStr))
-                            {
-                                resultURL = resultStr;
-                            }
-                        }
-
-                        if (delegate != null) {
-                            delegate.completion(resultURL);
-                        }
-                    }
-                });
-    }
-
-
-    //////////////////////////////////////////////////////////////
-    //#pragma  普通下载文件功能
-    //////////////////////////////////////////////////////////////
-    public interface DownloadFileListener {
-
-        void completion(final boolean isOK,final  String targetpath);
-    }
-
-    static public void downloadFile(String url,
-                                    final String targetpath,
-                                    final DownloadFileListener delegate)
+    static public void getContentResource(final String account,
+                                          final String appID,
+                                          final String contentID,
+                                          final String resourceType,
+                                         final GetContentResourceListener delegate)
     {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("getType","url");
+	    map.put("type",resourceType);
+	    map.put("md5_value", contentID);
 
-	    File targetFile = FlyingFileManager.getFile(targetpath);
+	    Call<ResponseBody> apiCall = birdCopyService.getContentResource(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        if(FlyingFileManager.fileExists(targetpath)){
+			    try {
 
-	        if (delegate != null) {
-		        delegate.completion(true, targetpath);
-	        }
-        }
-        else
-        {
-	        Ion.with(MyApplication.getInstance().getApplicationContext())
-			        .load(url)
-			        .write(targetFile)
-			        .setCallback(new FutureCallback<File>() {
-				        @Override
-				        public void onCompleted(Exception e, File file) {
+				    String resultStr = response.body().string();
 
-					        boolean isOK = false;
+				    if (ShareDefine.checkURL(resultStr)) {
+					    if (delegate != null) {
+						    delegate.completion(resultStr);
+					    }
+				    }
 
-					        if (file != null && file.exists()) {
-						        isOK = true;
-					        }
+			    } catch (IOException e) {
 
-					        if (delegate != null) {
-						        delegate.completion(isOK, targetpath);
-					        }
-				        }
-			        });
-        }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+		    }
+	    });
     }
 
     //////////////////////////////////////////////////////////////
@@ -1887,45 +1938,48 @@ public class FlyingHttpTool {
         void completion(final String resultURL);
     }
 
-    static public void getShareBaseZIPURL(String resourceType,
-                                          String appID,
-                                final GetShareBaseZIPURLListener delegate) {
+    static public void getShareBaseZIPURL(final String account,
+                                          final String appID,
+                                          final String resourceType,
+                                          final GetShareBaseZIPURLListener delegate)
+    {
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key", account);
+	    map.put("app_id", appID);
+	    map.put("type",resourceType);
 
-        String url = FlyingDataManager.getServerNetAddress()+
-                "/la_get_res_url_from_hp.action?type="+
-                resourceType+
-                "&app_id="+
-                appID;
+	    Call<ResponseBody> apiCall = birdCopyService.getShareBaseZIPURL(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
-                        String resultURL=null;
+			    try {
 
-                        if (result!=null)
-                        {
-                            String resultStr =result.getResult();
+				    String resultStr = response.body().string();
 
-                            if(ShareDefine.checkURL(resultStr))
-                            {
-                                resultURL = resultStr;
-                            }
-                        }
+				    if (resultStr != null &&
+						    (ShareDefine.checkURL(resultStr))) {
+					    if (delegate != null) {
+						    delegate.completion(resultStr);
+					    }
+				    }
 
-                        if (delegate != null) {
-                            delegate.completion(resultURL);
-                        }
-                    }
-                });
+			    } catch (IOException e) {
+
+				    if (delegate != null) {
+					    delegate.completion(null);
+				    }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+				    delegate.completion(null);
+			    }
+		    }
+	    });
     }
 
     public interface GetItemsListener {
@@ -1933,71 +1987,70 @@ public class FlyingHttpTool {
         void completion(final boolean isOK);
     }
 
-    static public void getItems(String word,
-                                String appID,
+    static public void getItems(final String account,
+                                final String appID,
+                                final String word,
                                 final GetItemsListener delegate)
     {
-        String url =  FlyingDataManager.getServerNetAddress()+
-                "/la_get_dic_list_for_hp.action?word="+
-                word+
-                "&app_id="+
-                appID;
+	    Map<String,String> map=new HashMap<>();
+	    map.put("tuser_key",account);
+	    map.put("app_id", appID);
+	    map.put("word",word);
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .noCache()
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result)
-                    {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+	    Call<ResponseBody> apiCall = birdCopyService.getItems(map);
+	    apiCall.enqueue(new Callback<ResponseBody>() {
+		    @Override
+		    public void onResponse(retrofit2.Response<ResponseBody> response) {
 
-	                    final String resultStr =result.getResult();
+			    try {
 
-	                    if (resultStr!=null)
-                        {
-							Thread thread = new Thread(new Runnable() {
-								@Override
-								public void run() {
-									try
-									{
-										FlyingItemparser.parser(resultStr);
+				    final String resultStr = response.body().string();
 
-										for(FlyingItemData item:FlyingItemparser.resultList){
+				    if (resultStr != null) {
+					    Thread thread = new Thread(new Runnable() {
+						    @Override
+						    public void run() {
+							    try {
+								    FlyingItemparser.parser(resultStr);
 
-											new FlyingItemDAO().saveItem(item);
-										}
+								    for (FlyingItemData item : FlyingItemparser.resultList) {
 
-										if(delegate!=null)
-										{
-											delegate.completion(true);
-										}
-									}
-									catch (Exception exception)
-									{
-										if(delegate!=null)
-										{
-											delegate.completion(false);
-										}
-									}
-								}
-							});
-	                        thread.start();
-                        }
-                        else
-                        {
-                            if(delegate!=null)
-                            {
-                                delegate.completion(false);
-                            }
-                        }
+									    new FlyingItemDAO().saveItem(item);
+								    }
 
-                    }
-                });
+								    if (delegate != null) {
+									    delegate.completion(true);
+								    }
+							    } catch (Exception exception) {
+								    if (delegate != null) {
+									    delegate.completion(false);
+								    }
+							    }
+						    }
+					    });
+					    thread.start();
+				    } else {
+					    if (delegate != null) {
+						    delegate.completion(false);
+					    }
+				    }
+
+			    } catch (IOException e) {
+
+				    if (delegate != null) {
+					    delegate.completion(false);
+				    }
+			    }
+		    }
+
+		    @Override
+		    public void onFailure(Throwable t) {
+
+			    if (delegate != null) {
+				    delegate.completion(false);
+			    }
+		    }
+	    });
     }
 
     //////////////////////////////////////////////////////////////
@@ -2032,5 +2085,4 @@ public class FlyingHttpTool {
         }
         return false;
     }
-
 }

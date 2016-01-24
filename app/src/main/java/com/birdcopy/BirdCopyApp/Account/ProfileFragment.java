@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
+import com.birdcopy.BirdCopyApp.Download.FlyingOkHttp;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
@@ -34,6 +35,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by BirdCopyApp on 29/7/14.
@@ -220,10 +223,17 @@ public class ProfileFragment extends Fragment {
     {
         String portraitUri = FlyingDataManager.getPortraitUri();
 
-	    Picasso.with(getContext())
-			    .load(portraitUri)
-			    .placeholder(R.drawable.default_head)
-			    .into(mUserCover);
+	    if(portraitUri!=null && ShareDefine.checkURL(portraitUri)) {
+
+		    Picasso.with(getContext())
+				    .load(portraitUri)
+				    .placeholder(R.drawable.default_head)
+				    .into(mUserCover);
+	    }
+	    else
+	    {
+		    mUserCover.setImageResource(R.drawable.icon);
+	    }
     }
 
     private void initStaticViewAndMembership()
@@ -318,9 +328,9 @@ public class ProfileFragment extends Fragment {
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        FlyingHttpTool.toBuyProduct(mainActivity,
-		        FlyingDataManager.getCurrentPassport(),
+        FlyingHttpTool.toBuyProduct(  FlyingDataManager.getCurrentPassport(),
 		        FlyingDataManager.getBirdcopyAppID(),
+		        mainActivity,
 		        good);
     }
 

@@ -1,7 +1,6 @@
 package com.birdcopy.BirdCopyApp.Download;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingContentDAO;
@@ -47,6 +46,18 @@ public class FlyngDirectDownloader {
                     FlyingFileManager.deleteFile(path);
                 }
 
+	            FlyingOkHttp.downloadFile(mContentURL,path,new FlyingOkHttp.ProgressListener() {
+		            @Override
+		            public void update(long bytesRead, long contentLength, boolean done) {
+
+			            long process = 100 * bytesRead / contentLength;
+
+			            Intent updateIntent = new Intent(mLessonID);
+			            updateIntent.putExtra(ShareDefine.KIntenCorParameter, process);
+			            MyApplication.getInstance().sendBroadcast(updateIntent);
+		            }
+	            },null);
+	            /*
                 Ion.with(MyApplication.getInstance())
                         .load(mContentURL)
                         .progress(new ProgressCallback() {
@@ -68,6 +79,8 @@ public class FlyngDirectDownloader {
                                 //finishDownloadTask();
                             }
                         });
+               */
+
             }
         }
     }

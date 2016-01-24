@@ -13,6 +13,8 @@ import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
+import com.birdcopy.BirdCopyApp.Scan.decoding.Intents;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
@@ -43,37 +45,26 @@ public class FlyingWelcomeActivity extends Activity
 
     private void initBroadcast()
     {
+	    broadPic = (ImageView)view.findViewById(R.id.broadpic);
 
-	    String url = FlyingDataManager.getServerNetAddress() +
-			    "/aa_get_app_info_from_hp.action?app_id=" +
-			    FlyingDataManager.getBirdcopyAppID() +
-			    "&type=img1";
+	    FlyingHttpTool.getAPPBroadPic(FlyingDataManager.getCurrentPassport(),
+			    FlyingDataManager.getBirdcopyAppID(),
+			    new FlyingHttpTool.GetAPPBroadPicListener() {
+				    @Override
+				    public void completion(boolean isOK, String downloadURL) {
 
-        Ion.with(MyApplication.getInstance().getApplicationContext())
-                .load(url)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> result) {
-                        // print the response code, ie, 200
-                        //System.out.println(result.getHeaders().getResponseCode());
-                        // print the String that was downloaded
+					    if (mResponseStr != null && ShareDefine.checkURL(mResponseStr)) {
 
-                        if (result != null) {
-                            mResponseStr = result.getResult();
-
-                            if (mResponseStr != null) {
-
-                                Picasso.with(getApplicationContext())
-                                        .load(mResponseStr)
-                                        .into(broadPic);
-                            }
-                        }
-                    }
-                });
-
-        broadPic = (ImageView)view.findViewById(R.id.broadpic);
+						    Picasso.with(getApplicationContext())
+								    .load(mResponseStr)
+								    .into(broadPic);
+					    }
+					    else
+					    {
+						    broadPic.setImageResource(R.drawable.icon);
+					    }
+				    }
+			    });
     }
 
 	private void getUserData()

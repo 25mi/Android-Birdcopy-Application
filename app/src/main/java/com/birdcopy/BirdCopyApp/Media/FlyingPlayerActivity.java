@@ -194,9 +194,19 @@ public class FlyingPlayerActivity extends Activity implements SurfaceHolder.Call
 
 		if(mLessondata!=null && ShareDefine.KContentTypeAudio.equalsIgnoreCase(mLessondata.getBECONTENTTYPE()))
 		{
-			Picasso.with(getApplicationContext())
-					.load(mLessondata.getBEIMAGEURL())
-					.into(shutterView);
+
+			String url = mLessondata.getBEIMAGEURL();
+
+			if(url!=null && ShareDefine.checkURL(url))
+			{
+				Picasso.with(getApplicationContext())
+						.load(url)
+						.into(shutterView);
+			}
+			else
+			{
+				shutterView.setImageResource(R.drawable.icon);
+			}
 		}
 
 		//debugRootView = findViewById(R.id.controls_root);

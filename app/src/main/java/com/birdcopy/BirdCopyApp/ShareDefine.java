@@ -170,8 +170,10 @@ public class ShareDefine
     //public static final String APP_USER_NAME = "DEMO_USER_NAME";
     //public static final String APP_USER_PORTRAIT = "DEMO_USER_PORTRAIT";
 
-    //启动相关
-    public final static int KMAXCountsLoading = 16;
+    //APP相关
+    public final static String KAPPMAXVERSION  = "max";
+    public final static String KAPPBROADPIC = "img1";
+
 
     /**
      * 调整返回的RESULTCODE
@@ -184,67 +186,7 @@ public class ShareDefine
     //年费临时性功能相关
     public final static int KPricePerYear = 68800;
     //public final static int    KPricePerYear   = 1;
-
     public final static String KPAYCHANNEL_ALIPAY  = "21";
-
-    public static String getPingplusOnePayURL() {
-        String result = FlyingDataManager.getServerNetAddress() +
-                "/pa_get_o_charge_from_tn.action";
-
-        return result;
-    }
-
-    public static String getLessonAccount(
-            String contentType,
-            String downloadType) {
-
-        if (contentType == null) contentType = "";
-        if (downloadType == null) downloadType = "";
-
-        String result =
-                FlyingDataManager.getServerNetAddress() +
-                "/la_get_ln_list_for_hp.action?vc=3" +
-                "&url_2_type=" +
-                downloadType +
-                "&res_type=" +
-                contentType +
-                "&ln_owner=" +
-                FlyingDataManager.getLessonOwner() +
-                "&type=rc";
-
-        return result;
-    }
-
-    public static String getChatURL(String lessonID) {
-        return
-                FlyingDataManager.getServerNetAddress() +
-                "/mwc.screen?ln_id=" +
-                lessonID;
-    }
-
-    public static String getRefreshUseInfoURL(String passport, String name, String portraitURL) {
-        if (passport != null) {
-            String result =
-                    FlyingDataManager.getServerNetAddress() +
-                    "/tu_rc_sync_urb_from_hp.action?tuser_key=" +
-                    passport;
-
-            if (name != null) {
-                result += "&name=";
-                result += name;
-            }
-
-            if (portraitURL != null) {
-                result += "&portrait_uri=";
-                result += portraitURL;
-            }
-
-            return result;
-        } else {
-            return null;
-        }
-    }
-
 
     public static String getExtension(String filename) {
         if ((filename != null) && (filename.length() > 0)) {

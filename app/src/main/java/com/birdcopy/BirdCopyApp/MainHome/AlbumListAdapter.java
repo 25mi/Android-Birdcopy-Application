@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.birdcopy.BirdCopyApp.ChannelManage.AlbumData;
 import com.birdcopy.BirdCopyApp.Component.UI.grid.util.DynamicHeightImageView;
 import com.birdcopy.BirdCopyApp.R;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.squareup.picasso.Picasso;
 
 /***
@@ -61,9 +62,19 @@ public class AlbumListAdapter extends ArrayAdapter<AlbumData> {
         AlbumData itemData = (AlbumData)getItem(position);
 
         vh.albumTitleTextView.setText(itemData.getTagString());
-        Picasso.with(getContext())
-                .load(itemData.getImageURL())
-                .into(vh.albumCoverImageView);
+
+        String url = itemData.getImageURL();
+
+        if(url!=null && ShareDefine.checkURL(url))
+        {
+            Picasso.with(getContext())
+                    .load(url)
+                    .into(vh.albumCoverImageView);
+        }
+        else
+        {
+            vh.albumCoverImageView.setImageResource(R.drawable.icon);
+        }
 
         convertView.setBackgroundResource(R.drawable.abc_menu_dropdown_panel_holo_light);
 

@@ -42,14 +42,15 @@ public class MylessonsData {
     {
         int totalPage = 0;
 
-        if (totalPage != allRecordCount*1.0/ShareDefine.kperpageLessonCount) totalPage ++;
+
+        if (totalPage != allRecordCount*1.0/Integer.parseInt(ShareDefine.kperpageLessonCount)) totalPage ++;
 
         ArrayList<BE_PUB_LESSON> result= new ArrayList<BE_PUB_LESSON>();
 
         if(pageNumber<totalPage)
         {
-            int start=ShareDefine.kperpageLessonCount*pageNumber;
-            int end=ShareDefine.kperpageLessonCount*(pageNumber+1);
+            int start=Integer.parseInt(ShareDefine.kperpageLessonCount)*pageNumber;
+            int end=Integer.parseInt(ShareDefine.kperpageLessonCount)*(pageNumber+1);
 
             if(end>allRecordCount) end=allRecordCount;
 

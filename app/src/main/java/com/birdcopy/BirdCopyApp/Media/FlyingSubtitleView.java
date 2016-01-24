@@ -279,27 +279,28 @@ public class FlyingSubtitleView extends EditText
 			}
 			else
 			{
-				FlyingHttpTool.getItems(word,
+				FlyingHttpTool.getItems(FlyingDataManager.getCurrentPassport(),
 						FlyingDataManager.getBirdcopyAppID(),
+						word,
 						new FlyingHttpTool.GetItemsListener() {
-					@Override
-					public void completion(boolean isOK) {
-						if(isOK)
-						{
-							final String description = getDescription(word);
+							@Override
+							public void completion(boolean isOK) {
+								if(isOK)
+								{
+									final String description = getDescription(word);
 
-							if(description!=null && description.length()!=0)
-							{
+									if(description!=null && description.length()!=0)
+									{
 
-								showPopWordView(description);
+										showPopWordView(description);
+									}
+									else
+									{
+										showPopWordView("抱歉，目前正在增加词库中...");
+									}
+								}
 							}
-							else
-							{
-								showPopWordView("抱歉，目前正在增加词库中...");
-							}
-						}
-					}
-				});
+						});
 
 			}
 		}

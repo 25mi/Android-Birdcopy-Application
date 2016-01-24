@@ -217,9 +217,18 @@ public class ContentActivity extends FragmentActivity
 
         //封面和播放按钮
         mCoverView = (ImageView)content.findViewById(R.id.lessonPageCover);
-	    Picasso.with(this)
-			    .load(mLessonData.getBEIMAGEURL())
-			    .into(mCoverView);
+
+	    String url = mLessonData.getBEIMAGEURL();
+        if(url!=null && ShareDefine.checkURL(url))
+        {
+	        Picasso.with(this)
+			        .load(url)
+			        .into(mCoverView);
+        }
+	    else
+        {
+	        mCoverView.setImageResource(R.drawable.icon);
+        }
 
         mPlayButton = (Button)content.findViewById(R.id.lessonPagePlay);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -411,7 +420,9 @@ public class ContentActivity extends FragmentActivity
         if (mData.size() <mMaxNumOfComments)
         {
             currentLodingIndex++;
-            FlyingHttpTool.getCommentList(mLessonData.getBELESSONID(),
+            FlyingHttpTool.getCommentList(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    mLessonData.getBELESSONID(),
                     mLessonData.getBECONTENTTYPE(),
                     currentLodingIndex,
                     new FlyingHttpTool.GetCommentListListener() {
@@ -764,8 +775,9 @@ public class ContentActivity extends FragmentActivity
             commentData.commentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
             final FlyingCommentData  finalCommentData = commentData;
-            FlyingHttpTool.uploadComment(finalCommentData,
-		            FlyingDataManager.getBirdcopyAppID(),
+            FlyingHttpTool.uploadComment(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    finalCommentData,
 		            new FlyingHttpTool.UploadCommentListener() {
 			            @Override
 			            public void completion(boolean isOK) {
@@ -795,9 +807,9 @@ public class ContentActivity extends FragmentActivity
     {
         Product good =new Product("年费会员",ShareDefine.KPricePerYear,1);
 
-        FlyingHttpTool.toBuyProduct(ContentActivity.this,
-                FlyingDataManager.getCurrentPassport(),
+        FlyingHttpTool.toBuyProduct(  FlyingDataManager.getCurrentPassport(),
                 FlyingDataManager.getBirdcopyAppID(),
+                ContentActivity.this,
                 good);
     }
 
@@ -873,31 +885,6 @@ public class ContentActivity extends FragmentActivity
         }
     }
 
-    private void  shareCurrentContent()
-    {
-        String title = "的精彩分享";
-        String desc  = "我也有自己的App了：）";
-        String urlStr = "wwww.birdcopy.com/vip/"+ FlyingDataManager.getLessonOwner();
-
-
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-
-        if(mLessonData!=null)
-        {
-            title = mLessonData.getBETITLE();
-            urlStr = mLessonData.getBEWEBURL();
-        }
-
-        shareIntent.putExtra(Intent.EXTRA_TITLE, "分享精彩");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, title + "\n" + desc + "\n" + urlStr);
-
-        startActivity(Intent.createChooser(shareIntent, "分享精彩"));
-
-        MainActivity.awardCoin();
-    }
-
     private Intent[] getTxtIntent()
     {
         String subject = "精彩分享";
@@ -919,7 +906,6 @@ public class ContentActivity extends FragmentActivity
         smsIntent.setType("vnd.android-dir/mms-sms");
         smsIntent.putExtra("sms_body",subject+":"+body);
         targetShareIntents.add(smsIntent);
-
 
         List<ResolveInfo> resInfos=getPackageManager().queryIntentActivities(shareIntent, 0);
         if(!resInfos.isEmpty())
@@ -1014,28 +1000,31 @@ public class ContentActivity extends FragmentActivity
     private void showLessonViewWithID(String lessonID)
     {
 
-        FlyingHttpTool.getLessonData(lessonID, new FlyingHttpTool.GetLessonDataListener() {
-            @Override
-            public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
+        FlyingHttpTool.getLessonData(FlyingDataManager.getCurrentPassport(),
+                FlyingDataManager.getBirdcopyAppID(),
+                lessonID,
+                new FlyingHttpTool.GetLessonDataListener() {
+                    @Override
+                    public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
 
-                if(lessonList!=null && lessonList.get(0)!=null)
-                {
-                    BE_PUB_LESSON lessonData =lessonList.get(0);
+                        if(lessonList!=null && lessonList.get(0)!=null)
+                        {
+                            BE_PUB_LESSON lessonData =lessonList.get(0);
 
-                    if(lessonData!=null)
-                    {
-                        mLessonData=lessonData;
+                            if(lessonData!=null)
+                            {
+                                mLessonData=lessonData;
 
-                        ContentActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
+                                ContentActivity.this.runOnUiThread(new Runnable() {
+                                    public void run() {
 
-                                initData();
-                                initView();
+                                        initData();
+                                        initView();
+                                    }
+                                });
                             }
-                        });
+                        }
                     }
-                }
-            }
         });
     }
 

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
+import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.koushikdutta.ion.Ion;
@@ -53,6 +55,8 @@ import io.rong.notification.PushNotificationMessage;
 
 
 import com.birdcopy.BirdCopyApp.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 /**
  * Created by zhjchen on 1/29/15.
@@ -644,22 +648,27 @@ public final class RongCloudEvent implements
                              **/
                             switch (which) {
                                 case 0:
-
                                 {
-                                    try {
-                                        Bitmap bitmap = Ion.with(context)
-                                                .load(uri.toString())
-                                                .withBitmap()
-                                                .asBitmap()
-                                                .get();
+                                    Picasso.with(context)
+                                            .load(uri.toString())
+                                            .into(new Target() {
+	                                            @Override
+	                                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                                        FlyingFileManager.savePhotoToLocal(bitmap, null);
-                                        Toast.makeText(context, "已经成功保存图片", Toast.LENGTH_SHORT).show();
-                                    }
-                                    catch (Exception e) {
-                                        //
-                                        System.out.println(e.getMessage());
-                                    }
+		                                            FlyingFileManager.savePhotoToLocal(bitmap, null);
+		                                            Toast.makeText(context, "已经成功保存图片", Toast.LENGTH_SHORT).show();
+	                                            }
+
+	                                            @Override
+	                                            public void onBitmapFailed(Drawable errorDrawable) {
+
+	                                            }
+
+	                                            @Override
+	                                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+	                                            }
+                                            });
 
                                     break;
                                 }
@@ -670,29 +679,34 @@ public final class RongCloudEvent implements
 
                                 case 2:
                                 {
-                                    try {
+	                                Picasso.with(context)
+			                                .load(uri.toString())
+			                                .into(new Target() {
+				                                @Override
+				                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                                        Bitmap bitmap = Ion.with(context)
-                                                .load(uri.toString())
-                                                .withBitmap()
-                                                .asBitmap()
-                                                .get();
+					                                String barcode = new BitmapToText(bitmap).getText();
 
-                                        String barcode = new BitmapToText(bitmap).getText();
+					                                if (barcode != null) {
+						                                dealWithScanString(context,barcode);
+					                                }
+					                                else
+					                                {
+						                                Toast.makeText(context, "没有什么解析结果！", Toast.LENGTH_SHORT).show();
+					                                }				                                }
 
-                                        if (barcode != null) {
-                                            dealWithScanString(context,barcode);
-                                        }
-                                        else
-                                        {
-                                            Toast.makeText(context, "没有什么解析结果！", Toast.LENGTH_SHORT).show();
-                                        }
+				                                @Override
+				                                public void onBitmapFailed(Drawable errorDrawable) {
 
-                                    } catch (Exception e) {
-                                        //
-                                        System.out.println(e.getMessage());
-                                    }
+					                                Toast.makeText(context, "获取图片失败，无法解析！", Toast.LENGTH_SHORT).show();
 
+				                                }
+
+				                                @Override
+				                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+				                                }
+			                                });
                                     break;
                                 }
                             }

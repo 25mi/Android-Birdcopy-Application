@@ -146,27 +146,31 @@ public class HomeFragment extends Fragment
     private void onLoadMorCoverLesson()
     {
 
-        FlyingHttpTool.getCoverList(FlyingDataManager.getLessonOwner(), 1, new FlyingHttpTool.GetCoverListListener() {
-            @Override
-            public void completion(final ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
+        FlyingHttpTool.getCoverList(FlyingDataManager.getCurrentPassport(),
+		        FlyingDataManager.getBirdcopyAppID(),
+                FlyingDataManager.getLessonOwner(),
+		        1,
+		        new FlyingHttpTool.GetCoverListListener() {
+			        @Override
+			        public void completion(final ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
 
-               getActivity().runOnUiThread(new Runnable() {
-	               @Override
-	               public void run() {
+				        getActivity().runOnUiThread(new Runnable() {
+					        @Override
+					        public void run() {
 
-		               if (lessonList != null && lessonList.size() != 0) {
-			               mCoverLessonList = lessonList;
-		               } else {
-			               mCoverLessonList = null;
-			               mViewPager.setVisibility(View.GONE);
-			               mCoverIndex.setVisibility(View.GONE);
-		               }
+						        if (lessonList != null && lessonList.size() != 0) {
+							        mCoverLessonList = lessonList;
+						        } else {
+							        mCoverLessonList = null;
+							        mViewPager.setVisibility(View.GONE);
+							        mCoverIndex.setVisibility(View.GONE);
+						        }
 
-		               initCover();
-	               }
-               });
-            }
-        });
+						        initCover();
+					        }
+				        });
+			        }
+                });
     }
 
     /**
@@ -253,7 +257,13 @@ public class HomeFragment extends Fragment
         {
             currentLodingIndex++;
 
-            FlyingHttpTool.getAlbumList(null, currentLodingIndex, true, true, new FlyingHttpTool.GetAlbumListListener() {
+            FlyingHttpTool.getAlbumList(FlyingDataManager.getCurrentPassport(),
+		            FlyingDataManager.getBirdcopyAppID(),
+		            null,
+		            currentLodingIndex,
+		            true,
+		            true,
+		            new FlyingHttpTool.GetAlbumListListener() {
                 @Override
                 public void completion(final ArrayList<AlbumData> albumList, final String allRecordCount) {
 

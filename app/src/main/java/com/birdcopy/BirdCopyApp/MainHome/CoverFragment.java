@@ -47,24 +47,30 @@ public class CoverFragment  extends Fragment
 
         ImageView imageView =(ImageView)coverView.findViewById(R.id.homecoverimage);
 
-        imageView.setOnClickListener(new View.OnClickListener()
-        {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (mLessonData!=null){
+            public void onClick(View v) {
+                if (mLessonData != null) {
 
-                    MainActivity mainActivity = (MainActivity)getActivity();
+                    MainActivity mainActivity = (MainActivity) getActivity();
 
                     mainActivity.showLessonViewWithData(mLessonData);
                 }
             }
         });
 
-        Picasso.with(getContext())
-                .load(mLessonData.getBEIMAGEURL())
-                .into(imageView);
+        String url = mLessonData.getBEIMAGEURL();
 
+        if(url!=null && ShareDefine.checkURL(url))
+        {
+            Picasso.with(getContext())
+                    .load(url)
+                    .into(imageView);
+        }
+	    else
+        {
+	        imageView.setImageResource(R.drawable.icon);
+        }
 
         if(mLessonData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))
         {

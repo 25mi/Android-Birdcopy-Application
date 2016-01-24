@@ -25,6 +25,7 @@ import com.birdcopy.BirdCopyApp.Content.FlyingWebViewActivity;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Download.FlyingFileManager;
+import com.birdcopy.BirdCopyApp.Download.FlyingOkHttp;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ContentList.LessonListFragment;
 import com.artifex.mupdfdemo.MuPDFActivity;
@@ -321,82 +322,51 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     {
         if(FlyingHttpTool.checkNetWorkStatus())
         {
-            String texturl = ShareDefine.getLessonAccount(ShareDefine.KContentTypeText,null);
-
-            Ion.with(MainActivity.this)
-                    .load(texturl)
-                    .noCache()
-                    .asString()
-                    .withResponse()
-                    .setCallback(new FutureCallback<Response<String>>() {
+            FlyingHttpTool.getLessonAccount(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    ShareDefine.KContentTypeText,
+                    FlyingDataManager.getLessonOwner(),
+                    new FlyingHttpTool.GetLessonAccountListener() {
                         @Override
-                        public void onCompleted(Exception e, Response<String> result) {
-                            // print the response code, ie, 200
-                            //System.out.println(result.getHeaders().getResponseCode());
-                            // print the String that was downloaded
+                        public void completion(boolean isOK, int count) {
 
-                            if (result!=null)
+                            if(isOK)
                             {
-                                int number = Integer.parseInt(result.getResult());
-
-                                if(number==0)
+                                if(count==0)
                                 {
                                     //doc_btn.setVisibility(View.GONE);
-
                                 }
                             }
                         }
                     });
 
-            String videourl = ShareDefine.getLessonAccount(ShareDefine.KContentTypeVideo,null);
-
-            Ion.with(MainActivity.this)
-                    .load(videourl)
-                    .noCache()
-                    .asString()
-                    .withResponse()
-                    .setCallback(new FutureCallback<Response<String>>() {
+            FlyingHttpTool.getLessonAccount(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    ShareDefine.KContentTypeVideo,
+                    FlyingDataManager.getLessonOwner(),
+                    new FlyingHttpTool.GetLessonAccountListener() {
                         @Override
-                        public void onCompleted(Exception e, Response<String> result) {
-                            // print the response code, ie, 200
-                            //System.out.println(result.getHeaders().getResponseCode());
-                            // print the String that was downloaded
+                        public void completion(boolean isOK, int count) {
 
-                            if (result!=null)
-                            {
-                                int number = Integer.parseInt(result.getResult());
-
-                                if(number==0)
-                                {
+                            if (isOK) {
+                                if (count == 0) {
                                     //video_btn.setVisibility(View.GONE);
-
                                 }
                             }
                         }
                     });
 
-            String audiourl = ShareDefine.getLessonAccount(ShareDefine.KContentTypeAudio,null);
-
-            Ion.with(MainActivity.this)
-                    .load(audiourl)
-                    .noCache()
-                    .asString()
-                    .withResponse()
-                    .setCallback(new FutureCallback<Response<String>>() {
+            FlyingHttpTool.getLessonAccount(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    ShareDefine.KContentTypeAudio,
+                    FlyingDataManager.getLessonOwner(),
+                    new FlyingHttpTool.GetLessonAccountListener() {
                         @Override
-                        public void onCompleted(Exception e, Response<String> result) {
-                            // print the response code, ie, 200
-                            //System.out.println(result.getHeaders().getResponseCode());
-                            // print the String that was downloaded
+                        public void completion(boolean isOK, int count) {
 
-                            if (result!=null)
-                            {
-                                int number = Integer.parseInt(result.getResult());
-
-                                if(number==0)
-                                {
+                            if (isOK) {
+                                if (count == 0) {
                                     //audio_btn.setVisibility(View.GONE);
-
                                 }
                             }
                         }
@@ -605,7 +575,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void showLessonViewWithID(String lessonID)
     {
 
-        FlyingHttpTool.getLessonData(lessonID, new FlyingHttpTool.GetLessonDataListener() {
+        FlyingHttpTool.getLessonData(FlyingDataManager.getCurrentPassport(),
+                FlyingDataManager.getBirdcopyAppID(),
+                lessonID,
+                new FlyingHttpTool.GetLessonDataListener() {
             @Override
             public void completion(ArrayList<BE_PUB_LESSON> lessonList, String allRecordCount) {
 
@@ -1046,22 +1019,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			                    @Override
 			                    public void onClick(DialogInterface dialog, int which) {
 
-				                    FlyingHttpTool.downloadFile(downloadURL, apkPath, new FlyingHttpTool.DownloadFileListener() {
-					                    @Override
-					                    public void completion(boolean isOK, String targetpath) {
+                                    FlyingOkHttp.downloadFile(downloadURL,
+                                            apkPath,
+                                            null,
+                                            new FlyingOkHttp.DownloadFileOKListener() {
+                                                @Override
+                                                public void completion(boolean isOK, String targetpath) {
 
-						                    if (isOK) {
+                                                    if (isOK) {
 
-							                    File file = FlyingFileManager.getFile(targetpath);
+                                                        File file = FlyingFileManager.getFile(targetpath);
 
-							                    Intent intent = new Intent(Intent.ACTION_VIEW);
-							                    intent.setDataAndType(Uri.fromFile(file),
-									                    "application/vnd.android.package-archive");
-							                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							                    startActivity(intent);
-						                    }
-					                    }
-				                    });
+                                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                                        intent.setDataAndType(Uri.fromFile(file),
+                                                                "application/vnd.android.package-archive");
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(intent);
+                                                    }
+                                                }
+                                            });
 			                    }
 		                    })
 		                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

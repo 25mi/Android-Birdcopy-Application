@@ -72,10 +72,19 @@ public class LessonListAdapter extends ArrayAdapter<BE_PUB_LESSON> {
         vh.lessonTitleTextView.setText(itemData.getBETITLE());
         vh.lessonDescriptionDyTextView.setText(itemData.getBEDESC());
 
-        Picasso.with(getContext())
-                .load(itemData.getBEIMAGEURL())
-		        .placeholder(R.drawable.icon)
-		        .into(vh.lessonCoverImageView);
+        String url = itemData.getBEIMAGEURL();
+
+        if(url!=null && ShareDefine.checkURL(url)) {
+
+            Picasso.with(getContext())
+                    .load(url)
+                    .placeholder(R.drawable.icon)
+                    .into(vh.lessonCoverImageView);
+        }
+	    else
+        {
+	        vh.lessonCoverImageView.setImageResource(R.drawable.icon);
+        }
 
         if(itemData.getBECONTENTTYPE().equals(ShareDefine.KContentTypeAudio))
         {

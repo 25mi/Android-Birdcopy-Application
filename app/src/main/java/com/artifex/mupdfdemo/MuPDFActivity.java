@@ -786,7 +786,7 @@ public class MuPDFActivity extends FragmentActivity {
 		String audioPath= FlyingFileManager.getLessonBackgroundFilePath(lessonID);
 
 		// 判断目录或文件是否存在
-		if (FlyingFileManager.fileExists(audioPath))
+		if (!FlyingFileManager.fileExists(audioPath))
 		{  // 不存在返回 false
 
 			mAudioButton.setVisibility(View.GONE);

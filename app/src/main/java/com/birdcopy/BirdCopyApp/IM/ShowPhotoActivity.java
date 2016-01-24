@@ -19,6 +19,7 @@ import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Scan.BitmapToText;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -48,12 +49,10 @@ public class ShowPhotoActivity extends Activity {
 
         mShowPhoto = (ImageView) findViewById(R.id.theShowPhoto);
 
-        Ion.with(ShowPhotoActivity.this)
-                .load(uri.toString())
-                .withBitmap()
+        Picasso.with(this)
+                .load(uri)
                 .placeholder(R.drawable.placeholder_image)
-                .error(R.drawable.error_image)
-                .intoImageView(mShowPhoto);
+                .into(mShowPhoto);
 
         mShowPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

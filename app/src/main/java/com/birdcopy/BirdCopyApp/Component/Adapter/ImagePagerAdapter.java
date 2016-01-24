@@ -7,6 +7,7 @@ import com.birdcopy.BirdCopyApp.Component.UI.imageshow.TouchImageView;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.R;
 import com.birdcopy.BirdCopyApp.Component.UI.imageshow.ImageShowViewPager;
+import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
@@ -70,9 +71,18 @@ public class ImagePagerAdapter extends PagerAdapter {
 		retry= (TextView)view.findViewById(R.id.retry);//加载失败
 		progress_text.setText(String.valueOf(position));
 
-		Picasso.with(MyApplication.getInstance().getApplicationContext())
-				.load(imgsUrl.get(position))
-				.into(full_image);
+		String url = imgsUrl.get(position);
+
+		if(url!=null && ShareDefine.checkURL(url))
+		{
+			Picasso.with(MyApplication.getInstance().getApplicationContext())
+					.load(url)
+					.into(full_image);
+		}
+		else
+		{
+			full_image.setImageResource(R.drawable.icon);
+		}
 
 		((ViewPager) container).addView(view);
 		return view;

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_RongUser;
@@ -135,39 +136,7 @@ public class FlyingIMContext {
 
         if(rongUser==null)
         {
-            String url =  FlyingDataManager.getServerNetAddress() +
-                    "/tu_rc_get_usr_from_hp.action?user_id=" +
-                    rongID;
-
-            Ion.with(MyApplication.getInstance().getApplicationContext())
-                    .load(url)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            // do stuff with the result or error
-
-                            if (e != null) {
-                                Toast.makeText(mContext, "Error get Rong User Info", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            String code = result.get("rc").getAsString();
-
-                            if (code.equals("1")) {
-
-                                String name = result.get("name").getAsString();
-                                Uri uri= Uri.parse(result.get("portraitUri").getAsString());
-                                UserInfo userInfo = new UserInfo(rongID,name,uri);
-
-                                addOrReplaceRongUserInfo(userInfo);
-                            }
-                            else
-                            {
-                                String errorInfo = result.get("rm").getAsString();
-                                Toast.makeText(mContext, errorInfo, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            FlyingHttpTool.getUserInfoByRongID(rongID, FlyingDataManager.getBirdcopyAppID(), null);
 
             return null;
         }

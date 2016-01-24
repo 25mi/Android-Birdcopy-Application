@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_PUB_LESSON;
+import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.MainHome.MainActivity;
@@ -29,8 +30,8 @@ public class LessonListFragment extends Fragment
 
     private String mTag="";
 
-    public  String mContentType="";
-    public  String mDownloadType="";
+    public  String mContentType=null;
+    public  String mDownloadType=null;
     public  boolean sortByTime=true;
 
     int     mMaxNumOfLessons=ShareDefine.MAX_INT;
@@ -160,29 +161,36 @@ public class LessonListFragment extends Fragment
         {
             currentLodingIndex++;
 
-            FlyingHttpTool.getLessonList(mContentType, mDownloadType, mTag, currentLodingIndex, sortByTime, new FlyingHttpTool.GetLessonListListener() {
-                @Override
-                public void completion(final ArrayList<BE_PUB_LESSON> lessonList, final String allRecordCount) {
+            FlyingHttpTool.getLessonList(FlyingDataManager.getCurrentPassport(),
+                    FlyingDataManager.getBirdcopyAppID(),
+                    mContentType,
+                    mDownloadType,
+                    mTag,
+                    currentLodingIndex,
+                    sortByTime,
+                    new FlyingHttpTool.GetLessonListListener() {
+                        @Override
+                        public void completion(final ArrayList<BE_PUB_LESSON> lessonList, final String allRecordCount) {
 
-                    if (lessonList != null || lessonList.size() != 0) {
+                            if (lessonList != null || lessonList.size() != 0) {
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-	                            for (BE_PUB_LESSON data : lessonList) {
-		                            mAdapter.add(data);
-	                            }
-	                            // stash all the data in our backing store
-	                            mData.addAll(lessonList);
+                                        for (BE_PUB_LESSON data : lessonList) {
+                                            mAdapter.add(data);
+                                        }
+                                        // stash all the data in our backing store
+                                        mData.addAll(lessonList);
 
-	                            mMaxNumOfLessons = Integer.parseInt(allRecordCount);
-                                // notify the adapter that we can update now
-                                mAdapter.notifyDataSetChanged();
+                                        mMaxNumOfLessons = Integer.parseInt(allRecordCount);
+                                        // notify the adapter that we can update now
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                });
                             }
-                        });
-                    }
-                }
+                        }
             });
         }
     }

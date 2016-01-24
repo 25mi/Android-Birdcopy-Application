@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.birdcopy.BirdCopyApp.Scan.decoding.Intents;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.R;
 import com.squareup.picasso.Picasso;
@@ -62,7 +63,7 @@ public class FlyingCommentListAdapter extends ArrayAdapter<FlyingCommentData> {
 
         vh.commentTime.setText(ShareDefine.getdayhoursecond(itemData.commentTime));
 
-        if(itemData.portraitURL!=null &&itemData.portraitURL.length()>0)
+        if(itemData.portraitURL!=null && ShareDefine.checkURL(itemData.portraitURL))
         {
             Picasso.with(getContext())
                     .load(itemData.portraitURL)
