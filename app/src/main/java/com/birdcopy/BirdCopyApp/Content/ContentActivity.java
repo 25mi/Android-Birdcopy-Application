@@ -328,15 +328,16 @@ public class ContentActivity extends FragmentActivity
                 if(!commentData.userID.equalsIgnoreCase(FlyingDataManager.getCurrentPassport()))
                 {
 
-                    FlyingHttpTool.getUserInfoByopenID(commentData.userID, FlyingDataManager.getBirdcopyAppID(), new FlyingHttpTool.GetUserInfoByopenIDListener() {
-                        @Override
-                        public void completion(UserInfo userInfo) {
+                    FlyingHttpTool.getUserInfoByopenID(commentData.userID,
+                            new FlyingHttpTool.GetUserInfoByopenIDListener() {
+                                @Override
+                                public void completion(UserInfo userInfo) {
 
-                            if (RongIM.getInstance() != null)
-                            {
-                                RongIM.getInstance().startPrivateChat(ContentActivity.this, ShareDefine.getMD5(commentData.userID), commentData.nickName);
-                            }
-                        }
+                                    if (RongIM.getInstance() != null)
+                                    {
+                                        RongIM.getInstance().startPrivateChat(ContentActivity.this, ShareDefine.getMD5(commentData.userID), commentData.nickName);
+                                    }
+                                }
                     });
                 }
             }

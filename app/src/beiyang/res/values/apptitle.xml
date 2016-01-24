@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="KAppName">北阳英语</string>
+    <string name="KAppName">北阳工作室</string>
 
     <string name="KAndroidAppID">e.birdcopy.beiyang</string>
     <string name="KServerNetAddress">http://e.birdcopy.com</string>

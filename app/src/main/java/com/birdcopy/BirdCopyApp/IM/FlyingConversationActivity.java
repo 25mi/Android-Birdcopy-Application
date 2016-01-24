@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.birdcopy.BirdCopyApp.DataManager.FlyingRongUserDAO;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
@@ -61,7 +62,7 @@ public class FlyingConversationActivity extends BaseActivity
     /**
      * title
      */
-    private String title;
+    private String title="聊天";
     /**
      * 是否在讨论组内，如果不在讨论组内，则进入不到讨论组设置页面
      */
@@ -90,15 +91,12 @@ public class FlyingConversationActivity extends BaseActivity
 
         Log.e("Rong", "conversation onCreate intent uri = " + intent.getDataString());
 
-        Uri data = intent.getData();
-
         mTargetId = intent.getData().getQueryParameter("targetId");
 
         //intent.getData().getLastPathSegment();//获得当前会话类型
         mConversationType = Conversation.ConversationType.valueOf(intent.getData()
-                .getLastPathSegment().toUpperCase(Locale.getDefault()));
+		        .getLastPathSegment().toUpperCase(Locale.getDefault()));
 
-        title = intent.getData().getQueryParameter("title");
 
         mTargetIds = intent.getData().getQueryParameter("targetIds");
 
@@ -138,7 +136,6 @@ public class FlyingConversationActivity extends BaseActivity
 
         fragment.setUri(uri);
     }
-
 
     private String mEditText;
 
@@ -445,7 +442,9 @@ public class FlyingConversationActivity extends BaseActivity
 
             UserInfo userInfo = FlyingIMContext.getInstance().getUserInfoByRongId(targetId);
 
-            if (userInfo.getName() == null || userInfo.getName().equalsIgnoreCase("")) {
+
+
+            if (userInfo == null || userInfo.getName() == null || userInfo.getName().equalsIgnoreCase("")) {
 
                 getSupportActionBar().setTitle("聊天");
             } else {

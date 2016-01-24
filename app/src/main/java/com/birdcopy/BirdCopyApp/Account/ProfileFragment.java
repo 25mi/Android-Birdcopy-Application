@@ -21,7 +21,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.DataManager.ActiveDAO.BE_STATISTIC;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingStatisticDAO;
-import com.birdcopy.BirdCopyApp.Download.FlyingOkHttp;
 import com.birdcopy.BirdCopyApp.ShareDefine;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
@@ -35,8 +34,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
-
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by BirdCopyApp on 29/7/14.
@@ -148,38 +145,37 @@ public class ProfileFragment extends Fragment {
         //头像
         mUserCover = (ImageView) mProfileView.findViewById(R.id.userheadimage);
         mUserCover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+	        @Override
+	        public void onClick(View v) {
 
-                new MaterialDialog.Builder(getActivity())
-                        .title("选择照片来源")
-                        .items(R.array.chooseCameralOrAlbum)
-                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                            @Override
-                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                /**
-                                 * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
-                                 * returning false here won't allow the newly selected radio button to actually be selected.
-                                 **/
+		        new MaterialDialog.Builder(getActivity())
+				        .title("选择照片来源")
+				        .items(R.array.chooseCameralOrAlbum)
+				        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+					        @Override
+					        public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+						        /**
+						         * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+						         * returning false here won't allow the newly selected radio button to actually be selected.
+						         **/
 
-                                if (which == 0) {
-                                    camera();
-                                } else {
-                                    pickPhoto();
-                                }
-                                return true;
-                            }
-                        })
-                        .backgroundColorRes(R.color.background_material_light)
-                        .positiveText("确定")
-                        .negativeText("取消")
-                        .show();
+						        if (which == 0) {
+							        camera();
+						        } else {
+							        pickPhoto();
+						        }
+						        return true;
+					        }
+				        })
+				        .backgroundColorRes(R.color.background_material_light)
+				        .positiveText("确定")
+				        .negativeText("取消")
+				        .show();
 
-            }
+	        }
         });
-        initUserCover();
 
-        mCoverTitle = (TextView) mProfileView.findViewById(R.id.userheadalert);
+        initUserCover();
 
         //昵称显示
         mNikeName = (TextView) mProfileView.findViewById(R.id.usernikename);
@@ -221,7 +217,10 @@ public class ProfileFragment extends Fragment {
 
     private void initUserCover()
     {
-        String portraitUri = FlyingDataManager.getPortraitUri();
+
+	    mCoverTitle = (TextView) mProfileView.findViewById(R.id.userheadalert);
+
+	    String portraitUri = FlyingDataManager.getPortraitUri();
 
 	    if(portraitUri!=null && ShareDefine.checkURL(portraitUri)) {
 
@@ -229,10 +228,13 @@ public class ProfileFragment extends Fragment {
 				    .load(portraitUri)
 				    .placeholder(R.drawable.default_head)
 				    .into(mUserCover);
+		    mCoverTitle.setVisibility(View.INVISIBLE);
 	    }
 	    else
 	    {
 		    mUserCover.setImageResource(R.drawable.icon);
+
+		    mCoverTitle.setVisibility(View.VISIBLE);
 	    }
     }
 
@@ -305,7 +307,6 @@ public class ProfileFragment extends Fragment {
                         mNikeName.setText(nickName);
 
                         FlyingHttpTool.refreshUesrInfo(FlyingDataManager.getCurrentPassport(),
-                                FlyingDataManager.getBirdcopyAppID(),
                                 nickName,
                                 null,
                                 null,
@@ -441,7 +442,6 @@ public class ProfileFragment extends Fragment {
     public void uploadPortImage(File portraitFile)
     {
         FlyingHttpTool.requestUploadPotrait(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getBirdcopyAppID(),
                 portraitFile,
                 new FlyingHttpTool.RequestUploadPotraitListener() {
                     @Override

@@ -32,6 +32,7 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pingplusplus.libone.PayActivity;
@@ -52,8 +53,6 @@ import java.util.Map;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
@@ -406,12 +405,10 @@ public class FlyingHttpTool {
     }
 
     static public void getUserInfoByopenID(final String account,
-                                           final String appID,
                                            final GetUserInfoByopenIDListener delegate ) {
 
 	    Map<String,String> map = new HashMap<>();
 	    map.put("tuser_key", account);
-	    map.put("app_id", appID);
 
 	    Call<UserInfoResult> apiCall = birdCopyService.getUserInfoByID(map);
 	    apiCall.enqueue(new Callback<UserInfoResult>() {
@@ -443,20 +440,13 @@ public class FlyingHttpTool {
 	    });
     }
 
-	public interface GetUserInfoByRongIDListener {
-
-		void completion(final UserInfo userInfo);
-	}
-
-	static public void getUserInfoByRongID(final String rongID,
-	                                       final String appID,
-	                                       final GetUserInfoByRongIDListener delegate ) {
+	static public void getUserInfoByRongID(final String rongID) {
 
 		Map<String,String> map = new HashMap<>();
 		map.put("user_id", rongID);
-		map.put("app_id", appID);
 
 		Call<UserInfoResult> apiCall = birdCopyService.getUserInfoByID(map);
+
 		apiCall.enqueue(new Callback<UserInfoResult>() {
 			@Override
 			public void onResponse(retrofit2.Response<UserInfoResult> response) {
@@ -470,18 +460,11 @@ public class FlyingHttpTool {
 
 					FlyingIMContext.getInstance().addOrReplaceRongUserInfo(userInfo);
 				}
-
-				if (delegate != null) {
-					delegate.completion(userInfo);
-				}
 			}
 
 			@Override
 			public void onFailure(Throwable t) {
 
-				if (delegate != null) {
-					delegate.completion(null);
-				}
 			}
 		});
 	}
@@ -493,7 +476,6 @@ public class FlyingHttpTool {
     }
 
     static public void requestUploadPotrait(final String account,
-                                            final String appID,
                                             File portraitFile,
                                             final RequestUploadPotraitListener delegate)
     {
@@ -528,7 +510,6 @@ public class FlyingHttpTool {
 						    FlyingDataManager.setPortraitUri(portraitUri);
 
 						    refreshUesrInfo(account,
-								    appID,
 								    null,
 								    portraitUri,
 								    null,
@@ -612,7 +593,6 @@ public class FlyingHttpTool {
     }
 
     static public void refreshUesrInfo(final String account,
-                                       final String appID,
                                        final String nickName,
                                        final String portraitUri,
                                        final String br_intro,
@@ -620,7 +600,6 @@ public class FlyingHttpTool {
     {
 	    Map<String,String> map=new HashMap<>();
 	    map.put("tuser_key",account);
-	    map.put("app_id", appID);
 
 	    if (nickName != null && !nickName.equalsIgnoreCase("")) {
 
@@ -1454,7 +1433,6 @@ public class FlyingHttpTool {
 			});
         }
     }
-
 
     //////////////////////////////////////////////////////////////
     //#pragma  内容相关

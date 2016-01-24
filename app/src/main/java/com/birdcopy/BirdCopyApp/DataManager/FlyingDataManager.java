@@ -161,7 +161,6 @@ public class FlyingDataManager {
     {
         //获取头像、昵称
         FlyingHttpTool.getUserInfoByopenID(FlyingDataManager.getCurrentPassport(),
-                FlyingDataManager.getBirdcopyAppID(),
                 new FlyingHttpTool.GetUserInfoByopenIDListener() {
                     @Override
                     public void completion(UserInfo userInfo) {

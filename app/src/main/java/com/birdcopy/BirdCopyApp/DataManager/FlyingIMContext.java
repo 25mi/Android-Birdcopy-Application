@@ -136,7 +136,7 @@ public class FlyingIMContext {
 
         if(rongUser==null)
         {
-            FlyingHttpTool.getUserInfoByRongID(rongID, FlyingDataManager.getBirdcopyAppID(), null);
+            FlyingHttpTool.getUserInfoByRongID(rongID);
 
             return null;
         }

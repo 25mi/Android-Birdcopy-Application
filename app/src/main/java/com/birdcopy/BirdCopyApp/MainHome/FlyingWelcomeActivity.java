@@ -13,16 +13,11 @@ import com.birdcopy.BirdCopyApp.MyApplication;
 import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.Http.FlyingHttpTool;
 import com.birdcopy.BirdCopyApp.R;
-import com.birdcopy.BirdCopyApp.Scan.decoding.Intents;
 import com.birdcopy.BirdCopyApp.ShareDefine;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 import com.squareup.picasso.Picasso;
 
 public class FlyingWelcomeActivity extends Activity
 {
-    private  String mResponseStr=null;
     View view;
     ImageView broadPic;
 
@@ -53,10 +48,10 @@ public class FlyingWelcomeActivity extends Activity
 				    @Override
 				    public void completion(boolean isOK, String downloadURL) {
 
-					    if (mResponseStr != null && ShareDefine.checkURL(mResponseStr)) {
+					    if (downloadURL != null && ShareDefine.checkURL(downloadURL)) {
 
 						    Picasso.with(getApplicationContext())
-								    .load(mResponseStr)
+								    .load(downloadURL)
 								    .into(broadPic);
 					    }
 					    else

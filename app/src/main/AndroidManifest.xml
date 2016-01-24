@@ -272,7 +272,7 @@
 
         <!-- 微信支付注册 -->
         <activity-alias
-            android:name="e.birdcopy.beiyang.wxapi.WXPayEntryActivity"
+            android:name="fd.birdcopy.fd.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="com.pingplusplus.android.PaymentActivity" />
 
