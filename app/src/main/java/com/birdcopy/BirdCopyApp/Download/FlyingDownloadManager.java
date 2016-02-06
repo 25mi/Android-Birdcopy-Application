@@ -50,17 +50,15 @@ public class FlyingDownloadManager {
         if (downloader!=null)
         {
             //如果正在下载任务队列中有这个课程的任务，继续下载
-            downloader.continueDownload();
+            closeAndReleaseDownloaderForID(lessonID);
         }
-        else
-        {
-            downloader = new FlyingDownloader(lessonID);
-            //加入执行队列
-            mDownloadingOperationList.put(lessonID,downloader);
-            downloader.startDownload();
 
-            downloadRelated(lesson);
-        }
+        downloader = new FlyingDownloader(lessonID);
+        //加入执行队列
+        mDownloadingOperationList.put(lessonID,downloader);
+        downloader.startDownload();
+
+        downloadRelated(lesson);
     }
 
     public void closeAndReleaseDownloaderForID(String lessonID)

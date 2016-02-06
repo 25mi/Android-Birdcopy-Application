@@ -32,7 +32,6 @@ import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
 import com.birdcopy.BirdCopyApp.DataManager.Product;
 import com.birdcopy.BirdCopyApp.IM.RongCloudEvent;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.Expose;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pingplusplus.libone.PayActivity;
@@ -668,7 +667,7 @@ public class FlyingHttpTool {
                                    final RegOpenUDIDListener delegate )
     {
 	    Map<String,String> map=new HashMap<>();
-	    map.put("tuser_key",account);
+	    map.put("user_key",account);
 	    map.put("app_id", appID);
 	    map.put("type", "reg");
 
@@ -744,21 +743,26 @@ public class FlyingHttpTool {
 
 			    CallResultCode result = response.body();
 
-			    if ("1".equals(result.getRc()) &&
-					    !"-1".equalsIgnoreCase(result.getRs())) {
-				    if (delegate != null) {
-					    delegate.completion(true);
+			    if ("1".equals(result.getRc()))
+			    {
+				    if("-1".equalsIgnoreCase(result.getRs())) {
+
+					    if (delegate != null) {
+						    delegate.completion(false);
+					    }
+				    }
+				    else
+				    {
+					    if (delegate != null) {
+						    delegate.completion(true);
+					    }
 				    }
 			    }
-
 		    }
 
 		    @Override
 		    public void onFailure(Throwable t) {
 
-			    if (delegate != null) {
-				    delegate.completion(false);
-			    }
 		    }
 	    });
     }
@@ -775,7 +779,7 @@ public class FlyingHttpTool {
                                    final LoginWithQRListener delegate )
     {
 	    Map<String,String> map=new HashMap<>();
-	    map.put("tuser_key",account);
+	    map.put("user_key",account);
 	    map.put("app_id", appID);
 	    map.put("oth1", loginID);
 
@@ -1154,7 +1158,7 @@ public class FlyingHttpTool {
     {
 
 	    Map<String,String> map=new HashMap<>();
-	    map.put("tuser_key",account);
+	    map.put("user_key",account);
 	    map.put("app_id", appID);
 	    map.put("type", "topup_pwd_total");
 

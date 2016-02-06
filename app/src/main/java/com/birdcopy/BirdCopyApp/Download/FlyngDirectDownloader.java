@@ -46,6 +46,7 @@ public class FlyngDirectDownloader {
                     FlyingFileManager.deleteFile(path);
                 }
 
+	            /*
 	            FlyingOkHttp.downloadFile(mContentURL,path,new FlyingOkHttp.ProgressListener() {
 		            @Override
 		            public void update(long bytesRead, long contentLength, boolean done) {
@@ -57,8 +58,11 @@ public class FlyngDirectDownloader {
 			            MyApplication.getInstance().sendBroadcast(updateIntent);
 		            }
 	            },null);
-	            /*
-                Ion.with(MyApplication.getInstance())
+
+	            */
+
+
+	            Ion.with(MyApplication.getInstance())
                         .load(mContentURL)
                         .progress(new ProgressCallback() {
                             @Override
@@ -79,7 +83,6 @@ public class FlyngDirectDownloader {
                                 //finishDownloadTask();
                             }
                         });
-               */
 
             }
         }

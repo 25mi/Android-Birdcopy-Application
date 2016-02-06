@@ -4,25 +4,16 @@ package com.birdcopy.BirdCopyApp.Download;
  * Created by vincentsung on 1/23/16.
  */
 
-import android.net.Uri;
-
-import com.birdcopy.BirdCopyApp.DataManager.FlyingDataManager;
-import com.birdcopy.BirdCopyApp.DataManager.FlyingIMContext;
-import com.birdcopy.BirdCopyApp.Http.UserInfoResult;
-import com.birdcopy.BirdCopyApp.ShareDefine;
-import com.google.gson.Gson;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
 
-import io.rong.imlib.model.UserInfo;
 import okhttp3.Callback;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
@@ -70,6 +61,7 @@ public final class FlyingOkHttp {
 			@Override
 			public void onFailure(Request request, IOException e) {
 
+				Log.e("downloadFile", e.getMessage());
 			}
 
 			@Override
@@ -98,6 +90,8 @@ public final class FlyingOkHttp {
 						okDelegate.completion(false,targetpath);
 					}
 				}
+
+				response.body().close();
 			}
 		});
 	}

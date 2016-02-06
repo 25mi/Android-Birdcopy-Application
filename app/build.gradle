@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 46
-        versionName "4.6.0"
+        versionCode 48
+        versionName "4.8.0"
 
         // Enabling multidex support.
         multiDexEnabled true
@@ -41,11 +41,19 @@ android {
         beiyang
                 {
                     applicationId "e.birdcopy.beiyang"
+
+                    ndk {
+                        abiFilter "armeabi-v7a"
+                    }
                 }
 
         fd
                 {
                     applicationId "fd.birdcopy.fd"
+
+                    ndk {
+                        abiFilter "armeabi-v7a"
+                    }
                 }
 
         inet
