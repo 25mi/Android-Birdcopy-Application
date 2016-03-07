@@ -58,7 +58,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/icon"
         android:label="@string/KAppName"
         android:largeHeap="true"
         android:theme="@style/AppTheme"
